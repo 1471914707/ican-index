@@ -1,16 +1,18 @@
 package com.ican.util;
 
-/**
- * Created by nowcoder on 2016/7/13.
- */
 public class RedisKeyUtil {
     private static String SPLIT = ":";
     private static String BIZ_LIKE = "LIKE";
     private static String BIZ_DISLIKE = "DISLIKE";
     private static String BIZ_EVENT = "EVENT";
+    private static String USER_ID_KEY = "USER_ID_KEY";
 
     public static String getEventQueueKey() {
         return BIZ_EVENT;
+    }
+
+    public static String getUserIdKey() {
+        return USER_ID_KEY;
     }
 
     public static String getLikeKey(int entityId, int entityType) {

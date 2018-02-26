@@ -19,6 +19,21 @@ public class JedisAdapter implements InitializingBean {
         System.out.println(String.format("%d,%s", index, obj.toString()));
     }
 
+    public static void mainx2(String[] args) {
+        Jedis jedis = new Jedis();
+        //jedis.flushAll();
+        Object o = jedis.get(RedisKeyUtil.getUserIdKey());
+        Integer id = 0;
+        if (o == null) {
+            id = 100000;
+            jedis.set(RedisKeyUtil.getUserIdKey(), "100000");
+        } else {
+            jedis.incr(RedisKeyUtil.getUserIdKey());
+            id = Integer.valueOf(jedis.get(RedisKeyUtil.getUserIdKey()));
+        }
+        System.out.println(id);
+    }
+
     public static void mainx(String[] args) {
         Jedis jedis = new Jedis();
         jedis.flushAll();
@@ -303,6 +318,30 @@ public class JedisAdapter implements InitializingBean {
             return JSON.parseObject(value, clazz);
         }
         return null;
+    }
+
+    public int getUserId() {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            Object obj = jedis.get(RedisKeyUtil.getUserIdKey());
+            Integer id = 0;
+            if (obj == null) {
+                id = 100000;
+                jedis.set(RedisKeyUtil.getUserIdKey(), "100000");
+            } else {
+                jedis.incr(RedisKeyUtil.getUserIdKey());
+                id = Integer.valueOf(jedis.get(RedisKeyUtil.getUserIdKey()));
+            }
+            return id;
+        } catch (Exception e) {
+            logger.error("发生异常" + e.getMessage());
+            return -1;
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
     }
 
 }
