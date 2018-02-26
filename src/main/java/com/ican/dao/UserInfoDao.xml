@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ican.dao.UserDao">
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
+                and id in (${ids})
+            </if>
+            <if test="_parameter.containsKey('role') and role > 0">
+                and role =#{role}
+            </if>
+            <if test="_parameter.containsKey('status') and status > 0">
+                and status =#{status}
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" resultType="com.ican.model.UserInfo">
+        select * from user_info where id=#{id}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from user_info
+        <include refid="dynamicWhere" />
+    </select>
+
+    <select id="list" resultType="com.ican.model.UserInfo">
+        select * from user_info
+        <include refid="dynamicWhere" />
+        <if test="_parameter.containsKey('order') and order!=null">
+            order by ${order}
+        </if>
+        limit #{start},#{size}
+    </select>
+
+    <insert id="insert" parameterType="com.ican.model.UserInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into user_info (headshot,name,sex,password,salt,role,status,gmt_create,gmt_modified)
+        values (#{headshot},#{name},#{sex},#{password},#{salt},#{role},#{status},now(),now())
+    </insert>
+
+    <update id="update" parameterType="com.ican.model.UserInfo">
+        update user_info
+        <set>
+            <if test="headshot != null">
+                headshot=#{headshot},
+            </if>
+            <if test="name != null">
+                name=#{name},
+            </if>
+            <if test="sex != null">
+                sex=#{sex},
+            </if>
+            <if test="password != null">
+                password=#{password},
+            </if>
+            <if test="salt != null">
+                salt=#{salt},
+            </if>
+            <if test="role != null">
+                role=#{role},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+        </set>
+        gmt_modified=now() where id=#{id}
+    </update>
+
+    <update id="delete">
+        delete from user_info where id=#{id}
+    </update>
+
+</mapper>

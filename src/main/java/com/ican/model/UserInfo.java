@@ -6,7 +6,6 @@ package com.ican.model;
  */
 public class UserInfo {
     private int id;
-    private int userId;
     private String headshot;
     private String name;
     private int sex;
@@ -23,14 +22,6 @@ public class UserInfo {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getHeadshot() {

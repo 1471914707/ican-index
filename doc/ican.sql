@@ -22,7 +22,6 @@ CREATE TABLE `city` (
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
   `headshot` varchar(150) NOT NULL COMMENT '头像',
   `name` varchar(150) NOT NULL COMMENT '姓名',
   `sex` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '性别(1-男 2-女)',
@@ -32,9 +31,8 @@ CREATE TABLE `user_info` (
   `status` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '状态（0-初始化，1-生效，2-失效）',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='基本用户表';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100000 DEFAULT CHARSET=utf8 COMMENT='基本用户表';
 
 DROP TABLE IF EXISTS `auth_photo`;
 CREATE TABLE `auth_photo` (
