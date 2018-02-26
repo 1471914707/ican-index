@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import redis.clients.jedis.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class JedisAdapter implements InitializingBean {
@@ -34,7 +35,7 @@ public class JedisAdapter implements InitializingBean {
         System.out.println(id);
     }
 
-    public static void mainx(String[] args) {
+    public static void main(String[] args) {
         Jedis jedis = new Jedis();
         jedis.flushAll();
         // get,set
@@ -337,6 +338,63 @@ public class JedisAdapter implements InitializingBean {
         } catch (Exception e) {
             logger.error("发生异常" + e.getMessage());
             return -1;
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    public void clearSchoolDayLogin(String schoolName) {
+        String key = RedisKeyUtil.getSchoolDayLogin();
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            Map<String, String> map = jedis.hgetAll(key);
+            if (map != null) {
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    jedis.hset(key, entry.getKey(), "0");
+                }
+            }
+        } catch (Exception e) {
+            logger.error("发生异常" + e.getMessage());
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    public void incSchoolDayLogin(String schoolName) {
+        String key = RedisKeyUtil.getSchoolDayLogin();
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            Object obj = jedis.hget(key, schoolName);
+            if (obj == null) {
+                jedis.hset(key, schoolName, "1");
+            } else {
+                jedis.hset(key, schoolName, ((Integer)obj + 1)+"");
+            }
+        } catch (Exception e) {
+            logger.error("发生异常" + e.getMessage());
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    public Map<String,String> getSchoolDayLogin() {
+        String key = RedisKeyUtil.getSchoolDayLogin();
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            Map<String, String> map = jedis.hgetAll(key);
+            return map;
+        } catch (Exception e) {
+            logger.error("发生异常" + e.getMessage());
+            return null;
         } finally {
             if (jedis != null) {
                 jedis.close();
