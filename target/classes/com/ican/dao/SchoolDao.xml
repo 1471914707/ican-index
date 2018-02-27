@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ican.dao.SchoolDao">
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
+                and id in (${ids})
+            </if>
+            <if test="_parameter.containsKey('phone') and phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="_parameter.containsKey('email') and email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="_parameter.containsKey('name') and name != null and name != ''">
+                and name LIKE contact(#{name}, '%')
+            </if>
+            <if test="_parameter.containsKey('country') and country > 0'">
+                and country = #{country}
+            </if>
+            <if test="_parameter.containsKey('province') and province > 0'">
+                and province = #{province}
+            </if>
+            <if test="_parameter.containsKey('city') and city > 0'">
+                and city = #{city}
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" resultType="com.ican.model.School">
+        select * from School where id=#{id}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from School
+        <include refid="dynamicWhere" />
+    </select>
+
+    <select id="list" resultType="com.ican.model.School">
+        select * from School
+        <include refid="dynamicWhere" />
+        <if test="_parameter.containsKey('order') and order!=null">
+            order by ${order}
+        </if>
+        limit #{start},#{size}
+    </select>
+
+    <insert id="insert" parameterType="com.ican.model.School" useGeneratedKeys="true" keyProperty="id">
+        insert into School (user_id,phone,email,name,country,province,city,gmt_create,gmt_modified)
+        values (#{userId},#{phone},#{email},#{name},#{country},#{province},#{city},now(),now())
+    </insert>
+
+    <update id="update" parameterType="com.ican.model.School">
+        update School
+        <set>
+            <if test="phone != null">
+                phone=#{phone},
+            </if>
+            <if test="email != null">
+                email=#{email},
+            </if>
+            <if test="name != null">
+                name=#{name},
+            </if>
+            <if test="country != 0">
+                country=#{country},
+            </if>
+            <if test="province != 0">
+                province=#{province},
+            </if>
+            <if test="city != 0">
+                city=#{city},
+            </if>
+        </set>
+        gmt_modified=now() where id=#{id}
+    </update>
+
+    <update id="delete">
+        delete from School where id=#{id}
+    </update>
+
+</mapper>
