@@ -35,7 +35,7 @@
         limit #{start},#{size}
     </select>
 
-    <insert id="insert" parameterType="com.ican.model.User">
+    <insert id="insert" parameterType="com.ican.model.User" useGeneratedKeys="true" keyProperty="id">
         insert into t_user (email,name,password)
         values (#{email},#{name},#{password})
     </insert>

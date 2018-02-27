@@ -49,7 +49,7 @@
             <if test="phone != null">
                 phone=#{phone},
             </if>
-            <if test="userId != null">
+            <if test="userId != 0">
                 user_id=#{userId},
             </if>
         </set>

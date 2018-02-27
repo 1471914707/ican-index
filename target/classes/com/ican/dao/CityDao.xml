@@ -40,7 +40,7 @@
         values (#{parentId},#{name},#{nameEn},#{first},#{type},now(),now())
     </insert>
 
-    <update id="update" parameterType="com.ican.model.City" useGeneratedKeys="true" keyProperty="id">
+    <update id="update" parameterType="com.ican.model.City">
         update city
         <set>
             <if test="parentId != null">

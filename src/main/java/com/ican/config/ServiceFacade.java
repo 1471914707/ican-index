@@ -1,6 +1,7 @@
 package com.ican.config;
 
 import com.ican.service.CityService;
+import com.ican.service.UserInfoService;
 import com.ican.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,9 @@ public class ServiceFacade {
 
     @Autowired
     private CityService cityService;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     public UserService getUserService() {
         return userService;
@@ -28,5 +32,13 @@ public class ServiceFacade {
 
     public void setCityService(CityService cityService) {
         this.cityService = cityService;
+    }
+
+    public UserInfoService getUserInfoService() {
+        return userInfoService;
+    }
+
+    public void setUserInfoService(UserInfoService userInfoService) {
+        this.userInfoService = userInfoService;
     }
 }

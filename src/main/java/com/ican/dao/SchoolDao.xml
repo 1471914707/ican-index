@@ -64,13 +64,13 @@
             <if test="name != null">
                 name=#{name},
             </if>
-            <if test="country != null">
+            <if test="country != 0">
                 country=#{country},
             </if>
-            <if test="province != null">
+            <if test="province != 0">
                 province=#{province},
             </if>
-            <if test="city != null">
+            <if test="city != 0">
                 city=#{city},
             </if>
         </set>
