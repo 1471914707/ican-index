@@ -6,6 +6,6 @@
     <#include 'include/cssjs_common.ftl'>
 </head>
 <body>
-<h1>Ican-index主页</h1>
+<h1>Ican-inde x主页</h1>
 </body>
 </html>

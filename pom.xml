@@ -6,7 +6,7 @@
 	<groupId>lin.jiayu</groupId>
 	<artifactId>ican</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>ican</name>
 	<description>毕业设计作品--毕业设计管理平台（主项目）</description>
@@ -64,7 +64,9 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
+			<version>1.5.7.RELEASE</version>
+			<optional>true</optional>
+			<scope>true</scope>
 		</dependency>
 
 		<dependency>
@@ -109,17 +111,10 @@
 			<version>2.8.0</version>
 		</dependency>
 
-
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<version>1.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
@@ -133,6 +128,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+                    <addResources>true</addResources>
+                </configuration>
 			</plugin>
 		</plugins>
 		<resources>

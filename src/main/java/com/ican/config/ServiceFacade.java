@@ -1,5 +1,7 @@
 package com.ican.config;
 
+import com.ican.model.Admin;
+import com.ican.service.AdminService;
 import com.ican.service.CityService;
 import com.ican.service.UserInfoService;
 import com.ican.service.UserService;
@@ -17,6 +19,9 @@ public class ServiceFacade {
 
     @Autowired
     private UserInfoService userInfoService;
+
+    @Autowired
+    private AdminService adminService;
 
     public UserService getUserService() {
         return userService;
@@ -40,5 +45,13 @@ public class ServiceFacade {
 
     public void setUserInfoService(UserInfoService userInfoService) {
         this.userInfoService = userInfoService;
+    }
+
+    public AdminService getAdminService() {
+        return adminService;
+    }
+
+    public void setAdminService(AdminService adminService) {
+        this.adminService = adminService;
     }
 }

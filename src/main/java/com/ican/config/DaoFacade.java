@@ -1,8 +1,7 @@
 package com.ican.config;
 
-import com.ican.dao.CityDao;
-import com.ican.dao.UserDao;
-import com.ican.dao.UserInfoDao;
+import com.ican.dao.*;
+import com.ican.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +16,12 @@ public class DaoFacade {
 
     @Autowired
     private UserInfoDao userInfoDao;
+
+    @Autowired
+    private AdminDao adminDao;
+
+    @Autowired
+    private SchoolDao schoolDao;
 
     public UserDao getUserDao() {
         return userDao;
@@ -41,4 +46,21 @@ public class DaoFacade {
     public void setUserInfoDao(UserInfoDao userInfoDao) {
         this.userInfoDao = userInfoDao;
     }
+
+    public AdminDao getAdminDao() {
+        return adminDao;
+    }
+
+    public void setAdminDao(AdminDao adminDao) {
+        this.adminDao = adminDao;
+    }
+
+    public SchoolDao getSchoolDao() {
+        return schoolDao;
+    }
+
+    public void setSchoolDao(SchoolDao schoolDao) {
+        this.schoolDao = schoolDao;
+    }
+
 }

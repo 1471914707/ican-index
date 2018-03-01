@@ -20,6 +20,7 @@ import java.util.List;
  * autohor: lin jiayu
  * 2018-02-16 16：:13
  */
+@Api("基本数据接口")
 @RestController
 public class DataController {
     private final static Logger logger = LoggerFactory.getLogger(DataController.class);
