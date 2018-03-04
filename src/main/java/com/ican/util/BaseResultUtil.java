@@ -2,11 +2,11 @@ package com.ican.util;
 
 public class BaseResultUtil {
 
-    private final static String MSG_SUCCESS = "请求成功";
+    public final static String MSG_SUCCESS = "请求成功";
 
-    private final static String MSG_ERROR = "系统错误";
+    public final static String MSG_ERROR = "系统错误";
 
-    private final static String MSG_PARAMETER_ERROR = "参数错误";
+    public final static String MSG_PARAMETER_ERROR = "参数错误";
 
     public static BaseResult initResult(){
         BaseResult result = new BaseResult();

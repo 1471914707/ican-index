@@ -2,10 +2,10 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.min.js"></script>
-    <script src="http://data-visual.cn/datav/src/js/echarts/extension/echarts-wordcloud.min.js"></script>
     <#include 'include/cssjs_common.ftl'>
     <#include 'include/header/header-index.ftl'>
+    <script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.min.js"></script>
+    <script src="http://data-visual.cn/datav/src/js/echarts/extension/echarts-wordcloud.min.js"></script>
     <style>
         .main{margin-left:auto;margin-right:auto;width: 600px;height:400px;max-width:800px;max-height:600px;margin-top: 20px;}
         @media screen and (max-width: 768px) {
@@ -15,12 +15,13 @@
 </head>
 <body>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div id="app">
 <div id="main" class="main"></div>
-<script type="text/javascript">
+</div>
 
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-    var option = {
+<script type="text/javascript">
+    /*var myChart = echarts.init(document.getElementById('main'));*/
+    /*var option = {
         title: {
             link: 'https://www.baidu.com/s?wd=' + encodeURIComponent('ECharts'),
             x: 'center',
@@ -31,32 +32,33 @@
         },
         backgroundColor: '#FFFFFF',
         tooltip: {
-            show: false
+            show: true
         },
         toolbox: {
             feature: {
-                /*saveAsImage: {
+                /!*saveAsImage: {
                     iconStyle: {
                         normal: {
                             color: '#FFFFFF'
                         }
                     }
-                }*/
+                }*!/
             }
         },
         series: [{
             name: '学校热点分析',
             type: 'wordCloud',
             //size: ['9%', '99%'],
-            sizeRange: [6, 66],
+            sizeRange: [20, 100],
             //textRotation: [0, 45, 90, -45],
             rotationRange: [-45, 90],
             //shape: 'circle',
             textPadding: 0,
             autoSize: {
                 enable: true,
-                minSize: 6
+                minSize: 20
             },
+            order:false,
             textStyle: {
                 normal: {
                     color: function() {
@@ -72,59 +74,126 @@
                     shadowColor: '#333'
                 }
             },
-            data: [{
-                name: "Jayfee",
-                value: 666
-            }, {
-                name: "Nancy",
-                value: 520
-            }]
+            data: []
         }]
-    };
+    };*/
 
     var app = new Vue({
         el: "#app",
         data: function () {
             return {
-                JosnList : []
+                flag:0,
+                option:{
+                    title: {
+                        link: 'https://www.baidu.com/s?wd=' + encodeURIComponent('ECharts'),
+                        x: 'center',
+                        textStyle: {
+                            fontSize: 23
+                        }
+
+                    },
+                    backgroundColor: '#FFFFFF',
+                    tooltip: {
+                        show: true
+                    },
+                    toolbox: {
+                        feature: {
+                            /*saveAsImage: {
+                                iconStyle: {
+                                    normal: {
+                                        color: '#FFFFFF'
+                                    }
+                                }
+                            }*/
+                        }
+                    },
+                    series: [{
+                        name: '学校热点分析',
+                        type: 'wordCloud',
+                        //size: ['9%', '99%'],
+                        sizeRange: [20, 100],
+                        //textRotation: [0, 45, 90, -45],
+                        rotationRange: [-45, 90],
+                        //shape: 'circle',
+                        textPadding: 0,
+                        autoSize: {
+                            enable: true,
+                            minSize: 20
+                        },
+                        order:false,
+                        textStyle: {
+                            normal: {
+                                color: function() {
+                                    return 'rgb(' + [
+                                        Math.round(Math.random() * 160),
+                                        Math.round(Math.random() * 160),
+                                        Math.round(Math.random() * 160)
+                                    ].join(',') + ')';
+                                }
+                            },
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowColor: '#333'
+                            }
+                        },
+                        data: []
+                    }]
+                }
             }
+        },
+        watch:{
+            /*flag:function (newVal,oldVal) {
+                if (newVal == 1) {
+                    if (myChart != null) {
+                        console.log("jjjjj")
+                        myChart.setOption(option);
+                    }else{
+                        console.log(newVal)
+                        this.flag = 1;
+                    }
+                }
+                this.flag = -1000;
+            }*/
         },
         mounted: function () {
-            this.JosnList.push({
-                name: "广东技术师范学院",
-                value: 666
-            },{
-                name: "广东技术师范学院",
-                value: 666
-            },{
-                name: "广东技术师范学院",
-                value: 666
-            },{
-                name: "广东技术师范学院",
-                value: 666
-            },{
-                name: "广东技术师范学院",
-                value: 666
-            },{
-                name: "广东技术师范学院",
-                value: 666
-            },{
-                name: "广东技术师范学院",
-                value: 666
-            })
-            option.series[0].data = this.JosnList;
-            // 使用刚指定的配置项和数据显示图表。
-            myChart.setOption(option);
-            window.onresize = function () {
-                myChart.resize(); //使第一个图表适应
-            }
+            this.loadSchoolActiveData();
         },
         methods: {
-
+            loadSchoolActiveData:function () {
+                var self = this;
+                Api.get('/schoolActiveData',{},function (result) {
+                    if (result.code == 0) {
+                        var myChart = echarts.init(document.getElementById('main'));
+                        self.option.series[0].data = result.data;
+                        myChart.setOption(self.option);
+                        window.onresize = function () {
+                            myChart.resize(); //使第一个图表适应
+                        }
+                        //self.JsonList = result.data;
+                        // 基于准备好的dom，初始化echarts实例
+                        /*option.series[0].data = result.data;
+                        self.flag = 1;*/
+                        //myChart.setOption(option);
+                        /*var datas = new Array();
+                        for (var i=0; i<result.data.length; i++) {
+                            datas.push({name:result.data[i].name,value:result.data[i].value})
+                        }
+                        var myChart = echarts.init(document.getElementById('main'));
+                        option.series[0].data = datas;
+                        //console.log("option.series[0].data:"+option.series[0].data)
+                        for (var i=0; i<option.series[0].data.length; i++) {
+                            console.log(option.series[0].data[i].name+":"+option.series[0].data.value)
+                        }
+                        myChart.setOption(option);*/
+                    }
+                });
+            }
         }
     });
 
-
+    /*window.onresize = function () {
+        myChart.resize(); //使第一个图表适应
+    }*/
 
 </script>
 </body>

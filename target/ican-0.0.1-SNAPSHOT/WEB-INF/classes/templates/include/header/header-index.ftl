@@ -9,12 +9,12 @@
     <meta name="format-detection" content="telephone=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <style>
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 850px) {
             .el-menu-header-long {
                 display: none;
             }
         }
-        @media screen and (min-width: 768px) {
+        @media screen and (min-width: 850px) {
             .el-menu-header-short {
                 display: none;
             }
@@ -33,7 +33,7 @@
     </style>
 </head>
 <body>
-<div id="app">
+<div id="header">
     <el-menu class="el-menu-header-long" mode="horizontal">
         <el-row>
             <el-col :span="3">
@@ -43,16 +43,16 @@
                 <el-menu-item index="1"><img src="http://www.linjiayu.cn/img/logo.png" height="56px"></el-menu-item>
             </el-col>
             <el-col :span="2">
-                <el-menu-item index="1"><a>学校登录</a></el-menu-item>
+                <el-menu-item index="1"><a href="/login?role=3">学校登录</a></el-menu-item>
             </el-col>
             <el-col :span="2">
-                <el-menu-item index="2"><a>学院登录</a></el-menu-item>
+                <el-menu-item index="2"><a href="/login?role=4">学院登录</a></el-menu-item>
             </el-col>
             <el-col :span="2">
-                <el-menu-item index="3"><a>导师登录</a></el-menu-item>
+                <el-menu-item index="3"><a href="/login?role=5">导师登录</a></el-menu-item>
             </el-col>
             <el-col :span="2">
-                <el-menu-item index="4"><a href="https://www.ele.me">学生登录</a></el-menu-item>
+                <el-menu-item index="4"><a href="/login?role=6">学生登录</a></el-menu-item>
             </el-col>
             <el-col :span="2">
                 <el-menu-item index="5"><a href="https://www.ele.me">博客园</a></el-menu-item>
@@ -64,21 +64,15 @@
     </el-menu>
     <el-menu class="el-menu-header-short" mode="horizontal">
         <el-row>
-            <el-col :span="4">
+            <el-col :span="6">
                 <div style="width: 10px;height: 10px;"></div>
             </el-col>
-            <el-col :span="8" >
-                <el-menu-item index="1"><img src="http://www.linjiayu.cn/img/logo.png" style="max-height: 56px;max-width: 155px"></el-menu-item>
+            <el-col :span="12">
+                <div align="center">
+                  <el-menu-item index="1"><img src="http://www.linjiayu.cn/img/logo.png" style="max-height: 56px;max-width: 155px"></el-menu-item>
+                </div>
             </el-col>
-            <el-col :span="8" style="text-align: center" class="el-menu-header-mini">
-                <el-submenu index="2">
-                    <template slot="title">菜单</template>
-                    <el-menu-item index="2-1"><a>学校登录</a></el-menu-item>
-                    <el-menu-item index="2-2"><a>学院登录</a></el-menu-item>
-                    <el-menu-item index="2-3"><a>导师登录</a></el-menu-item>
-                    <el-menu-item index="2-4"><a>学生登录</a></el-menu-item>
-                    <el-menu-item index="2-5"><a>博客园</a></el-menu-item>
-                </el-submenu>
+            <el-col :span="6" style="text-align: right">
             </el-col>
 
         </el-row>
@@ -86,7 +80,7 @@
 </div>
 <script type="text/javascript">
     var app = new Vue({
-        el: "#app",
+        el: "#header",
         data: function () {
             return {
                 page: 1,
