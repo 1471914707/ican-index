@@ -6,11 +6,19 @@ import org.slf4j.LoggerFactory;
 
 import java.security.MessageDigest;
 import java.util.Map;
+import java.util.UUID;
 
 public class IcanUtil {
     private static final Logger logger = LoggerFactory.getLogger(IcanUtil.class);
 
-    public static String[] IMAGE_FILE_EXTD = new String[] {"png", "bmp", "jpg", "jpeg"};
+    public static String[] IMAGE_FILE_EXTD = new String[]{"png", "bmp", "jpg", "jpeg"};
+
+    public static final String COOKIE_NAME = "ican_ticket";
+
+
+    public static String getNewCookieValue() {
+        return UUID.randomUUID().toString().replaceAll("-","");
+    }
 
     public static boolean isFileAllowed(String fileName) {
         for (String ext : IMAGE_FILE_EXTD) {

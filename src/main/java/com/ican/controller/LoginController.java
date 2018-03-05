@@ -1,8 +1,9 @@
-package com.ican.controller.api;
+package com.ican.controller;
 
+import com.ican.model.User;
 import com.ican.model.UserInfo;
-import com.ican.util.BaseResult;
 import com.ican.util.BaseResultUtil;
+import com.ican.util.BaseResult;
 import com.ican.util.IcanUtil;
 import com.ican.util.JedisAdapter;
 import io.swagger.annotations.Api;

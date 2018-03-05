@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>登陆</title>
+    <title>登陆 | Ican毕业设计平台</title>
     <#include 'include/cssjs_common.ftl'>
     <#include 'include/header/header-index.ftl'>
     <style>
@@ -16,15 +16,15 @@
             border-radius: 0% !important;
         }
         .el-slider__bar {
-            height: 20px;
+            height: 18px;
         }
     </style>
 </head>
 <body>
 <div id="app"><br>
 <el-row :gutter="20">
-    <el-col :span="7"><div class="grid-content bg-purple" style="max-width:100px;height: 1px;"></div></el-col>
-    <el-col :span="10" align="center"><div class="grid-content bg-purple">
+    <el-col :span="8"><div class="grid-content bg-purple" style="max-width:100px;height: 1px;"></div></el-col>
+    <el-col :span="8" align="center"><div class="grid-content bg-purple">
         <div>
             <h1>{{getLoginRole(role)}}</h1>
         </div>
@@ -48,7 +48,7 @@
             </el-form-item>
         </el-form>
     </div></el-col>
-    <el-col :span="7" class="hidden-sm-and-down"><div class="grid-content bg-purple"></div></el-col>
+    <el-col :span="8" class="hidden-sm-and-down"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
 </div>
 
@@ -58,6 +58,12 @@
     <#else>
     var role = 0;
     </#if>
+    <#if loginMsg??>
+    var loginMsg = ${loginMsg}
+    <#else>
+    var loginMsg = 0;
+    </#if>
+
     var app = new Vue({
         el: "#app",
         data: function () {
@@ -95,6 +101,9 @@
             }
         },
         mounted: function () {
+            if (loginMsg != 0) {
+                self.$message({showClose: true, message: loginMsg, type: 'success'});
+            }
             this.role = role;
         },
         methods: {
@@ -130,13 +139,14 @@
                     self.$message({showClose: true, message: '密码多于或等于六位的字母数字下划线组成', type: 'error'});
                     return false;
                 }
-                Api.post('/api/login',{
+                Api.post('/login',{
                     account:self.form.account,
                     password:self.form.password,
                     role:role
                 },function (result) {
                     if (result.code == 0) {
-                        window.location.href = '/success?role='+role
+                        self.$message({showClose: true, message: '点了登录', type: 'success'});
+                        //window.location.href = '/success?role='+role
                     }else {
                         self.$message({showClose: true, message: '登录异常', type: 'error'});
                     }

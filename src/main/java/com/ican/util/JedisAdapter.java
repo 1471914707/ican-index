@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Service
-public class JedisAdapter implements InitializingBean {
+public class JedisAdapter {
     private static final Logger logger = LoggerFactory.getLogger(JedisAdapter.class);
 
 
@@ -25,25 +25,25 @@ public class JedisAdapter implements InitializingBean {
         jedisAdapter.createSchoolActive();
         //jedisAdapter.clearSchoolDayLogin("华南师范学院");
         Random random = new Random();
-        for (int i=0; i<random.nextInt(1000); i++) {
+        for (int i = 0; i < random.nextInt(1000); i++) {
             jedisAdapter.incSchoolDayLogin("广东技术师范学院");
         }
-        for (int i=0; i<random.nextInt(1000); i++) {
+        for (int i = 0; i < random.nextInt(1000); i++) {
             jedisAdapter.incSchoolDayLogin("暨南大学");
         }
-        for (int i=0; i<random.nextInt(1000); i++) {
+        for (int i = 0; i < random.nextInt(1000); i++) {
             jedisAdapter.incSchoolDayLogin("华南理工大学");
         }
-        for (int i=0; i<random.nextInt(1000); i++) {
+        for (int i = 0; i < random.nextInt(1000); i++) {
             jedisAdapter.incSchoolDayLogin("华南师范大学");
         }
-        for (int i=0; i<random.nextInt(1000); i++) {
+        for (int i = 0; i < random.nextInt(1000); i++) {
             jedisAdapter.incSchoolDayLogin("中山大学");
         }
-        for (int i=0; i<random.nextInt(1000); i++) {
+        for (int i = 0; i < random.nextInt(1000); i++) {
             jedisAdapter.incSchoolDayLogin("华南农业大学");
         }
-        for (int i=0; i<random.nextInt(1000); i++) {
+        for (int i = 0; i < random.nextInt(1000); i++) {
             jedisAdapter.incSchoolDayLogin("广东金融学院");
         }
     }
@@ -194,14 +194,23 @@ public class JedisAdapter implements InitializingBean {
         }
     }
 
-    private Jedis jedis = null;
-    private JedisPool pool = null;
+    public static void main5(String[] args) {
+        JedisAdapter jedisAdapter = new JedisAdapter();
+        jedisAdapter.set("林嘉瑜", "hello");
+    }
 
-    @Override
+    private static Jedis jedis = null;
+    private static JedisPool pool = null;
+
+    public JedisAdapter() {
+        pool = new JedisPool("localhost", 6379);
+    }
+
+   /* @Override
     public void afterPropertiesSet() throws Exception {
         //jedis = new Jedis("localhost");
         pool = new JedisPool("localhost", 6379);
-    }
+    }*/
 
     public String get(String key) {
         Jedis jedis = null;
@@ -223,6 +232,34 @@ public class JedisAdapter implements InitializingBean {
         try {
             jedis = pool.getResource();
             jedis.set(key, value);
+        } catch (Exception e) {
+            logger.error("发生异常" + e.getMessage());
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    public void set(String key, String value, int seconds) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            jedis.setex(key, seconds, value);
+        } catch (Exception e) {
+            logger.error("发生异常" + e.getMessage());
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    public void delete(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            jedis.del(key);
         } catch (Exception e) {
             logger.error("发生异常" + e.getMessage());
         } finally {
@@ -376,7 +413,6 @@ public class JedisAdapter implements InitializingBean {
     public void createSchoolActive() {
         String key = RedisKeyUtil.getSchoolDayLogin();
         Jedis jedis = null;
-        pool = new JedisPool("localhost", 6379);
         try {
             jedis = pool.getResource();
             Map<String, String> map = jedis.hgetAll(key);
@@ -414,7 +450,6 @@ public class JedisAdapter implements InitializingBean {
 
     public void incSchoolDayLogin(String schoolName) {
         String key = RedisKeyUtil.getSchoolDayLogin();
-        pool = new JedisPool("localhost", 6379);
         Jedis jedis = null;
         try {
             jedis = pool.getResource();
@@ -422,7 +457,7 @@ public class JedisAdapter implements InitializingBean {
             if (obj == null) {
                 jedis.hset(key, schoolName, "1");
             } else {
-                jedis.hset(key, schoolName, (Integer.valueOf((String) obj) + 1)+"");
+                jedis.hset(key, schoolName, (Integer.valueOf((String) obj) + 1) + "");
             }
         } catch (Exception e) {
             logger.error("发生异常" + e.getMessage());
@@ -433,9 +468,8 @@ public class JedisAdapter implements InitializingBean {
         }
     }
 
-    public Map<String,String> getSchoolDayLogin() {
+    public Map<String, String> getSchoolDayLogin() {
         String key = RedisKeyUtil.getSchoolDayLogin();
-        pool = new JedisPool("localhost", 6379);
         Jedis jedis = null;
         try {
             jedis = pool.getResource();

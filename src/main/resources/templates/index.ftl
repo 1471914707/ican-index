@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <title>Ican | 毕业设计平台</title>
     <#include 'include/cssjs_common.ftl'>
     <#include 'include/header/header-index.ftl'>
     <script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.min.js"></script>
