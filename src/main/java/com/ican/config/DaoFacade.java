@@ -27,7 +27,7 @@ public class DaoFacade {
     private AuthPhotoDao authPhotoDao;
 
     @Autowired
-    private CollegeService collegeService;
+    private CollegeDao collegeDao;
 
     public UserDao getUserDao() {
         return userDao;
@@ -77,11 +77,11 @@ public class DaoFacade {
         this.authPhotoDao = authPhotoDao;
     }
 
-    public CollegeService getCollegeService() {
-        return collegeService;
+    public CollegeDao getCollegeDao() {
+        return collegeDao;
     }
 
-    public void setCollegeService(CollegeService collegeService) {
-        this.collegeService = collegeService;
+    public void setCollegeDao(CollegeDao collegeDao) {
+        this.collegeDao = collegeDao;
     }
 }
