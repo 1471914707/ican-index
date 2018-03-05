@@ -3,14 +3,17 @@
 <head>
     <meta charset="utf-8">
     <title>Ican | 毕业设计平台</title>
-    <#include 'include/cssjs_common.ftl'>
+    <#include 'include/cssjs_commonv2.ftl'>
     <#include 'include/header/header-index.ftl'>
-    <script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.min.js"></script>
+<#--    <script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.min.js"></script>
     <script src="http://data-visual.cn/datav/src/js/echarts/extension/echarts-wordcloud.min.js"></script>
+ -->
+    <script src="http://cdn.ican.com/public/echarts/echarts4.0.2.min.js"></script>
+    <script src="http://cdn.ican.com/public/echarts/echarts-wordcloud.min.js"></script>
     <style>
-        .main{margin-left:auto;margin-right:auto;width: 600px;height:400px;max-width:800px;max-height:600px;margin-top: 20px;}
+        .main{margin-left:auto;margin-right:auto;width: 1200px;height:600px;max-width:1800px;max-height:1600px;margin-top: 20px;}
         @media screen and (max-width: 768px) {
-            .main{margin-left:auto;margin-right:auto;width: 300px;height:400px;margin-top: 20px;}
+            .main{margin-left:auto;margin-right:auto;width: 400px;height:1400px;margin-top: 20px;}
         }
     </style>
 </head>
@@ -112,14 +115,14 @@
                         name: '学校热点分析',
                         type: 'wordCloud',
                         //size: ['9%', '99%'],
-                        sizeRange: [20, 100],
+                        sizeRange: [1, 100],
                         //textRotation: [0, 45, 90, -45],
                         rotationRange: [-45, 90],
                         //shape: 'circle',
                         textPadding: 0,
                         autoSize: {
                             enable: true,
-                            minSize: 20
+                            minSize: 1
                         },
                         order:false,
                         textStyle: {
