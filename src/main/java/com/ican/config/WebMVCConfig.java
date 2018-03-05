@@ -1,6 +1,6 @@
 package com.ican.config;
 
-import com.ican.filter.ApiInterceptor;
+import com.ican.interceptor.ApiInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

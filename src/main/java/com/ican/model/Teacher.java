@@ -7,7 +7,6 @@ package com.ican.model;
 public class Teacher {
     private int id;
     private int userId;
-    private int schoolId;
     private String phone;
     private String email;
     private String jobId;
@@ -30,14 +29,6 @@ public class Teacher {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getSchoolId() {
-        return schoolId;
-    }
-
-    public void setSchoolId(int schoolId) {
-        this.schoolId = schoolId;
     }
 
     public String getPhone() {

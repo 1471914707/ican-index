@@ -93,7 +93,6 @@ DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE `teacher` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
-  `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `phone` varchar(20) NOT NULL COMMENT '手机',
   `email` varchar(50) NOT NULL COMMENT '邮箱',
   `job_id` varchar(50) NOT NULL COMMENT '工号',
