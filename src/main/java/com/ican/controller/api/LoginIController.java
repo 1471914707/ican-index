@@ -19,7 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @Api("登陆Controller")
 @RestController
-public class LoginController {
+@RequestMapping("/api")
+public class LoginIController {
 
     @ApiOperation("登陆接口")
     @RequestMapping(value = "/login", method = RequestMethod.POST)

@@ -11,6 +11,7 @@ public class BaseConfig {
     @Value("${ican.image.baseUrl}")
     private String baseUrl;
 
+
     public String getBasePath() {
         return basePath;
     }

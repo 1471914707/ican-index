@@ -51,11 +51,19 @@ public class LoginController {
                 jedisAdapter.delete(String.valueOf(userInfo.getId()));
             }
             //再添加新的
-            jedisAdapter.set(cookieValue, String.valueOf(userInfo.getId()),3600 * 24 * 30);
-            jedisAdapter.set(String.valueOf(userInfo.getId()),cookieValue,3600 * 24 * 30);
+            jedisAdapter.set(cookieValue, String.valueOf(userInfo.getId()), 3600 * 24 * 30);
+            jedisAdapter.set(String.valueOf(userInfo.getId()), cookieValue, 3600 * 24 * 30);
             BaseResultUtil.setSuccess(result, null);
             return result;
         }
         return result;
+    }
+
+    @RequestMapping(value = "/loginFail", method = RequestMethod.GET)
+    public String loginFail(@RequestParam("role") int role,
+                            HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("role",role);
+        request.setAttribute("loginMsg","登录信息过期，请重新登录");
+        return "/login";
     }
 }
