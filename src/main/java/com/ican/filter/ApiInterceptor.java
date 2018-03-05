@@ -2,24 +2,15 @@ package com.ican.filter;
 
 
 import com.ican.util.*;
-import freemarker.template.utility.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-//@WebFilter(filterName = "apiFilter", urlPatterns = "/api/*")
 public class ApiInterceptor extends HandlerInterceptorAdapter {
 
     private final Logger logger = LoggerFactory.getLogger(ApiInterceptor.class);
