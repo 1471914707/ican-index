@@ -1,6 +1,7 @@
 package com.ican.controller;
 
 import com.ican.util.JedisAdapter;
+import com.ican.util.UrlUtil;
 import com.ican.vo.SchoolActiveVO;
 import com.ican.util.BaseResult;
 import com.ican.util.BaseResultUtil;
@@ -32,7 +33,24 @@ public class indexController {
 
 
     @RequestMapping(value = "/success")
-    public String success() {
+    public String success(@RequestParam("role") int role) {
+        //目前只有六种角色
+        if (role < 0 || role > 6) {
+            return "/index";
+        }
+        switch (role) {
+            case 1:
+            case 2:
+                return UrlUtil.adminUrl;
+            case 3:
+                return UrlUtil.schoolUrl;
+            case 4:
+                return UrlUtil.collegeUrl;
+            case 5:
+                return UrlUtil.teacherUrl;
+            case 6:
+                return UrlUtil.studentUrl;
+        }
         return "/index";
     }
 

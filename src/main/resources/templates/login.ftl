@@ -10,6 +10,14 @@
              margin-left: 0px !important;
              margin-right: 0px !important;
         }
+        .el-slider__button {
+            width: 30px !important;
+            height:30px !important;
+            border-radius: 0% !important;
+        }
+        .el-slider__bar {
+            height: 20px;
+        }
     </style>
 </head>
 <body>
@@ -28,9 +36,14 @@
             <el-form-item label="密码">
                 <el-input v-model="form.password"></el-input>
             </el-form-item>
-
+            <div v-show="sliderShow">
+                <div class="block">
+                    <span class="demonstration">请将滑块移动到<span style="color: red;">{{resultValue}}</span>以通过校验</span><br>
+                    <el-slider v-model="sliderValue"></el-slider>
+                </div>
+            </div><br />
             <el-form-item style="margin-left: -80px;">
-                <el-button type="primary" @click="login()">登陆</el-button>
+                <el-button type="primary" @click="login()" :disabled="disabled">登陆</el-button>
                 <el-button type="info" @click="reset()">重置</el-button>
             </el-form-item>
         </el-form>
@@ -53,10 +66,33 @@
                 form: {
                     account: '',
                     password: ''
-                }
+                },
+                loginNum:0,
+                sliderValue:0,
+                resultValue:-1,
+                sliderShow:false,
+                disabled:false
             }
         },
         watch:{
+            loginNum:function (newVal,oldVal) {
+                if (newVal > 2) {
+                    this.sliderShow = true;
+                    var randomVal = Math.floor(Math.random() * 100);
+                    while (randomVal == this.resultValue) {
+                        randomVal = Math.floor(Math.random() * 100);
+                    }
+                    this.resultValue = randomVal;
+                    this.disabled = true;
+                }
+            },
+            sliderValue:function (newVal,oldVal) {
+                if (newVal == this.resultValue) {
+                    this.disabled = false;
+                } else {
+                    this.disabled = true;
+                }
+            }
         },
         mounted: function () {
             this.role = role;
@@ -84,6 +120,7 @@
                 var self = this;
                 var rule_phone = /^1\d{10}$/;
                 var rule_email = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+                self.loginNum ++;
                 if (!rule_email.test(self.form.account) && !rule_phone.test(self.form.account)){
                     self.$message({showClose: true, message: '请输入合法的手机或邮箱', type: 'error'});
                     return false;
@@ -100,6 +137,8 @@
                 },function (result) {
                     if (result.code == 0) {
                         window.location.href = '/success?role='+role
+                    }else {
+                        self.$message({showClose: true, message: '登录异常', type: 'error'});
                     }
                 });
             },

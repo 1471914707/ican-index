@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ican.dao.UserDao">
+<mapper namespace="com.ican.dao.CollegeDao">
 
     <sql id="dynamicWhere">
         <where>
             <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
                 and id in (${ids})
             </if>
+            <if test="_parameter.containsKey('userId') and userId != 0">
+                and user_id =#{userId}
+            </if>
             <if test="_parameter.containsKey('email') and email != ''">
                 and email =#{email}
+            </if>
+            <if test="_parameter.containsKey('phone') and phone != ''">
+                and phone =#{phone}
             </if>
             <if test="_parameter.containsKey('name') and name != ''">
                 and name =#{name}
@@ -17,17 +23,17 @@
         </where>
     </sql>
 
-    <select id="select" resultType="com.ican.model.User">
-        select * from t_user where id=#{id}
+    <select id="select" resultType="com.ican.model.College">
+        select * from college where id=#{id}
     </select>
 
     <select id="count" resultType="int">
-        select count(*) from t_user
+        select count(*) from college
         <include refid="dynamicWhere" />
     </select>
 
-    <select id="list" resultType="com.ican.model.User">
-        select * from t_user
+    <select id="list" resultType="com.ican.model.College">
+        select * from college
         <include refid="dynamicWhere" />
         <if test="_parameter.containsKey('order') and order!=null">
             order by ${order}
@@ -35,29 +41,35 @@
         limit #{start},#{size}
     </select>
 
-    <insert id="insert" parameterType="com.ican.model.User" useGeneratedKeys="true" keyProperty="id">
-        insert into t_user (email,name,password)
-        values (#{email},#{name},#{password})
+    <insert id="insert" parameterType="com.ican.model.College" useGeneratedKeys="true" keyProperty="id">
+        insert into college (user_id,phone,email,name,gmt_create,gmt_modified)
+        values (#{userId},#{phone},#{email},#{name},now(),now())
     </insert>
 
-    <update id="update" parameterType="com.ican.model.User">
-        update t_user
+    <update id="update" parameterType="com.ican.model.College">
+        update college
         <set>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
             <if test="email != null">
-                email=#{email},
+                email = #{email},
             </if>
             <if test="name != null">
-                name=#{name},
+                name = #{name},
             </if>
             <if test="password != null">
-                password=#{password},
+                password = #{password},
+            </if>
+            <if test="true">
+                gmt_modified = #{gmtModified},
             </if>
         </set>
         where id=#{id}
     </update>
 
     <update id="delete">
-        delete from t_user where id=#{id}
+        delete from college where id=#{id}
     </update>
 
 </mapper>
