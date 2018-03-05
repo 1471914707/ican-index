@@ -2,8 +2,8 @@ package com.ican.controller;
 
 import com.ican.config.Constant;
 import com.ican.model.City;
-import com.ican.util.BaseResult;
 import com.ican.util.BaseResultUtil;
+import com.ican.util.BaseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

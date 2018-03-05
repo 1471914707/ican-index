@@ -1,12 +1,9 @@
 package com.ican.service.impl;
 
 import com.ican.config.Constant;
-import com.ican.dao.UserDao;
 import com.ican.exception.icanServiceException;
 import com.ican.model.User;
 import com.ican.service.UserService;
-import org.apache.tomcat.util.bcel.Const;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -29,7 +29,7 @@
                 <el-input v-model="form.password"></el-input>
             </el-form-item>
 
-            <el-form-item>
+            <el-form-item style="margin-left: -80px;">
                 <el-button type="primary" @click="login()">登陆</el-button>
                 <el-button type="info" @click="reset()">重置</el-button>
             </el-form-item>

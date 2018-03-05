@@ -1,10 +1,6 @@
 package com.ican.config;
 
-import com.ican.model.Admin;
-import com.ican.service.AdminService;
-import com.ican.service.CityService;
-import com.ican.service.UserInfoService;
-import com.ican.service.UserService;
+import com.ican.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +18,12 @@ public class ServiceFacade {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private AuthPhotoService authPhotoService;
+
+    @Autowired
+    private CollegeService collegeService;
 
     public UserService getUserService() {
         return userService;
@@ -53,5 +55,21 @@ public class ServiceFacade {
 
     public void setAdminService(AdminService adminService) {
         this.adminService = adminService;
+    }
+
+    public AuthPhotoService getAuthPhotoService() {
+        return authPhotoService;
+    }
+
+    public void setAuthPhotoService(AuthPhotoService authPhotoService) {
+        this.authPhotoService = authPhotoService;
+    }
+
+    public CollegeService getCollegeService() {
+        return collegeService;
+    }
+
+    public void setCollegeService(CollegeService collegeService) {
+        this.collegeService = collegeService;
     }
 }

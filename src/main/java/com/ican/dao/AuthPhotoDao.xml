@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ican.dao.AuthPhotoDao">
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
+                and id in (${ids})
+            </if>
+            <if test="_parameter.containsKey('userId') and userId != 0">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" resultType="com.ican.model.AuthPhoto">
+        select * from auth_photo where id=#{id}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from auth_photo
+        <include refid="dynamicWhere" />
+    </select>
+
+    <select id="list" resultType="com.ican.model.AuthPhoto">
+        select * from auth_photo
+        <include refid="dynamicWhere" />
+        <if test="_parameter.containsKey('order') and order!=null">
+            order by ${order}
+        </if>
+        limit #{start},#{size}
+    </select>
+
+    <insert id="insert" parameterType="com.ican.model.AuthPhoto" useGeneratedKeys="true" keyProperty="id">
+        insert into auth_photo (user_id,url,remark,type,status,gmt_create,gmt_modified)
+        values (#{userId},#{url},#{remark},#{type},#{staus},#{gmtCreate},#{gmtModified})
+    </insert>
+
+    <update id="update" parameterType="com.ican.model.AuthPhoto">
+        update auth_photo
+        <set>
+            <if test="userId != 0">
+                user_id=#{userId},
+            </if>
+            <if test="url != null">
+                url=#{url},
+            </if>
+            <if test="remark != null">
+                remark=#{remark},
+            </if>
+            <if test="type != 0">
+                type=#{type},
+            </if>
+            <if test="status != 0">
+                status=#{status},
+            </if>
+            <if test="true">
+                gmt_modified=#{gmtModified},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="delete">
+        delete from auth_photo where id=#{id}
+    </update>
+
+</mapper>

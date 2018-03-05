@@ -1,8 +1,8 @@
 package com.ican.service;
 
 
-import com.ican.exception.icanServiceException;
 import com.ican.model.User;
+import com.ican.exception.icanServiceException;
 
 public interface UserService {
 

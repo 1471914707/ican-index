@@ -1,9 +1,9 @@
 package com.ican.controller;
 
-import com.ican.util.BaseResult;
-import com.ican.util.BaseResultUtil;
 import com.ican.util.JedisAdapter;
 import com.ican.vo.SchoolActiveVO;
+import com.ican.util.BaseResult;
+import com.ican.util.BaseResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

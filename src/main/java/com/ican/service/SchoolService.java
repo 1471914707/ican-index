@@ -1,7 +1,7 @@
 package com.ican.service;
 
-import com.ican.exception.icanServiceException;
 import com.ican.model.School;
+import com.ican.exception.icanServiceException;
 
 import java.util.List;
 

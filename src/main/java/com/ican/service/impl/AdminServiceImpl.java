@@ -1,9 +1,9 @@
 package com.ican.service.impl;
 
 import com.ican.config.Constant;
-import com.ican.exception.icanServiceException;
 import com.ican.model.Admin;
 import com.ican.service.AdminService;
+import com.ican.exception.icanServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AdminServiceImpl implements AdminService{
+public class AdminServiceImpl implements AdminService {
     @Override
     public int insert(Admin admin) throws icanServiceException {
         if (admin == null) {
