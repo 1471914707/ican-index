@@ -78,6 +78,7 @@ CREATE TABLE `school` (
 DROP TABLE IF EXISTS `college`;
 CREATE TABLE `college` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
   `phone` varchar(20) NOT NULL COMMENT '手机',
   `email` varchar(50) NOT NULL COMMENT '邮箱',
@@ -85,7 +86,8 @@ CREATE TABLE `college` (
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`)
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_school_id` (`school_id`),
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='二级学院';
 
 DROP TABLE IF EXISTS `teacher`;
@@ -100,9 +102,7 @@ CREATE TABLE `teacher` (
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`),
-  KEY `idx_school_id` (`school_id`),
-  KEY `idx_college_id` (`college_id`),
+  KEY `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='教师';
 
 DROP TABLE IF EXISTS `department`;
