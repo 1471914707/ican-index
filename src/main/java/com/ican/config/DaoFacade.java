@@ -32,6 +32,9 @@ public class DaoFacade {
     @Autowired
     private TeacherDao teacherDao;
 
+    @Autowired
+    private DepartmentDao departmentDao;
+
     public UserDao getUserDao() {
         return userDao;
     }
@@ -94,5 +97,13 @@ public class DaoFacade {
 
     public void setTeacherDao(TeacherDao teacherDao) {
         this.teacherDao = teacherDao;
+    }
+
+    public DepartmentDao getDepartmentDao() {
+        return departmentDao;
+    }
+
+    public void setDepartmentDao(DepartmentDao departmentDao) {
+        this.departmentDao = departmentDao;
     }
 }

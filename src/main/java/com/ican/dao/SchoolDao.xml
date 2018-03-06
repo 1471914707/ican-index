@@ -30,16 +30,16 @@
     </sql>
 
     <select id="select" resultType="com.ican.model.School">
-        select * from School where id=#{id}
+        select * from school where id=#{id}
     </select>
 
     <select id="count" resultType="int">
-        select count(*) from School
+        select count(*) from school
         <include refid="dynamicWhere" />
     </select>
 
     <select id="list" resultType="com.ican.model.School">
-        select * from School
+        select * from school
         <include refid="dynamicWhere" />
         <if test="_parameter.containsKey('order') and order!=null">
             order by ${order}
@@ -48,12 +48,12 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.model.School" useGeneratedKeys="true" keyProperty="id">
-        insert into School (user_id,phone,email,name,country,province,city,gmt_create,gmt_modified)
+        insert into school (user_id,phone,email,name,country,province,city,gmt_create,gmt_modified)
         values (#{userId},#{phone},#{email},#{name},#{country},#{province},#{city},now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.model.School">
-        update School
+        update school
         <set>
             <if test="phone != null">
                 phone=#{phone},
@@ -73,12 +73,15 @@
             <if test="city != 0">
                 city=#{city},
             </if>
+            <if test="true">
+                gmt_modified=now(),
+            </if>
         </set>
-        gmt_modified=now() where id=#{id}
+                where id=#{id}
     </update>
 
     <update id="delete">
-        delete from School where id=#{id}
+        delete from school where id=#{id}
     </update>
 
 </mapper>

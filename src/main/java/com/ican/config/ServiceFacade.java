@@ -1,6 +1,7 @@
 package com.ican.config;
 
 import com.ican.service.*;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,9 @@ public class ServiceFacade {
 
     @Autowired
     private TeacherService teacherService;
+
+    @Autowired
+    private DepartmentService departmentService;
 
     public UserService getUserService() {
         return userService;
@@ -82,5 +86,13 @@ public class ServiceFacade {
 
     public void setTeacherService(TeacherService teacherService) {
         this.teacherService = teacherService;
+    }
+
+    public DepartmentService getDepartmentService() {
+        return departmentService;
+    }
+
+    public void setDepartmentService(DepartmentService departmentService) {
+        this.departmentService = departmentService;
     }
 }

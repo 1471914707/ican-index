@@ -15,7 +15,6 @@ CREATE TABLE `city` (
   PRIMARY KEY (`id`),
   KEY `idx_parent_id` (`parent_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='地区';
-
 /*国家省份城市选择信息 end*/
 
 /*基本角色*/
@@ -122,7 +121,6 @@ CREATE TABLE `department` (
 DROP TABLE IF EXISTS `department_teacher`;
 CREATE TABLE `department_teacher` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
   `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
   `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '教师id',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',

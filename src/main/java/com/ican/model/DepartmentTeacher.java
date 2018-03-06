@@ -6,7 +6,6 @@ package com.ican.model;
  */
 public class DepartmentTeacher {
     private int id;
-    private int collegeId;
     private int departmentId;
     private int teacherId;
     private String gmtCreate;
@@ -18,14 +17,6 @@ public class DepartmentTeacher {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getCollegeId() {
-        return collegeId;
-    }
-
-    public void setCollegeId(int collegeId) {
-        this.collegeId = collegeId;
     }
 
     public int getDepartmentId() {
