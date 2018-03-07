@@ -4,11 +4,13 @@ import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
 import com.ican.model.DepartmentTeacher;
 import com.ican.service.DepartmentTeacherService;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class DepartmentTeahcerServiceImpl implements DepartmentTeacherService {
     @Override
     public int insert(DepartmentTeacher departmentTeacher) throws icanServiceException {

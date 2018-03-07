@@ -8,6 +8,9 @@
             <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
                 and id in (${ids})
             </if>
+            <if test="_parameter.containsKey('schoolId') and schoolId != 0">
+                and school_id =#{schoolId}
+            </if>
             <if test="_parameter.containsKey('userId') and userId != 0">
                 and user_id =#{userId}
             </if>
@@ -49,6 +52,15 @@
     <update id="update" parameterType="com.ican.model.College">
         update college
         <set>
+            <if test="userId != 0">
+                user_id = #{userId},
+            </if>
+            <if test="schoolId != 0">
+                school_id = #{schoolId},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
             <if test="phone != null">
                 phone = #{phone},
             </if>
