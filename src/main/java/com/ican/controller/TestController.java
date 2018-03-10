@@ -22,6 +22,7 @@ import java.io.File;
 
 
 @Api(value = "controller信息")
+@CrossOrigin
 @Controller
 @RequestMapping("/test")
 public class TestController {

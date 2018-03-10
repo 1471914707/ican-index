@@ -3,6 +3,10 @@
 <head>
     <meta charset="utf-8">
     <title>Ican | 毕业设计平台</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <#include 'include/cssjs_commonv2.ftl'>
     <#include 'include/header/header-index.ftl'>
 <#--    <script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.min.js"></script>

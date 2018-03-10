@@ -5,7 +5,9 @@
     <title>测试</title>
     <#include 'include/cssjs_common.ftl'>
 </head>
+
 <body>
+<#include '/include/common/menu_left.ftl'>
 <h1>Ican-inde x主页</h1>
 </body>
 </html>

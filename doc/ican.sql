@@ -179,8 +179,8 @@ CREATE TABLE `school_appeal` (
   `school_name` varchar(200) NOT NULL COMMENT '校名',
   `phone` varchar(20) NOT NULL COMMENT '手机',
   `email` varchar(50) NOT NULL COMMENT '邮箱',
-  `content` varchar(50) NOT NULL COMMENT '内容',
-  `status` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '状态（0-初始化，1-提交成功，2-处理中，3-通过，4-驳回）',
+  `content` varchar(500) NOT NULL COMMENT '内容',
+  `status` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '状态（0-初始化，1-提交成功，2-处理中，3-通过（通知），4-驳回）',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`)
