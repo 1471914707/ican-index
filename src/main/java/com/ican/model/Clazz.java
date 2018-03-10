@@ -8,8 +8,9 @@ public class Clazz {
     private int schoolId;
     private int collegeId;
     private int departmentId;
-    private int at;
+    private int current;
     private String name;
+    private int amount;
     private String gmtCreate;
     private String gmtModified;
 
@@ -45,12 +46,12 @@ public class Clazz {
         this.departmentId = departmentId;
     }
 
-    public int getAt() {
-        return at;
+    public int getCurrent() {
+        return current;
     }
 
-    public void setAt(int at) {
-        this.at = at;
+    public void setCurrent(int current) {
+        this.current = current;
     }
 
     public String getName() {
@@ -59,6 +60,14 @@ public class Clazz {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public String getGmtCreate() {

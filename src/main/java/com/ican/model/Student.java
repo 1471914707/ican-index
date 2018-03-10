@@ -11,7 +11,8 @@ public class Student {
     private int collegeId;
     private int departmentId;
     private int clazzId;
-    private int at;
+    private int teacherId;
+    private int current;
     private String phone;
     private String email;
     private String jobId;
@@ -66,12 +67,20 @@ public class Student {
         this.clazzId = clazzId;
     }
 
-    public int getAt() {
-        return at;
+    public int getTeacherId() {
+        return teacherId;
     }
 
-    public void setAt(int at) {
-        this.at = at;
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(int current) {
+        this.current = current;
     }
 
     public String getPhone() {

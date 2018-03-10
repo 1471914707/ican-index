@@ -38,6 +38,12 @@ public class DaoFacade {
     @Autowired
     private DepartmentTeacherDao departmentTeacherDao;
 
+    @Autowired
+    private ClazzDao clazzDao;
+
+    @Autowired
+    private StudentDao studentDao;
+
     public UserDao getUserDao() {
         return userDao;
     }
@@ -116,5 +122,21 @@ public class DaoFacade {
 
     public void setDepartmentTeacherDao(DepartmentTeacherDao departmentTeacherDao) {
         this.departmentTeacherDao = departmentTeacherDao;
+    }
+
+    public ClazzDao getClazzDao() {
+        return clazzDao;
+    }
+
+    public void setClazzDao(ClazzDao clazzDao) {
+        this.clazzDao = clazzDao;
+    }
+
+    public StudentDao getStudentDao() {
+        return studentDao;
+    }
+
+    public void setStudentDao(StudentDao studentDao) {
+        this.studentDao = studentDao;
     }
 }

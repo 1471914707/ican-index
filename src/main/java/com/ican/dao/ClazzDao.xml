@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ican.dao.ClazzDao">
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
+                and id in (${ids})
+            </if>
+            <if test="_parameter.containsKey('schoolId') and schoolId != 0">
+                and school_id =#{schoolId}
+            </if>
+            <if test="_parameter.containsKey('collegeId') and collegeId != 0">
+                and college_id =#{collegeId}
+            </if>
+            <if test="_parameter.containsKey('current') and current != 0">
+                and current =#{current}
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" resultType="com.ican.model.Clazz">
+        select * from clazz where id=#{id}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from clazz
+        <include refid="dynamicWhere" />
+    </select>
+
+    <select id="list" resultType="com.ican.model.Clazz">
+        select * from clazz
+        <include refid="dynamicWhere" />
+        <if test="_parameter.containsKey('order') and order!=null">
+            order by ${order}
+        </if>
+        limit #{start},#{size}
+    </select>
+
+    <insert id="insert" parameterType="com.ican.model.Clazz" useGeneratedKeys="true" keyProperty="id">
+        insert into clazz (school_id,college_id,department_id,current,name,amount,gmt_create,gmt_modified)
+        values (#{schoolId},#{collegeId},#{departmentId},#{current},#{name},#{amount},now(),now())
+    </insert>
+
+    <update id="update" parameterType="com.ican.model.Clazz">
+        update clazz
+        <set>
+            <if test="schoolId != 0">
+                school_id = #{schoolId},
+            </if>
+            <if test="collegeId != 0">
+                college_id = #{collegeId},
+            </if>
+            <if test="departmentId != 0">
+                department_id = #{departmentId},
+            </if>
+            <if test="current != 0">
+                current = #{current},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="amount != 0">
+                amount = #{amount},
+            </if>
+            <if test="true">
+                gmt_modified = now(),
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="delete">
+        delete from clazz where id=#{id}
+    </update>
+
+</mapper>

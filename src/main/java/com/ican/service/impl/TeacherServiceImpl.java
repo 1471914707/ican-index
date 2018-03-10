@@ -59,17 +59,27 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> list(String order, int page, int size) throws icanServiceException {
+    public List<Teacher> list(int userId, String phone, String email, String jobId, int degree,
+                              String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
-        param.put("order", order);
+        param.put("userId", userId);
+        param.put("phone", phone);
+        param.put("email", email);
+        param.put("jobId", jobId);
+        param.put("degree", degree);
         param.put("start", (page - 1) * size);
         param.put("size", size);
         return Constant.DaoFacade.getTeacherDao().list(param);
     }
 
     @Override
-    public int count() throws icanServiceException {
+    public int count(int userId, String phone, String email, String jobId, int degree) throws icanServiceException {
         Map param = new HashMap();
+        param.put("userId", userId);
+        param.put("phone", phone);
+        param.put("email", email);
+        param.put("jobId", jobId);
+        param.put("degree", degree);
         return Constant.DaoFacade.getTeacherDao().count(param);
     }
 }

@@ -35,6 +35,12 @@ public class ServiceFacade {
     @Autowired
     private DepartmentTeacherService departmentTeacherService;
 
+    @Autowired
+    private ClazzService clazzService;
+
+    @Autowired
+    private StudentService studentService;
+
     public UserService getUserService() {
         return userService;
     }
@@ -105,5 +111,21 @@ public class ServiceFacade {
 
     public void setDepartmentTeacherService(DepartmentTeacherService departmentTeacherService) {
         this.departmentTeacherService = departmentTeacherService;
+    }
+
+    public ClazzService getClazzService() {
+        return clazzService;
+    }
+
+    public void setClazzService(ClazzService clazzService) {
+        this.clazzService = clazzService;
+    }
+
+    public StudentService getStudentService() {
+        return studentService;
+    }
+
+    public void setStudentService(StudentService studentService) {
+        this.studentService = studentService;
     }
 }

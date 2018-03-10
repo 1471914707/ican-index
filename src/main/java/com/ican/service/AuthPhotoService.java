@@ -17,7 +17,7 @@ public interface AuthPhotoService {
 
     int save(AuthPhoto authPhoto) throws icanServiceException;
 
-    List<AuthPhoto> list(String order, int page, int size) throws icanServiceException;
+    List<AuthPhoto> list(int userId, String order, int page, int size) throws icanServiceException;
 
-    int count() throws icanServiceException;
+    int count(int userId) throws icanServiceException;
 }

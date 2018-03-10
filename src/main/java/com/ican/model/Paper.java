@@ -5,7 +5,7 @@ package com.ican.model;
  */
 public class Paper {
     private int id;
-    private int at;
+    private int current;
     private int schoolId;
     private int collegeId;
     private int departmentId;
@@ -27,12 +27,12 @@ public class Paper {
         this.id = id;
     }
 
-    public int getAt() {
-        return at;
+    public int getCurrent() {
+        return current;
     }
 
-    public void setAt(int at) {
-        this.at = at;
+    public void setCurrent(int current) {
+        this.current = current;
     }
 
     public int getSchoolId() {

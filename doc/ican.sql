@@ -21,7 +21,7 @@ CREATE TABLE `city` (
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `headshot` varchar(150) NOT NULL COMMENT '头像',
+  `headshot` varchar(150) NOT NULL COMMENT '头像(学校学院头像会显示在学生主页上，慎重上传)',
   `name` varchar(150) NOT NULL COMMENT '姓名',
   `sex` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '性别(1-男 2-女)',
   `password` varchar(128) NOT NULL COMMENT '加密后的密码',
@@ -137,8 +137,9 @@ CREATE TABLE `clazz` (
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
   `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
-  `at` int(11) UNSIGNED NOT NULL COMMENT '多少届',
+  `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
   `name` varchar(150) NOT NULL COMMENT '班名',
+  `amount` tinyint(2) NOT NULL COMMENT '人数',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
@@ -155,7 +156,8 @@ CREATE TABLE `student` (
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
   `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
   `clazz_id` int(11) UNSIGNED NOT NULL COMMENT '班级id',
-  `at` int(11) UNSIGNED NOT NULL COMMENT '多少届',
+  `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '最终导师id',
+  `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
   `phone` varchar(20) NOT NULL COMMENT '手机',
   `email` varchar(50) NOT NULL COMMENT '邮箱',
   `job_id` varchar(50) NOT NULL COMMENT '学号',
@@ -166,7 +168,8 @@ CREATE TABLE `student` (
   KEY `idx_school_id` (`school_id`),
   KEY `idx_college_id` (`college_id`),
   KEY `idx_department_id` (`department_id`),
-  KEY `idx_clazz_id` (`clazz_id`)
+  KEY `idx_clazz_id` (`clazz_id`),
+  KEY `idx_teacher_id` (`teacher_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学生';
 
 DROP TABLE IF EXISTS `school_appeal`;
@@ -201,7 +204,7 @@ CREATE TABLE `login_ticket` (
 DROP TABLE IF EXISTS `paper`;
 CREATE TABLE `paper` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `at` int(11) UNSIGNED NOT NULL COMMENT '多少届',
+  `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
   `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
@@ -237,7 +240,7 @@ CREATE TABLE `paper_student` (
 DROP TABLE IF EXISTS `project`;
 CREATE TABLE `project` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `at` int(11) UNSIGNED NOT NULL COMMENT '多少届',
+  `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
   `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
@@ -385,7 +388,7 @@ CREATE TABLE `group` (
 DROP TABLE IF EXISTS `rating`;
 CREATE TABLE `rating` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `at` int(11) UNSIGNED NOT NULL COMMENT '多少届',
+  `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
   `project_id` int(11) UNSIGNED NOT NULL COMMENT '项目id',

@@ -61,8 +61,14 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public List<School> list(String order, int page, int size) throws icanServiceException {
+    public List<School> list(int country, int province, int city, String name, String phone, String email, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
+        param.put("country", country);
+        param.put("province", province);
+        param.put("city", city);
+        param.put("name", name);
+        param.put("phone", phone);
+        param.put("email", email);
         param.put("order", order);
         param.put("start", (page - 1) * size);
         param.put("size", size);
@@ -70,8 +76,14 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public int count() throws icanServiceException {
+    public int count(int country, int province, int city, String name, String phone, String email) throws icanServiceException {
         Map param = new HashMap();
+        param.put("country", country);
+        param.put("province", province);
+        param.put("city", city);
+        param.put("name", name);
+        param.put("phone", phone);
+        param.put("email", email);
         return Constant.DaoFacade.getSchoolDao().count(param);
     }
 }
