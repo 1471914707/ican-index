@@ -1,11 +1,4 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>左边菜单</title>
-    <link rel="stylesheet" type="text/css" href="http://cdn.ican.com/public/css/header/menu_left.css" />
-</head>
-<body>
 
 <div class="wmenu">
     <dl>
@@ -25,5 +18,3 @@
         $(this).siblings('dd').toggleClass('hidden');
     });
 </script>
-</body>
-</html>

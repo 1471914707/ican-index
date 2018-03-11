@@ -7,7 +7,19 @@
 </head>
 
 <body>
-<#include '/include/common/menu_left.ftl'>
-<h1>Ican-inde x主页</h1>
+<el-container>
+    <el-header><#include '/include/header/header-index.ftl'></el-header>
+    <el-container>
+        <el-aside width="200px">
+            <#include '/include/common/menu_left.ftl'>
+        </el-aside>
+        <el-main>
+            <section>
+                <h1>Ican-inde x主页</h1>
+            </section>
+        </el-main>
+    </el-container>
+</el-container>
+
 </body>
 </html>

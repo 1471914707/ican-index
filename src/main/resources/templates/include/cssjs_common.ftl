@@ -21,3 +21,5 @@
 <style>
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 </style>
+
+<link rel="stylesheet" type="text/css" href="http://cdn.ican.com/public/css/header/menu_left.css" />
