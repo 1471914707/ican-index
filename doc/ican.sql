@@ -21,13 +21,13 @@ CREATE TABLE `city` (
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `headshot` varchar(150) NOT NULL COMMENT '头像(学校学院头像会显示在学生主页上，慎重上传)',
+  `headshot` varchar(150) NOT NULL COMMENT '头像(学校学院头像会显示在学生主页上,慎重上传)',
   `name` varchar(150) NOT NULL COMMENT '姓名',
   `sex` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '性别(1-男 2-女)',
   `password` varchar(128) NOT NULL COMMENT '加密后的密码',
   `salt` varchar(32) NOT NULL COMMENT '密码盐',
-  `role` tinyint(2) UNSIGNED NOT NULL COMMENT '角色,0-未定义，1-超级管理员，2-普通管理员，3-学校账号,4-二级学院账号，5-导师账号，6-学生账号',
-  `status` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '状态（0-初始化，1-生效，2-失效）',
+  `role` tinyint(2) UNSIGNED NOT NULL COMMENT '角色,0-未定义,1-超级管理员,2-普通管理员,3-学校账号,4-二级学院账号,5-导师账号,6-学生账号',
+  `status` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '状态（0-初始化,1-生效,2-失效）',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`)
@@ -55,7 +55,7 @@ CREATE TABLE `admin` (
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
 DROP TABLE IF EXISTS `school`;
 CREATE TABLE `school` (
@@ -176,6 +176,21 @@ CREATE TABLE `school_appeal` (
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校申议表';
+
+DROP TABLE IF EXISTS `follow`;
+CREATE TABLE `follow` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `follow_user_id` int(11) UNSIGNED NOT NULL COMMENT '跟进人id',
+  `follow_user_name` varchar(20) NOT NULL COMMENT '跟进人姓名',
+  `follow_id` int(11) UNSIGNED NOT NULL COMMENT '被跟进的id',
+  `follow_type` tinyint(2) UNSIGNED NOT NULL COMMENT '被跟进类型,1-学校,2-申议',
+  `mode` tinyint(2) UNSIGNED NOT NULL COMMENT '跟进方式,1-电话,2-QQ,3-微信,4-邮箱',
+  `content` varchar(1500) NOT NULL COMMENT '跟进内容',
+  `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
+  `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_follow_user_id` (`follow_user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='跟进记录表';
 
 DROP TABLE IF EXISTS `login_ticket`;
 CREATE TABLE `login_ticket` (

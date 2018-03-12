@@ -29,6 +29,14 @@ public class IcanUtil {
         return false;
     }
 
+    public static boolean isBank(String str) {
+        if (str == null || str.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static String getJSONString(int code) {
         JSONObject json = new JSONObject();
         json.put("code", code);

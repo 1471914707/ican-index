@@ -2,8 +2,8 @@ package com.ican.controller.admin;
 
 import com.ican.config.Constant;
 import com.ican.domain.Admin;
-import com.ican.domain.User;
 import com.ican.domain.UserInfo;
+import com.ican.to.AdminTO;
 import com.ican.util.BaseResult;
 import com.ican.util.BaseResultUtil;
 import com.ican.vo.AdminVO;
@@ -42,7 +42,7 @@ public class superAdminController {
                                 HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
-            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(1, "id desc", page, size);
+            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(2, "id desc", page, size);
             Set<String> userInfoSet = new HashSet<>();
             for (UserInfo userInfo : userInfoList) {
                 userInfoSet.add("" + userInfo.getId());
@@ -79,10 +79,79 @@ public class superAdminController {
                                 HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
-            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(2, "id desc", page, size);
+            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(1, "id desc", page, size);
+            Set<String> userInfoSet = new HashSet<>();
+            for (UserInfo userInfo : userInfoList) {
+                userInfoSet.add("" + userInfo.getId());
+            }
+            String ids = String.join(",", userInfoSet);
+            List<Admin> adminList = new ArrayList<>();
+            adminList = Constant.ServiceFacade.getAdminService().list(ids, null,null,"id desc", page, size);
+            Map map = new HashMap();
+            for (Admin admin : adminList) {
+                map.put(admin.getId(), admin);
+            }
+            List<AdminVO> adminVOList = new ArrayList<>();
+            for (UserInfo userInfo : userInfoList) {
+                AdminVO adminVO = new AdminVO((Admin) map.get(userInfo.getId()), userInfo);
+                adminVOList.add(adminVO);
+            }
+            int total = Constant.ServiceFacade.getUserInfoService().count(2);
+            Map data = new HashMap();
+            data.put("list", adminVOList);
+            data.put("total", total);
+            BaseResultUtil.setSuccess(result, data);
             return result;
         } catch (Exception e) {
             logger.error("获取普通管理员列表异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("获取单个管理员信息Json")
+    @ResponseBody
+    @RequestMapping(value = "/adminInfo",method = RequestMethod.GET)
+    public BaseResult superAdminList(@RequestParam(value = "id") int id,
+                                     HttpServletRequest request, HttpServletResponse response){
+        BaseResult result = BaseResultUtil.initResult();
+        if (id <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            UserInfo userInfo = Constant.ServiceFacade.getUserInfoService().select(id);
+            Admin admin = Constant.ServiceFacade.getAdminService().select(id);
+            BaseResultUtil.setSuccess(result, new AdminVO(admin, userInfo));
+            return result;
+        } catch (Exception e) {
+            logger.error("获取单个管理员信息异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("保存单个管理员信息")
+    @ResponseBody
+    @RequestMapping(value = "/save",method = RequestMethod.GET)
+    public BaseResult superAdminList(AdminTO adminTO,
+                                     HttpServletRequest request, HttpServletResponse response){
+        BaseResult result = BaseResultUtil.initResult();
+        if (adminTO == null) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            if (adminTO.getId() > 0) {
+                Admin oldAdmin = Constant.ServiceFacade.getAdminService().select(adminTO.getId());
+                if (oldAdmin == null) {
+                    return result;
+                }
+
+            }
+
+            BaseResultUtil.setSuccess(result, new AdminVO(admin, userInfo));
+            return result;
+        } catch (Exception e) {
+            logger.error("获取单个管理员信息异常", e);
             return result;
         }
     }
