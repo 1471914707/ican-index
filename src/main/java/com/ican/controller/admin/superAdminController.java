@@ -28,6 +28,12 @@ public class superAdminController {
 
     private final static Logger logger = LoggerFactory.getLogger(superAdminController.class);
 
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+    public String index() {
+        return "/admin/super/admin_list";
+    }
+
+
     @ApiOperation("获取管理员列表Json")
     @ResponseBody
     @RequestMapping(value = "/adminList",method = RequestMethod.GET)
