@@ -49,20 +49,17 @@ CREATE TABLE `auth_photo` (
 
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
+  `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
   `phone` varchar(20) NOT NULL COMMENT '手机',
   `email` varchar(50) NOT NULL COMMENT '邮箱',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校表';
 
 DROP TABLE IF EXISTS `school`;
 CREATE TABLE `school` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
+  `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
   `phone` varchar(20) NOT NULL COMMENT '手机',
   `email` varchar(50) NOT NULL COMMENT '邮箱',
   `name` varchar(150) NOT NULL COMMENT '校名',
@@ -71,15 +68,13 @@ CREATE TABLE `school` (
   `city` int(10) UNSIGNED NOT NULL COMMENT '城市',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校表';
 
 DROP TABLE IF EXISTS `college`;
 CREATE TABLE `college` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
-  `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
   `phone` varchar(20) NOT NULL COMMENT '手机',
   `email` varchar(50) NOT NULL COMMENT '邮箱',
   `name` varchar(150) NOT NULL COMMENT '二级学院名称',
@@ -92,8 +87,7 @@ CREATE TABLE `college` (
 
 DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE `teacher` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
+  `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
   `phone` varchar(20) NOT NULL COMMENT '手机',
   `email` varchar(50) NOT NULL COMMENT '邮箱',
   `job_id` varchar(50) NOT NULL COMMENT '工号',
@@ -101,8 +95,7 @@ CREATE TABLE `teacher` (
   `degree_name` varchar(50) NOT NULL COMMENT '自定义职称',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='教师';
 
 DROP TABLE IF EXISTS `department`;
@@ -150,8 +143,7 @@ CREATE TABLE `clazz` (
 
 DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
+  `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
   `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
@@ -164,7 +156,6 @@ CREATE TABLE `student` (
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`),
   KEY `idx_school_id` (`school_id`),
   KEY `idx_college_id` (`college_id`),
   KEY `idx_department_id` (`department_id`),

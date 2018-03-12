@@ -1,11 +1,16 @@
-package com.ican.model;
+package com.ican.domain;
 
-public class College {
+/**
+ * 教师
+ * author : lin jiayu
+ */
+public class Teacher {
     private int id;
-    private int userId;
     private String phone;
     private String email;
-    private String name;
+    private String jobId;
+    private int degree;
+    private String degreeName;
     private String gmtCreate;
     private String gmtModified;
 
@@ -15,14 +20,6 @@ public class College {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getPhone() {
@@ -41,12 +38,28 @@ public class College {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
+    }
+
+    public int getDegree() {
+        return degree;
+    }
+
+    public void setDegree(int degree) {
+        this.degree = degree;
+    }
+
+    public String getDegreeName() {
+        return degreeName;
+    }
+
+    public void setDegreeName(String degreeName) {
+        this.degreeName = degreeName;
     }
 
     public String getGmtCreate() {

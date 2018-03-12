@@ -1,6 +1,6 @@
 package com.ican.service;
 
-import com.ican.model.School;
+import com.ican.domain.School;
 import com.ican.exception.icanServiceException;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface SchoolService {
 
     public int save(School school) throws icanServiceException;
 
-    public List<School> list(int country, int privince, int city, String name, String phone, String email, String order, int page, int size) throws icanServiceException;
+    public List<School> list(String ids, int country, int province, int city, String name, String phone, String email, String order, int page, int size) throws icanServiceException;
 
-    public int count(int country, int province, int city, String name, String phone, String email) throws icanServiceException;
+    public int count(String ids, int country, int province, int city, String name, String phone, String email) throws icanServiceException;
 }

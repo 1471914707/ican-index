@@ -2,7 +2,7 @@ package com.ican.service.impl;
 
 import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
-import com.ican.model.Clazz;
+import com.ican.domain.Clazz;
 import com.ican.service.ClazzService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

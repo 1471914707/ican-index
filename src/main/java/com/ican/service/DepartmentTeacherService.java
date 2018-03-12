@@ -1,7 +1,7 @@
 package com.ican.service;
 
 import com.ican.exception.icanServiceException;
-import com.ican.model.DepartmentTeacher;
+import com.ican.domain.DepartmentTeacher;
 
 import java.util.List;
 

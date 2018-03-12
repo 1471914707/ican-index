@@ -1,7 +1,7 @@
 package com.ican.service;
 
 import com.ican.exception.icanServiceException;
-import com.ican.model.City;
+import com.ican.domain.City;
 
 import java.util.List;
 

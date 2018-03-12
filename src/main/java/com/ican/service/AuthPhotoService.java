@@ -1,7 +1,7 @@
 package com.ican.service;
 
 import com.ican.exception.icanServiceException;
-import com.ican.model.AuthPhoto;
+import com.ican.domain.AuthPhoto;
 
 import java.util.List;
 

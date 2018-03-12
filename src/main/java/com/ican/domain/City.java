@@ -1,4 +1,4 @@
-package com.ican.model;
+package com.ican.domain;
 
 /**
  * 保存地区信息

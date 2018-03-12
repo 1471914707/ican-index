@@ -2,7 +2,7 @@ package com.ican.service.impl;
 
 import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
-import com.ican.model.User;
+import com.ican.domain.User;
 import com.ican.service.UserService;
 import org.springframework.stereotype.Service;
 

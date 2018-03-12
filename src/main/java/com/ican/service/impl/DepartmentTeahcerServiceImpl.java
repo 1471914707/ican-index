@@ -2,7 +2,7 @@ package com.ican.service.impl;
 
 import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
-import com.ican.model.DepartmentTeacher;
+import com.ican.domain.DepartmentTeacher;
 import com.ican.service.DepartmentTeacherService;
 import org.springframework.stereotype.Service;
 

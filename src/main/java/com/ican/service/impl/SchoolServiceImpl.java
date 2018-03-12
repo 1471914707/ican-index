@@ -2,7 +2,7 @@ package com.ican.service.impl;
 
 import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
-import com.ican.model.School;
+import com.ican.domain.School;
 import com.ican.service.SchoolService;
 import org.springframework.util.StringUtils;
 
@@ -61,8 +61,9 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public List<School> list(int country, int province, int city, String name, String phone, String email, String order, int page, int size) throws icanServiceException {
+    public List<School> list(String ids, int country, int province, int city, String name, String phone, String email, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
+        param.put("ids", ids);
         param.put("country", country);
         param.put("province", province);
         param.put("city", city);
@@ -76,8 +77,9 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public int count(int country, int province, int city, String name, String phone, String email) throws icanServiceException {
+    public int count(String ids, int country, int province, int city, String name, String phone, String email) throws icanServiceException {
         Map param = new HashMap();
+        param.put("ids", ids);
         param.put("country", country);
         param.put("province", province);
         param.put("city", city);

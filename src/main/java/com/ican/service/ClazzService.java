@@ -1,7 +1,7 @@
 package com.ican.service;
 
 import com.ican.exception.icanServiceException;
-import com.ican.model.Clazz;
+import com.ican.domain.Clazz;
 
 import java.util.List;
 

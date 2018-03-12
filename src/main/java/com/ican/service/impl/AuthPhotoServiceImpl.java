@@ -1,6 +1,6 @@
 package com.ican.service.impl;
 
-import com.ican.model.AuthPhoto;
+import com.ican.domain.AuthPhoto;
 import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
 import com.ican.service.AuthPhotoService;

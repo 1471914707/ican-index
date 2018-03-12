@@ -1,4 +1,4 @@
-package com.ican.model;
+package com.ican.domain;
 
 /**
  * author: lin jiayu 2018-02-25

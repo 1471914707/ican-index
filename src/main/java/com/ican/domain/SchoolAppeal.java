@@ -1,18 +1,17 @@
-package com.ican.model;
+package com.ican.domain;
 
 /**
- * 学校
+ * 学校申议
  * author : lin jiayu
  */
-public class School {
+public class SchoolAppeal {
     private int id;
-    private int userId;
+    private String name;
+    private String schoolName;
     private String phone;
     private String email;
-    private String name;
-    private int country;
-    private int province;
-    private int city;
+    private String content;
+    private int status;
     private String gmtCreate;
     private String gmtModified;
 
@@ -24,12 +23,20 @@ public class School {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getName() {
+        return name;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
     }
 
     public String getPhone() {
@@ -48,36 +55,20 @@ public class School {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public String getContent() {
+        return content;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public int getCountry() {
-        return country;
+    public int getStatus() {
+        return status;
     }
 
-    public void setCountry(int country) {
-        this.country = country;
-    }
-
-    public int getProvince() {
-        return province;
-    }
-
-    public void setProvince(int province) {
-        this.province = province;
-    }
-
-    public int getCity() {
-        return city;
-    }
-
-    public void setCity(int city) {
-        this.city = city;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getGmtCreate() {

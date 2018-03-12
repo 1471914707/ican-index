@@ -1,4 +1,4 @@
-package com.ican.model;
+package com.ican.domain;
 
 /**
  * 系与教师关联

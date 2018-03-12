@@ -1,15 +1,14 @@
-package com.ican.model;
+package com.ican.domain;
 
 /**
- * author: lin jiayu 2018-02-25
- * 文件保存
+ * 系
+ * author : lin jiayu
  */
-public class File {
+public class Department {
     private int id;
-    private int entityId;
-    private int entityType;
+    private int schoolId;
+    private int collegeId;
     private String name;
-    private String url;
     private String gmtCreate;
     private String gmtModified;
 
@@ -21,20 +20,20 @@ public class File {
         this.id = id;
     }
 
-    public int getEntityId() {
-        return entityId;
+    public int getSchoolId() {
+        return schoolId;
     }
 
-    public void setEntityId(int entityId) {
-        this.entityId = entityId;
+    public void setSchoolId(int schoolId) {
+        this.schoolId = schoolId;
     }
 
-    public int getEntityType() {
-        return entityType;
+    public int getCollegeId() {
+        return collegeId;
     }
 
-    public void setEntityType(int entityType) {
-        this.entityType = entityType;
+    public void setCollegeId(int collegeId) {
+        this.collegeId = collegeId;
     }
 
     public String getName() {
@@ -43,14 +42,6 @@ public class File {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getGmtCreate() {

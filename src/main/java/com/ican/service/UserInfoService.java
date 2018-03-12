@@ -1,6 +1,6 @@
 package com.ican.service;
 
-import com.ican.model.UserInfo;
+import com.ican.domain.UserInfo;
 import com.ican.exception.icanServiceException;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface UserInfoService {
 
     public int save(UserInfo userInfo) throws icanServiceException;
 
-    public List<UserInfo> list(String order, int page, int size) throws icanServiceException;
+    public List<UserInfo> list(int role, String order, int page, int size) throws icanServiceException;
 
-    public int count() throws icanServiceException;
+    public int count(int role) throws icanServiceException;
 }

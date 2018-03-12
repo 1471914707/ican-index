@@ -1,6 +1,6 @@
 package com.ican.service;
 
-import com.ican.model.Admin;
+import com.ican.domain.Admin;
 import com.ican.exception.icanServiceException;
 
 import java.util.List;
@@ -17,7 +17,8 @@ public interface AdminService {
 
     public int save(Admin admin) throws icanServiceException;
 
-    public List<Admin> list(int userId, String phone, String email, String order, int page, int size) throws icanServiceException;
+    public List<Admin> list(String ids, String phone, String email, String order, int page, int size) throws icanServiceException;
 
-    public int count(int userId, String phone, String email) throws icanServiceException;
+    public int count(String ids, String phone, String email) throws icanServiceException;
+
 }

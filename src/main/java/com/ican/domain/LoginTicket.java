@@ -1,15 +1,15 @@
-package com.ican.model;
+package com.ican.domain;
 
 /**
- * 认证照片
- * author: lin jiayu
+ * 登录记录
+ * author : lin jiayu
  */
-public class AuthPhoto {
+public class LoginTicket {
     private int id;
     private int userId;
-    private String url;
-    private String remark;
-    private int type;
+    private String ticket;
+    private String expired;
+    private int status;
     private String gmtCreate;
     private String gmtModified;
 
@@ -29,28 +29,28 @@ public class AuthPhoto {
         this.userId = userId;
     }
 
-    public String getUrl() {
-        return url;
+    public String getTicket() {
+        return ticket;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getExpired() {
+        return expired;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setExpired(String expired) {
+        this.expired = expired;
     }
 
-    public int getType() {
-        return type;
+    public int getStatus() {
+        return status;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getGmtCreate() {

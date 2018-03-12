@@ -2,7 +2,7 @@ package com.ican.service.impl;
 
 import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
-import com.ican.model.Student;
+import com.ican.domain.Student;
 import com.ican.service.StudentService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -56,11 +56,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> list(int userId, int schoolId, int collegeId, int departmentId,
+    public List<Student> list(String ids, int schoolId, int collegeId, int departmentId,
                               int clazzId, int teacherId, int current, String jobId,
                               String order, int page, int size) throws icanServiceException {
         Map params = new HashMap();
-        params.put("userId", userId);
+        params.put("ids", ids);
         params.put("schoolId", schoolId);
         params.put("collegeId", collegeId);
         params.put("departmentId", departmentId);
@@ -75,10 +75,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public int count(int userId, int schoolId, int collegeId, int departmentId,
+    public int count(String ids, int schoolId, int collegeId, int departmentId,
                      int clazzId, int teacherId, int current, String jobId) throws icanServiceException {
         Map params = new HashMap();
-        params.put("userId", userId);
+        params.put("ids", ids);
         params.put("schoolId", schoolId);
         params.put("collegeId", collegeId);
         params.put("departmentId", departmentId);

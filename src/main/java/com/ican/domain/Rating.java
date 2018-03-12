@@ -1,21 +1,20 @@
-package com.ican.model;
-/*
+package com.ican.domain;
+
+/**
  * author: lin jiayu 2018-02-25
- * 导师发布的选题
+ * 评分
  */
-public class Paper {
+public class Rating {
     private int id;
     private int current;
     private int schoolId;
     private int collegeId;
-    private int departmentId;
+    private int projectId;
     private int teacherId;
-    private String title;
-    private String require;
-    private int maxNumber;
-    private int minNumber;
+    private int ratio;
+    private int score;
     private String remark;
-    private int status;
+    private int type;
     private String gmtCreate;
     private String gmtModified;
 
@@ -51,12 +50,12 @@ public class Paper {
         this.collegeId = collegeId;
     }
 
-    public int getDepartmentId() {
-        return departmentId;
+    public int getProjectId() {
+        return projectId;
     }
 
-    public void setDepartmentId(int departmentId) {
-        this.departmentId = departmentId;
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
     }
 
     public int getTeacherId() {
@@ -67,36 +66,20 @@ public class Paper {
         this.teacherId = teacherId;
     }
 
-    public String getTitle() {
-        return title;
+    public int getRatio() {
+        return ratio;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setRatio(int ratio) {
+        this.ratio = ratio;
     }
 
-    public String getRequire() {
-        return require;
+    public int getScore() {
+        return score;
     }
 
-    public void setRequire(String require) {
-        this.require = require;
-    }
-
-    public int getMaxNumber() {
-        return maxNumber;
-    }
-
-    public void setMaxNumber(int maxNumber) {
-        this.maxNumber = maxNumber;
-    }
-
-    public int getMinNumber() {
-        return minNumber;
-    }
-
-    public void setMinNumber(int minNumber) {
-        this.minNumber = minNumber;
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public String getRemark() {
@@ -107,12 +90,12 @@ public class Paper {
         this.remark = remark;
     }
 
-    public int getStatus() {
-        return status;
+    public int getType() {
+        return type;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getGmtCreate() {

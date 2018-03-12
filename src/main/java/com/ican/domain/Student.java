@@ -1,20 +1,20 @@
-package com.ican.model;
+package com.ican.domain;
 
 /**
- * author: lin jiayu 2018-02-25
- * 评分
+ * 学生
+ * author : lin jiayu
  */
-public class Rating {
+public class Student {
     private int id;
-    private int current;
     private int schoolId;
     private int collegeId;
-    private int projectId;
+    private int departmentId;
+    private int clazzId;
     private int teacherId;
-    private int ratio;
-    private int score;
-    private String remark;
-    private int type;
+    private int current;
+    private String phone;
+    private String email;
+    private String jobId;
     private String gmtCreate;
     private String gmtModified;
 
@@ -26,13 +26,6 @@ public class Rating {
         this.id = id;
     }
 
-    public int getCurrent() {
-        return current;
-    }
-
-    public void setCurrent(int current) {
-        this.current = current;
-    }
 
     public int getSchoolId() {
         return schoolId;
@@ -50,12 +43,20 @@ public class Rating {
         this.collegeId = collegeId;
     }
 
-    public int getProjectId() {
-        return projectId;
+    public int getDepartmentId() {
+        return departmentId;
     }
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public int getClazzId() {
+        return clazzId;
+    }
+
+    public void setClazzId(int clazzId) {
+        this.clazzId = clazzId;
     }
 
     public int getTeacherId() {
@@ -66,36 +67,36 @@ public class Rating {
         this.teacherId = teacherId;
     }
 
-    public int getRatio() {
-        return ratio;
+    public int getCurrent() {
+        return current;
     }
 
-    public void setRatio(int ratio) {
-        this.ratio = ratio;
+    public void setCurrent(int current) {
+        this.current = current;
     }
 
-    public int getScore() {
-        return score;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getType() {
-        return type;
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 
     public String getGmtCreate() {

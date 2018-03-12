@@ -1,21 +1,24 @@
-package com.ican.model;
+package com.ican.domain;
 
 /**
  * author: lin jiayu 2018-02-25
- * 单个的安排
+ * 学生单个自己的项目
  */
-public class Task {
+public class Project {
     private int id;
-    private int ownerId;
-    private int executorId;
+    private int current;
+    private int schoolId;
+    private int collegeId;
+    private int departmentId;
+    private int clazzId;
     private int teacherId;
     private int studentId;
-    private int projectId;
     private String title;
     private String content;
     private String startTime;
     private String endTime;
-    private int accept;
+    private int warn;
+    private int complete;
     private String gmtCreate;
     private String gmtModified;
 
@@ -27,20 +30,44 @@ public class Task {
         this.id = id;
     }
 
-    public int getOwnerId() {
-        return ownerId;
+    public int getCurrent() {
+        return current;
     }
 
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
+    public void setCurrent(int current) {
+        this.current = current;
     }
 
-    public int getExecutorId() {
-        return executorId;
+    public int getSchoolId() {
+        return schoolId;
     }
 
-    public void setExecutorId(int executorId) {
-        this.executorId = executorId;
+    public void setSchoolId(int schoolId) {
+        this.schoolId = schoolId;
+    }
+
+    public int getCollegeId() {
+        return collegeId;
+    }
+
+    public void setCollegeId(int collegeId) {
+        this.collegeId = collegeId;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public int getClazzId() {
+        return clazzId;
+    }
+
+    public void setClazzId(int clazzId) {
+        this.clazzId = clazzId;
     }
 
     public int getTeacherId() {
@@ -57,14 +84,6 @@ public class Task {
 
     public void setStudentId(int studentId) {
         this.studentId = studentId;
-    }
-
-    public int getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
     }
 
     public String getTitle() {
@@ -99,12 +118,20 @@ public class Task {
         this.endTime = endTime;
     }
 
-    public int getAccept() {
-        return accept;
+    public int getWarn() {
+        return warn;
     }
 
-    public void setAccept(int accept) {
-        this.accept = accept;
+    public void setWarn(int warn) {
+        this.warn = warn;
+    }
+
+    public int getComplete() {
+        return complete;
+    }
+
+    public void setComplete(int complete) {
+        this.complete = complete;
     }
 
     public String getGmtCreate() {

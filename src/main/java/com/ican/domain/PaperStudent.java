@@ -1,15 +1,13 @@
-package com.ican.model;
+package com.ican.domain;
 
 /**
  * author: lin jiayu 2018-02-25
- * 评论推送
+ * 选题和学生关联表
  */
-public class CommentPush {
+public class PaperStudent {
     private int id;
     private int studentId;
-    private int teacherId;
-    private int taskId;
-    private String remark;
+    private int paperId;
     private String gmtCreate;
     private String gmtModified;
 
@@ -29,28 +27,12 @@ public class CommentPush {
         this.studentId = studentId;
     }
 
-    public int getTeacherId() {
-        return teacherId;
+    public int getPaperId() {
+        return paperId;
     }
 
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
-    }
-
-    public int getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setPaperId(int paperId) {
+        this.paperId = paperId;
     }
 
     public String getGmtCreate() {

@@ -1,7 +1,7 @@
 package com.ican.service.impl;
 
 import com.ican.config.Constant;
-import com.ican.model.City;
+import com.ican.domain.City;
 import com.ican.service.CityService;
 import com.ican.exception.icanServiceException;
 import org.springframework.stereotype.Service;

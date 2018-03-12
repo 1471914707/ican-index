@@ -1,13 +1,13 @@
-package com.ican.model;
+package com.ican.domain;
 
 /**
- * author: lin jiayu 2018-02-25
- * 选题和学生关联表
+ * 管理员
+ * author : lin jiiayu
  */
-public class PaperStudent {
+public class Admin {
     private int id;
-    private int studentId;
-    private int paperId;
+    private String phone;
+    private String email;
     private String gmtCreate;
     private String gmtModified;
 
@@ -19,20 +19,20 @@ public class PaperStudent {
         this.id = id;
     }
 
-    public int getStudentId() {
-        return studentId;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public int getPaperId() {
-        return paperId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPaperId(int paperId) {
-        this.paperId = paperId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getGmtCreate() {

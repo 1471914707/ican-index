@@ -1,7 +1,6 @@
 package com.ican.config;
 
 import com.ican.dao.*;
-import com.ican.service.CollegeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
