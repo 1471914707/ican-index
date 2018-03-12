@@ -7,7 +7,7 @@
           content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<#include '/include/cssjs_common.ftl'>
+    <#include '/include/cssjs_common.ftl'>
 </head>
 <body>
 <#include '/include/common/menu_left.ftl'>
@@ -20,7 +20,7 @@
                     <el-col :span="4"><div class="grid-content bg-purple" style="max-width:100px;height: 1px;"></div></el-col>
                     <el-col :span="8" align="center"><div class="grid-content bg-purple">
                         <div>
-                            <h1>{{getLoginRole(role)}}</h1>
+                            <h1>操作</h1>
                         </div>
                         <br>
                         <el-form ref="form" :model="form" label-width="80px">

@@ -36,7 +36,7 @@
                 <span slot="title">导航四</span>
             </el-menu-item>
         </el-menu>
-
+</div>
 <script type="text/javascript">
 
     var app = new Vue({
@@ -56,7 +56,7 @@
     });
 
 </script>
-</div>
+
 
 
 <#--

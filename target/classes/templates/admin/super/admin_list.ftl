@@ -7,7 +7,19 @@
           content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<#include '/include/cssjs_common.ftl'>
+    <#include '/include/cssjs_common.ftl'>
+    <style>
+        .box4{
+            margin: 20px auto;
+            min-height: 100px;
+            width: 300px;
+            padding: 10px;
+            position:relative;
+            background: -webkit-gradient(linear, 0% 20%, 0% 100%, from(#fff), to(#fff), color-stop(.2, #f2f2f2));
+            border: 1px solid #ccc;
+            -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
 <#include '/include/common/menu_left.ftl'>
@@ -18,9 +30,9 @@
             <div id="app"><br>
                 <el-row :gutter="20">
                     <el-col :span="4"><div class="grid-content bg-purple" style="max-width:100px;height: 1px;"></div></el-col>
-                    <el-col :span="8" align="center"><div class="grid-content bg-purple">
+                    <el-col :span="8" align="center"><div class="grid-content bg-purple" class="box4">
                         <div>
-                            <h1>{{getLoginRole(role)}}</h1>
+                            <h1>操作</h1>
                         </div>
                         <br>
                         <el-form ref="form" :model="form" label-width="80px">
