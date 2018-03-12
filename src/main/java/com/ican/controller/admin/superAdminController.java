@@ -42,7 +42,7 @@ public class superAdminController {
                                 HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
-            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(2, "id desc", page, size);
+            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(null,2, "id desc", page, size);
             Set<String> userInfoSet = new HashSet<>();
             for (UserInfo userInfo : userInfoList) {
                 userInfoSet.add("" + userInfo.getId());
@@ -59,7 +59,7 @@ public class superAdminController {
                 AdminVO adminVO = new AdminVO((Admin) map.get(userInfo.getId()), userInfo);
                 adminVOList.add(adminVO);
             }
-            int total = Constant.ServiceFacade.getUserInfoService().count(2);
+            int total = Constant.ServiceFacade.getUserInfoService().count(null,2);
             Map data = new HashMap();
             data.put("list", adminVOList);
             data.put("total", total);
@@ -79,7 +79,7 @@ public class superAdminController {
                                 HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
-            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(1, "id desc", page, size);
+            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(null,1, "id desc", page, size);
             Set<String> userInfoSet = new HashSet<>();
             for (UserInfo userInfo : userInfoList) {
                 userInfoSet.add("" + userInfo.getId());
@@ -96,7 +96,7 @@ public class superAdminController {
                 AdminVO adminVO = new AdminVO((Admin) map.get(userInfo.getId()), userInfo);
                 adminVOList.add(adminVO);
             }
-            int total = Constant.ServiceFacade.getUserInfoService().count(2);
+            int total = Constant.ServiceFacade.getUserInfoService().count(null,2);
             Map data = new HashMap();
             data.put("list", adminVOList);
             data.put("total", total);
@@ -131,7 +131,7 @@ public class superAdminController {
 
     @ApiOperation("保存单个管理员信息")
     @ResponseBody
-    @RequestMapping(value = "/save",method = RequestMethod.GET)
+    @RequestMapping(value = "/save",method = RequestMethod.POST)
     public BaseResult superAdminList(AdminTO adminTO,
                                      HttpServletRequest request, HttpServletResponse response){
         BaseResult result = BaseResultUtil.initResult();
@@ -147,11 +147,13 @@ public class superAdminController {
                 }
 
             }
-
-            BaseResultUtil.setSuccess(result, new AdminVO(admin, userInfo));
+            int id = Constant.ServiceFacade.getUserInfoService().save(adminTO.toUserInfo());
+            adminTO.setId(id);
+            Constant.ServiceFacade.getAdminService().save(adminTO.toAdmin());
+            BaseResultUtil.setSuccess(result, null);
             return result;
         } catch (Exception e) {
-            logger.error("获取单个管理员信息异常", e);
+            logger.error("保存单个管理员信息异常", e);
             return result;
         }
     }

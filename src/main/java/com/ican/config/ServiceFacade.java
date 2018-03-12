@@ -1,5 +1,6 @@
 package com.ican.config;
 
+import com.ican.domain.School;
 import com.ican.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,9 @@ public class ServiceFacade {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private SchoolService schoolService;
 
     @Autowired
     private AuthPhotoService authPhotoService;
@@ -39,6 +43,14 @@ public class ServiceFacade {
 
     @Autowired
     private StudentService studentService;
+
+    public SchoolService getSchoolService() {
+        return schoolService;
+    }
+
+    public void setSchoolService(SchoolService schoolService) {
+        this.schoolService = schoolService;
+    }
 
     public UserService getUserService() {
         return userService;

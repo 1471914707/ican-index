@@ -4,12 +4,15 @@ import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
 import com.ican.domain.School;
 import com.ican.service.SchoolService;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class SchoolServiceImpl implements SchoolService {
 
     @Override

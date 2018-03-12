@@ -17,7 +17,7 @@ public interface UserInfoService {
 
     public int save(UserInfo userInfo) throws icanServiceException;
 
-    public List<UserInfo> list(int role, String order, int page, int size) throws icanServiceException;
+    public List<UserInfo> list(String ids, int role, String order, int page, int size) throws icanServiceException;
 
-    public int count(int role) throws icanServiceException;
+    public int count(String ids, int role) throws icanServiceException;
 }

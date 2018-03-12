@@ -59,8 +59,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public List<UserInfo> list(int role, String order, int page, int size) throws icanServiceException {
+    public List<UserInfo> list(String ids, int role, String order, int page, int size) throws icanServiceException {
         HashMap param = new HashMap();
+        param.put("ids", ids);
         param.put("role", role);
         param.put("order", order);
         param.put("start", (page - 1) * size);
@@ -69,8 +70,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public int count(int role) throws icanServiceException {
+    public int count(String ids, int role) throws icanServiceException {
         HashMap param = new HashMap();
+        param.put("ids", ids);
         param.put("role", role);
         return Constant.DaoFacade.getUserInfoDao().count(param);
     }

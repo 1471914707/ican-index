@@ -1,25 +1,41 @@
-package com.ican.to;
+package com.ican.vo;
 
 import com.ican.domain.Admin;
-import com.ican.domain.User;
+import com.ican.domain.School;
 import com.ican.domain.UserInfo;
-import com.ican.util.IcanUtil;
-import org.springframework.util.StringUtils;
 
-import java.util.UUID;
-
-public class AdminTO {
+public class SchoolVO {
     private int id;
     private String headshot;
     private String name;
     private int sex;
-    private String password;
     private int role;
     private int status;
     private String phone;
     private String email;
+    private String schoolName;
+    private int country;
+    private int province;
+    private int city;
     private String gmtCreate;
     private String gmtModified;
+
+    public SchoolVO(School school, UserInfo userInfo) {
+        this.id = userInfo.getId();
+        this.headshot = userInfo.getHeadshot();
+        this.name = userInfo.getName();
+        this.sex = userInfo.getSex();
+        this.role = userInfo.getRole();
+        this.status = userInfo.getStatus();
+        this.phone = school.getPhone();
+        this.email = school.getEmail();
+        this.gmtCreate = school.getGmtCreate();
+        this.gmtModified = school.getGmtModified();
+        this.schoolName = school.getName();
+        this.country = school.getCountry();
+        this.province = school.getProvince();
+        this.city = school.getCity();
+    }
 
     public int getId() {
         return id;
@@ -51,14 +67,6 @@ public class AdminTO {
 
     public void setSex(int sex) {
         this.sex = sex;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public int getRole() {
@@ -93,6 +101,38 @@ public class AdminTO {
         this.email = email;
     }
 
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+    }
+
+    public int getCountry() {
+        return country;
+    }
+
+    public void setCountry(int country) {
+        this.country = country;
+    }
+
+    public int getProvince() {
+        return province;
+    }
+
+    public void setProvince(int province) {
+        this.province = province;
+    }
+
+    public int getCity() {
+        return city;
+    }
+
+    public void setCity(int city) {
+        this.city = city;
+    }
+
     public String getGmtCreate() {
         return gmtCreate;
     }
@@ -107,39 +147,5 @@ public class AdminTO {
 
     public void setGmtModified(String gmtModified) {
         this.gmtModified = gmtModified;
-    }
-
-    public UserInfo toUserInfo() {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(this.id);
-        if (this.headshot != null) {
-            userInfo.setHeadshot(this.headshot);
-        }
-        if (this.name != null) {
-            userInfo.setName(this.name);
-        }
-        if (this.password != null) {
-            //处理密码
-            String salt = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 6);
-            this.password = IcanUtil.MD5(this.password + salt);
-            userInfo.setPassword(this.password);
-            userInfo.setSalt(salt);
-        }
-        userInfo.setRole(this.role);
-        userInfo.setSex(this.sex);
-        userInfo.setStatus(this.status);
-        return userInfo;
-    }
-
-    public Admin toAdmin() {
-        Admin admin = new Admin();
-        if (this.email != null) {
-            admin.setEmail(this.email);
-        }
-        if (this.phone != null) {
-            admin.setPhone(this.phone);
-        }
-        admin.setId(this.id);
-        return admin;
     }
 }

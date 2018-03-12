@@ -17,13 +17,13 @@
             <if test="_parameter.containsKey('name') and name != null and name != ''">
                 and name LIKE contact(#{name}, '%')
             </if>
-            <if test="_parameter.containsKey('country') and country > 0'">
+            <if test="_parameter.containsKey('country') and country > 0">
                 and country = #{country}
             </if>
-            <if test="_parameter.containsKey('province') and province > 0'">
+            <if test="_parameter.containsKey('province') and province > 0">
                 and province = #{province}
             </if>
-            <if test="_parameter.containsKey('city') and city > 0'">
+            <if test="_parameter.containsKey('city') and city > 0">
                 and city = #{city}
             </if>
         </where>
