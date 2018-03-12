@@ -17,7 +17,7 @@
         </where>
     </sql>
 
-    <select id="select" resultType="com.ican.model.City">
+    <select id="select" resultType="com.ican.domain.City">
         select * from city where id=#{id}
     </select>
 
@@ -26,7 +26,7 @@
         <include refid="dynamicWhere" />
     </select>
 
-    <select id="list" resultType="com.ican.model.City">
+    <select id="list" resultType="com.ican.domain.City">
         select * from city
         <include refid="dynamicWhere" />
         <if test="_parameter.containsKey('order') and order!=null">
@@ -35,12 +35,12 @@
         limit #{start},#{size}
     </select>
 
-    <insert id="insert" parameterType="com.ican.model.City" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.ican.domain.City" useGeneratedKeys="true" keyProperty="id">
         insert into city (parent_id,name,name_en,first,type,gmt_create,gmt_modified)
         values (#{parentId},#{name},#{nameEn},#{first},#{type},now(),now())
     </insert>
 
-    <update id="update" parameterType="com.ican.model.City">
+    <update id="update" parameterType="com.ican.domain.City">
         update city
         <set>
             <if test="parentId != null">

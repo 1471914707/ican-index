@@ -14,7 +14,7 @@
         </where>
     </sql>
 
-    <select id="select" resultType="com.ican.model.AuthPhoto">
+    <select id="select" resultType="com.ican.domain.AuthPhoto">
         select * from auth_photo where id=#{id}
     </select>
 
@@ -23,7 +23,7 @@
         <include refid="dynamicWhere" />
     </select>
 
-    <select id="list" resultType="com.ican.model.AuthPhoto">
+    <select id="list" resultType="com.ican.domain.AuthPhoto">
         select * from auth_photo
         <include refid="dynamicWhere" />
         <if test="_parameter.containsKey('order') and order!=null">
@@ -32,12 +32,12 @@
         limit #{start},#{size}
     </select>
 
-    <insert id="insert" parameterType="com.ican.model.AuthPhoto" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.ican.domain.AuthPhoto" useGeneratedKeys="true" keyProperty="id">
         insert into auth_photo (user_id,url,remark,type,status,gmt_create,gmt_modified)
         values (#{userId},#{url},#{remark},#{type},#{staus},#{gmtCreate},#{gmtModified})
     </insert>
 
-    <update id="update" parameterType="com.ican.model.AuthPhoto">
+    <update id="update" parameterType="com.ican.domain.AuthPhoto">
         update auth_photo
         <set>
             <if test="userId != 0">

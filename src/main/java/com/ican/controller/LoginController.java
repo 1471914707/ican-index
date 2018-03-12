@@ -1,7 +1,7 @@
 package com.ican.controller;
 
-import com.ican.model.User;
-import com.ican.model.UserInfo;
+import com.ican.domain.User;
+import com.ican.domain.UserInfo;
 import com.ican.util.BaseResultUtil;
 import com.ican.util.BaseResult;
 import com.ican.util.IcanUtil;

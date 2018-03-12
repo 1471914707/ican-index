@@ -1,6 +1,6 @@
 package com.ican.controller.api;
 
-import com.ican.model.UserInfo;
+import com.ican.domain.UserInfo;
 import com.ican.util.BaseResult;
 import com.ican.util.BaseResultUtil;
 import com.ican.util.IcanUtil;

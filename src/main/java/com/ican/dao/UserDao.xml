@@ -17,7 +17,7 @@
         </where>
     </sql>
 
-    <select id="select" resultType="com.ican.model.User">
+    <select id="select" resultType="com.ican.domain.User">
         select * from t_user where id=#{id}
     </select>
 
@@ -26,7 +26,7 @@
         <include refid="dynamicWhere" />
     </select>
 
-    <select id="list" resultType="com.ican.model.User">
+    <select id="list" resultType="com.ican.domain.User">
         select * from t_user
         <include refid="dynamicWhere" />
         <if test="_parameter.containsKey('order') and order!=null">
@@ -35,12 +35,12 @@
         limit #{start},#{size}
     </select>
 
-    <insert id="insert" parameterType="com.ican.model.User" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.ican.domain.User" useGeneratedKeys="true" keyProperty="id">
         insert into t_user (email,name,password)
         values (#{email},#{name},#{password})
     </insert>
 
-    <update id="update" parameterType="com.ican.model.User">
+    <update id="update" parameterType="com.ican.domain.User">
         update t_user
         <set>
             <if test="email != null">

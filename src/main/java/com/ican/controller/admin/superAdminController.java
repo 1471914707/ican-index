@@ -1,9 +1,9 @@
 package com.ican.controller.admin;
 
 import com.ican.config.Constant;
-import com.ican.model.Admin;
-import com.ican.model.User;
-import com.ican.model.UserInfo;
+import com.ican.domain.Admin;
+import com.ican.domain.User;
+import com.ican.domain.UserInfo;
 import com.ican.util.BaseResult;
 import com.ican.util.BaseResultUtil;
 import com.ican.vo.AdminVO;
@@ -43,10 +43,10 @@ public class superAdminController {
             }
             String ids = String.join(",", userInfoSet);
             List<Admin> adminList = new ArrayList<>();
-            adminList = Constant.ServiceFacade.getAdminService().listByIds(ids, null, page, size);
+            adminList = Constant.ServiceFacade.getAdminService().list(ids, null,null,"id desc", page, size);
             Map map = new HashMap();
             for (Admin admin : adminList) {
-                map.put(admin.getUserId(), admin);
+                map.put(admin.getId(), admin);
             }
             List<AdminVO> adminVOList = new ArrayList<>();
             for (UserInfo userInfo : userInfoList) {

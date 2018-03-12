@@ -17,7 +17,7 @@
         </where>
     </sql>
 
-    <select id="select" resultType="com.ican.model.Admin">
+    <select id="select" resultType="com.ican.domain.Admin">
         select * from admin where id=#{id}
     </select>
 
@@ -26,7 +26,7 @@
         <include refid="dynamicWhere" />
     </select>
 
-    <select id="list" resultType="com.ican.model.Admin">
+    <select id="list" resultType="com.ican.domain.Admin">
         select * from admin
         <include refid="dynamicWhere" />
         <if test="_parameter.containsKey('order') and order!=null">
@@ -35,12 +35,12 @@
         limit #{start},#{size}
     </select>
 
-    <insert id="insert" parameterType="com.ican.model.Admin" useGeneratedKeys="true" keyProperty="id">
-        insert into admin (user_id,phone,email,gmt_create,gmt_modified)
-        values (#{userId},#{phone},#{email},now(),now())
+    <insert id="insert" parameterType="com.ican.domain.Admin" useGeneratedKeys="true" keyProperty="id">
+        insert into admin (id,phone,email,gmt_create,gmt_modified)
+        values (#{id},#{phone},#{email},now(),now())
     </insert>
 
-    <update id="update" parameterType="com.ican.model.Admin">
+    <update id="update" parameterType="com.ican.domain.Admin">
         update admin
         <set>
             <if test="email != null">
@@ -49,8 +49,8 @@
             <if test="phone != null">
                 phone=#{phone},
             </if>
-            <if test="userId != 0">
-                user_id=#{userId},
+            <if test="id != 0">
+                id=#{id},
             </if>
         </set>
         gmt_modified=now() where id=#{id}

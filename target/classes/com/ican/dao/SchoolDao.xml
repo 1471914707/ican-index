@@ -29,7 +29,7 @@
         </where>
     </sql>
 
-    <select id="select" resultType="com.ican.model.School">
+    <select id="select" resultType="com.ican.domain.School">
         select * from school where id=#{id}
     </select>
 
@@ -38,7 +38,7 @@
         <include refid="dynamicWhere" />
     </select>
 
-    <select id="list" resultType="com.ican.model.School">
+    <select id="list" resultType="com.ican.domain.School">
         select * from school
         <include refid="dynamicWhere" />
         <if test="_parameter.containsKey('order') and order!=null">
@@ -47,12 +47,12 @@
         limit #{start},#{size}
     </select>
 
-    <insert id="insert" parameterType="com.ican.model.School" useGeneratedKeys="true" keyProperty="id">
-        insert into school (user_id,phone,email,name,country,province,city,gmt_create,gmt_modified)
-        values (#{userId},#{phone},#{email},#{name},#{country},#{province},#{city},now(),now())
+    <insert id="insert" parameterType="com.ican.domain.School" useGeneratedKeys="true" keyProperty="id">
+        insert into school (id,phone,email,name,country,province,city,gmt_create,gmt_modified)
+        values (#{id},#{phone},#{email},#{name},#{country},#{province},#{city},now(),now())
     </insert>
 
-    <update id="update" parameterType="com.ican.model.School">
+    <update id="update" parameterType="com.ican.domain.School">
         update school
         <set>
             <if test="phone != null">

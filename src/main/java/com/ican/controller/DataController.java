@@ -1,7 +1,7 @@
 package com.ican.controller;
 
 import com.ican.config.Constant;
-import com.ican.model.City;
+import com.ican.domain.City;
 import com.ican.util.BaseResultUtil;
 import com.ican.util.BaseResult;
 import io.swagger.annotations.Api;
