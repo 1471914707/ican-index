@@ -15,6 +15,28 @@ public class IcanUtil {
 
     public static final String COOKIE_NAME = "ican_ticket";
 
+    //角色定义
+    public static int ADMIN_SUPER = 1;
+    public static int ADMIN_SYSTEM = 2;
+    public static int USER_SCHOOL = 3;
+    public static int USER_COLLEGE = 4;
+    public static int USER_TEACHER = 5;
+    public static int USER_STUDENT = 6;
+
+    //角色数量定义
+    public static int USER_MIN = 1;
+    public static int USER_MAX = 6;
+
+    //角色状态定义
+    public static int USER_STATUS_INIT = 0;
+    public static int USER_STATUS_VALID = 1;
+    public static int USER_STATUS_INVALID = 2;
+
+    //跟进类型定义
+    public static int FOLLOW_TYPE_SCHOOL = 1;
+    public static int FOLLOW_TYPE_APPEAL = 2;
+
+
 
     public static String getNewCookieValue() {
         return UUID.randomUUID().toString().replaceAll("-","");
@@ -30,7 +52,7 @@ public class IcanUtil {
     }
 
     public static boolean isBank(String str) {
-        if (str == null || str.isEmpty()) {
+        if (str == null || str.trim().isEmpty()) {
             return true;
         } else {
             return false;

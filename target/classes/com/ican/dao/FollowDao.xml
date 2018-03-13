@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ican.dao.FollowDao">
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
+                and id in (${ids})
+            </if>
+            <if test="_parameter.containsKey('followUserId') and followUserId > 0">
+                and follow_user_id = #{followUserId}
+            </if>
+            <if test="_parameter.containsKey('followId') and followId > 0">
+                and follow_id = #{followId}
+            </if>
+            <if test="_parameter.containsKey('followType') and followType > 0">
+                and follow_type = #{followType}
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" resultType="com.ican.domain.Follow">
+        select * from follow where id=#{id}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from follow
+        <include refid="dynamicWhere" />
+    </select>
+
+    <select id="list" resultType="com.ican.domain.Follow">
+        select * from follow
+        <include refid="dynamicWhere" />
+        <if test="_parameter.containsKey('order') and order!=null">
+            order by ${order}
+        </if>
+        limit #{start},#{size}
+    </select>
+
+    <insert id="insert" parameterType="com.ican.domain.Follow" useGeneratedKeys="true" keyProperty="id">
+        insert into follow (follow_user_id,follow_user_name,follow_id,follow_type,mode,content,gmt_create,gmt_modified)
+        values (#{followUserId},#{followUserName},#{followId},#{followType},#{mode},#{content},now(),now())
+    </insert>
+
+    <update id="update" parameterType="com.ican.domain.Follow">
+        update follow
+        <set>
+            <if test="followUserId != 0">
+                follow_user_id=#{followUserId},
+            </if>
+            <if test="followUserName != null">
+                follow_user_name=#{followUserName},
+            </if>
+            <if test="followId != 0">
+                follow_id=#{followId},
+            </if>
+            <if test="followType != 0">
+                follow_type=#{followType},
+            </if>
+            <if test="true">
+                gmt_modified=now(),
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="delete">
+        delete from follow where id=#{id}
+    </update>
+
+</mapper>

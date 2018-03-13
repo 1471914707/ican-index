@@ -44,6 +44,15 @@ public class ServiceFacade {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private FollowService followService;
+
+    @Autowired
+    private SchoolAppealService schoolAppealService;
+
+    @Autowired
+    private ActivityService activityService;
+
     public SchoolService getSchoolService() {
         return schoolService;
     }
@@ -138,5 +147,29 @@ public class ServiceFacade {
 
     public void setStudentService(StudentService studentService) {
         this.studentService = studentService;
+    }
+
+    public FollowService getFollowService() {
+        return followService;
+    }
+
+    public void setFollowService(FollowService followService) {
+        this.followService = followService;
+    }
+
+    public SchoolAppealService getSchoolAppealService() {
+        return schoolAppealService;
+    }
+
+    public void setSchoolAppealService(SchoolAppealService schoolAppealService) {
+        this.schoolAppealService = schoolAppealService;
+    }
+
+    public ActivityService getActivityService() {
+        return activityService;
+    }
+
+    public void setActivityService(ActivityService activityService) {
+        this.activityService = activityService;
     }
 }

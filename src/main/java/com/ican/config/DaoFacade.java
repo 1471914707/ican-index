@@ -43,6 +43,15 @@ public class DaoFacade {
     @Autowired
     private StudentDao studentDao;
 
+    @Autowired
+    private FollowDao followDao;
+
+    @Autowired
+    private SchoolAppealDao schoolAppealDao;
+
+    @Autowired
+    private ActivityDao activityDao;
+
     public UserDao getUserDao() {
         return userDao;
     }
@@ -137,5 +146,29 @@ public class DaoFacade {
 
     public void setStudentDao(StudentDao studentDao) {
         this.studentDao = studentDao;
+    }
+
+    public FollowDao getFollowDao() {
+        return followDao;
+    }
+
+    public void setFollowDao(FollowDao followDao) {
+        this.followDao = followDao;
+    }
+
+    public SchoolAppealDao getSchoolAppealDao() {
+        return schoolAppealDao;
+    }
+
+    public void setSchoolAppealDao(SchoolAppealDao schoolAppealDao) {
+        this.schoolAppealDao = schoolAppealDao;
+    }
+
+    public ActivityDao getActivityDao() {
+        return activityDao;
+    }
+
+    public void setActivityDao(ActivityDao activityDao) {
+        this.activityDao = activityDao;
     }
 }
