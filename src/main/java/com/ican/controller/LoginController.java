@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Api("登陆Controller")
-@RestController
+//@RestController
 public class LoginController {
 
     @ApiOperation("登陆接口")

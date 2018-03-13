@@ -28,9 +28,8 @@ public class indexController {
 
     @RequestMapping(value = {"/", "/index"})
     public String index() {
-        return "/index";
+        return "/ican_index";
     }
-
 
     @RequestMapping(value = "/success")
     public String success(@RequestParam("role") int role) {

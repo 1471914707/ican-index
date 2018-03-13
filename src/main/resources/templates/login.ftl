@@ -1,63 +1,61 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>登陆 | Ican毕业设计平台</title>
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <#include 'include/cssjs_common.ftl'>
-    <#include 'include/header/header-index.ftl'>
+    <title>登录 | Ican毕业设计平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="毕业设计平台" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <#include 'include/cssjs_common_new.ftl'>
     <style>
-        element.style {
-             margin-left: 0px !important;
-             margin-right: 0px !important;
-        }
-        .el-slider__button {
-            width: 30px !important;
-            height:30px !important;
-            border-radius: 0% !important;
-        }
-        .el-slider__bar {
-            height: 18px;
+        .forgot-grid ul li input[type="checkbox"]+label{
+            line-height: 2;
         }
     </style>
 </head>
-<body>
-<div id="app"><br>
-<el-row :gutter="20">
-    <el-col :span="8"><div class="grid-content bg-purple" style="max-width:100px;height: 1px;"></div></el-col>
-    <el-col :span="8" align="center"><div class="grid-content bg-purple">
-        <div>
-            <h1>{{getLoginRole(role)}}</h1>
-        </div>
-        <br>
-        <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="邮箱/手机">
-                <el-input v-model="form.account"></el-input>
-            </el-form-item>
-            <el-form-item label="密码">
-                <el-input v-model="form.password"></el-input>
-            </el-form-item>
+<body class="login-bg">
+<div class="login-body" id="app">
+    <div class="login-heading">
+        <h1>{{getLoginRole(role)}}</h1>
+    </div>
+    <div class="login-info">
+        <form>
+            <input v-model="form.account" type="text" class="user" name="email" placeholder="手机/邮箱" required="">
+            <input v-model="form.password" type="password" name="password" class="lock" placeholder="密码">
             <div v-show="sliderShow">
                 <div class="block">
                     <span class="demonstration">请将滑块移动到<span style="color: red;">{{resultValue}}</span>以通过校验</span><br>
                     <el-slider v-model="sliderValue"></el-slider>
                 </div>
             </div><br />
-            <el-form-item style="margin-left: -80px;">
-                <el-button type="primary" @click="login()" :disabled="disabled">登陆</el-button>
-            </el-form-item>
-            <el-form-item style="margin-left: -80px;">
-                <a @click="reset()">重置</a>
-            </el-form-item>
-        </el-form>
-    </div></el-col>
-    <el-col :span="8" class="hidden-sm-and-down"><div class="grid-content bg-purple"></div></el-col>
-</el-row>
+            <div class="forgot-top-grids">
+                <div class="forgot-grid">
+                    <ul>
+                        <li>
+                            <input type="checkbox" id="brand1" value="1" v-model="remember" name="remember">
+                            <label for="brand1"><span></span>记住登录</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="forgot">
+                    <a href="#">忘记密码?</a>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <el-button type="primary" @click="login()" style="width:100%;margin-top: 5px;" :disabled="disabled">登录</el-button>
+            <div class="signup-text">
+                <a href="signup.html">还没有账号？注册一个！</a>
+            </div>
+            <hr>
+        </form>
+    </div>
 </div>
-
+<div class="go-back login-go-back">
+    <a href="/">主页</a>
+</div>
+<div class="copyright login-copyright">
+    <p>Copyright &copy; 2018.这个星球第一款毕业设计平台<a href="#" target="_blank" title="ican">Ican</a></p>
+</div>
 <script type="text/javascript">
     <#if role??>
     var role = ${role}
@@ -79,6 +77,7 @@
                     account: '',
                     password: ''
                 },
+                remember:[],
                 loginNum:0,
                 sliderValue:0,
                 resultValue:-1,
@@ -136,7 +135,7 @@
                 var rule_phone = /^1\d{10}$/;
                 var rule_email = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
                 self.loginNum ++;
-                if (!rule_email.test(self.form.account) && !rule_phone.test(self.form.account)){
+                if (!rule_email.test(self.login.account) && !rule_phone.test(self.login.account)){
                     self.$message({showClose: true, message: '请输入合法的手机或邮箱', type: 'error'});
                     return false;
                 }
@@ -145,10 +144,12 @@
                     self.$message({showClose: true, message: '密码多于或等于六位的字母数字下划线组成', type: 'error'});
                     return false;
                 }
+                var remember = self.remember[0];
                 Api.post('/login',{
                     account:self.form.account,
                     password:self.form.password,
-                    role:role
+                    role:role,
+                    remember:remember
                 },function (result) {
                     if (result.code == 0) {
                         self.$message({showClose: true, message: '点了登录', type: 'success'});

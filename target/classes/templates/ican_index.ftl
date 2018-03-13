@@ -7,14 +7,17 @@
           content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <#include 'include/cssjs_commonv2.ftl'>
-    <#include 'include/header/header-index.ftl'>
+    <#include 'include/cssjs_common_new.ftl'>
+    <#include 'include/header/header.ftl'>
 <#--    <script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.min.js"></script>
     <script src="http://data-visual.cn/datav/src/js/echarts/extension/echarts-wordcloud.min.js"></script>
  -->
     <script src="http://cdn.ican.com/public/echarts/echarts4.0.2.min.js"></script>
     <script src="http://cdn.ican.com/public/echarts/echarts-wordcloud.min.js"></script>
     <style>
+        html, body{
+            background: #ffffff;
+        }
         .main{margin-left:auto;margin-right:auto;width: 1200px;height:600px;max-width:1800px;max-height:1600px;margin-top: 20px;}
         @media screen and (max-width: 768px) {
             .main{margin-left:auto;margin-right:auto;width: 400px;height:1400px;margin-top: 20px;}
