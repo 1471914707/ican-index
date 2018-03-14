@@ -53,6 +53,9 @@ public class ServiceFacade {
     @Autowired
     private ActivityService activityService;
 
+    @Autowired
+    private PaperService paperService;
+
     public SchoolService getSchoolService() {
         return schoolService;
     }
@@ -171,5 +174,13 @@ public class ServiceFacade {
 
     public void setActivityService(ActivityService activityService) {
         this.activityService = activityService;
+    }
+
+    public PaperService getPaperService() {
+        return paperService;
+    }
+
+    public void setPaperService(PaperService paperService) {
+        this.paperService = paperService;
     }
 }
