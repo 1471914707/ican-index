@@ -44,8 +44,21 @@
 
     <!--//end-search-box-->
     <div class="header-right">
-        <div style="line-height: 60px;margin-right: 5%；">
-            <h2>学校登录</h2>
+        <div style="line-height: 55px;text-align: center;">
+            <el-dropdown>
+              <span class="el-dropdown-link" style="cursor:pointer;">
+                <h2>登录</h2>
+              </span>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item><a href="/login?role=2">管理员</a></el-dropdown-item>
+                    <el-dropdown-item><a href="/login?role=3">学校登录</a></el-dropdown-item>
+                    <el-dropdown-item><a href="/login?role=4">学院登录</a></el-dropdown-item>
+                    <el-dropdown-item><a href="/login?role=5">导师登录</a></el-dropdown-item>
+                    <el-dropdown-item><a href="/login?role=6">学生登录</a></el-dropdown-item>
+                    <el-dropdown-item>博客园</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+           <#-- <h2>登录</h2>-->
         </div>
 
         <div class="clearfix"> </div>

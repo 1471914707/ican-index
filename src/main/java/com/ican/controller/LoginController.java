@@ -1,28 +1,42 @@
 package com.ican.controller;
 
-import com.ican.domain.User;
 import com.ican.domain.UserInfo;
-import com.ican.util.BaseResultUtil;
-import com.ican.util.BaseResult;
-import com.ican.util.IcanUtil;
-import com.ican.util.JedisAdapter;
+import com.ican.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Api("登陆Controller")
-//@RestController
+@Controller
 public class LoginController {
 
+    @Value("${ican.url.admin}")
+    private String adminUrl;
+
+    @Value("${ican.url.school}")
+    private String schoolUrl;
+
+    @Value("${ican.url.college}")
+    private String collegeUrl;
+
+    @Value("${ican.url.teacher}")
+    private String teacherUrl;
+
+    @Value("${ican.url.student}")
+    private String studentUrl;
+
+    @Value("${ican.url.bk}")
+    private String bkUrl;
+
     @ApiOperation("登陆接口")
+    @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public BaseResult login(@RequestParam("account") String account,
                             @RequestParam("password") String password,
@@ -53,7 +67,26 @@ public class LoginController {
             //再添加新的
             jedisAdapter.set(cookieValue, String.valueOf(userInfo.getId()), 3600 * 24 * 30);
             jedisAdapter.set(String.valueOf(userInfo.getId()), cookieValue, 3600 * 24 * 30);
-            BaseResultUtil.setSuccess(result, null);
+
+            switch (role) {
+                case 1:
+                case 2:
+                    result.setData("/admin");
+                    break;
+                case 3:
+                    result.setData("/school");
+                    break;
+                case 4:
+                    result.setData("/college");
+                    break;
+                case 5:
+                    result.setData("/teacher");
+                    break;
+                case 6:
+                    result.setData("/student");
+                    break;
+            }
+            result.setCode(0);
             return result;
         }
         return result;

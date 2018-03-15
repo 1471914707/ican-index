@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Api("登陆Controller")
-@RestController
+//@RestController
 @RequestMapping("/api")
 public class LoginIController {
 

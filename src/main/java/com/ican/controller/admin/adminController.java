@@ -32,7 +32,7 @@ public class adminController {
     private final static Logger logger = LoggerFactory.getLogger(adminController.class);
 
 
-    @RequestMapping(value = {"/", "/adminList"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/adminList"}, method = RequestMethod.GET)
     public String index() {
         return "/admin/super/admin_index";
     }

@@ -135,7 +135,7 @@
                 var rule_phone = /^1\d{10}$/;
                 var rule_email = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
                 self.loginNum ++;
-                if (!rule_email.test(self.login.account) && !rule_phone.test(self.login.account)){
+                if (!rule_email.test(self.form.account) && !rule_phone.test(self.form.account)){
                     self.$message({showClose: true, message: '请输入合法的手机或邮箱', type: 'error'});
                     return false;
                 }
@@ -153,7 +153,9 @@
                 },function (result) {
                     if (result.code == 0) {
                         self.$message({showClose: true, message: '点了登录', type: 'success'});
-                        //window.location.href = '/success?role='+role
+                        /*window.location.href = '/success?role='+role;*/
+                        /*alert(result.data);*/
+                        window.location.href = result.data;
                     }else {
                         self.$message({showClose: true, message: '登录异常', type: 'error'});
                     }

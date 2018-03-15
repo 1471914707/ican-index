@@ -31,13 +31,13 @@ public class indexController {
         return "/ican_index";
     }
 
-    @RequestMapping(value = "/success")
+    @RequestMapping(value = "/success",method = RequestMethod.GET)
     public String success(@RequestParam("role") int role) {
         //目前只有六种角色
         if (role < 0 || role > 6) {
             return "/index";
         }
-        switch (role) {
+        /*switch (role) {
             case 1:
             case 2:
                 return UrlUtil.adminUrl;
@@ -49,7 +49,7 @@ public class indexController {
                 return UrlUtil.teacherUrl;
             case 6:
                 return UrlUtil.studentUrl;
-        }
+        }*/
         return "/index";
     }
 

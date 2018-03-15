@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ican.dao.PaperDao">
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
+                and id in (${ids})
+            </if>
+            <if test="_parameter.containsKey('title') and title != null and title != ''">
+                and title LIKE (#{title},'%')
+            </if>
+            <if test="_parameter.containsKey('current') and current > 0">
+                and current = #{current}
+            </if>
+            <if test="_parameter.containsKey('schoolId') and schoolId > 0">
+                and school_id = #{schoolId}
+            </if>
+            <if test="_parameter.containsKey('collegeId') and collegeId > 0">
+                and college_id = #{collegeId}
+            </if>
+            <if test="_parameter.containsKey('departmentId') and departmentId > 0">
+                and department_id = #{departmentId}
+            </if>
+            <if test="_parameter.containsKey('clazzId') and clazzId > 0">
+                and clazz_id = #{clazzId}
+            </if>
+            <if test="_parameter.containsKey('teacherId') and teacherId > 0">
+                and teacher_id = #{teacherId}
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" resultType="com.ican.domain.Paper">
+        select * from paper where id=#{id}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from paper
+        <include refid="dynamicWhere" />
+    </select>
+
+    <select id="list" resultType="com.ican.domain.Paper">
+        select * from paper
+        <include refid="dynamicWhere" />
+        <if test="_parameter.containsKey('order') and order!=null">
+            order by ${order}
+        </if>
+        limit #{start},#{size}
+    </select>
+
+    <insert id="insert" parameterType="com.ican.domain.Paper" useGeneratedKeys="true" keyProperty="id">
+        insert into paper (current,school_id,college_id,department_id,clazz_id,teacher_id,title,require,max_number,min_number,remark,status,gmt_create,gmt_modified)
+        values (#{followUserId},#{followUserName},#{followId},#{followType},#{mode},#{content},now(),now())
+    </insert>
+
+    <update id="update" parameterType="com.ican.domain.Paper">
+        update paper
+        <set>
+            <if test="current != 0">
+                current=#{current},
+            </if>
+            <if test="schoolId != 0">
+                school_id=#{schoolId},
+            </if>
+            <if test="collegeId != 0">
+                college_id=#{collegeId},
+            </if>
+            <if test="departmentId != 0">
+                department_id=#{departmentId},
+            </if>
+            <if test="clazzId != 0">
+                clazz_id=#{clazzId},
+            </if>
+            <if test="teacherId != 0">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="require != null">
+                require=#{require},
+            </if>
+            <if test="maxNumber != 0">
+                max_number=#{maxNumber},
+            </if>
+            <if test="minNumber != 0">
+                min_number=#{minNumber},
+            </if>
+            <if test="remark != null">
+                remark=#{remark},
+            </if>
+            <if test="status != 0">
+                status=#{status},
+            </if>
+            <if test="true">
+                gmt_modified=now(),
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="delete">
+        delete from paper where id=#{id}
+    </update>
+
+</mapper>
