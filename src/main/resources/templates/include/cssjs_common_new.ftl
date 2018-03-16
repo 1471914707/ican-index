@@ -24,8 +24,8 @@
 <!--webfonts-->
 <!--//webfonts-->
 <!--animate-->
-<link href="http://cdn.ican.com/public/css/animate.css" rel="stylesheet" type="text/css" media="all">
-<script src="http://cdn.ican.com/public/js/wow.min.js"></script>
+<#--<link href="http://cdn.ican.com/public/css/animate.css" rel="stylesheet" type="text/css" media="all">
+<script src="http://cdn.ican.com/public/js/wow.min.js"></script>-->
 
 <!--//end-animate-->
 <!-- Metis Menu -->
@@ -69,3 +69,5 @@
 <script src="http://cdn.ican.com/public/js/jquery.nicescroll.js"></script>
 <script src="http://cdn.ican.com/public/js/scripts.js"></script>
 <!--//scrolling js-->
+
+<script src="http://cdn.ican.com/public/js/classie.js"></script>

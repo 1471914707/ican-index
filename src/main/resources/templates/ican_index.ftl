@@ -25,6 +25,7 @@
     </style>
 </head>
 <body>
+
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 <div id="app">
 <div id="main" class="main"></div>
