@@ -1,6 +1,7 @@
 package com.ican.vo;
 
 import com.ican.domain.Admin;
+import com.ican.domain.Follow;
 import com.ican.domain.School;
 import com.ican.domain.UserInfo;
 
@@ -14,9 +15,11 @@ public class SchoolVO {
     private String phone;
     private String email;
     private String schoolName;
+    private String url;
     private int country;
     private int province;
     private int city;
+    private Follow follow;
     private String gmtCreate;
     private String gmtModified;
 
@@ -32,6 +35,7 @@ public class SchoolVO {
         this.gmtCreate = school.getGmtCreate();
         this.gmtModified = school.getGmtModified();
         this.schoolName = school.getName();
+        this.url = school.getUrl();
         this.country = school.getCountry();
         this.province = school.getProvince();
         this.city = school.getCity();
@@ -109,6 +113,14 @@ public class SchoolVO {
         this.schoolName = schoolName;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public int getCountry() {
         return country;
     }
@@ -131,6 +143,14 @@ public class SchoolVO {
 
     public void setCity(int city) {
         this.city = city;
+    }
+
+    public Follow getFollow() {
+        return follow;
+    }
+
+    public void setFollow(Follow follow) {
+        this.follow = follow;
     }
 
     public String getGmtCreate() {

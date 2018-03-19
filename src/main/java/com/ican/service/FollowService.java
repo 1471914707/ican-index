@@ -6,6 +6,11 @@ import com.ican.exception.icanServiceException;
 import java.util.List;
 
 public interface FollowService {
+
+    //跟进类型定义
+    public static int FOLLOW_TYPE_SCHOOL = 1;
+    public static int FOLLOW_TYPE_APPEAL = 2;
+
     //基础方法
     public int insert(Follow follow) throws icanServiceException;
 

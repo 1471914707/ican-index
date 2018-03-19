@@ -4,449 +4,129 @@
     <title>Tables</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="referrer" content="no-referrer|origin|no-referrer-when-downgrade|origin-when-crossorigin|unsafe-url" />
     <meta name="keywords" content="Baxster Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-    <#include '/include/cssjs_common_new.ftl'>
+<#include '/include/cssjs_common_new.ftl'>
     <script>
-   /*     new WOW().init();*/
+        /*     new WOW().init();*/
     </script>
     <style>
         ul{
             list-style-type:none;
         }
+        .el-carousel__mask, .el-cascader-menu, .el-cascader-menu__item.is-disabled:hover, .el-collapse-item__header, .el-collapse-item__wrap{
+            background-color: #2a2f43;
+            color: #fff;
+            font-weight: 600;
+            padding-left: 5%;
+        }
     </style>
 </head>
 <body class="cbp-spmenu-push">
 <div class="main-content">
-<div id="app">
-    <!--left-fixed -navigation-->
-    <div class="sidebar" role="navigation">
-        <div class="navbar-collapse">
-            <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
-                <div>
-                    <el-button type="primary">主要按钮</el-button> <el-button type="primary">主要按钮</el-button>
-                    <el-button type="primary">主要按钮</el-button> <el-button type="primary">主要按钮</el-button>
-                    <el-button type="primary">主要按钮</el-button> <el-button type="primary">主要按钮</el-button>
-                    <el-button type="primary">主要按钮</el-button> <el-button type="primary">主要按钮</el-button>
-                    <el-button type="primary">主要按钮</el-button> <el-button type="primary">主要按钮</el-button>
-                    <el-button type="primary">主要按钮</el-button> <el-button type="primary">主要按钮</el-button>
-                </div>
-                <!-- //sidebar-collapse -->
-            </nav>
+    <div id="app">
+        <!--left-fixed -navigation-->
+        <div class="sidebar" role="navigation">
+            <div class="navbar-collapse">
+                <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
+                    <div>
+                        <el-collapse>
+                            <a href="www.baidu.com"><el-collapse-item title="一致性 Consistency" name="1">
+                            </el-collapse-item></a>
+                        </el-collapse>
+                    </div>
+                </nav>
+            </div>
         </div>
-    </div>
-    <!--left-fixed -navigation-->
-    <!-- header-starts -->
-    <div class="sticky-header header-section ">
-        <div class="header-left">
-            <!--logo -->
-            <div class="logo">
-                <a href="index.html">
-                    <ul>
-                        <li><img src="http://cdn.ican.com/public/images/logo.png" alt="" /></li>
-                        <li><h1>Ican</h1></li>
+        <div class="sticky-header header-section ">
+            <div class="header-left">
+                <div class="logo">
+                    <a href="index.html">
+                        <ul>
+                            <li><img src="http://cdn.ican.com/public/images/logo.png" alt="" /></li>
+                            <li><h1>Ican</h1></li>
+                            <div class="clearfix"> </div>
+                        </ul>
+                    </a>
+                </div>
+                <div class="header-right header-right-grid">
+                    <div class="profile_details_left">
                         <div class="clearfix"> </div>
-                    </ul>
-                </a>
-            </div>
-            <!--//logo-->
-            <div class="header-right header-right-grid">
-                <div class="profile_details_left"><!--notifications of menu start -->
-                    <div class="clearfix"> </div>
+                    </div>
                 </div>
-            </div>
 
+                <div class="clearfix"> </div>
+            </div>
+            <div class="header-right" style="float: right;">
+                <div class="profile_details">
+                </div>
+                <button id="showLeftPush"><img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
+                <div class="clearfix"> </div>
+            </div>
             <div class="clearfix"> </div>
         </div>
-        <!--search-box-->
-<#--        <div class="search-box">
-            <form class="input">
-                <input class="sb-search-input input__field--madoka" placeholder="Search..." type="search" id="input-31" />
-
-            </form>
-        </div>-->
-        <!--//end-search-box-->
-        <div class="header-right" style="float: right;">
-
-            <!--notification menu end -->
-            <div class="profile_details">
-            </div>
-            <!--toggle button start-->
-            <button id="showLeftPush"><img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
-            <!--toggle button end-->
-            <div class="clearfix"> </div>
-        </div>
-        <div class="clearfix"> </div>
-    </div>
-    <!-- //header-ends -->
-    <!-- main content start-->
-    <div id="page-wrapper">
-        <div class="main-page">
-            <!--grids-->
-            <div class="grids">
-                <div class="progressbar-heading grids-heading">
-                    <h2>Tables</h2>
-                </div>
-                <div class="panel panel-widget">
-                    <div class="tables">
-                        <h4>Basic Table:</h4>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
-                            </tbody>
-                        </table>
+        <div id="page-wrapper">
+            <div class="main-page">
+                <!--grids-->
+                <div class="grids">
+                    <div class="progressbar-heading grids-heading">
+                        <h2>Tables</h2>
                     </div>
-                </div>
-                <div class="panel panel-widget">
-                    <div class="tables">
-                        <h4>Bordered Basic Table:</h4>
-                        <table class="table table-bordered"> <thead> <tr> <th>#</th> <th>First Name</th> <th>Last Name</th> <th>Username</th> </tr> </thead> <tbody> <tr> <th scope="row">1</th> <td>Mark</td> <td>Otto</td> <td>@mdo</td> </tr> <tr> <th scope="row">2</th> <td>Jacob</td> <td>Thornton</td> <td>@fat</td> </tr> <tr> <th scope="row">3</th> <td>Larry</td> <td>the Bird</td> <td>@twitter</td> </tr> </tbody> </table>
-                    </div>
-                </div>
-                <div class="panel panel-widget">
-                    <div class="tables">
-                        <h4>Hover Rows Table:</h4>
-                        <table class="table table-hover"> <thead> <tr> <th>#</th> <th>First Name</th> <th>Last Name</th> <th>Username</th> </tr> </thead> <tbody> <tr> <th scope="row">1</th> <td>Mark</td> <td>Otto</td> <td>@mdo</td> </tr> <tr> <th scope="row">2</th> <td>Jacob</td> <td>Thornton</td> <td>@fat</td> </tr> <tr> <th scope="row">3</th> <td>Larry</td> <td>the Bird</td> <td>@twitter</td> </tr> </tbody> </table>
-                    </div>
-                </div>
-                <div class="panel panel-widget">
-                    <div class="tables">
-                        <h4>Colored Rows Table:</h4>
-                        <table class="table"> <thead> <tr> <th>#</th> <th>Column heading</th> <th>Column heading</th> <th>Column heading</th> </tr> </thead> <tbody> <tr class="active"> <th scope="row">1</th> <td>Column content</td> <td>Column content</td> <td>Column content</td> </tr> <tr> <th scope="row">2</th> <td>Column content</td> <td>Column content</td> <td>Column content</td> </tr> <tr class="success"> <th scope="row">3</th> <td>Column content</td> <td>Column content</td> <td>Column content</td> </tr> <tr> <th scope="row">4</th> <td>Column content</td> <td>Column content</td> <td>Column content</td> </tr> <tr class="info"> <th scope="row">5</th> <td>Column content</td> <td>Column content</td> <td>Column content</td> </tr> <tr> <th scope="row">6</th> <td>Column content</td> <td>Column content</td> <td>Column content</td> </tr> <tr class="warning"> <th scope="row">7</th> <td>Column content</td> <td>Column content</td> <td>Column content</td> </tr> <tr> <th scope="row">8</th> <td>Column content</td> <td>Column content</td> <td>Column content</td> </tr> <tr class="danger"> <th scope="row">9</th> <td>Column content</td> <td>Column content</td> <td>Column content</td> </tr> </tbody> </table>
-                    </div>
-                </div>
-                <div class="panel panel-widget">
-                    <div class="tables">
-                        <h4>Responsive Table:</h4>
-                        <table class="table table-bordered"> <thead> <tr> <th>#</th> <th>Table heading</th> <th>Table heading</th> <th>Table heading</th> <th>Table heading</th> <th>Table heading</th> <th>Table heading</th> </tr> </thead> <tbody> <tr> <th scope="row">1</th> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> </tr> <tr> <th scope="row">2</th> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> </tr> <tr> <th scope="row">3</th> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> <td>Table cell</td> </tr> </tbody> </table>
-                    </div>
-                </div>
-            </div>
-            <!--//grids-->
-
-        </div>
-    </div>
-    <!--footer-->
-    <div class="dev-page">
-
-        <!-- page footer -->
-        <!-- dev-page-footer-closed dev-page-footer-fixed -->
-        <div class="dev-page-footer dev-page-footer-fixed">
-            <!-- container -->
-            <div class="container">
-                <div class="copyright">
-                    <p>Copyright &copy; 2016.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
-                </div>
-                <!-- page footer buttons -->
-                <ul class="dev-page-footer-buttons">
-                    <li><a href="#footer_content_1" class="dev-page-footer-container-open"><span class="glyphicon glyphicon glyphicon-sort" aria-hidden="true"></span></a></li>
-                    <li><a href="#footer_content_2" class="dev-page-footer-container-open"><span class="glyphicon glyphicon glyphicon-signal" aria-hidden="true"></span></a></li>
-                    <li><a href="#footer_content_3" class="dev-page-footer-container-open"><span class="glyphicon glyphicon glyphicon glyphicon-file" aria-hidden="true"></span></a></li>
-                </ul>
-                <!-- //page footer buttons -->
-                <!-- page footer container -->
-                <div class="dev-page-footer-container">
-
-                    <!-- loader and close button -->
-                    <div class="dev-page-footer-container-layer">
-                        <a href="#" class="dev-page-footer-container-layer-button"></a>
-                    </div>
-                    <!-- //loader and close button -->
-
-                    <!-- informers -->
-                    <div class="dev-page-footer-container-content" id="footer_content_1">
-                        <div class="block-hdnews">
-                            <div class="list-wrpaaer" style="height:200px;">
-                                <ul class="list-aggregate" id="marquee-horizontal">
-                                    <li class="fat-l" style="width:300px">
-                                        <a href="#">Lorem ipsum dolor</a>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        </p>
-                                    </li>
-
-                                    <li class="fat-l" style="width:300px">
-                                        <a href="#">Consectetur</a>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        </p>
-                                    </li>
-
-                                    <li class="fat-l" style="width:300px">
-                                        <a href="#">Adipiscing elit</a>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        </p>
-                                    </li>
-
-                                    <li class="fat-l" style="width:300px">
-                                        <a href="#">Lorem ipsum dolor</a>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        </p>
-                                    </li>
-                                    <li class="fat-l" style="width:300px">
-                                        <a href="#">Consectetur</a>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        </p>
-                                    </li>
-
-                                    <li class="fat-l" style="width:300px">
-                                        <a href="#">Adipiscing elit</a>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        </p>
-                                    </li>
-
-                                </ul>
-                            </div><!-- list-wrpaaer -->
-
-                        </div> <!-- block-hdnews -->
-
-                        <script type="text/javascript">
-
-                            $(function(){
-
-
-                                $('#marquee-vertical').marquee();
-                                $('#marquee-horizontal').marquee({direction:'horizontal', delay:0, timing:50});
-
-                            });
-
-                        </script>
-                    </div>
-                    <!-- //informers -->
-
-                    <!-- informers -->
-                    <div class="dev-page-footer-container-content" id="footer_content_2">
-                        <div class="graphs">
-                            <div class="col-md-4 graph-points">
-                                <div class="graph-left">
-                                    <script type="text/javascript">
-                                        // Generate data
-
-                                        var data = [];
-
-                                        var time = new Date('Dec 1, 2013 12:00').valueOf();
-
-                                        var h = Math.floor(Math.random() * 100);
-                                        var l = h - Math.floor(Math.random() * 20);
-                                        var o = h - Math.floor(Math.random() * (h - l));
-                                        var c = h - Math.floor(Math.random() * (h - l));
-
-                                        var v = Math.floor(Math.random() * 1000);
-
-                                        for (var i = 0; i < 30; i++) {
-                                            data.push([time, o, h, l, c, v]);
-                                            h += Math.floor(Math.random() * 10 - 5);
-                                            l = h - Math.floor(Math.random() * 20);
-                                            o = h - Math.floor(Math.random() * (h - l));
-                                            c = h - Math.floor(Math.random() * (h - l));
-                                            v += Math.floor(Math.random() * 100 - 50);
-                                            time += 30 * 60000; // Add 30 minutes
-                                        }
-                                    </script>
-                                    <div id="example-1"></div>
-                                    <script type="text/javascript">
-                                        $(function() {
-                                            $('#example-1').jqCandlestick({
-                                                data: data,
-                                                theme: 'light',
-                                                series: [{
-                                                }],
-                                            });
-                                        });
-                                    </script>
-                                </div>
-                                <div class="graph-right">
-                                    <h3>TODAY'S STATS</h3>
-                                    <p>Duis aute irure dolor in reprehenderit.</p>
-                                    <ul>
-                                        <li>Earning: $400 USD</li>
-                                        <li>Items Sold: 20 Items</li>
-                                        <li>Last Hour Sales: $34 USD</li>
-                                    </ul>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="col-md-4 bar-grid">
-                                <div class="graph-left">
-                                    <canvas id="line"></canvas>
-                                    <script>
-                                        var lineChartData = {
-                                            labels : ["Mon","Tue","Wed","Thu","Fri","Sat","Mon"],
-                                            datasets : [
-                                                {
-                                                    fillColor : "rgba(202, 202, 202, 0)",
-                                                    strokeColor : "#3E495A",
-                                                    pointColor : "#fbfbfb",
-                                                    pointStrokeColor : "#fbfbfb",
-                                                    data : [20,35,45,30,10,65,40]
-                                                }
-                                            ]
-
-                                        };
-                                        new Chart(document.getElementById("line").getContext("2d")).Line(lineChartData);
-                                    </script>
-                                </div>
-                                <div class="graph-right">
-                                    <h3>TODAY'S STATS</h3>
-                                    <p>Duis aute irure dolor in reprehenderit.</p>
-                                    <ul>
-                                        <li>Earning: $400 USD</li>
-                                        <li>Items Sold: 20 Items</li>
-                                        <li>Last Hour Sales: $34 USD</li>
-                                    </ul>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="col-md-4 switch-right">
-                                <div class="graph-left">
-                                    <canvas id="bar"></canvas>
-                                    <script>
-                                        var barChartData = {
-                                            labels : ["Mon","Tue","Wed","Thu","Fri","Sat","Mon","Tue","Wed","Thu"],
-                                            datasets : [
-                                                {
-                                                    fillColor : "#fbc02d",
-                                                    strokeColor : "#fbc02d",
-                                                    highlightFill: "rgba(220,220,220,0.75)",
-                                                    highlightStroke: "rgba(220,220,220,1)",
-                                                    data : [25,40,50,65,55,30,20,10,6,4]
-                                                },
-                                                {
-                                                    fillColor : "#3E495A",
-                                                    strokeColor : "#3E495A",
-                                                    data : [30,45,55,70,40,25,15,8,5,2]
-                                                }
-                                            ]
-
-                                        };
-                                        new Chart(document.getElementById("bar").getContext("2d")).Bar(barChartData);
-                                    </script>
-                                </div>
-                                <div class="graph-right">
-                                    <h3>TODAY'S STATS</h3>
-                                    <p>Duis aute irure dolor in reprehenderit.</p>
-                                    <ul>
-                                        <li>Earning: $400 USD</li>
-                                        <li>Items Sold: 20 Items</li>
-                                        <li>Last Hour Sales: $34 USD</li>
-                                    </ul>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-
-                            <div class="clearfix"> </div>
+                    <div class="panel panel-widget">
+                        <div class="tables">
+                            <h4>Basic Table:</h4>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Username</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>@twitter</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <!-- //informers -->
 
-                    <!-- projects -->
-                    <div class="dev-page-footer-container-content" id="footer_content_3">
-                        <div class="social">
-                            <div class="col-md-3 top-comment-grid">
-                                <div class="comments">
-                                    <div class="comments-icon">
-                                        <i class="fa fa-comments"></i>
-                                    </div>
-                                    <div class="comments-info">
-                                        <h3>85</h5>
-                                            <a href="#">Comments</a>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 top-comment-grid">
-                                <div class="comments likes">
-                                    <div class="comments-icon">
-                                        <i class="fa fa-facebook"></i>
-                                    </div>
-                                    <div class="comments-info likes-info">
-                                        <h3>2150</h5>
-                                            <a href="#">Likes</a>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 top-comment-grid">
-                                <div class="comments tweets">
-                                    <div class="comments-icon">
-                                        <i class="fa fa-twitter"></i>
-                                    </div>
-                                    <div class="comments-info tweets-info">
-                                        <h3>325</h5>
-                                            <a href="#">Tweets</a>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 top-comment-grid">
-                                <div class="comments views">
-                                    <div class="comments-icon">
-                                        <i class="fa fa-eye"></i>
-                                    </div>
-                                    <div class="comments-info views-info">
-                                        <h3>471</h5>
-                                            <a href="#">Views</a>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </div>
-                    <!-- //projects -->
                 </div>
-                <!-- //page footer container -->
-
             </div>
-            <!-- //container -->
         </div>
-        <!-- /page footer -->
+
+        <div class="dev-page">
+            <div class="dev-page-footer dev-page-footer-fixed">
+                <div class="container">
+                    <div class="copyright">
+                        <p>
+                            <a href="/">首页</a> > 学校列表
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!--//footer-->
-</div>
-<!-- Classie -->
+
     <script>
         var app = new Vue({
             el: "#app",
@@ -459,25 +139,25 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             }
         });
     </script>
-<script>
-    var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
-            showLeftPush = document.getElementById( 'showLeftPush' ),
-            body = document.body;
+    <script>
+        var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
+                showLeftPush = document.getElementById( 'showLeftPush' ),
+                body = document.body;
 
-    showLeftPush.onclick = function() {
-        classie.toggle( this, 'active' );
-        classie.toggle( body, 'cbp-spmenu-push-toright' );
-        classie.toggle( menuLeft, 'cbp-spmenu-open' );
-        disableOther( 'showLeftPush' );
-    };
+        showLeftPush.onclick = function() {
+            classie.toggle( this, 'active' );
+            classie.toggle( body, 'cbp-spmenu-push-toright' );
+            classie.toggle( menuLeft, 'cbp-spmenu-open' );
+            disableOther( 'showLeftPush' );
+        };
 
 
-    function disableOther( button ) {
-        if( button !== 'showLeftPush' ) {
-            classie.toggle( showLeftPush, 'disabled' );
+        function disableOther( button ) {
+            if( button !== 'showLeftPush' ) {
+                classie.toggle( showLeftPush, 'disabled' );
+            }
         }
-    }
-</script>
+    </script>
 
 </div>
 </body>

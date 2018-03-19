@@ -23,7 +23,7 @@ import java.util.*;
 
 @Api("管理员管理")
 @Controller
-@RequestMapping("/admin/super")
+@RequestMapping("/super")
 public class superAdminController {
 
     private final static Logger logger = LoggerFactory.getLogger(superAdminController.class);

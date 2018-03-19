@@ -27,8 +27,7 @@
 <body>
 
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-<div id="app" style="margin-top: 65px;">
-    <el-button type="primary">主要按钮</el-button> <el-button type="primary">主要按钮</el-button>
+<div id="app">
 <div id="main" class="main"></div>
 </div>
 

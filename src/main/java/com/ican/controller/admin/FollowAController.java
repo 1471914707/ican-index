@@ -23,9 +23,9 @@ import java.util.Map;
 @Api("跟进接口")
 @Controller
 @RequestMapping("/admin/follow")
-public class FollowController {
+public class FollowAController {
 
-    private final static Logger logger = LoggerFactory.getLogger(FollowController.class);
+    private final static Logger logger = LoggerFactory.getLogger(FollowAController.class);
 
     @ApiOperation("跟进列表接口")
     @ResponseBody

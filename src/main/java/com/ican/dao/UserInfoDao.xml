@@ -37,7 +37,7 @@
 
     <insert id="insert" parameterType="com.ican.domain.UserInfo" useGeneratedKeys="true" keyProperty="id">
         insert into user_info (headshot,name,sex,password,salt,role,status,gmt_create,gmt_modified)
-        values (#{headshot},#{name},#{sex},#{password},#{salt},#{role},1,now(),now())
+        values (#{headshot},#{name},#{sex},#{password},#{salt},#{role},0,now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.UserInfo">
@@ -61,11 +61,14 @@
             <if test="role != 0">
                 role=#{role},
             </if>
-            <if test="status != 0">
+            <if test="status >= 0">
                 status=#{status},
             </if>
+            <if test="true">
+                gmt_modified=now(),
+            </if>
         </set>
-        gmt_modified=now() where id=#{id}
+         where id=#{id}
     </update>
 
     <update id="delete">

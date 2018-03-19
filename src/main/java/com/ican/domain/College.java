@@ -5,6 +5,7 @@ public class College {
     private String phone;
     private String email;
     private String name;
+    private String url;
     private String gmtCreate;
     private String gmtModified;
 
@@ -38,6 +39,14 @@ public class College {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getGmtCreate() {

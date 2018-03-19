@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
+
     @Override
     public int insert(UserInfo userInfo) throws icanServiceException {
         return Constant.DaoFacade.getUserInfoDao().insert(userInfo);

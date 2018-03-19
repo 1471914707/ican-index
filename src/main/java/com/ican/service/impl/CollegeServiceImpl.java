@@ -48,6 +48,9 @@ public class CollegeServiceImpl implements CollegeService {
             if (StringUtils.isEmpty(college.getPhone())) {
                 college.setPhone("");
             }
+            if (StringUtils.isEmpty(college.getUrl())) {
+                college.setUrl("");
+            }
             insert(college);
         }
         return college.getId();

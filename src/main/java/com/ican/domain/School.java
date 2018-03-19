@@ -9,9 +9,11 @@ public class School {
     private String phone;
     private String email;
     private String name;
+    private String url;
     private int country;
     private int province;
     private int city;
+    private String address;
     private String gmtCreate;
     private String gmtModified;
 
@@ -69,6 +71,22 @@ public class School {
 
     public void setCity(int city) {
         this.city = city;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getGmtCreate() {

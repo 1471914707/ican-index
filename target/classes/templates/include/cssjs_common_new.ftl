@@ -1,4 +1,9 @@
 <script src="http://cdn.ican.com/public/jquery/jquery3.2.1.min.js"></script>
+
+<#--loading-->
+<link href="http://cdn.ican.com/public/css/loading.css" rel='stylesheet' type='text/css' />
+<#--loading end-->
+
 <!-- Bootstrap Core CSS -->
 <#--<link href="http://cdn.ican.com/public/css/bootstrap.css" rel='stylesheet' type='text/css' />-->
 <!-- Custom CSS -->
@@ -6,7 +11,7 @@
 <!-- font CSS -->
 <link rel="icon" href="favicon.ico" type="image/x-icon" >
 <!-- font-awesome icons -->
-<link href="http://cdn.ican.com/public/css/font-awesome.css" rel="stylesheet">
+<#--<link href="http://cdn.ican.com/public/css/font-awesome.css" rel="stylesheet">-->
 <!-- //font-awesome icons -->
 <!--webfonts-->
 <link href='http://cdn.ican.com/public/css/family.css' rel='stylesheet' type='text/css'>
@@ -62,7 +67,7 @@
 <link rel="stylesheet" type="text/css" href="http://cdn.ican.com/public/css/jqcandlestick.css" />
 
 <!--max-plugin-->
-<script type="text/javascript" src="http://cdn.ican.com/public/js/plugins.js"></script>
+<#--<script type="text/javascript" src="http://cdn.ican.com/public/js/plugins.js"></script>-->
 <!--//max-plugin-->
 
 <!--scrolling js-->

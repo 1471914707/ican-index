@@ -58,6 +58,12 @@ public class SchoolServiceImpl implements SchoolService {
             if (StringUtils.isEmpty(school.getEmail())) {
                 school.setEmail("");
             }
+            if (StringUtils.isEmpty(school.getAddress())) {
+                school.setAddress("");
+            }
+            if (StringUtils.isEmpty(school.getUrl())) {
+                school.setUrl("");
+            }
             insert(school);
         }
         return school.getId();
