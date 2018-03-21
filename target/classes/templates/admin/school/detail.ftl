@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>详情 | 　</title>
+    <title>详情 | 学校</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="毕业设计平台" />
@@ -97,9 +97,6 @@
                         <span>{{schoolName}}</span>
                         <el-button style="float: right; padding: 3px 0" type="text" @click="editFlag=true">编辑</el-button>
                     </div>
-                    <#--<div v-for="o in 4" :key="o" class="panel panel-widget">
-                        {{'列表内容 ' + o }}
-                    </div>-->
                     <template v-if="!editFlag">
                         <el-row>
                             <el-col :span="4" :xs="0"><div class="grid-content bg-purple">
@@ -179,7 +176,7 @@
                                 <el-input v-model="school.url"></el-input>
                             </el-form-item>
                             <el-form-item label="国家">
-                                <el-select v-model="school.country" placeholder="请选择国家">
+                                <el-select v-model="school.country" placeholder="请选择国家" @change="changeCountry()">
                                     <el-option
                                             v-for="item in countryList"
                                             :key="item.id"
@@ -189,7 +186,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="省份">
-                                <el-select v-model="school.province" placeholder="请选择省份">
+                                <el-select v-model="school.province" placeholder="请选择省份" @change="changeProvince()">
                                     <el-option
                                             v-for="item in provinceList"
                                             :key="item.id"
@@ -208,6 +205,10 @@
                                             :value="item.id">
                                     </el-option>
                                 </el-select>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="onSubmit()">保存</el-button>
+                                <el-button @click="localSchool();editFlag=false">取消</el-button>
                             </el-form-item>
                         </el-form>
                     </template>
@@ -276,6 +277,12 @@
                     }
                 });
             },
+            onSubmit:function () {
+                var self = this;
+                Api.post("/admin/school",self.school,function (result) {
+
+                });
+            },
             loadCityList:function () {
                 if (this.allCityList.length > 0) {
                     return false;
@@ -297,6 +304,28 @@
                         }
                     }
                 });
+            },
+            changeCountry:function () {
+              //清空省份和城市
+              this.provinceList = [];
+              this.cityList = [];
+              this.school.province = null;
+              this.school.city = null;
+              for (var i=0; i<this.allCityList.length; i++) {
+                  if (this.allCityList[i].parentId == this.school.country) {
+                      this.provinceList.push(this.allCityList[i]);
+                  }
+              }
+            },
+            changeProvince:function () {
+                //清空省份和城市
+                this.cityList = [];
+                this.school.city = null;
+                for (var i=0; i<this.allCityList.length; i++) {
+                    if (this.allCityList[i].parentId == this.school.province) {
+                        this.cityList.push(this.allCityList[i]);
+                    }
+                }
             },
             photoUploadSuccess:function (result, file, fileList) {
                 var self = this;

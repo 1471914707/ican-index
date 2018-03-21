@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>详情 | 　</title>
+    <title>详情 | 学校</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="毕业设计平台" />
@@ -97,9 +97,6 @@
                         <span>{{schoolName}}</span>
                         <el-button style="float: right; padding: 3px 0" type="text" @click="editFlag=true">编辑</el-button>
                     </div>
-                    <#--<div v-for="o in 4" :key="o" class="panel panel-widget">
-                        {{'列表内容 ' + o }}
-                    </div>-->
                     <template v-if="!editFlag">
                         <el-row>
                             <el-col :span="4" :xs="0"><div class="grid-content bg-purple">
@@ -209,6 +206,10 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="onSubmit()">保存</el-button>
+                                <el-button @click="localSchool();editFlag=false">取消</el-button>
+                            </el-form-item>
                         </el-form>
                     </template>
                 </el-card>
@@ -276,6 +277,12 @@
                     }
                 });
             },
+            onSubmit:function () {
+                var self = this;
+                Api.post("/admin/school",self.school,function (result) {
+
+                });
+            },
             loadCityList:function () {
                 if (this.allCityList.length > 0) {
                     return false;
@@ -302,19 +309,21 @@
               //清空省份和城市
               this.provinceList = [];
               this.cityList = [];
+              this.school.province = null;
+              this.school.city = null;
               for (var i=0; i<this.allCityList.length; i++) {
                   if (this.allCityList[i].parentId == this.school.country) {
                       this.provinceList.push(this.allCityList[i]);
                   }
               }
             },
-            changeCountry:function () {
+            changeProvince:function () {
                 //清空省份和城市
-                this.provinceList = [];
                 this.cityList = [];
+                this.school.city = null;
                 for (var i=0; i<this.allCityList.length; i++) {
-                    if (this.allCityList[i].parentId == this.school.country) {
-                        this.provinceList.push(this.allCityList[i]);
+                    if (this.allCityList[i].parentId == this.school.province) {
+                        this.cityList.push(this.allCityList[i]);
                     }
                 }
             },
