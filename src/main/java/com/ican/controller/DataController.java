@@ -1,18 +1,23 @@
 package com.ican.controller;
 
+import com.ican.config.BaseConfig;
 import com.ican.config.Constant;
 import com.ican.domain.City;
 import com.ican.util.BaseResultUtil;
 import com.ican.util.BaseResult;
+import com.ican.util.DateUtil;
+import com.ican.util.FileUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -24,6 +29,54 @@ import java.util.List;
 @RestController
 public class DataController {
     private final static Logger logger = LoggerFactory.getLogger(DataController.class);
+
+    @Autowired
+    private BaseConfig baseConfig;
+
+    @ApiOperation(value = "上传图片", notes = "")
+    @ResponseBody
+    @RequestMapping(value = "/photoUpload",method = RequestMethod.POST)
+    public BaseResult photoUpload(@RequestParam("file") MultipartFile file,
+                                  HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        try {
+            String time = DateUtil.getCurrentYM();
+            if (!file.isEmpty()) {
+                File normalFile = new File(file.getOriginalFilename());
+                String ext = normalFile.getName().substring(normalFile.getName().lastIndexOf(".") + 1);
+                String filename = System.currentTimeMillis() + "." + ext;
+                String filePath = baseConfig.getBasePath() + "/"+ time;
+                File path = new File(filePath);
+                if (!path.exists()) {
+                    path.mkdirs();
+                }
+                String dist = filePath + "/" + filename;
+                String url = baseConfig.getBaseUrl() + time + "/" + filename;
+                File localFile = new File(dist);
+                FileUtil.writIn(file.getInputStream(), dist);
+                BaseResultUtil.setSuccess(result, url);
+                return result;
+            }
+            return result;
+        } catch (Exception e) {
+            logger.error("上传图片异常： ", e);
+            e.printStackTrace();
+            return result;
+        }
+    }
+
+    @ApiOperation("获取所有国家省份城市数据接口")
+    @RequestMapping(value = "/allCityJson",method = RequestMethod.GET)
+    public BaseResult allCityJson(){
+        BaseResult result = BaseResultUtil.initResult();
+        try {
+            List<City> cityList = Constant.ServiceFacade.getCityService().list(-1,-1,null,1,10000);
+            return BaseResultUtil.setSuccess(result, cityList);
+        } catch (Exception e) {
+            logger.error("获取所有国家省份城市数据接口", e);
+            return result;
+        }
+    }
 
     @ApiOperation("获取国家数据接口")
     @RequestMapping(value = "/countryJson",method = RequestMethod.GET)

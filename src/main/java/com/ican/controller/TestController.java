@@ -42,6 +42,7 @@ public class TestController {
         return "test";
     }
 
+/*
     @ApiOperation(value = "上传图片", notes = "")
     @ResponseBody
     @RequestMapping(value = "/photoUpload",method = RequestMethod.POST)
@@ -73,6 +74,7 @@ public class TestController {
             return result;
         }
     }
+*/
 
     @ApiOperation(value = "测试swagger", notes = "这是一条注意信息")
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)

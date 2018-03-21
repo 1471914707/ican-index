@@ -6,9 +6,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="毕业设计平台" />
     <#include '/include/cssjs_common_new.ftl'>
-    <script>
-        /*     new WOW().init();*/
-    </script>
     <style>
         ul{
             list-style-type:none;
@@ -26,6 +23,28 @@
         }
         .clearfix:after {
             clear: both
+        }
+        .el-row {
+            padding: 10px;
+        }
+        .avatar-uploader .el-upload {
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+        .avatar {
+            width: 178px;
+            height: 178px;
+            display: block;
+            border-radius: 50%;
+        }
+        .radio label, .checkbox label, label{
+            font-weight: 900;
+            color:#000;
         }
     </style>
 </head>
@@ -75,12 +94,123 @@
             <div class="main-page">
                 <el-card class="grids">
                     <div slot="header" class="clearfix progressbar-heading grids-heading">
-                        <span>卡片名称</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                        <span>{{schoolName}}</span>
+                        <el-button style="float: right; padding: 3px 0" type="text" @click="editFlag=true">编辑</el-button>
                     </div>
-                    <div v-for="o in 4" :key="o" class="panel panel-widget">
+                    <#--<div v-for="o in 4" :key="o" class="panel panel-widget">
                         {{'列表内容 ' + o }}
-                    </div>
+                    </div>-->
+                    <template v-if="!editFlag">
+                        <el-row>
+                            <el-col :span="4" :xs="0"><div class="grid-content bg-purple">
+                                <h3>头像：</h3>
+                            </div></el-col>
+                            <el-col :span="8" :xs="8"><div class="grid-content bg-purple-light">
+                                <div class="profile_img">
+                                    <span class="prfil-img"><img :src="school.headshot" alt=""> </span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div></el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4" :xs="0"><div class="grid-content bg-purple">
+                                <h3>负责人：</h3>
+                            </div></el-col>
+                            <el-col :span="8" :xs="8"><div class="grid-content bg-purple-light">
+                                {{school.name}}
+                            </div></el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4" :xs="0"><div class="grid-content bg-purple">
+                                <h3>电话：</h3>
+                            </div></el-col>
+                            <el-col :span="8" :xs="8"><div class="grid-content bg-purple-light">
+                                {{school.phone}}
+                            </div></el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4" :xs="0"><div class="grid-content bg-purple">
+                                <h3>邮箱：</h3>
+                            </div></el-col>
+                            <el-col :span="8" :xs="8"><div class="grid-content bg-purple-light">
+                                {{school.email}}
+                            </div></el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4" :xs="0"><div class="grid-content bg-purple">
+                                <h3>官网：</h3>
+                            </div></el-col>
+                            <el-col :span="8" :xs="8"><div class="grid-content bg-purple-light">
+                                {{school.url}}
+                            </div></el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4" :xs="0"><div class="grid-content bg-purple">
+                                <h3>所在城市：</h3>
+                            </div></el-col>
+                            <el-col :span="8" :xs="8"><div class="grid-content bg-purple-light">
+                                {{getCityName(school.country, school.province, school.city)}}
+                            </div></el-col>
+                        </el-row>
+                    </template>
+
+                    <template v-if="editFlag">
+                        <el-form label-width="80px">
+                            <el-form-item label="头像">
+                                <el-upload
+                                        class="avatar-uploader"
+                                        action="/photoUpload"
+                                        :show-file-list="false"
+                                        :on-success="photoUploadSuccess">
+                                    <img v-if="school.headshot.trim().length > 0" :src="school.headshot" class="avatar">
+                                    重新上传
+                                </el-upload>
+                            </el-form-item>
+                            <el-form-item label="学校">
+                                <el-input v-model="school.schoolName"></el-input>
+                            </el-form-item>
+                            <el-form-item label="电话">
+                                <el-input v-model="school.phone"></el-input>
+                            </el-form-item>
+                            <el-form-item label="邮箱">
+                                <el-input v-model="school.email"></el-input>
+                            </el-form-item>
+                            <el-form-item label="官网">
+                                <el-input v-model="school.url"></el-input>
+                            </el-form-item>
+                            <el-form-item label="国家">
+                                <el-select v-model="school.country" placeholder="请选择国家" @change="changeCountry()">
+                                    <el-option
+                                            v-for="item in countryList"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="省份">
+                                <el-select v-model="school.province" placeholder="请选择省份" @change="changeProvince()">
+                                    <el-option
+                                            v-for="item in provinceList"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="城市">
+                                <el-select v-model="school.city" placeholder="请选择城市">
+                                    <el-option
+                                            v-for="item in cityList"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-form>
+                    </template>
                 </el-card>
             </div>
 
@@ -111,7 +241,20 @@
         el: "#app",
         data: function () {
             return {
-                school:{}
+                school:{},
+                schoolName:'',
+                allCityList:[],
+                editFlag:false,
+                countryList:[],
+                provinceList:[],
+                cityList:[]
+            }
+        },
+        watch:{
+            school:function (newVal, oldVal) {
+                if (this.school.country && this.school.province && this.school.city) {
+                    this.loadCityList();
+                }
             }
         },
         mounted: function () {
@@ -126,59 +269,80 @@
                     if (result.code == 0) {
                         if (result.data) {
                             self.school = result.data;
+                            self.schoolName = self.school.schoolName;
                         }
                     }else {
                         self.$message({showClose: true, message: result.msg, type: 'error'});
                     }
                 });
             },
-            getDate:function (dateTime) {
-                if (dateTime.trim() != '') {
-                    return dateTime.split(" ")[0];
+            loadCityList:function () {
+                if (this.allCityList.length > 0) {
+                    return false;
                 }
-                return '';
-            },
-            getStatusName:function (status) {
-                switch (status) {
-                    case 0:
-                        return '初始化';
-                    case 1:
-                        return '有效';
-                    case 2:
-                        return '禁停';
-                    default:
-                        return '未知';
-                }
-            },
-            selectStatus:function (newStatus) {
-                console.log(newStatus);
                 var self = this;
-                for (var i=0; i<self.list.length; i++) {
-                    if (self.list[i].status != self.resultStatusList[i]) {
-                        //改变的列
-                        Api.post('/admin/schoolAuth',{
-                            schoolId:self.list[i].id,
-                            status:newStatus
-                        },function (result) {
-                            if (result.code == 0) {
-                                self.$message({showClose: true, message: '更改成功', type: 'true'});
-                                self.resultStatusList[i] = newStatus;
-                            }else {
-                                self.$message({showClose: true, message: result.msg, type: 'error'});
-                                self.list[i].status = self.resultStatusList[i];
+                Api.get("/allCityJson",{},function (result) {
+                    if (result.code == 0) {
+                        self.allCityList = result.data;
+                        for (var i=0; i<self.allCityList.length; i++){
+                            if (self.allCityList[i].parentId == 0) {
+                                self.countryList.push(self.allCityList[i]);
                             }
-                        });
-                        break;
+                            if (self.allCityList[i].parentId == self.school.country) {
+                                self.provinceList.push(self.allCityList[i]);
+                            }
+                            if (self.allCityList[i].parentId == self.school.province) {
+                                self.cityList.push(self.allCityList[i]);
+                            }
+                        }
+                    }
+                });
+            },
+            changeCountry:function () {
+              //清空省份和城市
+              this.provinceList = [];
+              this.cityList = [];
+              for (var i=0; i<this.allCityList.length; i++) {
+                  if (this.allCityList[i].parentId == this.school.country) {
+                      this.provinceList.push(this.allCityList[i]);
+                  }
+              }
+            },
+            changeCountry:function () {
+                //清空省份和城市
+                this.provinceList = [];
+                this.cityList = [];
+                for (var i=0; i<this.allCityList.length; i++) {
+                    if (this.allCityList[i].parentId == this.school.country) {
+                        this.provinceList.push(this.allCityList[i]);
                     }
                 }
             },
-            handleSizeChange:function (size) {
-                this.size = size;
-                this.localSchoolList(this.page, this.size);
+            photoUploadSuccess:function (result, file, fileList) {
+                var self = this;
+                if (result.code == 0){
+                    self.school.headshot = result.data;
+                } else {
+                    self.$message({showClose: true, message: result.msg, type: 'error'});
+                }
             },
-            handleCurrentChange:function (page) {
-                this.page = page;
-                this.localSchoolList(this.page, this.size);
+            getCityName:function (country, province, city) {
+                var cityName = {country:'',province:'',city:''};
+                var self = this;
+                for (var i=0; i<self.allCityList.length; i++) {
+                    if (country == self.allCityList[i].id) {
+                        cityName['country'] = self.allCityList[i].name;
+                        continue;
+                    }
+                    if (province == self.allCityList[i].id) {
+                        cityName['province'] = self.allCityList[i].name;
+                        continue;
+                    }
+                    if (city == self.allCityList[i].id) {
+                        cityName['city'] = self.allCityList[i].name;
+                    }
+                }
+                return cityName['country'] + " / " + cityName['province'] + " / " + cityName['city'];
             }
         }
     });
@@ -194,7 +358,6 @@
             classie.toggle( menuLeft, 'cbp-spmenu-open' );
             disableOther( 'showLeftPush' );
         };
-
 
         function disableOther( button ) {
             if( button !== 'showLeftPush' ) {
