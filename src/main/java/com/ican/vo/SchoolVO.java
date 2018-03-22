@@ -19,6 +19,7 @@ public class SchoolVO {
     private int country;
     private int province;
     private int city;
+    private String address;
     private Follow follow;
     private String gmtCreate;
     private String gmtModified;
@@ -39,6 +40,7 @@ public class SchoolVO {
         this.country = school.getCountry();
         this.province = school.getProvince();
         this.city = school.getCity();
+        this.address = school.getAddress();
     }
 
     public int getId() {
@@ -143,6 +145,14 @@ public class SchoolVO {
 
     public void setCity(int city) {
         this.city = city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Follow getFollow() {

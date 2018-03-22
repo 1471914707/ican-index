@@ -2,8 +2,10 @@ package com.ican.controller.admin;
 
 import com.ican.config.Constant;
 import com.ican.domain.Follow;
+import com.ican.domain.UserInfo;
 import com.ican.util.BaseResult;
 import com.ican.util.BaseResultUtil;
+import com.ican.util.Ums;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -57,13 +59,20 @@ public class FollowAController {
     public BaseResult save(Follow follow,
                            HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
+        UserInfo userInfo = Ums.getUser(request);
+        if (userInfo == null) {
+            result.setMsg("请先登录");
+            return result;
+        }
         try {
             if (follow == null) {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }
+            follow.setFollowUserName(userInfo.getName());
+            follow.setFollowUserId(userInfo.getId());
             Constant.ServiceFacade.getFollowService().save(follow);
-            BaseResultUtil.setSuccess(result, null);
+            BaseResultUtil.setSuccess(result, follow);
             return result;
         } catch (Exception e) {
             logger.error("跟进保存异常", e);

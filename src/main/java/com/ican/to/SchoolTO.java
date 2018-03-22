@@ -1,6 +1,7 @@
 package com.ican.to;
 
-import com.ican.domain.Follow;
+import com.ican.domain.School;
+import com.ican.domain.UserInfo;
 
 public class SchoolTO {
     private int id;
@@ -13,6 +14,7 @@ public class SchoolTO {
     private int country;
     private int province;
     private int city;
+    private String address;
 
     public int getId() {
         return id;
@@ -92,6 +94,37 @@ public class SchoolTO {
 
     public void setCity(int city) {
         this.city = city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public UserInfo toUserInfo() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(this.id);
+        userInfo.setHeadshot(this.headshot);
+        userInfo.setName(this.name);
+        return userInfo;
+    }
+
+    public School toSchool() {
+        School school = new School();
+        school.setId(id);
+        school.setAddress(this.address);
+        school.setName(this.schoolName);
+        school.setUrl(this.url);
+        school.setPhone(this.phone);
+        school.setEmail(this.email);
+        school.setCountry(this.country);
+        school.setProvince(this.province);
+        school.setCity(this.city);
+        school.setAddress(this.address);
+        return school;
     }
 
 

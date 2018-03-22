@@ -331,12 +331,28 @@ CREATE TABLE `task` (
   KEY `idx_teacher_id` (`teahcer_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='安排发起的任务';
 
+DROP TABLE IF EXISTS `file_arrange`;
+CREATE TABLE `file` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `user_id` int(11) UNSIGNED NOT NULL COMMENT '发起人id',
+  `activity_id` int(11) UNSIGNED NOT NULL COMMENT '针对的活动',
+  `type` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '针对类型（0-未知,1-超级管理员,2-管理员,3-学校,4-二级学院,5-导师,6-学生）',
+  `name` varchar(300) NOT NULL COMMENT '名称（开题报告、任务书...）',
+  `start_time` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '开始时间',
+  `end_time`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '截止时间',
+  `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
+  `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_activity_id` (`activity_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='发起文件收集表';
+
 DROP TABLE IF EXISTS `file`;
 CREATE TABLE `file` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` int(11) UNSIGNED NOT NULL COMMENT '保存人id',
   `entity_id` int(11) UNSIGNED NOT NULL COMMENT '针对的东西id',
-  `entity_type` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '类型（0-未知,1-学校,2-二级学院,3-导师,4-学生,5-课题,6-task,7-博客,8-聊天文件）',
+  `entity_type` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '类型（0-未知,1-文件上传安排,2-博客,3-学校,4-二级学院,5-导师,6-学生,7-课题,8-task,,9-聊天文件）',
   `name` varchar(300) NOT NULL COMMENT '名称',
   `url` varchar(500) NOT NULL COMMENT '保存路径',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',

@@ -1,11 +1,13 @@
 package com.ican.controller.admin;
 
 import com.ican.config.Constant;
+import com.ican.config.ServiceFacade;
 import com.ican.domain.Follow;
 import com.ican.domain.School;
 import com.ican.domain.UserInfo;
 import com.ican.service.FollowService;
 import com.ican.service.UserInfoService;
+import com.ican.to.SchoolTO;
 import com.ican.util.BaseResult;
 import com.ican.util.BaseResultUtil;
 import com.ican.vo.SchoolVO;
@@ -33,7 +35,7 @@ public class SchoolAController {
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(@RequestParam(value = "schoolId") String schoolId,
-                         HttpServletRequest request, HttpServletResponse response) {
+                          HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("schoolId", schoolId);
         return "/admin/school/detail";
     }
@@ -42,7 +44,7 @@ public class SchoolAController {
     @ResponseBody
     @RequestMapping(value = "/detailJson", method = RequestMethod.GET)
     public BaseResult detailJson(@RequestParam(value = "schoolId") int schoolId,
-                                 HttpServletRequest request, HttpServletResponse response) {
+                                  HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         if (schoolId <= 0) {
             result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
@@ -68,12 +70,12 @@ public class SchoolAController {
     @ResponseBody
     @RequestMapping(value = "/schoolList", method = RequestMethod.GET)
     public BaseResult schoolList(@RequestParam(value = "name", required = false) String name,
-                                 @RequestParam(value = "country", required = false, defaultValue = "0") int country,
-                                 @RequestParam(value = "province", required = false, defaultValue = "0") int province,
-                                 @RequestParam(value = "city", required = false, defaultValue = "0") int city,
-                                 @RequestParam(value = "page", defaultValue = "1") int page,
-                                 @RequestParam(value = "size", defaultValue = "20") int size,
-                                 HttpServletRequest request, HttpServletResponse response) {
+                                  @RequestParam(value = "country", required = false, defaultValue = "0") int country,
+                                  @RequestParam(value = "province", required = false, defaultValue = "0") int province,
+                                  @RequestParam(value = "city", required = false, defaultValue = "0") int city,
+                                  @RequestParam(value = "page", defaultValue = "1") int page,
+                                  @RequestParam(value = "size", defaultValue = "20") int size,
+                                  HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
             List<School> schoolList = Constant.ServiceFacade.getSchoolService().list(null, country, province, city, name, null, null, "id desc", page, size);
@@ -114,8 +116,8 @@ public class SchoolAController {
     @ResponseBody
     @RequestMapping(value = "/schoolAuth", method = RequestMethod.POST)
     public BaseResult schoolAuth(@RequestParam(value = "schoolId", required = false, defaultValue = "0") int schoolId,
-                                 @RequestParam(value = "status") int status,
-                                 HttpServletRequest request, HttpServletResponse response) {
+                                  @RequestParam(value = "status") int status,
+                                  HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
             if (schoolId <= 0) {
@@ -133,6 +135,23 @@ public class SchoolAController {
             return result;
         } catch (Exception e) {
             logger.error("改变学校状态异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("保存学校")
+    @ResponseBody
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public BaseResult schoolAuth(SchoolTO schoolTO,
+                                  HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        try {
+            Constant.ServiceFacade.getUserInfoService().save(schoolTO.toUserInfo());
+            int id = Constant.ServiceFacade.getSchoolService().save(schoolTO.toSchool());
+            BaseResultUtil.setSuccess(result, id);
+            return result;
+        } catch (Exception e) {
+            logger.error("保存学校异常", e);
             return result;
         }
     }
