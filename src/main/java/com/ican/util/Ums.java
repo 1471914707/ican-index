@@ -13,7 +13,7 @@ public class Ums {
     public static UserInfo getUser(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
-            if (cookie.getName() == IcanUtil.COOKIE_NAME) {
+            if (IcanUtil.COOKIE_NAME.equals(cookie.getName())) {
                 return getUser(cookie);
             }
         }

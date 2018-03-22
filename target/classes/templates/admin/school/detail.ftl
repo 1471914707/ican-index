@@ -239,12 +239,10 @@
                             </el-form-item>
                             <el-form-item label="跟进方式">
                                 <el-radio-group v-model="follow.mode">
-                                    <el-radio
-                                            v-for="item in modeList"
-                                            :key="item.id"
-                                            :label="item.name"
-                                            :value="item.id">
-                                    </el-radio>
+                                    <el-radio label="1">手机</el-radio>
+                                    <el-radio label="2">QQ</el-radio>
+                                    <el-radio label="3">微信</el-radio>
+                                    <el-radio label="4">邮箱</el-radio>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item>
@@ -327,7 +325,7 @@
                 followPage:1,
                 followTotal:0,
                 followSize:10,
-                modeList:[{id:1,name:'电话'},{id:2,name:'QQ'},{id:3,name:'微信'},{id:4,name:'邮箱'}]
+                modeList:[{"id":1,"name":'电话'},{"id":2,"name":'QQ'},{"id":3,"name":'微信'},{"id":4,"name":'邮箱'}]
             }
         },
         watch:{
@@ -391,9 +389,11 @@
             },
             saveFollow:function () {
                 var self = this;
+                alert(self.follow.mode);
                 Api.post("/admin/follow/save",self.follow,function (result) {
                     if (result.code == 0) {
                         self.$message({showClose: true, message: '保存成功', type: 'success'});
+                        this.loadFollowList();
                     } else {
                         self.$message({showClose: true, message: result.msg, type: 'error'});
                     }
