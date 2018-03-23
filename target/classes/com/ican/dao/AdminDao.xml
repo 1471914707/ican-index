@@ -52,8 +52,11 @@
             <if test="id != 0">
                 id=#{id},
             </if>
+            <if test="true">
+                gmt_modified = now(),
+            </if>
         </set>
-        gmt_modified=now() where id=#{id}
+            where id=#{id}
     </update>
 
     <update id="delete">

@@ -23,6 +23,10 @@ public class SchoolAppealController {
     private final static Logger logger = LoggerFactory.getLogger(SchoolAppealController.class);
 
     //挑转页面
+    @RequestMapping(value = "")
+    public String schoolAppeal() {
+        return "/ican_index";
+    }
 
     @ApiOperation("保存申议信息")
     @ResponseBody

@@ -11,6 +11,12 @@ public class BaseConfig {
     @Value("${ican.image.baseUrl}")
     private String baseUrl;
 
+    @Value("${ican.headshot.man}")
+    private String manHeadshot;
+    @Value("${ican.headshot.woman}")
+    private String womanHeadshot;
+    @Value("${ican.headshot.default}")
+    private String defaultHeadshot;
 
     public String getBasePath() {
         return basePath;
@@ -26,5 +32,29 @@ public class BaseConfig {
 
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
+    }
+
+    public String getManHeadshot() {
+        return manHeadshot;
+    }
+
+    public void setManHeadshot(String manHeadshot) {
+        this.manHeadshot = manHeadshot;
+    }
+
+    public String getWomanHeadshot() {
+        return womanHeadshot;
+    }
+
+    public void setWomanHeadshot(String womanHeadshot) {
+        this.womanHeadshot = womanHeadshot;
+    }
+
+    public String getDefaultHeadshot() {
+        return defaultHeadshot;
+    }
+
+    public void setDefaultHeadshot(String defaultHeadshot) {
+        this.defaultHeadshot = defaultHeadshot;
     }
 }

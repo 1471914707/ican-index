@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface UserInfoService {
 
+    //性别定义
+    public static int SEX_MAN = 1;
+    public static int SEX_WOMAN = 2;
+
     //角色状态定义
     public static int USER_STATUS_INIT = 0;
     public static int USER_STATUS_VALID = 1;

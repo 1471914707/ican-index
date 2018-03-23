@@ -389,7 +389,6 @@
             },
             saveFollow:function () {
                 var self = this;
-                alert(self.follow.mode);
                 Api.post("/admin/follow/save",self.follow,function (result) {
                     if (result.code == 0) {
                         self.$message({showClose: true, message: '保存成功', type: 'success'});

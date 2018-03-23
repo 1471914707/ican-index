@@ -132,7 +132,7 @@
                                 <el-table-column
                                         fixed="right"
                                         label="操作"
-                                        width="120">
+                                        min-width="120">
                                     <template slot-scope="scope">
                                         <el-button type="text" size="small" @click="detail(scope.row.id)">查看</el-button>
                                         <el-button type="text" size="small" @click="goWebSite(scope.row.url)">官网</el-button>
@@ -191,13 +191,13 @@
                 }
             },
             mounted: function () {
-                this.localSchoolList();
+                this.loadSchoolList();
             },
             methods:{
                 detail:function (id) {
                     window.location.href = '/admin/school/detail?schoolId=' + id;
                 },
-                localSchoolList:function (page, size) {
+                loadSchoolList:function (page, size) {
                     var self = this;
                     self.loading = true;
                     var page = page || this.page || 1;
@@ -267,11 +267,11 @@
                 },
                 handleSizeChange:function (size) {
                     this.size = size;
-                    this.localSchoolList(this.page, this.size);
+                    this.loadSchoolList(this.page, this.size);
                 },
                 handleCurrentChange:function (page) {
                     this.page = page;
-                    this.localSchoolList(this.page, this.size);
+                    this.loadSchoolList(this.page, this.size);
                 }
             }
         });

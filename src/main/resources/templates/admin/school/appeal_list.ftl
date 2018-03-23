@@ -338,8 +338,7 @@
             classie.toggle( menuLeft, 'cbp-spmenu-open' );
             disableOther( 'showLeftPush' );
         };
-
-
+        
         function disableOther( button ) {
             if( button !== 'showLeftPush' ) {
                 classie.toggle( showLeftPush, 'disabled' );

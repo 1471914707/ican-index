@@ -23,12 +23,12 @@ import java.util.*;
 
 @Api("管理员管理")
 @Controller
-@RequestMapping("/super")
+@RequestMapping("/admin/super")
 public class superAdminController {
 
     private final static Logger logger = LoggerFactory.getLogger(superAdminController.class);
 
-    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/index"}, method = RequestMethod.GET)
     public String index() {
         return "/admin/super/admin_list";
     }
@@ -38,8 +38,8 @@ public class superAdminController {
     @ResponseBody
     @RequestMapping(value = "/adminList",method = RequestMethod.GET)
     public BaseResult adminList(@RequestParam(value = "page",defaultValue = "1") int page,
-                                @RequestParam(value = "size",defaultValue = "20") int size,
-                                HttpServletRequest request, HttpServletResponse response) {
+                                 @RequestParam(value = "size",defaultValue = "20") int size,
+                                 HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
             List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(null,2, "id desc", page, size);
@@ -112,7 +112,7 @@ public class superAdminController {
     @ResponseBody
     @RequestMapping(value = "/adminInfo",method = RequestMethod.GET)
     public BaseResult superAdminList(@RequestParam(value = "id") int id,
-                                     HttpServletRequest request, HttpServletResponse response){
+                                      HttpServletRequest request, HttpServletResponse response){
         BaseResult result = BaseResultUtil.initResult();
         if (id <= 0) {
             result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
@@ -132,8 +132,8 @@ public class superAdminController {
     @ApiOperation("保存单个管理员信息")
     @ResponseBody
     @RequestMapping(value = "/save",method = RequestMethod.POST)
-    public BaseResult superAdminList(AdminTO adminTO,
-                                     HttpServletRequest request, HttpServletResponse response){
+    public BaseResult save(AdminTO adminTO,
+                            HttpServletRequest request, HttpServletResponse response){
         BaseResult result = BaseResultUtil.initResult();
         if (adminTO == null) {
             result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
@@ -154,6 +154,32 @@ public class superAdminController {
             return result;
         } catch (Exception e) {
             logger.error("保存单个管理员信息异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("删除单个管理员信息")
+    @ResponseBody
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    public BaseResult delete(@RequestParam("id") int id,
+                              HttpServletRequest request, HttpServletResponse response){
+        BaseResult result = BaseResultUtil.initResult();
+        if (id <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Admin admin = Constant.ServiceFacade.getAdminService().select(id);
+            if (admin == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            Constant.ServiceFacade.getAdminService().delete(id);
+            Constant.ServiceFacade.getSchoolService().delete(id);
+            BaseResultUtil.setSuccess(result, null);
+            return result;
+        } catch (Exception e) {
+            logger.error("删除单个管理员信息异常", e);
             return result;
         }
     }

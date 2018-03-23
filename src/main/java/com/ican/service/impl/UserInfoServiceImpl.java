@@ -1,9 +1,12 @@
 package com.ican.service.impl;
 
+import com.ican.config.BaseConfig;
 import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
 import com.ican.domain.UserInfo;
 import com.ican.service.UserInfoService;
+import com.ican.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -12,6 +15,9 @@ import java.util.List;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
+
+    @Autowired
+    BaseConfig baseConfig;
 
     @Override
     public int insert(UserInfo userInfo) throws icanServiceException {
@@ -42,7 +48,13 @@ public class UserInfoServiceImpl implements UserInfoService {
             update(userInfo);
         } else {
             if (StringUtils.isEmpty(userInfo.getHeadshot())) {
-                userInfo.setHeadshot("");
+                if (userInfo.getSex() == UserInfoService.SEX_MAN) {
+                    userInfo.setHeadshot(baseConfig.getManHeadshot());
+                } else if (userInfo.getSex() == UserInfoService.SEX_WOMAN) {
+                    userInfo.setHeadshot(baseConfig.getWomanHeadshot());
+                } else {
+                    userInfo.setHeadshot(baseConfig.getDefaultHeadshot());
+                }
             }
             if (StringUtils.isEmpty(userInfo.getName())) {
                 userInfo.setName("");
