@@ -1,16 +1,16 @@
 package com.ican.domain;
 
-/**
- * author: lin jiayu 2018-02-25
- * 文件保存
- */
-public class File {
+import java.io.Serializable;
+
+public class FileArrange implements Serializable {
     private int id;
     private int userId;
-    private int entityId;
-    private int entityType;
+    private int activityId;
+    private int type;
     private String name;
-    private String url;
+    private int weight;
+    private String startTime;
+    private String endTime;
     private String gmtCreate;
     private String gmtModified;
 
@@ -30,20 +30,20 @@ public class File {
         this.userId = userId;
     }
 
-    public int getEntityId() {
-        return entityId;
+    public int getActivityId() {
+        return activityId;
     }
 
-    public void setEntityId(int entityId) {
-        this.entityId = entityId;
+    public void setActivityId(int activityId) {
+        this.activityId = activityId;
     }
 
-    public int getEntityType() {
-        return entityType;
+    public int getType() {
+        return type;
     }
 
-    public void setEntityType(int entityType) {
-        this.entityType = entityType;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getName() {
@@ -54,12 +54,28 @@ public class File {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public int getWeight() {
+        return weight;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getGmtCreate() {
