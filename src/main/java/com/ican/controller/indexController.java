@@ -31,7 +31,7 @@ public class indexController {
         return "/ican_index";
     }
 
-    @RequestMapping(value = "/success",method = RequestMethod.GET)
+    @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String success(@RequestParam("role") int role) {
         //目前只有六种角色
         if (role < 0 || role > 6) {
@@ -61,12 +61,12 @@ public class indexController {
         try {
             List<SchoolActiveVO> schoolActiveVOList = new ArrayList<>();
             JedisAdapter jedisAdapter = new JedisAdapter();
-            Map<String,String> schoolActiveMap = jedisAdapter.getSchoolDayLogin();
+            Map<String, String> schoolActiveMap = jedisAdapter.getSchoolDayLogin();
             if (schoolActiveMap != null) {
                 for (Map.Entry entry : schoolActiveMap.entrySet()) {
                     SchoolActiveVO schoolActiveVO = new SchoolActiveVO();
-                    schoolActiveVO.setName((String)entry.getKey());
-                    schoolActiveVO.setValue(Integer.valueOf((String)entry.getValue()));
+                    schoolActiveVO.setName((String) entry.getKey());
+                    schoolActiveVO.setValue(Integer.valueOf((String) entry.getValue()));
                     schoolActiveVOList.add(schoolActiveVO);
                 }
                 BaseResultUtil.setSuccess(result, schoolActiveVOList);
@@ -86,8 +86,22 @@ public class indexController {
         if (role < 0 || role > 6) {
             return "/index";
         }
-        request.setAttribute("role",role);
+        request.setAttribute("role", role);
         return "/login";
     }
 
+    @RequestMapping("/register/school")
+    public String school() {
+        return "/school/register";
+    }
+
+    @RequestMapping("/register/teacher")
+    public String teacher() {
+        return "/teacher/register";
+    }
+
+    @RequestMapping("/register/student")
+    public String student() {
+        return "/student/register";
+    }
 }

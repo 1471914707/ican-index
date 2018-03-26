@@ -56,7 +56,9 @@
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div>
                         <el-collapse>
-                            <a href="www.baidu.com"><el-collapse-item title="一致性 Consistency" name="1">
+                            <a href="/admin/school/list"><el-collapse-item title="学校申请列表" name="1">
+                            </el-collapse-item></a>
+                            <a href="/admin/schoolAppeal"><el-collapse-item title="学校申议信息" name="2">
                             </el-collapse-item></a>
                         </el-collapse>
                     </div>
@@ -247,7 +249,7 @@
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" @click="saveFollow();followAddFlag=false;">提交</el-button>
-                                <el-button>取消</el-button>
+                                <el-button @click="followAddFlag=false">取消</el-button>
                             </el-form-item>
                         </el-form>
                     </template>
@@ -275,7 +277,7 @@
                             </el-table-column>
                         </el-table>
                     </template>
-                    <div class="block">
+                    <div class="block-pagination">
                         <el-pagination
                                 @current-change="handleCurrentChange"
                                 :page-size="followSize"
@@ -392,7 +394,7 @@
                 Api.post("/admin/follow/save",self.follow,function (result) {
                     if (result.code == 0) {
                         self.$message({showClose: true, message: '保存成功', type: 'success'});
-                        this.loadFollowList();
+                        self.loadFollowList();
                     } else {
                         self.$message({showClose: true, message: result.msg, type: 'error'});
                     }
@@ -500,7 +502,7 @@
             classie.toggle( menuLeft, 'cbp-spmenu-open' );
             disableOther( 'showLeftPush' );
         };
-
+        showLeftPush.click();
         function disableOther( button ) {
             if( button !== 'showLeftPush' ) {
                 classie.toggle( showLeftPush, 'disabled' );

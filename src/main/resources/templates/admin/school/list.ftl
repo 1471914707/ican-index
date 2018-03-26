@@ -30,7 +30,9 @@
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div>
                         <el-collapse>
-                            <a href="www.baidu.com"><el-collapse-item title="一致性 Consistency" name="1">
+                            <a href="/admin/school/list"><el-collapse-item title="学校申请列表" name="1">
+                            </el-collapse-item></a>
+                            <a href="/admin/schoolAppeal"><el-collapse-item title="学校申议信息" name="2">
                             </el-collapse-item></a>
                         </el-collapse>
                     </div>
@@ -287,7 +289,7 @@
             classie.toggle( menuLeft, 'cbp-spmenu-open' );
             disableOther( 'showLeftPush' );
         };
-
+        showLeftPush.click();
 
         function disableOther( button ) {
             if( button !== 'showLeftPush' ) {

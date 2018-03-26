@@ -9,7 +9,7 @@
 <!-- Custom CSS -->
 <link href="http://cdn.ican.com/public/css/style.css" rel='stylesheet' type='text/css' />
 <!-- font CSS -->
-<link rel="icon" href="favicon.ico" type="image/x-icon" >
+<link rel="icon" href="http://cdn.ican.com/public/images/logo.png" type="image/x-icon" >
 <!-- font-awesome icons -->
 <#--<link href="http://cdn.ican.com/public/css/font-awesome.css" rel="stylesheet">-->
 <!-- //font-awesome icons -->

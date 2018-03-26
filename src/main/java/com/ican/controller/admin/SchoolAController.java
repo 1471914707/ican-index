@@ -10,6 +10,7 @@ import com.ican.service.UserInfoService;
 import com.ican.to.SchoolTO;
 import com.ican.util.BaseResult;
 import com.ican.util.BaseResultUtil;
+import com.ican.util.Ums;
 import com.ican.vo.SchoolVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,9 +34,14 @@ public class SchoolAController {
 
     private final static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    @RequestMapping("/list")
+    public String list(HttpServletRequest request, HttpServletResponse response) {
+        return "/admin/school/list";
+    }
+
+    @RequestMapping("/detail")
     public String detail(@RequestParam(value = "schoolId") String schoolId,
-                          HttpServletRequest request, HttpServletResponse response) {
+                        HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("schoolId", schoolId);
         return "/admin/school/detail";
     }
@@ -131,6 +137,19 @@ public class SchoolAController {
             }
             userInfo.setStatus(status);
             Constant.ServiceFacade.getUserInfoService().update(userInfo);
+            //添加跟进记录
+            UserInfo admin = Ums.getUser(request);
+            if (admin == null) {
+                result.setMsg("请先登录");
+                return result;
+            }
+            Follow follow = new Follow();
+            follow.setFollowUserId(admin.getId());
+            follow.setFollowUserName(admin.getName());
+            follow.setContent("更改状态");
+            follow.setFollowId(schoolId);
+            follow.setFollowType(FollowService.FOLLOW_TYPE_SCHOOL);
+            Constant.ServiceFacade.getFollowService().save(follow);
             BaseResultUtil.setSuccess(result, null);
             return result;
         } catch (Exception e) {

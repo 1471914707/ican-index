@@ -34,7 +34,7 @@
 
     <insert id="insert" parameterType="com.ican.domain.AuthPhoto" useGeneratedKeys="true" keyProperty="id">
         insert into auth_photo (user_id,url,remark,type,status,gmt_create,gmt_modified)
-        values (#{userId},#{url},#{remark},#{type},#{staus},#{gmtCreate},#{gmtModified})
+        values (#{userId},#{url},#{remark},#{type},#{status},now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.AuthPhoto">

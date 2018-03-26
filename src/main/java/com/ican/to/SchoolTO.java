@@ -11,10 +11,15 @@ public class SchoolTO {
     private String email;
     private String schoolName;
     private String url;
+    private String banner;
     private int country;
     private int province;
     private int city;
     private String address;
+
+    //认证照片
+    private String auth1;//手持身份认证
+    private String auth2;//手持与该校的关系认证照片
 
     public int getId() {
         return id;
@@ -72,6 +77,14 @@ public class SchoolTO {
         this.url = url;
     }
 
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
+    }
+
     public int getCountry() {
         return country;
     }
@@ -104,6 +117,22 @@ public class SchoolTO {
         this.address = address;
     }
 
+    public String getAuth1() {
+        return auth1;
+    }
+
+    public void setAuth1(String auth1) {
+        this.auth1 = auth1;
+    }
+
+    public String getAuth2() {
+        return auth2;
+    }
+
+    public void setAuth2(String auth2) {
+        this.auth2 = auth2;
+    }
+
     public UserInfo toUserInfo() {
         UserInfo userInfo = new UserInfo();
         userInfo.setId(this.id);
@@ -126,6 +155,5 @@ public class SchoolTO {
         school.setAddress(this.address);
         return school;
     }
-
 
 }

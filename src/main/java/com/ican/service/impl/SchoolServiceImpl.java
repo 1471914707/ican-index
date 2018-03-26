@@ -4,8 +4,10 @@ import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
 import com.ican.domain.School;
 import com.ican.service.SchoolService;
+import com.ican.to.SchoolTO;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -20,7 +22,7 @@ public class SchoolServiceImpl implements SchoolService {
         if (school == null) {
             return -1;
         }
-        return Constant.DaoFacade.getAdminDao().insert(school);
+        return Constant.DaoFacade.getSchoolDao().insert(school);
     }
 
     @Override
@@ -67,6 +69,19 @@ public class SchoolServiceImpl implements SchoolService {
             insert(school);
         }
         return school.getId();
+    }
+
+    @Transactional
+    @Override
+    public int save(SchoolTO schoolTO) throws icanServiceException {
+        int id = Constant.ServiceFacade.getUserInfoService().save(schoolTO.toUserInfo());
+        if (schoolTO.getId() <= 0) {
+            schoolTO.setId(id);
+            Constant.ServiceFacade.getSchoolService().insert(schoolTO.toSchool());
+        } else {
+            Constant.ServiceFacade.getSchoolService().update(schoolTO.toSchool());
+        }
+        return id;
     }
 
     @Override

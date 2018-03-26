@@ -58,6 +58,17 @@
                     <el-dropdown-item>博客园</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
+            <el-dropdown>
+              <span class="el-dropdown-link" style="cursor:pointer;">
+                <h2>注册</h2>
+              </span>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item><a href="/register/school">学校注册</a></el-dropdown-item>
+                    <el-dropdown-item><a href="/login?role=4">学院注册</a></el-dropdown-item>
+                    <el-dropdown-item><a href="/login?role=5">导师注册</a></el-dropdown-item>
+                    <el-dropdown-item><a href="/login?role=6">学生注册</a></el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
            <#-- <h2>登录</h2>-->
         </div>
 

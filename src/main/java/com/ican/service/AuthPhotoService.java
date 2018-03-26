@@ -7,6 +7,13 @@ import java.util.List;
 
 public interface AuthPhotoService {
 
+    int TYPE_SUPER = 1;
+    int TYPE_ADMIN = 2;
+    int TYPE_SCHOOL = 3;
+    int TYPE_COLLEGE = 4;
+    int TYPE_TEACHER = 5;
+    int TYPE_STUDENT = 6;
+
     int delete(int id) throws icanServiceException;
 
     AuthPhoto select(int id) throws icanServiceException;

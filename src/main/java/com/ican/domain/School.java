@@ -10,6 +10,7 @@ public class School {
     private String email;
     private String name;
     private String url;
+    private String banner;
     private int country;
     private int province;
     private int city;
@@ -79,6 +80,14 @@ public class School {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
     }
 
     public String getAddress() {

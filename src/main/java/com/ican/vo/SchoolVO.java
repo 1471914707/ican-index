@@ -16,6 +16,7 @@ public class SchoolVO {
     private String email;
     private String schoolName;
     private String url;
+    private String banner;
     private int country;
     private int province;
     private int city;
@@ -37,6 +38,7 @@ public class SchoolVO {
         this.gmtModified = school.getGmtModified();
         this.schoolName = school.getName();
         this.url = school.getUrl();
+        this.banner = school.getBanner();
         this.country = school.getCountry();
         this.province = school.getProvince();
         this.city = school.getCity();
@@ -121,6 +123,14 @@ public class SchoolVO {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
     }
 
     public int getCountry() {

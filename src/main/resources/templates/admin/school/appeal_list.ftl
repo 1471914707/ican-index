@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>普通管理员列表</title>
+    <title>学校申议列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="毕业设计平台" />
@@ -30,7 +30,9 @@
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div>
                         <el-collapse>
-                            <a href="www.baidu.com"><el-collapse-item title="一致性 Consistency" name="1">
+                            <a href="/admin/school/list"><el-collapse-item title="学校申请列表" name="1">
+                            </el-collapse-item></a>
+                            <a href="/admin/schoolAppeal"><el-collapse-item title="学校申议信息" name="2">
                             </el-collapse-item></a>
                         </el-collapse>
                     </div>
@@ -69,7 +71,7 @@
                 <!--grids-->
                 <div class="grids">
                     <div class="progressbar-heading grids-heading">
-                        <h2>普通管理员列表&nbsp;&nbsp;<i class="el-icon-circle-plus" @click="edit(0)" style="cursor: pointer;"></i></h2>
+                        <h2>学校申议列表</h2>
                     </div>
                     <div class="panel panel-widget">
                         <template v-if="!loading">
@@ -86,11 +88,11 @@
                                 <el-table-column
                                         prop="name"
                                         label="姓名"
-                                        width="180">
+                                        width="100">
                                 </el-table-column>
                                 <el-table-column
-                                        prop="sex"
-                                        label="性别"
+                                        prop="schoolName"
+                                        label="学校"
                                         width="120">
                                 </el-table-column>
                                 <el-table-column
@@ -105,16 +107,37 @@
                                 </el-table-column>
                                 <el-table-column
                                         prop="gmtCreate"
-                                        label="创建时间"
+                                        label="申请时间"
                                         width="100">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="content"
+                                        label="内容"
+                                        width="200">
+                                    <template slot-scope="scope">
+                                        <#--{{scope.row.content.length>20?scope.row.content.substring(0,20):scope.row.content}}-->
+                                        {{scope.row.content}}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
+                                        label="状态"
+                                        width="100">
+                                    <template slot-scope="scope">
+                                        <select class="form-control1" v-model="scope.row.status" @change="selectStatus(scope.row.status)">
+                                            <option v-for="option in statusList" v-bind:value="option.value">
+                                                {{ option.text }}
+                                            </option>
+                                        </select>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         fixed="right"
                                         label="操作"
-                                        min-width="120">
+                                        min-width="200">
                                     <template slot-scope="scope">
-                                        <el-button type="text" size="small" @click="edit(scope.row.id)">修改</el-button>
-                                        <el-button type="text" size="small" @click="delete(scope.row.id)">删除</el-button>
+                                        <el-button type="text" size="small" @click="followAddFlag=true;followId=scope.row.id">添加跟进</el-button>
+                                        <el-button type="text" size="small"
+                                                   @click="followListFlag=true;loadFollowList(scope.row.id)">跟进情况</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -124,39 +147,72 @@
                         </template>
 
                         <el-dialog
-                                :title="admin.id>0?'修改管理员信息':'创建管理员信息'"
-                                :visible.sync="editFlag"
-                                width="30%">
-                            <div>
-                                <el-form :model="admin" label-width="80px" :rules="rules" ref="adminForm">
-                                    <el-form-item label="名字" prop="name">
-                                        <el-input v-model="admin.name"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="电话" prop="phone">
-                                        <el-input v-model="admin.phone"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="邮箱" prop="email">
-                                        <el-input v-model="admin.email"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="性别" prop="sex">
-                                        <el-select v-model="admin.sex" placeholder="请选择性别">
-                                            <el-option label="男" :value="1"></el-option>
-                                            <el-option label="女" :value="2"></el-option>
-                                        </el-select>
-                                    </el-form-item>
-                                    <el-form-item label="角色" prop="role">
-                                        <el-select v-model="admin.role" placeholder="请选择角色">
-                                            <el-option label="普通管理员" :value="2"></el-option>
-                                            <el-option label="超级管理员" :value="1"></el-option>
-                                        </el-select>
-                                    </el-form-item>
-                                </el-form>
-                            </div>
+                                title="跟进信息"
+                                :visible.sync="followListFlag"
+                                width="50%">
+                            <template>
+                                <el-table
+                                        :data="followList"
+                                        style="width: 100%">
+                                    <el-table-column
+                                            prop="gmtCreate"
+                                            label="时间"
+                                            width="100">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="followUserName"
+                                            label="姓名"
+                                            width="100">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="mode"
+                                            label="方式"
+                                            width="100">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="content"
+                                            label="内容">
+                                    </el-table-column>
+                                </el-table>
+                                <div class="block-pagination">
+                                    <el-pagination
+                                            @current-change="handleFollowCurrentChange"
+                                            :page-size="followSize"
+                                            layout="total, prev, pager, next"
+                                            :total="followTotal">
+                                    </el-pagination>
+                                </div>
+                            </template>
                             <span slot="footer" class="dialog-footer">
-                                <el-button type="primary" @click="saveAdmin('adminForm')">确 定</el-button>
-                                <el-button @click="editFlag = false; admin={}">取 消</el-button>
-                            </span>
+                               <el-button type="primary" @click="followListFlag = false;">关 闭</el-button>
+                           </span>
                         </el-dialog>
+
+
+                      <el-dialog
+                              title="添加跟进信息"
+                              :visible.sync="followAddFlag"
+                              width="30%">
+                          <div>
+                              <el-form ref="form" :model="follow" label-width="80px">
+                                  <el-form-item label="跟进内容">
+                                      <el-input type="textarea" v-model="follow.content"></el-input>
+                                  </el-form-item>
+                                  <el-form-item label="跟进方式">
+                                      <el-radio-group v-model="follow.mode">
+                                          <el-radio label="1">手机</el-radio>
+                                          <el-radio label="2">QQ</el-radio>
+                                          <el-radio label="3">微信</el-radio>
+                                          <el-radio label="4">邮箱</el-radio>
+                                      </el-radio-group>
+                                  </el-form-item>
+                                  <el-form-item>
+                                      <el-button type="primary" @click="saveFollow();followAddFlag=false;">提交</el-button>
+                                      <el-button @click="followAddFlag=false">取消</el-button>
+                                  </el-form-item>
+                              </el-form>
+                          </div>
+                      </el-dialog>
 
                     </div>
                 </div>
@@ -181,7 +237,7 @@
                 <div class="container">
                     <div class="copyright">
                         <p>
-                            <a href="/">首页</a> > 普通管理员列表
+                            <a href="/">首页</a> > 学校申议列表
                         </p>
                     </div>
                 </div>
@@ -199,37 +255,30 @@
                     size:2,
                     total:0,
                     list: [],
-                    editFlag:false,
-                    loading:false,
-                    rules: {
-                        name: [
-                            {required: true, message: '请输入该项', trigger: 'blur'}
-                        ],
-                        phone: [
-                            {required: true, message: '请输入该项', trigger: 'blur'}
-                        ],
-                        email: [
-                            {required: true, message: '请输入该项', trigger: 'blur'}
-                        ],
-                        sex: [
-                            {required: true, message: '请输入该项', trigger: 'blur'}
-                        ],
-                        role: [
-                            {required: true, message: '请输入该项', trigger: 'blur'}
-                        ]
-                    }
+                    resultStatusList:[],
+                    statusList:[{text:'初始化',value:0},{text:'待处理',value:1},{text:'处理中',value:2}
+                        ,{text:'通过',value:3},{text:'驳回',value:4}],
+                    follow:{content:'',mode:null,followId:0,followType:2},
+                    followListFlag:false,
+                    followAddFlag:false,
+                    followList:[],
+                    followPage:1,
+                    followTotal:0,
+                    followSize:10,
+                    modeList:[{"id":1,"name":'电话'},{"id":2,"name":'QQ'},{"id":3,"name":'微信'},{"id":4,"name":'邮箱'}],
+                    loading:false
                 }
             },
             mounted: function () {
-                this.loadAdminList();
+                this.loadSchoolAppealList();
             },
             methods:{
-                loadAdminList:function (page, size) {
+                loadSchoolAppealList:function (page, size) {
                     var self = this;
                     self.loading = true;
                     var page = page || this.page || 1;
                     var size = size || this.size || 5;
-                    Api.get('/admin/super/adminList',{
+                    Api.get('/admin/schoolAppeal/list',{
                         page:page,
                         size:size
                     },function (result) {
@@ -237,15 +286,9 @@
                             if (result.data.list) {
                                 self.list = result.data.list;
                                 self.total = result.data.total;
-                                for (var i=0; i<self.list.length; i++){
-                                    self.list[i].gmtCreate = self.getDate(self.list[i].gmtCreate);
-                                    if (self.list[i].sex == 1){
-                                        self.list[i].sex = '男';
-                                    } else if (self.list[i].sex == 2){
-                                        self.list[i].sex = '女';
-                                    } else {
-                                        self.list[i].sex = '';
-                                    }
+                                for (var i=0; i<self.list.length; i++) {
+                                    self.resultStatusList.push(self.list[i].status);
+                                    self.list[i].gmtCreate = self.list[i].gmtCreate.split(" ")[0];
                                 }
                                 self.loading = false;
                             }
@@ -255,74 +298,92 @@
                         }
                     });
                 },
+                saveFollow:function () {
+                    var self = this;
+                    self.follow.followId = self.followId;
+                    Api.post("/admin/follow/save",self.follow,function (result) {
+                        if (result.code == 0) {
+                            self.$message({showClose: true, message: '保存成功', type: 'success'});
+                            self.loadFollowList();
+                        } else {
+                            self.$message({showClose: true, message: result.msg, type: 'error'});
+                        }
+                    });
+                },
+                selectStatus:function (newStatus) {
+                    var self = this;
+                    for (var i=0; i<self.list.length; i++) {
+                        if (self.list[i].status != self.resultStatusList[i]) {
+                            //改变的列
+                            Api.post('/admin/schoolAppeal/statusSave',{
+                                id:self.list[i].id,
+                                status:newStatus
+                            },function (result) {
+                                if (result.code == 0) {
+                                    self.$message({showClose: true, message: '更改成功', type: 'true'});
+                                    self.resultStatusList[i] = newStatus;
+                                }else {
+                                    self.$message({showClose: true, message: result.msg, type: 'error'});
+                                    self.list[i].status = self.resultStatusList[i];
+                                }
+                            });
+                            break;
+                        }
+                    }
+                },
                 getDate:function (dateTime) {
                     if (dateTime.trim() != '') {
                         return dateTime.split(" ")[0];
                     }
                     return '';
                 },
-                edit:function (id) {
-                    this.editFlag = true;
-                    if (id <= 0) {
-                        this.admin = {id:0,headshot:"",name:"",sex:"",role:"",phone:"",email:"",password:""};
-                        return true;
-                    }
+                loadFollowList:function (id, page, size) {
                     var self = this;
-                    Api.get("/admin/super/adminInfo",{id:id},function (result) {
+                    var page = page || this.followPage || 1;
+                    var size = size || this.followSize || 10;
+                    Api.get('/admin/follow/listJson',{
+                        followId:id,
+                        followType:2,
+                        page:page,
+                        size:size
+                    },function (result) {
                         if (result.code == 0) {
-                            self.admin = result.data;
+                            self.followList = result.data.list;
+                            self.followTotal = result.data.total;
+                            for (var i=0; i<self.followList.length; i++) {
+                                self.followList[i].gmtCreate = self.followList[i].gmtCreate.split(" ")[0];
+                                self.followList[i].mode = self.getModeName(self.followList[i].mode);
+                            }
                         }else {
                             self.$message({showClose: true, message: result.msg, type: 'error'});
-                            self.editFlag = false;
                         }
                     });
                 },
-                saveAdmin:function (formName) {
-                    var self = this;
-                    self.$refs[formName].validate(function (valid) {
-                        if (valid) {
-                            Api.post("/admin/super/save", self.admin, function (result) {
-                                if (result.code == 0) {
-                                    self.$message({showClose: true, message: '保存成功', type: 'success'});
-                                    self.loadAdminList();
-                                    self.editFlag = false;
-                                }else {
-                                    self.$message({showClose: true, message: result.msg, type: 'error'});
-                                }
-                            });
-                        } else {
-                            console.log(valid);
-                            return false;
-                        }
-                    });
-                },
-                delete:function (id) {
-                    this.$confirm('此操作将永久删除此管理员, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(function () {
-                        Api.post("/admin/super/delete", {id:id}, function (result) {
-                            if (result.code == 0) {
-                                self.$message({showClose: true, message: '删除成功', type: 'success'});
-                            }else {
-                                self.$message({showClose: true, message: result.msg, type: 'error'});
-                            }
-                        });
-                    }).catch(function () {
-                        this.$message({
-                            type: 'info',
-                            message: '已取消删除'
-                        });
-                    });
+                getModeName:function (mode) {
+                    switch (mode){
+                        case 1:
+                            return '电话';
+                        case 2:
+                            return 'QQ';
+                        case 3:
+                            return '微信';
+                        case 4:
+                            return '邮箱';
+                        default:
+                            return '未知';
+                    }
                 },
                 handleSizeChange:function (size) {
                     this.size = size;
-                    this.loadAdminList(this.page, this.size);
+                    this.loadSchoolAppealList(this.page, this.size);
                 },
                 handleCurrentChange:function (page) {
                     this.page = page;
-                    this.loadAdminList(this.page, this.size);
+                    this.loadSchoolAppealList(this.page, this.size);
+                },
+                handleFollowCurrentChange:function (page) {
+                    this.page = page;
+                    this.loadFollowList(this.followId,this.page, this.size);
                 }
             }
         });
@@ -338,7 +399,7 @@
             classie.toggle( menuLeft, 'cbp-spmenu-open' );
             disableOther( 'showLeftPush' );
         };
-        
+        showLeftPush.click();
         function disableOther( button ) {
             if( button !== 'showLeftPush' ) {
                 classie.toggle( showLeftPush, 'disabled' );
