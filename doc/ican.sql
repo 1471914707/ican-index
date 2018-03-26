@@ -456,7 +456,7 @@ CREATE TABLE `group_teacher` (
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_group_id` (group_id`),
+  KEY `idx_group_id` (`group_id`),
   KEY `idx_teacher_id` (`teacher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评分组与教师关联表';
 
