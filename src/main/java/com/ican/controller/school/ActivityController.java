@@ -58,9 +58,11 @@ public class ActivityController {
                                 HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo userInfo = Ums.getUser(request);
-        if (activity.getUserId() != userInfo.getId()) {
-            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
-            return result;
+        if (activity.getUserId() > 0) {
+            if (activity.getUserId() != userInfo.getId()) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
         }
         try {
             activity.setUserId(userInfo.getId());

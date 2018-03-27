@@ -33,7 +33,7 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.Activity" useGeneratedKeys="true" keyProperty="id">
-        insert into activity (userId,name,current,start_time,end_time,gmt_create,gmt_modified)
+        insert into activity (user_id,name,current,start_time,end_time,gmt_create,gmt_modified)
         values (#{userId},#{name},#{current},#{startTime},#{endTime},now(),now())
     </insert>
 
