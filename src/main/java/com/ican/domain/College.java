@@ -2,6 +2,7 @@ package com.ican.domain;
 
 public class College {
     private int id;
+    private int schoolId;
     private String phone;
     private String email;
     private String name;
@@ -15,6 +16,14 @@ public class College {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(int schoolId) {
+        this.schoolId = schoolId;
     }
 
     public String getPhone() {

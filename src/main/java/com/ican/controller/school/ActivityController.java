@@ -33,8 +33,8 @@ public class ActivityController {
     @RequestMapping(value = "/listJson",method = RequestMethod.GET)
     @ResponseBody
     public BaseResult listJson(@RequestParam(value = "page",defaultValue = "1") int page,
-                                @RequestParam(value = "size",defaultValue = "20") int size,
-                                HttpServletRequest request, HttpServletResponse response) {
+                               @RequestParam(value = "size",defaultValue = "20") int size,
+                               HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo userInfo = Ums.getUser(request);
         try {
@@ -55,7 +55,7 @@ public class ActivityController {
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     @ResponseBody
     public BaseResult listJson(Activity activity,
-                                HttpServletRequest request, HttpServletResponse response) {
+                               HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo userInfo = Ums.getUser(request);
         if (activity.getUserId() > 0) {

@@ -4,7 +4,9 @@ import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
 import com.ican.domain.College;
 import com.ican.service.CollegeService;
+import com.ican.to.CollegeTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -54,6 +56,20 @@ public class CollegeServiceImpl implements CollegeService {
             insert(college);
         }
         return college.getId();
+    }
+
+    @Transactional
+    @Override
+    public int save(CollegeTO collegeTO) throws icanServiceException {
+        int id = Constant.ServiceFacade.getUserInfoService().save(collegeTO.toUserInfo());
+        System.out.println("+++++++++++++++====" + id);
+        if (collegeTO.getId() <= 0) {
+            collegeTO.setId(id);
+            Constant.ServiceFacade.getCollegeService().insert(collegeTO.toCollege());
+        } else {
+            Constant.ServiceFacade.getCollegeService().update(collegeTO.toCollege());
+        }
+        return id;
     }
 
     @Override

@@ -112,12 +112,11 @@ CREATE TABLE `college` (
   `phone` varchar(20) NOT NULL COMMENT '手机',
   `email` varchar(50) NOT NULL COMMENT '邮箱',
   `name` varchar(500) NOT NULL COMMENT '二级学院名称',
-  `url` varchar(150) NOT NULL COMMENT '官网',
+  `url` varchar(500) NOT NULL COMMENT '官网',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`),
-  KEY `idx_school_id` (`school_id`),
+  KEY `idx_school_id` (`school_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='二级学院';
 
 DROP TABLE IF EXISTS `teacher`;

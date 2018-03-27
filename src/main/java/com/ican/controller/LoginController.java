@@ -49,7 +49,7 @@ public class LoginController {
         }
         if (("18813960106").equals(account) && ("123456").equals(password)) {
             UserInfo userInfo = new UserInfo();
-            userInfo.setId(100000);
+            userInfo.setId(100002);
             //登录成功就添加cookie
             String cookieValue = IcanUtil.getNewCookieValue();
             Cookie cookie = new Cookie(IcanUtil.COOKIE_NAME, cookieValue);
