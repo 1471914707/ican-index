@@ -28,6 +28,7 @@
 
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 <div id="app">
+    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2::53" alt="你好" title="你好"/></a>
 <div id="main" class="main"></div>
 </div>
 

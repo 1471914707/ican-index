@@ -269,12 +269,20 @@ CREATE TABLE `paper` (
 DROP TABLE IF EXISTS `paper_student`;
 CREATE TABLE `paper_student` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `activity_id` int(11) UNSIGNED NOT NULL COMMENT '某活动',
+  `current` int(11) UNSIGNED NOT NULL COMMENT '某届',
+  `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
+  `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
+  `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '教师id',
+  `clazz_id` int(11) UNSIGNED NOT NULL COMMENT '班级id',
   `student_id` int(11) UNSIGNED NOT NULL COMMENT '学生id',
   `paper_id` int(11) UNSIGNED NOT NULL COMMENT '课题id',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_student_id` (`student_id`),
+  KEY `idx_school_id` (`school_id`),
+  KEY `idx_teacher_id` (`teacher_id`),
   KEY `idx_paper_id` (`paper_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='毕业设计选题与学生关联表';
 

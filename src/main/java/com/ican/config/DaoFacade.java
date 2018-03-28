@@ -55,6 +55,9 @@ public class DaoFacade {
     @Autowired
     private PaperDao paperDao;
 
+    @Autowired
+    private PaperStudentDao paperStudentDao;
+
     public UserDao getUserDao() {
         return userDao;
     }
@@ -181,5 +184,13 @@ public class DaoFacade {
 
     public void setPaperDao(PaperDao paperDao) {
         this.paperDao = paperDao;
+    }
+
+    public PaperStudentDao getPaperStudentDao() {
+        return paperStudentDao;
+    }
+
+    public void setPaperStudentDao(PaperStudentDao paperStudentDao) {
+        this.paperStudentDao = paperStudentDao;
     }
 }

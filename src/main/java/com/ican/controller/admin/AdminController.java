@@ -31,7 +31,6 @@ public class AdminController {
 
     private final static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String index() {
         return "/admin/school/list";

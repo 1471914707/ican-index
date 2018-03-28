@@ -14,6 +14,10 @@
     </style>
 </head>
 <body class="login-bg">
+<div style="margin-top: 300px;float: right">
+    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=&site=qq&menu=yes">
+    <img border="0" src="http://wpa.qq.com/pa?p=2::53" alt="你好" title="你好"/></a>
+</div>
 <div class="login-body" id="app">
     <div class="login-heading">
         <h1>{{getLoginRole(role)}}</h1>

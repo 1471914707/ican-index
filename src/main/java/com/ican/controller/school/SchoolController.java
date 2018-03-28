@@ -27,6 +27,11 @@ import javax.servlet.http.HttpServletResponse;
 public class SchoolController {
     private final static Logger logger = LoggerFactory.getLogger(SchoolController.class);
 
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+    public String index() {
+        return "/admin/activity/list";
+    }
+
     @ApiOperation("获取学校信息")
     @ResponseBody
     @RequestMapping(value = "/info", method = RequestMethod.GET)
