@@ -8,19 +8,19 @@ import java.util.List;
 
 public interface PaperService {
     //基础方法
-    public int insert(Paper paper) throws icanServiceException;
+    int insert(Paper paper) throws icanServiceException;
 
-    public Paper select(int id) throws icanServiceException;
+    Paper select(int id) throws icanServiceException;
 
-    public int update(Paper paper) throws icanServiceException;
+    int update(Paper paper) throws icanServiceException;
 
-    public int delete(int id) throws icanServiceException;
+    int delete(int id) throws icanServiceException;
 
-    public int save(Paper paper) throws icanServiceException;
+    int save(Paper paper) throws icanServiceException;
 
-    public List<Paper> list(String ids, int current, int schoolId, int collegeId, int departmentId,
-                             int clazzId, int teacherId, int studentId, int paperId, String order,int page, int size) throws icanServiceException;
+    List<Paper> list(String ids, int activityId,int current, int schoolId, int collegeId, int departmentId,
+                     int clazzId, int teacherId, String title, String order,int page, int size) throws icanServiceException;
 
-    public int count(String ids, int current, int schoolId, int collegeId, int departmentId,
-                      int clazzId, int teacherId, int studentId, int paperId) throws icanServiceException;
+    int count(String ids, int activityId,int current, int schoolId, int collegeId, int departmentId,
+              int clazzId, int teacherId, String title) throws icanServiceException;
 }

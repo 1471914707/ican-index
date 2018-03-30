@@ -7,6 +7,8 @@ import com.ican.service.ActivityService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +47,14 @@ public class ActivityServiceImpl implements ActivityService {
                 activity.setName("");
             }
             if (StringUtils.isEmpty(activity.getStartTime())) {
-                activity.setStartTime("");
+                SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm");
+                String date = sd.format(new Date());
+                activity.setStartTime(date);
             }
             if (StringUtils.isEmpty(activity.getEndTime())) {
-                activity.setEndTime("");
+                SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm");
+                String date = sd.format(new Date());
+                activity.setEndTime(date);
             }
             insert(activity);
         }

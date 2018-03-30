@@ -7,20 +7,20 @@ import java.util.List;
 
 public interface StudentService {
     //基础方法
-    public Student select(int id) throws icanServiceException;
+    Student select(int id) throws icanServiceException;
 
-    public int delete(int id) throws icanServiceException;
+    int delete(int id) throws icanServiceException;
 
-    public int insert(Student student) throws icanServiceException;
+    int insert(Student student) throws icanServiceException;
 
-    public int update(Student student) throws icanServiceException;
+    int update(Student student) throws icanServiceException;
 
-    public int save(Student student) throws icanServiceException;
+    int save(Student student) throws icanServiceException;
 
-    public List<Student> list(String ids, int schoolId, int collegeId, int departmentId,
+    List<Student> list(String ids, int schoolId, int collegeId, int departmentId,
                               int clazzId, int teacherId, int current, String jobId,
                               String order, int page, int size) throws icanServiceException;
 
-    public int count(String ids, int schoolId, int collegeId, int departmentId,
+    int count(String ids, int schoolId, int collegeId, int departmentId,
                      int clazzId, int teacherId, int current, String jobId) throws icanServiceException;
 }

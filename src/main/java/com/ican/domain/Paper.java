@@ -16,6 +16,7 @@ public class Paper {
     private int minNumber;
     private String remark;
     private int status;
+    private int version;
     private String gmtCreate;
     private String gmtModified;
 
@@ -113,6 +114,14 @@ public class Paper {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public String getGmtCreate() {

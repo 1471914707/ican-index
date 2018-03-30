@@ -29,7 +29,7 @@ public class SchoolController {
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String index() {
-        return "/admin/activity/list";
+        return "/school/activity/list";
     }
 
     @ApiOperation("获取学校信息")

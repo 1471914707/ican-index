@@ -6,6 +6,7 @@ package com.ican.domain;
  */
 public class Project {
     private int id;
+    private int activityId;
     private int current;
     private int schoolId;
     private int collegeId;
@@ -28,6 +29,14 @@ public class Project {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(int activityId) {
+        this.activityId = activityId;
     }
 
     public int getCurrent() {

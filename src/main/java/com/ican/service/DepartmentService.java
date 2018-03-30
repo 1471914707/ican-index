@@ -7,17 +7,17 @@ import java.util.List;
 
 public interface DepartmentService {
     //基础方法
-    public int insert(Department department) throws icanServiceException;
+    int insert(Department department) throws icanServiceException;
 
-    public Department select(int id) throws icanServiceException;
+    Department select(int id) throws icanServiceException;
 
-    public int update(Department department) throws icanServiceException;
+    int update(Department department) throws icanServiceException;
 
-    public int delete(int id) throws icanServiceException;
+    int delete(int id) throws icanServiceException;
 
-    public int save(Department department) throws icanServiceException;
+    int save(Department department) throws icanServiceException;
 
-    public List<Department> list(int schoolId, int collegeId, String order, int page, int size) throws icanServiceException;
+    List<Department> list(int schoolId, int collegeId, String order, int page, int size) throws icanServiceException;
 
-    public int count(int schoolId, int collegeId) throws icanServiceException;
+    int count(int schoolId, int collegeId) throws icanServiceException;
 }

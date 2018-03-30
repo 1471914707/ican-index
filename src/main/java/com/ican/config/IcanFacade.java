@@ -1,5 +1,6 @@
 package com.ican.config;
 
+import com.ican.async.EventProducer;
 import com.ican.service.AdminService;
 import com.ican.service.UserInfoService;
 import com.ican.service.UserService;
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Component;
 public class IcanFacade {
 
     @Autowired
+    private EventProducer eventProducer;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -17,6 +21,14 @@ public class IcanFacade {
 
     @Autowired
     private AdminService adminService;
+
+    public EventProducer getEventProducer() {
+        return eventProducer;
+    }
+
+    public void setEventProducer(EventProducer eventProducer) {
+        this.eventProducer = eventProducer;
+    }
 
     public UserService getUserService() {
         return userService;

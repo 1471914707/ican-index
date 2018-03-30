@@ -51,6 +51,32 @@ public class ActivityController {
         }
     }
 
+    @ApiOperation("获取单个活动信息")
+    @RequestMapping(value = "/info",method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult info(@RequestParam(value = "id") int id,
+                           HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        if (id <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        UserInfo userInfo = Ums.getUser(request);
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(id);
+            //不可以查看别人的活动
+            if (activity == null || (activity != null && activity.getUserId() != userInfo.getId())) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            BaseResultUtil.setSuccess(result, activity);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取单个活动信息异常", e);
+            return result;
+        }
+    }
+
     @ApiOperation("保存活动")
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     @ResponseBody
@@ -71,6 +97,31 @@ public class ActivityController {
             return result;
         } catch (Exception e) {
             logger.error("保存活动异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("删除活动")
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult listJson(@RequestParam("id") int id,
+                               HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        if (id <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(id);
+            if (activity == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            Constant.ServiceFacade.getActivityService().delete(id);
+            BaseResultUtil.setSuccess(result, null);
+            return result;
+        } catch (Exception e) {
+            logger.error("删除活动异常", e);
             return result;
         }
     }

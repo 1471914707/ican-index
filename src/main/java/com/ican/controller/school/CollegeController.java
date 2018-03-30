@@ -56,6 +56,33 @@ public class CollegeController {
         }
     }
 
+    @ApiOperation("获取二级学院信息")
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult info(@RequestParam(value = "id") String id,
+                               HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo userInfo = Ums.getUser(request);
+        int collegeId = Integer.valueOf(id);
+        if (collegeId <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            //College college =
+            /*List<College> collegeList = Constant.ServiceFacade.getCollegeService().list(userInfo.getId(), null, null, "id desc", page, size);
+            int total = Constant.ServiceFacade.getCollegeService().count(userInfo.getId(), null, null);
+            Map data = new HashMap();
+            data.put("list", collegeList);
+            data.put("total", total);
+            BaseResultUtil.setSuccess(result, data);*/
+            return result;
+        } catch (Exception e) {
+            logger.error("获取二级学院列表Json异常", e);
+            return result;
+        }
+    }
+
     @ApiOperation("保存二级学院")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody

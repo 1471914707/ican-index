@@ -257,6 +257,7 @@ CREATE TABLE `paper` (
   `min_number` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '需要最少学生数量',
   `remark` varchar(500) NOT NULL COMMENT '备注',
   `status` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '状态（0-初始化，1-提交成功,2-需要修改,3-选题中,4-已被选,5-全被选,6-进行中,7-结束,8-失效）',
+  `version` int(11) UNSIGNED NOT NULL COMMENT '版本号，做乐观锁用',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
@@ -289,6 +290,7 @@ CREATE TABLE `paper_student` (
 DROP TABLE IF EXISTS `project`;
 CREATE TABLE `project` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `activity_id` int(11) UNSIGNED NOT NULL COMMENT '多少届',
   `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',

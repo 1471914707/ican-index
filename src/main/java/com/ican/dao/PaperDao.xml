@@ -11,6 +11,9 @@
             <if test="_parameter.containsKey('title') and title != null and title != ''">
                 and title LIKE (#{title},'%')
             </if>
+            <if test="_parameter.containsKey('activityId') and activityId > 0">
+                and activity_id = #{activityId}
+            </if>
             <if test="_parameter.containsKey('current') and current > 0">
                 and current = #{current}
             </if>
@@ -51,13 +54,16 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.Paper" useGeneratedKeys="true" keyProperty="id">
-        insert into paper (current,school_id,college_id,department_id,clazz_id,teacher_id,title,require,max_number,min_number,remark,status,gmt_create,gmt_modified)
-        values (#{followUserId},#{followUserName},#{followId},#{followType},#{mode},#{content},now(),now())
+        insert into paper (activity_id,current,school_id,college_id,department_id,clazz_id,teacher_id,title,require,max_number,min_number,remark,status,version,gmt_create,gmt_modified)
+        values (#{activityId},#{current},#{schoolId},#{collegeId},#{departmentId},#{clazzId},#{teacherId},#{title},#{require},#{maxNumber},#{minNumber},#{remark},#{status},#{version},now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.Paper">
         update paper
         <set>
+            <if test="activityId != 0">
+                activity_id=#{activityId},
+            </if>
             <if test="current != 0">
                 current=#{current},
             </if>
@@ -75,6 +81,9 @@
             </if>
             <if test="teacherId != 0">
                 teacher_id=#{teacherId},
+            </if>
+            <if test="title != null">
+                title=#{title},
             </if>
             <if test="require != null">
                 require=#{require},

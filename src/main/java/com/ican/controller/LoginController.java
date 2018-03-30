@@ -1,5 +1,8 @@
 package com.ican.controller;
 
+import com.ican.async.EventModel;
+import com.ican.async.EventType;
+import com.ican.config.Constant;
 import com.ican.domain.UserInfo;
 import com.ican.util.*;
 import io.swagger.annotations.Api;
@@ -48,6 +51,9 @@ public class LoginController {
             return result;
         }
         if (("18813960106").equals(account) && ("123456").equals(password)) {
+            //测试异步
+           // Constant.IcanFacade.getEventProducer().fireEvent(new EventModel(EventType.TEST));
+
             UserInfo userInfo = new UserInfo();
             userInfo.setId(100002);
             //登录成功就添加cookie

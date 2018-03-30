@@ -54,17 +54,18 @@ public class PaperServiceImpl implements PaperService{
     }
 
     @Override
-    public List<Paper> list(String ids, int current, int schoolId, int collegeId, int departmentId, int clazzId,
-                            int teacherId, String name, String order, int page, int size) throws icanServiceException {
+    public List<Paper> list(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId, int clazzId,
+                            int teacherId, String title, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
+        param.put("activityId", activityId);
         param.put("current", current);
         param.put("schoolId", schoolId);
         param.put("collegeId", collegeId);
         param.put("departmentId", departmentId);
         param.put("clazzId", clazzId);
         param.put("teacherId", teacherId);
-        param.put("name", name);
+        param.put("title", title);
         param.put("order", order);
         param.put("start", (page - 1) * size);
         param.put("size", size);
@@ -72,17 +73,18 @@ public class PaperServiceImpl implements PaperService{
     }
 
     @Override
-    public int count(String ids, int current, int schoolId, int collegeId, int departmentId,
-                      int clazzId, int teacherId, String name) throws icanServiceException {
+    public int count(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId,
+                      int clazzId, int teacherId, String title) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
+        param.put("activityId", activityId);
         param.put("current", current);
         param.put("schoolId", schoolId);
         param.put("collegeId", collegeId);
         param.put("departmentId", departmentId);
         param.put("clazzId", clazzId);
         param.put("teacherId", teacherId);
-        param.put("name", name);
+        param.put("title", title);
         return Constant.DaoFacade.getPaperDao().count(param);
     }
 }
