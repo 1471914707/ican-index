@@ -11,14 +11,14 @@
             <if test="_parameter.containsKey('schoolId') and schoolId != 0">
                 and school_id =#{schoolId}
             </if>
-            <if test="_parameter.containsKey('email') and email != ''">
+            <if test="_parameter.containsKey('email') and email != null and email != ''">
                 and email =#{email}
             </if>
-            <if test="_parameter.containsKey('phone') and phone != ''">
+            <if test="_parameter.containsKey('phone') and phone != null and phone != ''">
                 and phone =#{phone}
             </if>
-            <if test="_parameter.containsKey('name') and name != ''">
-                and name =#{name}
+            <if test="_parameter.containsKey('name') and name != null and name != ''">
+                and name LIKE concat(#{name}, '%')
             </if>
         </where>
     </sql>

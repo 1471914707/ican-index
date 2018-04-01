@@ -16,7 +16,9 @@ import java.util.Map;
 @Service
 public class CollegeServiceImpl implements CollegeService {
     @Override
+    @Transactional
     public int delete(int id) throws icanServiceException {
+        Constant.DaoFacade.getUserInfoDao().delete(id);
         return Constant.DaoFacade.getCollegeDao().delete(id);
     }
 

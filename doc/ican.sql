@@ -31,7 +31,7 @@ CREATE TABLE `activity` (
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='活动';
+) ENGINE=InnoDB DEFAULT CHARSET=ucolletf8 COMMENT='活动';
 
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (
