@@ -3,8 +3,6 @@ package com.ican.domain;
 public class College {
     private int id;
     private int schoolId;
-    private String phone;
-    private String email;
     private String name;
     private String url;
     private String gmtCreate;
@@ -24,22 +22,6 @@ public class College {
 
     public void setSchoolId(int schoolId) {
         this.schoolId = schoolId;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getName() {

@@ -12,8 +12,6 @@ public class Student {
     private int clazzId;
     private int teacherId;
     private int current;
-    private String phone;
-    private String email;
     private String jobId;
     private String gmtCreate;
     private String gmtModified;
@@ -73,22 +71,6 @@ public class Student {
 
     public void setCurrent(int current) {
         this.current = current;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getJobId() {

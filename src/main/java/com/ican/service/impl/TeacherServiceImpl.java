@@ -47,24 +47,16 @@ public class TeacherServiceImpl implements TeacherService {
             if (StringUtils.isEmpty(teacher.getDegreeName())) {
                 teacher.setDegreeName("");
             }
-            if (StringUtils.isEmpty(teacher.getEmail())) {
-                teacher.setEmail("");
-            }
-            if (StringUtils.isEmpty(teacher.getPhone())) {
-                teacher.setPhone("");
-            }
             insert(teacher);
         }
         return teacher.getId();
     }
 
     @Override
-    public List<Teacher> list(String ids, String phone, String email, String jobId, int degree,
+    public List<Teacher> list(String ids, String jobId, int degree,
                               String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
-        param.put("phone", phone);
-        param.put("email", email);
         param.put("jobId", jobId);
         param.put("degree", degree);
         param.put("start", (page - 1) * size);
@@ -73,11 +65,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public int count(String ids, String phone, String email, String jobId, int degree) throws icanServiceException {
+    public int count(String ids, String jobId, int degree) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
-        param.put("phone", phone);
-        param.put("email", email);
         param.put("jobId", jobId);
         param.put("degree", degree);
         return Constant.DaoFacade.getTeacherDao().count(param);

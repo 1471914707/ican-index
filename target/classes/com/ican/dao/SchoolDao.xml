@@ -8,12 +8,6 @@
             <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
                 and id in (${ids})
             </if>
-            <if test="_parameter.containsKey('phone') and phone != null and phone != ''">
-                and phone = #{phone}
-            </if>
-            <if test="_parameter.containsKey('email') and email != null and email != ''">
-                and email = #{email}
-            </if>
             <if test="_parameter.containsKey('name') and name != null and name != ''">
                 and name LIKE contact(#{name}, '%')
             </if>
@@ -48,19 +42,13 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.School" useGeneratedKeys="true" keyProperty="id">
-        insert into school (id,phone,email,name,url,country,province,city,address,gmt_create,gmt_modified)
-        values (#{id},#{phone},#{email},#{name},#{url},#{country},#{province},#{city},#{address},now(),now())
+        insert into school (id,name,url,country,province,city,address,gmt_create,gmt_modified)
+        values (#{id},#{name},#{url},#{country},#{province},#{city},#{address},now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.School">
         update school
         <set>
-            <if test="phone != null">
-                phone=#{phone},
-            </if>
-            <if test="email != null">
-                email=#{email},
-            </if>
             <if test="name != null">
                 name=#{name},
             </if>

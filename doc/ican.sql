@@ -39,6 +39,8 @@ CREATE TABLE `user_info` (
   `headshot` varchar(150) NOT NULL COMMENT '头像(学校学院头像会显示在学生主页上,慎重上传)',
   `name` varchar(150) NOT NULL COMMENT '姓名',
   `sex` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '性别(1-男 2-女)',
+  `phone` varchar(20) NOT NULL COMMENT '手机',
+  `email` varchar(50) NOT NULL COMMENT '邮箱',
   `password` varchar(128) NOT NULL COMMENT '加密后的密码',
   `salt` varchar(32) NOT NULL COMMENT '密码盐',
   `role` tinyint(2) UNSIGNED NOT NULL COMMENT '角色,0-未定义,1-超级管理员,2-普通管理员,3-学校账号,4-二级学院账号,5-导师账号,6-学生账号',
@@ -62,7 +64,7 @@ CREATE TABLE `auth_photo` (
   KEY `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='认证照片表';
 
-DROP TABLE IF EXISTS `admin`;
+/*DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
   `phone` varchar(20) NOT NULL COMMENT '手机',
@@ -70,13 +72,13 @@ CREATE TABLE `admin` (
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='管理员表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='管理员表';*/
 
 DROP TABLE IF EXISTS `school`;
 CREATE TABLE `school` (
   `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
-  `phone` varchar(20) NOT NULL COMMENT '手机',
-  `email` varchar(50) NOT NULL COMMENT '邮箱',
+/*  `phone` varchar(20) NOT NULL COMMENT '手机',
+  `email` varchar(50) NOT NULL COMMENT '邮箱',*/
   `name` varchar(150) NOT NULL COMMENT '校名',
   `url` varchar(500) NOT NULL COMMENT '官网',
   `banner` varchar(500) NOT NULL COMMENT '横幅地址',
@@ -109,8 +111,8 @@ DROP TABLE IF EXISTS `college`;
 CREATE TABLE `college` (
   `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
-  `phone` varchar(20) NOT NULL COMMENT '手机',
-  `email` varchar(50) NOT NULL COMMENT '邮箱',
+/*  `phone` varchar(20) NOT NULL COMMENT '手机',
+  `email` varchar(50) NOT NULL COMMENT '邮箱',*/
   `name` varchar(500) NOT NULL COMMENT '二级学院名称',
   `url` varchar(500) NOT NULL COMMENT '官网',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
@@ -122,8 +124,8 @@ CREATE TABLE `college` (
 DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE `teacher` (
   `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
-  `phone` varchar(20) NOT NULL COMMENT '手机',
-  `email` varchar(50) NOT NULL COMMENT '邮箱',
+/*  `phone` varchar(20) NOT NULL COMMENT '手机',
+  `email` varchar(50) NOT NULL COMMENT '邮箱',*/
   `job_id` varchar(50) NOT NULL COMMENT '工号',
   `degree` tinyint(2) NOT NULL COMMENT '职称,0-未填写,1-助教,2-讲师,3-副教授,4-教授,5-高级工程师,6-自定义',
   `degree_name` varchar(50) NOT NULL COMMENT '自定义职称',
@@ -184,8 +186,8 @@ CREATE TABLE `student` (
   `clazz_id` int(11) UNSIGNED NOT NULL COMMENT '班级id',
   `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '最终导师id',
   `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
-  `phone` varchar(20) NOT NULL COMMENT '手机',
-  `email` varchar(50) NOT NULL COMMENT '邮箱',
+/*  `phone` varchar(20) NOT NULL COMMENT '手机',
+  `email` varchar(50) NOT NULL COMMENT '邮箱',*/
   `job_id` varchar(50) NOT NULL COMMENT '学号',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',

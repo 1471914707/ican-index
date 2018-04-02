@@ -23,8 +23,8 @@ public class CollegeVO {
         this.name = userInfo.getName();
         this.role = userInfo.getRole();
         this.status = userInfo.getStatus();
-        this.phone = college.getPhone();
-        this.email = college.getEmail();
+        this.phone = userInfo.getPhone();
+        this.email = userInfo.getEmail();
         this.collegeName = college.getName();
         this.url = college.getUrl();
         this.gmtCreate = college.getGmtCreate();
@@ -134,6 +134,8 @@ public class CollegeVO {
         userInfo.setName(this.name);
         userInfo.setHeadshot(this.headshot);
         userInfo.setId(this.id);
+        userInfo.setPhone(this.phone);
+        userInfo.setEmail(this.email);
         return userInfo;
     }
 
@@ -142,8 +144,6 @@ public class CollegeVO {
         college.setId(this.id);
         college.setSchoolId(this.schoolId);
         college.setName(this.collegeName);
-        college.setPhone(this.phone);
-        college.setEmail(this.email);
         college.setUrl(this.url);
         return college;
     }

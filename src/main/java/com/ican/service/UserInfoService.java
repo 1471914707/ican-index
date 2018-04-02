@@ -17,8 +17,8 @@ public interface UserInfoService {
     int USER_STATUS_INVALID = 2;
 
     //角色定义
-    int ADMIN_SUPER = 1;
-    int ADMIN_SYSTEM = 2;
+    int USER_SUPER = 1;
+    int USER_ADMIN = 2;
     int USER_SCHOOL = 3;
     int USER_COLLEGE = 4;
     int USER_TEACHER = 5;
@@ -39,7 +39,9 @@ public interface UserInfoService {
 
     int save(UserInfo userInfo) throws icanServiceException;
 
-    List<UserInfo> list(String ids, int role, String order, int page, int size) throws icanServiceException;
+    List<UserInfo> list(String ids, String phone, String email, int role, String order, int page, int size) throws icanServiceException;
 
-    int count(String ids, int role) throws icanServiceException;
+    int count(String ids, String phone, String eamil, int role) throws icanServiceException;
+
+    List<UserInfo> listByAccount(String account, int role) throws icanServiceException;
 }

@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 @Api("学校的操作")
 @Controller
 @RequestMapping("/school")
-public class SchoolController {
-    private final static Logger logger = LoggerFactory.getLogger(SchoolController.class);
+public class SchoolSController {
+    private final static Logger logger = LoggerFactory.getLogger(SchoolSController.class);
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String index() {

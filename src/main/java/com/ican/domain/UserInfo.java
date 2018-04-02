@@ -9,6 +9,8 @@ public class UserInfo {
     private String headshot;
     private String name;
     private int sex;
+    private String phone;
+    private String email;
     private String password;
     private String salt;
     private int role;
@@ -46,6 +48,22 @@ public class UserInfo {
 
     public void setSex(int sex) {
         this.sex = sex;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

@@ -41,14 +41,8 @@ public class StudentServiceImpl implements StudentService {
         if (student.getId() > 0) {
             update(student);
         } else {
-            if (StringUtils.isEmpty(student.getEmail())) {
-                student.setEmail("");
-            }
             if (StringUtils.isEmpty(student.getJobId())){
                 student.setJobId("");
-            }
-            if (StringUtils.isEmpty(student.getPhone())) {
-                student.setPhone("");
             }
             insert(student);
         }

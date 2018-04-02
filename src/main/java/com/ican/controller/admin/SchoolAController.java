@@ -2,6 +2,7 @@ package com.ican.controller.admin;
 
 import com.ican.config.Constant;
 import com.ican.config.ServiceFacade;
+import com.ican.domain.AuthPhoto;
 import com.ican.domain.Follow;
 import com.ican.domain.School;
 import com.ican.domain.UserInfo;
@@ -34,12 +35,12 @@ public class SchoolAController {
 
     private final static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-    @RequestMapping("/list")
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
     public String list(HttpServletRequest request, HttpServletResponse response) {
         return "/admin/school/list";
     }
 
-    @RequestMapping("/detail")
+    @RequestMapping(value = "/detail",method = RequestMethod.GET)
     public String detail(@RequestParam(value = "schoolId") String schoolId,
                         HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("schoolId", schoolId);
@@ -64,7 +65,11 @@ public class SchoolAController {
             }
             School school = Constant.ServiceFacade.getSchoolService().select(schoolId);
             SchoolVO schoolVO = new SchoolVO(school, userInfo);
-            BaseResultUtil.setSuccess(result, schoolVO);
+            List<AuthPhoto> authPhotoList = Constant.ServiceFacade.getAuthPhotoService().list(userInfo.getId(), "id desc", 1, 100);
+            Map data = new HashMap();
+            data.put("school", schoolVO);
+            data.put("authPhotoList", authPhotoList);
+            BaseResultUtil.setSuccess(result, data);
             return result;
         } catch (Exception e) {
             logger.error("获取学校详情异常",e);
@@ -76,21 +81,21 @@ public class SchoolAController {
     @ResponseBody
     @RequestMapping(value = "/schoolList", method = RequestMethod.GET)
     public BaseResult schoolList(@RequestParam(value = "name", required = false) String name,
-                                  @RequestParam(value = "country", required = false, defaultValue = "0") int country,
-                                  @RequestParam(value = "province", required = false, defaultValue = "0") int province,
-                                  @RequestParam(value = "city", required = false, defaultValue = "0") int city,
-                                  @RequestParam(value = "page", defaultValue = "1") int page,
-                                  @RequestParam(value = "size", defaultValue = "20") int size,
-                                  HttpServletRequest request, HttpServletResponse response) {
+                                 @RequestParam(value = "country", required = false, defaultValue = "0") int country,
+                                 @RequestParam(value = "province", required = false, defaultValue = "0") int province,
+                                 @RequestParam(value = "city", required = false, defaultValue = "0") int city,
+                                 @RequestParam(value = "page", defaultValue = "1") int page,
+                                 @RequestParam(value = "size", defaultValue = "20") int size,
+                                 HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
-            List<School> schoolList = Constant.ServiceFacade.getSchoolService().list(null, country, province, city, name, null, null, "id desc", page, size);
+            List<School> schoolList = Constant.ServiceFacade.getSchoolService().list(null, country, province, city, name, "id desc", page, size);
             Set<String> schoolSet = new HashSet<>();
             for (School school : schoolList) {
                 schoolSet.add("" + school.getId());
             }
             String ids = String.join(",", schoolSet);
-            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(ids, 0, null, 1, size);
+            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(ids, null, null, UserInfoService.USER_SCHOOL, null, 1, size);
             Map map = new HashMap();
             for (UserInfo userInfo : userInfoList) {
                 map.put(userInfo.getId(), userInfo);
@@ -106,7 +111,7 @@ public class SchoolAController {
                 }
                 schoolVOList.add(schoolVO);
             }
-            int total = Constant.ServiceFacade.getSchoolService().count(null, country, province, city, name, null, null);
+            int total = Constant.ServiceFacade.getSchoolService().count(null, country, province, city, name);
             Map param = new HashMap();
             param.put("list", schoolVOList);
             param.put("total", total);
@@ -122,8 +127,8 @@ public class SchoolAController {
     @ResponseBody
     @RequestMapping(value = "/schoolAuth", method = RequestMethod.POST)
     public BaseResult schoolAuth(@RequestParam(value = "schoolId", required = false, defaultValue = "0") int schoolId,
-                                  @RequestParam(value = "status") int status,
-                                  HttpServletRequest request, HttpServletResponse response) {
+                                 @RequestParam(value = "status") int status,
+                                 HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
             if (schoolId <= 0) {
@@ -165,8 +170,9 @@ public class SchoolAController {
                                   HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
-            Constant.ServiceFacade.getUserInfoService().save(schoolTO.toUserInfo());
-            int id = Constant.ServiceFacade.getSchoolService().save(schoolTO.toSchool());
+            int id = Constant.ServiceFacade.getSchoolService().save(schoolTO);
+            /*Constant.ServiceFacade.getUserInfoService().save(schoolTO.toUserInfo());
+            int id = Constant.ServiceFacade.getSchoolService().save(schoolTO.toSchool());*/
             BaseResultUtil.setSuccess(result, id);
             return result;
         } catch (Exception e) {

@@ -2,6 +2,7 @@ package com.ican.to;
 
 import com.ican.domain.School;
 import com.ican.domain.UserInfo;
+import com.ican.service.UserInfoService;
 
 public class SchoolTO {
     private int id;
@@ -138,6 +139,10 @@ public class SchoolTO {
         userInfo.setId(this.id);
         userInfo.setHeadshot(this.headshot);
         userInfo.setName(this.name);
+        userInfo.setPhone(this.phone);
+        userInfo.setEmail(this.email);
+        userInfo.setRole(UserInfoService.USER_SCHOOL);
+        userInfo.setStatus(UserInfoService.USER_STATUS_VALID);
         return userInfo;
     }
 
@@ -147,8 +152,6 @@ public class SchoolTO {
         school.setAddress(this.address);
         school.setName(this.schoolName);
         school.setUrl(this.url);
-        school.setPhone(this.phone);
-        school.setEmail(this.email);
         school.setCountry(this.country);
         school.setProvince(this.province);
         school.setCity(this.city);

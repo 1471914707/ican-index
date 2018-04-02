@@ -32,8 +32,8 @@ public class SchoolVO {
         this.sex = userInfo.getSex();
         this.role = userInfo.getRole();
         this.status = userInfo.getStatus();
-        this.phone = school.getPhone();
-        this.email = school.getEmail();
+        this.phone = userInfo.getPhone();
+        this.email = userInfo.getEmail();
         this.gmtCreate = school.getGmtCreate();
         this.gmtModified = school.getGmtModified();
         this.schoolName = school.getName();

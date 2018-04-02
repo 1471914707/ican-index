@@ -54,12 +54,6 @@ public class SchoolServiceImpl implements SchoolService {
             if (StringUtils.isEmpty(school.getName())) {
                 school.setName("");
             }
-            if (StringUtils.isEmpty(school.getPhone())) {
-                school.setPhone("");
-            }
-            if (StringUtils.isEmpty(school.getEmail())) {
-                school.setEmail("");
-            }
             if (StringUtils.isEmpty(school.getAddress())) {
                 school.setAddress("");
             }
@@ -76,8 +70,18 @@ public class SchoolServiceImpl implements SchoolService {
     public int save(SchoolTO schoolTO) throws icanServiceException {
         int id = Constant.ServiceFacade.getUserInfoService().save(schoolTO.toUserInfo());
         if (schoolTO.getId() <= 0) {
-            schoolTO.setId(id);
-            Constant.ServiceFacade.getSchoolService().insert(schoolTO.toSchool());
+            School school = schoolTO.toSchool();
+            school.setId(id);
+            if (StringUtils.isEmpty(school.getName())) {
+                school.setName("");
+            }
+            if (StringUtils.isEmpty(school.getAddress())) {
+                school.setAddress("");
+            }
+            if (StringUtils.isEmpty(school.getUrl())) {
+                school.setUrl("");
+            }
+            Constant.ServiceFacade.getSchoolService().insert(school);
         } else {
             Constant.ServiceFacade.getSchoolService().update(schoolTO.toSchool());
         }
@@ -85,15 +89,13 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public List<School> list(String ids, int country, int province, int city, String name, String phone, String email, String order, int page, int size) throws icanServiceException {
+    public List<School> list(String ids, int country, int province, int city, String name, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
         param.put("country", country);
         param.put("province", province);
         param.put("city", city);
         param.put("name", name);
-        param.put("phone", phone);
-        param.put("email", email);
         param.put("order", order);
         param.put("start", (page - 1) * size);
         param.put("size", size);
@@ -101,15 +103,13 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public int count(String ids, int country, int province, int city, String name, String phone, String email) throws icanServiceException {
+    public int count(String ids, int country, int province, int city, String name) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
         param.put("country", country);
         param.put("province", province);
         param.put("city", city);
         param.put("name", name);
-        param.put("phone", phone);
-        param.put("email", email);
         return Constant.DaoFacade.getSchoolDao().count(param);
     }
 }

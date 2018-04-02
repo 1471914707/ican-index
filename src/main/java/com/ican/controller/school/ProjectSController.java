@@ -7,12 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/school/paper")
-public class PaperController {
-    private final static Logger logger = LoggerFactory.getLogger(PaperController.class);
+@RequestMapping("/school/project")
+public class ProjectSController {
+    private final static Logger logger = LoggerFactory.getLogger(ProjectSController.class);
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String index() {
-        return "/school/paper/list";
+        return "/school/project/list";
     }
+
 }

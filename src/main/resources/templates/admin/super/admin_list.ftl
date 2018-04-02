@@ -32,10 +32,6 @@
                         <el-collapse>
                             <a href="/admin/schoolAppeal"><el-collapse-item title="管理员管理" name="1">
                             </el-collapse-item></a>
-                            <a href="/admin/school/list"><el-collapse-item title="学校申请列表" name="2">
-                            </el-collapse-item></a>
-                            <a href="/admin/schoolAppeal"><el-collapse-item title="学校申议信息" name="3">
-                            </el-collapse-item></a>
                         </el-collapse>
                     </div>
                 </nav>
@@ -171,7 +167,7 @@
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
                         :current-page="page"
-                        :page-sizes="[2, 4, 6, 8]"
+                        :page-sizes="[20, 30, 40, 50]"
                         :page-size="size"
                         layout="total, sizes, prev, pager, next, jumper"
                         :total="total">
@@ -200,7 +196,7 @@
                 return {
                     admin:{},
                     page:1,
-                    size:2,
+                    size:20,
                     total:0,
                     list: [],
                     editFlag:false,
@@ -232,7 +228,7 @@
                     var self = this;
                     self.loading = true;
                     var page = page || this.page || 1;
-                    var size = size || this.size || 5;
+                    var size = size || this.size || 20;
                     Api.get('/admin/super/adminList',{
                         page:page,
                         size:size

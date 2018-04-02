@@ -59,6 +59,10 @@ public class UserInfoServiceImpl implements UserInfoService {
             if (StringUtils.isEmpty(userInfo.getName())) {
                 userInfo.setName("");
             }
+            if (StringUtils.isEmpty(userInfo.getPhone())) {
+                userInfo.setPhone("");
+            }
+            if (StringUtils.isEmpty(userInfo.getEmail()))
             //默认密码123456，salt-123456
             if (StringUtils.isEmpty(userInfo.getPassword())) {
                 userInfo.setPassword("EA48576F30BE1669971699C09AD05C94");
@@ -72,9 +76,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public List<UserInfo> list(String ids, int role, String order, int page, int size) throws icanServiceException {
+    public List<UserInfo> list(String ids, String phone, String email, int role, String order, int page, int size) throws icanServiceException {
         HashMap param = new HashMap();
         param.put("ids", ids);
+        param.put("phone", phone);
+        param.put("email", email);
         param.put("role", role);
         param.put("order", order);
         param.put("start", (page - 1) * size);
@@ -83,10 +89,20 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public int count(String ids, int role) throws icanServiceException {
+    public int count(String ids, String phone, String email, int role) throws icanServiceException {
         HashMap param = new HashMap();
         param.put("ids", ids);
+        param.put("phone", phone);
+        param.put("email", email);
         param.put("role", role);
         return Constant.DaoFacade.getUserInfoDao().count(param);
+    }
+
+    @Override
+    public List<UserInfo> listByAccount(String account, int role) throws icanServiceException {
+        HashMap param = new HashMap();
+        param.put("account", account);
+        param.put("role", role);
+        return Constant.DaoFacade.getUserInfoDao().listByAccount(param);
     }
 }

@@ -20,7 +20,7 @@ public interface SchoolService {
 
     int save(SchoolTO schoolTO) throws icanServiceException;
 
-    List<School> list(String ids, int country, int province, int city, String name, String phone, String email, String order, int page, int size) throws icanServiceException;
+    List<School> list(String ids, int country, int province, int city, String name, String order, int page, int size) throws icanServiceException;
 
-    int count(String ids, int country, int province, int city, String name, String phone, String email) throws icanServiceException;
+    int count(String ids, int country, int province, int city, String name) throws icanServiceException;
 }

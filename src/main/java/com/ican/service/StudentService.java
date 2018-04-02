@@ -18,9 +18,9 @@ public interface StudentService {
     int save(Student student) throws icanServiceException;
 
     List<Student> list(String ids, int schoolId, int collegeId, int departmentId,
-                              int clazzId, int teacherId, int current, String jobId,
-                              String order, int page, int size) throws icanServiceException;
+                       int clazzId, int teacherId, int current, String jobId,
+                       String order, int page, int size) throws icanServiceException;
 
     int count(String ids, int schoolId, int collegeId, int departmentId,
-                     int clazzId, int teacherId, int current, String jobId) throws icanServiceException;
+              int clazzId, int teacherId, int current, String jobId) throws icanServiceException;
 }

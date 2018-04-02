@@ -3,6 +3,7 @@ package com.ican.controller.admin;
 import com.ican.config.Constant;
 import com.ican.domain.Admin;
 import com.ican.domain.UserInfo;
+import com.ican.service.UserInfoService;
 import com.ican.to.AdminTO;
 import com.ican.util.BaseResult;
 import com.ican.util.BaseResultUtil;
@@ -42,7 +43,7 @@ public class superAdminController {
                                  HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
-            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(null,2, "id desc", page, size);
+            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(null, null, null, UserInfoService.USER_ADMIN, "id desc", page, size);
             Set<String> userInfoSet = new HashSet<>();
             for (UserInfo userInfo : userInfoList) {
                 userInfoSet.add("" + userInfo.getId());
@@ -59,7 +60,7 @@ public class superAdminController {
                 AdminVO adminVO = new AdminVO((Admin) map.get(userInfo.getId()), userInfo);
                 adminVOList.add(adminVO);
             }
-            int total = Constant.ServiceFacade.getUserInfoService().count(null,2);
+            int total = Constant.ServiceFacade.getUserInfoService().count(null,null,null,UserInfoService.USER_ADMIN);
             Map data = new HashMap();
             data.put("list", adminVOList);
             data.put("total", total);
@@ -79,7 +80,7 @@ public class superAdminController {
                                 HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         try {
-            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(null,1, "id desc", page, size);
+            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(null, null, null, UserInfoService.USER_SUPER, "id desc", page, size);
             Set<String> userInfoSet = new HashSet<>();
             for (UserInfo userInfo : userInfoList) {
                 userInfoSet.add("" + userInfo.getId());
@@ -96,7 +97,7 @@ public class superAdminController {
                 AdminVO adminVO = new AdminVO((Admin) map.get(userInfo.getId()), userInfo);
                 adminVOList.add(adminVO);
             }
-            int total = Constant.ServiceFacade.getUserInfoService().count(null,2);
+            int total = Constant.ServiceFacade.getUserInfoService().count(null,null,null, UserInfoService.USER_SUPER);
             Map data = new HashMap();
             data.put("list", adminVOList);
             data.put("total", total);

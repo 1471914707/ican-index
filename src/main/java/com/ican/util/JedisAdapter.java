@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.*;
 
@@ -15,6 +17,8 @@ import java.util.Random;
 public class JedisAdapter {
     private static final Logger logger = LoggerFactory.getLogger(JedisAdapter.class);
 
+    @Value("${ican.url.redis}")
+    private String redisHost;
 
     public static void print(int index, Object obj) {
         System.out.println(String.format("%d,%s", index, obj.toString()));
@@ -45,6 +49,9 @@ public class JedisAdapter {
         }
         for (int i = 0; i < random.nextInt(1000); i++) {
             jedisAdapter.incSchoolDayLogin("广东金融学院");
+        }
+        for (int i = 0; i < random.nextInt(1000); i++) {
+            jedisAdapter.incSchoolDayLogin("仲恺农业工程学院");
         }
     }
 
@@ -203,6 +210,7 @@ public class JedisAdapter {
     private static JedisPool pool = null;
 
     public JedisAdapter() {
+       // pool = new JedisPool("139.199.80.165", 6379);
         pool = new JedisPool("localhost", 6379);
     }
 

@@ -11,12 +11,6 @@
             <if test="_parameter.containsKey('schoolId') and schoolId != 0">
                 and school_id =#{schoolId}
             </if>
-            <if test="_parameter.containsKey('email') and email != null and email != ''">
-                and email =#{email}
-            </if>
-            <if test="_parameter.containsKey('phone') and phone != null and phone != ''">
-                and phone =#{phone}
-            </if>
             <if test="_parameter.containsKey('name') and name != null and name != ''">
                 and name LIKE concat(#{name}, '%')
             </if>
@@ -42,8 +36,8 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.College" useGeneratedKeys="true" keyProperty="id">
-        insert into college (id,school_id,phone,email,name,url,gmt_create,gmt_modified)
-        values (#{id},#{schoolId},#{phone},#{email},#{name},#{url},now(),now())
+        insert into college (id,school_id,name,url,gmt_create,gmt_modified)
+        values (#{id},#{schoolId},#{name},#{url},now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.College">
@@ -52,12 +46,6 @@
             <if test="schoolId != 0">
                 school_id = #{schoolId},
             </if>
-            <if test="phone != null">
-                phone = #{phone},
-            </if>
-            <if test="email != null">
-                email = #{email},
-            </if>
             <if test="name != null">
                 name = #{name},
             </if>
@@ -65,7 +53,7 @@
                 url = #{url},
             </if>
             <if test="true">
-                gmt_modified = #{gmtModified},
+                gmt_modified = now(),
             </if>
         </set>
         where id=#{id}

@@ -161,7 +161,7 @@
                         /*alert(result.data);*/
                         window.location.href = result.data;
                     }else {
-                        self.$message({showClose: true, message: '登录异常', type: 'error'});
+                        self.$message({showClose: true, message: result.msg, type: 'error'});
                     }
                 });
             },

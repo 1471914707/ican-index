@@ -228,6 +228,24 @@
                 </el-card>
             </div>
             <br><br>
+
+            <el-card class="grids">
+                <el-row>
+                    <el-col :span="8" v-for="(item, index) in authPhotoList" :key="o" :offset="index > 0 ? 2 : 0">
+                        <el-card :body-style="{ padding: '0px' }">
+                            <img :src="item.url" class="image">
+                            <div style="padding: 14px;">
+                                <span>好吃的汉堡</span>
+                                <div class="bottom clearfix">
+                                    <el-button type="text" class="button">操作按钮</el-button>
+                                </div>
+                            </div>
+                        </el-card>
+                    </el-col>
+                </el-row>
+            </el-card>
+
+            <br><br>
             <el-card class="grids">
                 <div slot="header" class="clearfix progressbar-heading grids-heading">
                     <span>跟进记录</span>
@@ -327,7 +345,8 @@
                 followPage:1,
                 followTotal:0,
                 followSize:10,
-                modeList:[{"id":1,"name":'电话'},{"id":2,"name":'QQ'},{"id":3,"name":'微信'},{"id":4,"name":'邮箱'}]
+                modeList:[{"id":1,"name":'电话'},{"id":2,"name":'QQ'},{"id":3,"name":'微信'},{"id":4,"name":'邮箱'}],
+                authPhotoList:[]
             }
         },
         watch:{
@@ -349,7 +368,8 @@
                 },function (result) {
                     if (result.code == 0) {
                         if (result.data) {
-                            self.school = result.data;
+                            self.school = result.data.school;
+                            self.authPhotoList = result.data.authPhotoList;
                             self.schoolName = self.school.schoolName;
                         }
                     }else {

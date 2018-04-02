@@ -43,14 +43,8 @@ public class CollegeServiceImpl implements CollegeService {
             return -1;
         }
         if (college.getId() > 0) {
-            if (StringUtils.isEmpty(college.getEmail())) {
-                college.setEmail("");
-            }
             if (StringUtils.isEmpty(college.getName())) {
                 college.setName("");
-            }
-            if (StringUtils.isEmpty(college.getPhone())) {
-                college.setPhone("");
             }
             if (StringUtils.isEmpty(college.getUrl())) {
                 college.setUrl("");
@@ -63,11 +57,18 @@ public class CollegeServiceImpl implements CollegeService {
     @Transactional
     @Override
     public int save(CollegeTO collegeTO) throws icanServiceException {
+
         int id = Constant.ServiceFacade.getUserInfoService().save(collegeTO.toUserInfo());
-        System.out.println("+++++++++++++++====" + id);
         if (collegeTO.getId() <= 0) {
-            collegeTO.setId(id);
-            Constant.ServiceFacade.getCollegeService().insert(collegeTO.toCollege());
+            College college = collegeTO.toCollege();
+            college.setId(id);
+            if (StringUtils.isEmpty(college.getName())) {
+                college.setName("");
+            }
+            if (StringUtils.isEmpty(college.getUrl())) {
+                college.setUrl("");
+            }
+            Constant.ServiceFacade.getCollegeService().insert(college);
         } else {
             Constant.ServiceFacade.getCollegeService().update(collegeTO.toCollege());
         }
@@ -75,12 +76,9 @@ public class CollegeServiceImpl implements CollegeService {
     }
 
     @Override
-    public List<College> list(int schoolId, String phone, String email,
-                              String order, int page, int size) throws icanServiceException {
+    public List<College> list(int schoolId, String order, int page, int size) throws icanServiceException {
         Map params = new HashMap();
         params.put("schoolId", schoolId);
-        params.put("phone", phone);
-        params.put("email", email);
         params.put("order", order);
         params.put("start", (page - 1) * size);
         params.put("size", size);
@@ -88,11 +86,9 @@ public class CollegeServiceImpl implements CollegeService {
     }
 
     @Override
-    public int count(int schoolId, String phone, String email) throws icanServiceException {
+    public int count(int schoolId) throws icanServiceException {
         Map params = new HashMap();
         params.put("schoolId", schoolId);
-        params.put("phone", phone);
-        params.put("email", email);
         return Constant.DaoFacade.getCollegeDao().count(params);
     }
 }

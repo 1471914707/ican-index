@@ -44,6 +44,9 @@
             display: block;
             border-radius: 50%;
         }
+        body a{
+            color:#409EFF;
+        }
     </style>
 </head>
 <body class="cbp-spmenu-push">

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/school/student")
-public class StudentController {
-    private final static Logger logger = LoggerFactory.getLogger(StudentController.class);
+public class StudentSController {
+    private final static Logger logger = LoggerFactory.getLogger(StudentSController.class);
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index() {

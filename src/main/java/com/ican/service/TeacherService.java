@@ -17,8 +17,8 @@ public interface TeacherService {
 
     int save(Teacher teacher) throws icanServiceException;
 
-    List<Teacher> list(String ids, String phone, String email, String jobId, int degree,
-                              String order, int page, int size) throws icanServiceException;
+    List<Teacher> list(String ids, String jobId, int degree,
+                       String order, int page, int size) throws icanServiceException;
 
-    int count(String ids, String phone, String email, String jobId, int degree) throws icanServiceException;
+    int count(String ids, String jobId, int degree) throws icanServiceException;
 }
