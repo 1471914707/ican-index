@@ -8,12 +8,6 @@
             <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
                 and id in (${ids})
             </if>
-            <if test="_parameter.containsKey('phone') and phone != null and phone != ''">
-                and phone = #{phone}
-            </if>
-            <if test="_parameter.containsKey('email') and email != null and email != ''">
-                and email = #{email}
-            </if>
             <if test="_parameter.containsKey('jobId') and jobId != null and jobId != ''">
                 and job_id LIKE contact(#{jobId}, '%')
             </if>
@@ -49,12 +43,6 @@
     <update id="update" parameterType="com.ican.domain.Teacher">
         update teacher
         <set>
-            <if test="phone != null">
-                phone=#{phone},
-            </if>
-            <if test="email != null">
-                email=#{email},
-            </if>
             <if test="name != null">
                 name=#{name},
             </if>

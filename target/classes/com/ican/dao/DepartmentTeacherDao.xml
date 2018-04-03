@@ -11,7 +11,10 @@
             <if test="_parameter.containsKey('departmentId') and departmentId > 0">
                 and department_id = #{departmentId}
             </if>
-            <if test="_parameter.containsKey('teacherId') and teacherId > 0'">
+            <if test="_parameter.containsKey('departmentIds') and departmentIds != null and departmentIds != ''">
+                and department_id in (${departmentIds})
+            </if>
+            <if test="_parameter.containsKey('teacherId') and teacherId > 0">
                 and teacher_id = #{teacherId}
             </if>
         </where>

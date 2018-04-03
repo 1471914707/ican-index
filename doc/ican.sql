@@ -111,8 +111,6 @@ DROP TABLE IF EXISTS `college`;
 CREATE TABLE `college` (
   `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
-/*  `phone` varchar(20) NOT NULL COMMENT '手机',
-  `email` varchar(50) NOT NULL COMMENT '邮箱',*/
   `name` varchar(500) NOT NULL COMMENT '二级学院名称',
   `url` varchar(500) NOT NULL COMMENT '官网',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
@@ -124,14 +122,14 @@ CREATE TABLE `college` (
 DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE `teacher` (
   `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
-/*  `phone` varchar(20) NOT NULL COMMENT '手机',
-  `email` varchar(50) NOT NULL COMMENT '邮箱',*/
+  `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `job_id` varchar(50) NOT NULL COMMENT '工号',
   `degree` tinyint(2) NOT NULL COMMENT '职称,0-未填写,1-助教,2-讲师,3-副教授,4-教授,5-高级工程师,6-自定义',
   `degree_name` varchar(50) NOT NULL COMMENT '自定义职称',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_school_id` (`school_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='教师';
 
 DROP TABLE IF EXISTS `department`;
@@ -139,6 +137,7 @@ CREATE TABLE `department` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
+  `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '负责人id',
   `name` varchar(150) NOT NULL COMMENT '系名',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
@@ -186,8 +185,6 @@ CREATE TABLE `student` (
   `clazz_id` int(11) UNSIGNED NOT NULL COMMENT '班级id',
   `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '最终导师id',
   `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
-/*  `phone` varchar(20) NOT NULL COMMENT '手机',
-  `email` varchar(50) NOT NULL COMMENT '邮箱',*/
   `job_id` varchar(50) NOT NULL COMMENT '学号',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',

@@ -11,11 +11,14 @@
             <if test="_parameter.containsKey('name') and name != null and name != ''">
                 and name LIKE contact(#{name}, '%')
             </if>
-            <if test="_parameter.containsKey('schoolId') and schoolId > 0'">
+            <if test="_parameter.containsKey('schoolId') and schoolId > 0">
                 and school_id = #{schoolId}
             </if>
-            <if test="_parameter.containsKey('collegeId') and collegeId > 0'">
+            <if test="_parameter.containsKey('collegeId') and collegeId > 0">
                 and college_id = #{collegeId}
+            </if>
+            <if test="_parameter.containsKey('teacherId') and teacherId > 0">
+                and teacher_id = #{teacherId}
             </if>
         </where>
     </sql>
