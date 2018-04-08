@@ -1,10 +1,12 @@
 package com.ican.service.impl;
 
 import com.ican.config.Constant;
+import com.ican.domain.UserInfo;
 import com.ican.exception.icanServiceException;
 import com.ican.domain.School;
 import com.ican.service.SchoolService;
 import com.ican.to.SchoolTO;
+import com.ican.vo.SchoolVO;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,14 @@ public class SchoolServiceImpl implements SchoolService {
     @Override
     public School select(int id) throws icanServiceException {
         return (School) Constant.DaoFacade.getSchoolDao().select(id);
+    }
+
+    @Override
+    public SchoolVO selectVO(int id) throws icanServiceException {
+        UserInfo userInfo = Constant.ServiceFacade.getUserInfoService().select(id);
+        School school = Constant.ServiceFacade.getSchoolService().select(id);
+        SchoolVO schoolVO = new SchoolVO(school, userInfo);
+        return schoolVO;
     }
 
     @Override

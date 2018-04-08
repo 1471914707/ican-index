@@ -54,7 +54,7 @@ public class PaperServiceImpl implements PaperService{
     }
 
     @Override
-    public List<Paper> list(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId, int clazzId,
+    public List<Paper> list(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId,
                             int teacherId, String title, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
@@ -63,7 +63,6 @@ public class PaperServiceImpl implements PaperService{
         param.put("schoolId", schoolId);
         param.put("collegeId", collegeId);
         param.put("departmentId", departmentId);
-        param.put("clazzId", clazzId);
         param.put("teacherId", teacherId);
         param.put("title", title);
         param.put("order", order);
@@ -74,7 +73,7 @@ public class PaperServiceImpl implements PaperService{
 
     @Override
     public int count(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId,
-                      int clazzId, int teacherId, String title) throws icanServiceException {
+                     int teacherId, String title) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
         param.put("activityId", activityId);
@@ -82,7 +81,6 @@ public class PaperServiceImpl implements PaperService{
         param.put("schoolId", schoolId);
         param.put("collegeId", collegeId);
         param.put("departmentId", departmentId);
-        param.put("clazzId", clazzId);
         param.put("teacherId", teacherId);
         param.put("title", title);
         return Constant.DaoFacade.getPaperDao().count(param);

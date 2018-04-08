@@ -17,6 +17,10 @@ public class TeacherVO {
     private String gmtCreate;
     private String gmtModified;
 
+    public TeacherVO() {
+
+    }
+
     public TeacherVO(Teacher teacher, UserInfo userInfo) {
         this.id = teacher.getId();
         this.headshot = userInfo.getHeadshot();

@@ -7,10 +7,15 @@ import java.util.List;
 public class StudentVO {
     private int id;
     private int schoolId;
+    private String schoolName;
     private int collegeId;
+    private String collegeName;
     private int departmentId;
+    private String departmentName;
     private int clazzId;
+    private String clazzName;
     private int teacherId;
+    private String teacherName;
     private String headshot;
     private String name;
     private int role;
@@ -202,5 +207,45 @@ public class StudentVO {
 
     public void setGmtModified(String gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+    }
+
+    public String getCollegeName() {
+        return collegeName;
+    }
+
+    public void setCollegeName(String collegeName) {
+        this.collegeName = collegeName;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getClazzName() {
+        return clazzName;
+    }
+
+    public void setClazzName(String clazzName) {
+        this.clazzName = clazzName;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 }

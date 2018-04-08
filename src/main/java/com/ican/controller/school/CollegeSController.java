@@ -47,8 +47,8 @@ public class CollegeSController {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo userInfo = Ums.getUser(request);
         try {
-            List<College> collegeList = Constant.ServiceFacade.getCollegeService().list(userInfo.getId(), "id desc", page, size);
-            int total = Constant.ServiceFacade.getCollegeService().count(userInfo.getId());
+            List<College> collegeList = Constant.ServiceFacade.getCollegeService().list(null, userInfo.getId(), "id desc", page, size);
+            int total = Constant.ServiceFacade.getCollegeService().count(null, userInfo.getId());
             Set<String> collegeIds = new HashSet<>();
             for (College college : collegeList) {
                 collegeIds.add(college.getId() + "");

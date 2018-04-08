@@ -17,7 +17,7 @@ public interface ClazzService {
 
     int save(Clazz clazz) throws icanServiceException;
 
-    List<Clazz> list(int schoolId, int collegeId, int departmentId, int current, String order, int page, int size) throws icanServiceException;
+    List<Clazz> list(String ids, int schoolId, int collegeId, int departmentId, int current, String order, int page, int size) throws icanServiceException;
 
-    int count(int schoolId, int collegeId, int departmentId, int current) throws icanServiceException;
+    int count(String ids, int schoolId, int collegeId, int departmentId, int current) throws icanServiceException;
 }

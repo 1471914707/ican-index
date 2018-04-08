@@ -1,6 +1,7 @@
 package com.ican.config;
 
 import com.ican.interceptor.ApiInterceptor;
+import com.ican.interceptor.SchoolInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -21,5 +22,8 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new ApiInterceptor())
                 .addPathPatterns("/api/*");
+        registry.addInterceptor(new SchoolInterceptor())
+                .addPathPatterns("/school**")
+                .addPathPatterns("/school/**");
     }
 }

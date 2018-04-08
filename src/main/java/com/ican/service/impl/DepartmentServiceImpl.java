@@ -50,8 +50,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<Department> list(int schoolId, int collegeId, String order, int page, int size) throws icanServiceException {
+    public List<Department> list(String ids, int schoolId, int collegeId, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
+        param.put("ids", ids);
         param.put("schoolId", schoolId);
         param.put("collegeId", collegeId);
         param.put("order", order);
@@ -61,8 +62,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public int count(int schoolId, int collegeId) throws icanServiceException {
+    public int count(String ids, int schoolId, int collegeId) throws icanServiceException {
         Map param = new HashMap();
+        param.put("ids", ids);
         param.put("schoolId", schoolId);
         param.put("collegeId", collegeId);
         return Constant.DaoFacade.getDepartmentDao().count(param);

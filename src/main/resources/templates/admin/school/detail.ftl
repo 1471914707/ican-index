@@ -234,12 +234,12 @@
                     <el-col :span="8" v-for="(item, index) in authPhotoList" :key="o" :offset="index > 0 ? 2 : 0">
                         <el-card :body-style="{ padding: '0px' }">
                             <img :src="item.url" class="image">
-                            <div style="padding: 14px;">
-                                <span>好吃的汉堡</span>
+                            <#--<div style="padding: 14px;">
+                                <span>{{item.remark}}</span>
                                 <div class="bottom clearfix">
                                     <el-button type="text" class="button">操作按钮</el-button>
                                 </div>
-                            </div>
+                            </div>-->
                         </el-card>
                     </el-col>
                 </el-row>

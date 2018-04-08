@@ -80,7 +80,7 @@ public class ProjectServiceImpl implements ProjectService {
         param.put("order", order);
         param.put("start", (page - 1) * size);
         param.put("size", size);
-        return Constant.DaoFacade.getPaperDao().list(param);
+        return Constant.DaoFacade.getProjectDao().list(param);
     }
 
     @Override
@@ -96,6 +96,6 @@ public class ProjectServiceImpl implements ProjectService {
         param.put("teacherId", teacherId);
         param.put("studentId", studentId);
         param.put("title", title);
-        return Constant.DaoFacade.getPaperDao().count(param);
+        return Constant.DaoFacade.getProjectDao().count(param);
     }
 }

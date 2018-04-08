@@ -6,6 +6,7 @@ package com.ican.domain;
  */
 public class Task {
     private int id;
+    private int activityId;
     private int ownerId;
     private int executorId;
     private int teacherId;
@@ -15,6 +16,7 @@ public class Task {
     private String content;
     private String startTime;
     private String endTime;
+    private int parentId;
     private int accept;
     private String gmtCreate;
     private String gmtModified;
@@ -25,6 +27,14 @@ public class Task {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(int activityId) {
+        this.activityId = activityId;
     }
 
     public int getOwnerId() {
@@ -97,6 +107,14 @@ public class Task {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
     public int getAccept() {

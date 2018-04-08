@@ -2,6 +2,8 @@ package com.ican.config;
 
 import com.ican.domain.School;
 import com.ican.service.*;
+import com.ican.webservice.ProjectWebService;
+import com.ican.webservice.StudentWebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -61,6 +63,15 @@ public class ServiceFacade {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private TaskService taskService;
+
+    @Autowired
+    private ProjectWebService projectWebService;
+
+    @Autowired
+    private StudentWebService studentWebService;
 
     public SchoolService getSchoolService() {
         return schoolService;
@@ -204,5 +215,29 @@ public class ServiceFacade {
 
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
+    }
+
+    public TaskService getTaskService() {
+        return taskService;
+    }
+
+    public void setTaskService(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
+    public ProjectWebService getProjectWebService() {
+        return projectWebService;
+    }
+
+    public void setProjectWebService(ProjectWebService projectWebService) {
+        this.projectWebService = projectWebService;
+    }
+
+    public StudentWebService getStudentWebService() {
+        return studentWebService;
+    }
+
+    public void setStudentWebService(StudentWebService studentWebService) {
+        this.studentWebService = studentWebService;
     }
 }

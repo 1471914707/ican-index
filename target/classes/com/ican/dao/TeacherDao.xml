@@ -9,7 +9,7 @@
                 and id in (${ids})
             </if>
             <if test="_parameter.containsKey('jobId') and jobId != null and jobId != ''">
-                and job_id LIKE contact(#{jobId}, '%')
+                and job_id LIKE concat(#{jobId}, '%')
             </if>
             <if test="_parameter.containsKey('degree') and degree != 0">
                 and degree = #{degree}

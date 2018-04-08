@@ -21,7 +21,7 @@
                 and current = #{current}
             </if>
             <if test="_parameter.containsKey('jobId') and jobId != null and jobId != ''">
-                and job_id = #{jobId}
+                and job_id LIKE concat(#{jobId},'%')
             </if>
 
         </where>

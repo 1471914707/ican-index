@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>学校申请列表</title>
+    <title>活动列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="毕业设计平台" />
@@ -45,21 +45,7 @@
         </div>
         <div class="sticky-header header-section ">
             <div class="header-left">
-                <div class="logo">
-                    <a href="/">
-                        <ul>
-                            <li><img src="http://cdn.ican.com/public/images/logo.png" alt="" /></li>
-                            <li><h1>Ican</h1></li>
-                            <div class="clearfix"> </div>
-                        </ul>
-                    </a>
-                </div>
-                <div class="header-right header-right-grid">
-                    <div class="profile_details_left">
-                        <div class="clearfix"> </div>
-                    </div>
-                </div>
-
+                <img src="${school.banner}">
                 <div class="clearfix"> </div>
             </div>
             <div class="header-right" style="float: right;">
@@ -95,7 +81,7 @@
                                 </el-table-column>
                                 <el-table-column
                                         prop="current"
-                                        label="对象"
+                                        label="对象(届)"
                                         width="120">
                                 </el-table-column>
                                 <el-table-column

@@ -29,9 +29,16 @@ import java.util.*;
 public class TeacherSController {
     private final static Logger logger = LoggerFactory.getLogger(TeacherSController.class);
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/", "/list"}, method = RequestMethod.GET)
     public String index() {
         return "school/teacher/list";
+    }
+
+    @RequestMapping(value = {"/detail"}, method = RequestMethod.GET)
+    public String detail(@RequestParam(value = "teacherId",defaultValue = "0") String teacherId,
+                         HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("teacherId", teacherId);
+        return "school/teacher/detail";
     }
 
     @ApiOperation("获取教师列表数据")
@@ -46,8 +53,8 @@ public class TeacherSController {
         UserInfo self = Ums.getUser(request);
         try {
             //先找出该学校之下的所有系
-            int departmentTotal = Constant.ServiceFacade.getDepartmentService().count(self.getId(), 0);
-            List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(self.getId(), 0, null, 1, departmentTotal);
+            int departmentTotal = Constant.ServiceFacade.getDepartmentService().count(null, self.getId(), 0);
+            List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(null, self.getId(), 0, null, 1, departmentTotal);
             //拿到系ids
             Set<String> departmentSet = new HashSet<>();
             for (Department department : departmentList) {
@@ -127,6 +134,7 @@ public class TeacherSController {
                     UserInfo collegeInfo = Constant.ServiceFacade.getUserInfoService().select(department.getCollegeId());
                     CollegeVO collegeVO = new CollegeVO(college, collegeInfo);
                     departmentVO.setCollegeVO(collegeVO);
+                    departmentVOList.add(departmentVO);
                 }
             }
 

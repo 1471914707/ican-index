@@ -59,6 +59,7 @@ public class TeacherServiceImpl implements TeacherService {
         param.put("ids", ids);
         param.put("jobId", jobId);
         param.put("degree", degree);
+        param.put("order", order);
         param.put("start", (page - 1) * size);
         param.put("size", size);
         return Constant.DaoFacade.getTeacherDao().list(param);

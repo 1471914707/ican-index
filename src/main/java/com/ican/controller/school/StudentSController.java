@@ -9,6 +9,7 @@ import com.ican.util.Ums;
 import com.ican.vo.StudentVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.tomcat.util.bcel.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,9 +28,20 @@ import java.util.*;
 public class StudentSController {
     private final static Logger logger = LoggerFactory.getLogger(StudentSController.class);
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index() {
+    @RequestMapping(value = {"", "/", "/list"}, method = RequestMethod.GET)
+    public String index(@RequestParam(value = "activityId", defaultValue = "0", required = false) int activityId,
+                        HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("activityId", activityId);
         return "school/student/list";
+    }
+
+    @RequestMapping(value = "detail",method = RequestMethod.GET)
+    public String detail(@RequestParam(value = "studentId", defaultValue = "0") String studentId,
+                         @RequestParam(value = "activityId",defaultValue = "0",required = false) int activityId,
+                         HttpServletRequest request, HttpServletResponse response){
+        request.setAttribute("studentId", studentId);
+        request.setAttribute("activityId", activityId);
+        return "school/student/detail";
     }
 
     @ApiOperation("获取学生列表")
@@ -37,34 +49,20 @@ public class StudentSController {
     @RequestMapping(value = "/listJson", method = RequestMethod.GET)
     public BaseResult listJson(@RequestParam(value = "page", defaultValue = "1") int page,
                                @RequestParam(value = "size", defaultValue = "20") int size,
+                               @RequestParam(value = "activityId", defaultValue = "0") int activityId,
                                @RequestParam(value = "collegeId", defaultValue = "0") int collegeId,
                                @RequestParam(value = "departmentId", defaultValue = "0") int departmentId,
                                @RequestParam(value = "clazzId", defaultValue = "0") int clazzId,
                                @RequestParam(value = "teacherId", defaultValue = "0") int teacherId,
                                @RequestParam(value = "current", defaultValue = "0") int current,
-                               @RequestParam(value = "jobId", defaultValue = "") String jobId,
+                               @RequestParam(value = "jobId", defaultValue = "",required = false) String jobId,
                                HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo self = Ums.getUser(request);
         try {
             List<Student> studentList = Constant.ServiceFacade.getStudentService().list(null, self.getId(),
                     collegeId, departmentId, clazzId, teacherId, current, jobId, "current desc,id desc", page, size);
-            Set<String> studentSet = new HashSet<>();
-            for (Student student : studentList) {
-                studentSet.add(student.getId() + "");
-            }
-            String ids = String.join(",", studentSet);
-            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(ids, null, null,
-                    UserInfoService.USER_STUDENT, null, page, size);
-            Map userInfoMap = new HashMap();
-            for (UserInfo userInfo : userInfoList) {
-                userInfoMap.put(userInfo.getId(), userInfo);
-            }
-            List<StudentVO> studentVOList = new ArrayList<>();
-            for (Student student : studentList) {
-                StudentVO studentVO = new StudentVO(student, (UserInfo) userInfoMap.get(student.getId()));
-                studentVOList.add(studentVO);
-            }
+            List<StudentVO> studentVOList = Constant.ServiceFacade.getStudentWebService().listVO(studentList);
             int total = Constant.ServiceFacade.getStudentService().count(null, self.getId(),
                     collegeId, departmentId, clazzId, teacherId, current, jobId);
             Map data = new HashMap();
@@ -93,25 +91,7 @@ public class StudentSController {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }
-            UserInfo userInfo = Constant.ServiceFacade.getUserInfoService().select(id);
-            StudentVO studentVO = new StudentVO(student, userInfo);
-            //认证图片
-            List<AuthPhoto> authPhotoList = Constant.ServiceFacade.getAuthPhotoService().list(student.getId(), "id desc", 1, 100);
-            studentVO.setAuthPhotoList(authPhotoList);
-            //选题,只有一条
-            List<PaperStudent> paperStudentList = Constant.ServiceFacade.getPaperStudentService().list(null, activityId, 0, self.getId(), 0, 0,
-                    0, 0, id, 0, null, 1, 100);
-            if (paperStudentList != null && paperStudentList.size() > 0) {
-                Paper paper = Constant.ServiceFacade.getPaperService().select(paperStudentList.get(0).getPaperId());
-                studentVO.setPaper(paper);
-            }
-            //学生的项目,只有一条
-            List<Project> projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, 0, 0, 0, 0,
-                    0, 0, id, null, null, 1, 100);
-            if (projectList != null || projectList.size() > 0) {
-                Project project = projectList.get(0);
-                studentVO.setProject(project);
-            }
+            StudentVO studentVO = Constant.ServiceFacade.getStudentWebService().studentVO(student, activityId);
             BaseResultUtil.setSuccess(result, studentVO);
             return result;
         } catch (Exception e) {
@@ -137,6 +117,9 @@ public class StudentSController {
             student.setClazzId(0);
             student.setTeacherId(0);
             student.setDepartmentId(0);
+            Constant.ServiceFacade.getStudentService().save(student);
+            BaseResultUtil.setSuccess(result, student);
+            return result;
         } catch (Exception e) {
             logger.error("删除学生异常", e);
             return result;

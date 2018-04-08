@@ -61,6 +61,9 @@ public class DaoFacade {
     @Autowired
     private ProjectDao projectDao;
 
+    @Autowired
+    private TaskDao taskDao;
+
     public UserDao getUserDao() {
         return userDao;
     }
@@ -203,5 +206,13 @@ public class DaoFacade {
 
     public void setProjectDao(ProjectDao projectDao) {
         this.projectDao = projectDao;
+    }
+
+    public TaskDao getTaskDao() {
+        return taskDao;
+    }
+
+    public void setTaskDao(TaskDao taskDao) {
+        this.taskDao = taskDao;
     }
 }

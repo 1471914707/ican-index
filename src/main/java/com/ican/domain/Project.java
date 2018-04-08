@@ -16,6 +16,10 @@ public class Project {
     private int studentId;
     private String title;
     private String content;
+    private String condition;
+    private String size;
+    private String difficulty;
+    private int number;
     private String startTime;
     private String endTime;
     private int warn;
@@ -157,5 +161,37 @@ public class Project {
 
     public void setGmtModified(String gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 }

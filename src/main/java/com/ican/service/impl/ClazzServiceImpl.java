@@ -50,8 +50,9 @@ public class ClazzServiceImpl implements ClazzService{
     }
 
     @Override
-    public List<Clazz> list(int schoolId, int collegeId, int departmentId, int current, String order, int page, int size) throws icanServiceException {
+    public List<Clazz> list(String ids, int schoolId, int collegeId, int departmentId, int current, String order, int page, int size) throws icanServiceException {
         Map params = new HashMap();
+        params.put("ids", ids);
         params.put("schoolId", schoolId);
         params.put("collegeId", collegeId);
         params.put("departmentId", departmentId);
@@ -63,8 +64,9 @@ public class ClazzServiceImpl implements ClazzService{
     }
 
     @Override
-    public int count(int schoolId, int collegeId, int departmentId, int current) throws icanServiceException {
+    public int count(String ids, int schoolId, int collegeId, int departmentId, int current) throws icanServiceException {
         Map params = new HashMap();
+        params.put("ids", ids);
         params.put("schoolId", schoolId);
         params.put("collegeId", collegeId);
         params.put("departmentId", departmentId);

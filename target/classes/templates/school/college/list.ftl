@@ -58,13 +58,13 @@
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div>
                         <el-collapse>
-                            <a href="/admin/school/list"><el-collapse-item title="活动列表" name="1">
+                            <a href="/school/activity/list"><el-collapse-item title="活动列表" name="1">
                             </el-collapse-item></a>
-                            <a href="/admin/college/list"><el-collapse-item title="二级学院" name="2">
+                            <a href="/school/college/list"><el-collapse-item title="二级学院" name="2">
                             </el-collapse-item></a>
-                            <a href="/admin/teacher/list"><el-collapse-item title="教师情况" name="3">
+                            <a href="/school/teacher/list"><el-collapse-item title="教师情况" name="3">
                             </el-collapse-item></a>
-                            <a href="/admin/student/list"><el-collapse-item title="学生情况" name="4">
+                            <a href="/school/student/list"><el-collapse-item title="学生情况" name="4">
                             </el-collapse-item></a>
                         </el-collapse>
                     </div>
@@ -73,21 +73,7 @@
         </div>
         <div class="sticky-header header-section ">
             <div class="header-left">
-                <div class="logo">
-                    <a href="/">
-                        <ul>
-                            <li><img src="http://cdn.ican.com/public/images/logo.png" alt="" /></li>
-                            <li><h1>Ican</h1></li>
-                            <div class="clearfix"> </div>
-                        </ul>
-                    </a>
-                </div>
-                <div class="header-right header-right-grid">
-                    <div class="profile_details_left">
-                        <div class="clearfix"> </div>
-                    </div>
-                </div>
-
+                <img src="${school.banner}">
                 <div class="clearfix"> </div>
             </div>
             <div class="header-right" style="float: right;">

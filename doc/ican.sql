@@ -77,8 +77,6 @@ CREATE TABLE `admin` (
 DROP TABLE IF EXISTS `school`;
 CREATE TABLE `school` (
   `id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
-/*  `phone` varchar(20) NOT NULL COMMENT '手机',
-  `email` varchar(50) NOT NULL COMMENT '邮箱',*/
   `name` varchar(150) NOT NULL COMMENT '校名',
   `url` varchar(500) NOT NULL COMMENT '官网',
   `banner` varchar(500) NOT NULL COMMENT '横幅地址',
@@ -299,6 +297,10 @@ CREATE TABLE `project` (
   `student_id` int(11) UNSIGNED NOT NULL COMMENT '学生id',
   `title` varchar(300) NOT NULL COMMENT '题目',
   `content` varchar(2500) NOT NULL COMMENT '概述',
+  `condition` varchar(2000) NOT NULL COMMENT '条件',
+  `size` varchar(10) NOT NULL COMMENT '工作量大小,大-适中-小',
+  `difficulty` varchar(10) NOT NULL COMMENT '难度,1-难,2-一般,3-易',
+  `number` tinyint(2) NOT NULL COMMENT '人数',
   `start_time` DATETIME NOT NULL COMMENT '开始时间',
   `end_time` DATETIME NOT NULL COMMENT '结束时间',
   `warn` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '开启任务即将到期提醒？（0-初始化,1-不开,2-开)',
@@ -321,6 +323,7 @@ CREATE TABLE `project` (
 DROP TABLE IF EXISTS `task`;
 CREATE TABLE `task` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `activity_id` int(11) UNSIGNED NOT NULL COMMENT '针对的活动id',
   `owner_id` int(11) UNSIGNED NOT NULL COMMENT '发起人id',
   `executor_id` int(11) UNSIGNED NOT NULL COMMENT '执行人id',
   `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '教师id',
@@ -330,14 +333,16 @@ CREATE TABLE `task` (
   `content` varchar(1500) NOT NULL COMMENT '概述',
   `start_time` DATETIME NOT NULL COMMENT '预计开始时间',
   `end_time` DATETIME NOT NULL COMMENT '预计结束时间',
-  `accept` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '教师验收是否通过（0-初始化,1-待验收,2-再修改,3-通过)',
+  `parent_id` int(11) UNSIGNED NOT NULL COMMENT '父任务id，无则0，最多两层',
+  `accept` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '是否完成（0-初始化,1-进行中，2-完成)',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_student_id` (`student_id`),
   KEY `idx_owner_id` (`owner_id`),
   KEY `idx_executor_id` (`executor_id`),
-  KEY `idx_teacher_id` (`teahcer_id`)
+  KEY `idx_teacher_id` (`teacher_id`),
+  KEY `idx_project_id` (`project_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='安排发起的任务';
 
 DROP TABLE IF EXISTS `file_arrange`;
@@ -479,7 +484,7 @@ CREATE TABLE `rating` (
   `ratio` tinyint(2) UNSIGNED NOT NULL COMMENT '比例',
   `score` tinyint(2) UNSIGNED NOT NULL COMMENT '得分',
   `remark` VARCHAR(500) NOT NULL COMMENT '建议',
-  `type` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '类型,0未定义,1-正式,2-非正式',
+  `type` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '类型,0未定义,1.审核、2-非正式,3-正式',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),

@@ -3,9 +3,9 @@ package com.ican.vo;
 import com.ican.domain.College;
 
 public class DepartmentVO {
-    private SchoolVO schoolVO;
-    private CollegeVO collegeVO;
-    private TeacherVO teacherVO;
+    private SchoolVO school;
+    private CollegeVO college;
+    private TeacherVO teacher;
     private int id;
     private String name;
 
@@ -15,33 +15,33 @@ public class DepartmentVO {
 
     public DepartmentVO(int id, int name, SchoolVO schoolVO, CollegeVO collegeVO, TeacherVO teacherVO) {
         this.id = id;
-        this.schoolVO = schoolVO;
-        this.collegeVO = collegeVO;
-        this.teacherVO = teacherVO;
+        this.school = schoolVO;
+        this.college = collegeVO;
+        this.teacher = teacherVO;
     }
 
     public TeacherVO getTeacherVO() {
-        return teacherVO;
+        return teacher;
     }
 
     public void setTeacherVO(TeacherVO teacherVO) {
-        this.teacherVO = teacherVO;
+        this.teacher = teacherVO;
     }
 
     public SchoolVO getSchoolVO() {
-        return schoolVO;
+        return school;
     }
 
     public void setSchoolVO(SchoolVO schoolVO) {
-        this.schoolVO = schoolVO;
+        this.school = schoolVO;
     }
 
     public CollegeVO getCollegeVO() {
-        return collegeVO;
+        return college;
     }
 
     public void setCollegeVO(CollegeVO collegeVO) {
-        this.collegeVO = collegeVO;
+        this.college = collegeVO;
     }
 
     public int getId() {

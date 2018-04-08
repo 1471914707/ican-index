@@ -3,6 +3,7 @@ package com.ican.service;
 import com.ican.domain.School;
 import com.ican.exception.icanServiceException;
 import com.ican.to.SchoolTO;
+import com.ican.vo.SchoolVO;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ public interface SchoolService {
     int insert(School school) throws icanServiceException;
 
     School select(int id) throws icanServiceException;
+
+    SchoolVO selectVO(int id) throws icanServiceException;
 
     int update(School school) throws icanServiceException;
 

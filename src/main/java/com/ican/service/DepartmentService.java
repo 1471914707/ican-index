@@ -17,7 +17,7 @@ public interface DepartmentService {
 
     int save(Department department) throws icanServiceException;
 
-    List<Department> list(int schoolId, int collegeId, String order, int page, int size) throws icanServiceException;
+    List<Department> list(String ids, int schoolId, int collegeId, String order, int page, int size) throws icanServiceException;
 
-    int count(int schoolId, int collegeId) throws icanServiceException;
+    int count(String ids, int schoolId, int collegeId) throws icanServiceException;
 }

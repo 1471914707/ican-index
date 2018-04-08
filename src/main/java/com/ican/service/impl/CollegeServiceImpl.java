@@ -76,8 +76,9 @@ public class CollegeServiceImpl implements CollegeService {
     }
 
     @Override
-    public List<College> list(int schoolId, String order, int page, int size) throws icanServiceException {
+    public List<College> list(String ids, int schoolId, String order, int page, int size) throws icanServiceException {
         Map params = new HashMap();
+        params.put("ids", ids);
         params.put("schoolId", schoolId);
         params.put("order", order);
         params.put("start", (page - 1) * size);
@@ -86,8 +87,9 @@ public class CollegeServiceImpl implements CollegeService {
     }
 
     @Override
-    public int count(int schoolId) throws icanServiceException {
+    public int count(String ids, int schoolId) throws icanServiceException {
         Map params = new HashMap();
+        params.put("ids", ids);
         params.put("schoolId", schoolId);
         return Constant.DaoFacade.getCollegeDao().count(params);
     }
