@@ -64,6 +64,17 @@ public class DaoFacade {
     @Autowired
     private TaskDao taskDao;
 
+    @Autowired
+    private MessageDao messageDao;
+
+    public MessageDao getMessageDao() {
+        return messageDao;
+    }
+
+    public void setMessageDao(MessageDao messageDao) {
+        this.messageDao = messageDao;
+    }
+
     public UserDao getUserDao() {
         return userDao;
     }

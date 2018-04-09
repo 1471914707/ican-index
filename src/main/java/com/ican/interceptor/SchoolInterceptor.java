@@ -35,7 +35,7 @@ public class SchoolInterceptor extends HandlerInterceptorAdapter {
                     }
                 }
             }
-            response.sendRedirect(request.getContextPath()+"/loginFail?role=5");
+            response.sendRedirect(request.getContextPath()+"/login?role=3");
         } catch (IOException iox) {
             logger.error("iox" + iox);
             return false;

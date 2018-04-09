@@ -85,7 +85,9 @@
             <div class="main-page">
                 <el-card class="grids">
                     <div slot="header" class="clearfix grids-heading">
-                        <h2>{{student.name}}</h2>
+                        <div style="display: inline-block"><h2>{{student.name}}</h2></div>
+                        <div style="display: inline-block;float: right;">
+                            <a href="#" style="color: #409EFF" @click="deleteStudent()">删除</a></div>
                     </div>
                     <el-row>
                         <el-col :span="4" :xs="0"><div class="grid-content bg-purple">
@@ -289,10 +291,10 @@
                         </el-row>
                         <el-row>
                             <el-col :span="4" :xs="0"><div class="grid-content bg-purple">
-                                <h3>完成度：</h3>
+                                <h3>进度：</h3>
                             </div></el-col>
                             <el-col :span="8" :xs="16"><div class="grid-content bg-purple-light">
-                                {{project.complete}}
+                                {{project.complete}}%
                             </div></el-col>
                         </el-row>
                     </el-card>
@@ -318,7 +320,7 @@
                 <div class="container">
                     <div class="copyright">
                         <p>
-                            <a href="/">首页</a> > <a href="/school/student/list">学生：{{student.name}}</a>
+                            <a href="/">首页</a> > <a href="/school/student/list">学生列表</a> > 学生：{{student.name}}
                         </p>
                     </div>
                 </div>
@@ -376,17 +378,26 @@
                         }
                     });
                 },
-                deleteStudent:function (departmentId) {
+                deleteStudent:function () {
                     var self = this;
-                    Api.post("/school/student/delete",{
-                        id:studentId
-                    },function (result) {
-                        if (result.code == 0) {
-                            self.$message({showClose: true, message: '删除成功', type: 'success'});
-                        } else {
-                            self.$message({showClose: true, message: result.msg, type: 'error'});
-                        }
-                    })
+                    this.$confirm('此操作将永久删除该学生, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function () {
+                        Api.post("/school/student/delete",{
+                            id:studentId
+                        },function (result) {
+                            if (result.code == 0) {
+                                self.$message({showClose: true, message: '删除成功', type: 'success'});
+                            } else {
+                                self.$message({showClose: true, message: result.msg, type: 'error'});
+                            }
+                        });
+
+                    }).catch(function () {
+                        this.$message({type: 'info', message: '已取消删除'});
+                    });
                 }
             }
         });

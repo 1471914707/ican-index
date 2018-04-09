@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="毕业设计平台" />
-<#include '/include/cssjs_common_new.ftl'>
-    <script>
-        /*     new WOW().init();*/
-    </script>
+    <#include '/include/cssjs_common_new.ftl'>
     <style>
         ul{
             list-style-type:none;
@@ -109,7 +106,7 @@
                                             <div>邮箱：{{item.email}}</div><br>
                                         </el-col>
                                         <el-col :span="2" class="person-info">
-                                            <div><a href="#">私信</a></div><br>
+                                            <div><a href="#" @click="openMessageWindow(item.id)">私信</a></div><br>
                                             <div><a href="#" @click="edit(item.id)">编辑</a></div><br>
                                             <div><a href="#" @click="collegeDelete(item.id)">删除</a></div><br>
                                         </el-col>
@@ -312,6 +309,10 @@
                     } else {
                         self.$message({showClose: true, message: result.msg, type: 'error'});
                     }
+                },
+                openMessageWindow:function (toId) {
+                    window.open ('/message?toId='+toId, 'newwindow',
+                            'height=600, width=400, top=150,left=500%, toolbar=no, menubar=no, scrollbars= no, resizable=no,location=true,status=no');
                 },
                 handleSizeChange:function (size) {
                     this.size = size;

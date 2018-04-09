@@ -120,7 +120,7 @@
                                             min-width="150">
                                         <template slot-scope="scope">
                                             <el-button type="text" size="small" @click="detail(scope.row.id)">查看</el-button>
-                                            <el-button type="text" size="small" @click="detail(scope.row.id)">私信</el-button>
+                                            <el-button type="text" size="small" @click="openMessageWindow(scope.row.id)">私信</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -212,6 +212,10 @@
                             self.loading = false;
                         }
                     });
+                },
+                openMessageWindow:function (toId) {
+                    window.open ('/message?toId='+toId, 'newwindow',
+                            'height=600, width=400, top=150,left=500%, toolbar=no, menubar=no, scrollbars= no, resizable=no,location=true,status=no');
                 },
                 getDate:function (dateTime) {
                     if (dateTime.trim() != '') {

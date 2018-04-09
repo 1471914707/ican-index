@@ -233,7 +233,7 @@
                 },
                 activityDelete:function (id) {
                     var self = this;
-                    this.$confirm('此操作将永久删除该该活动, 是否继续?', '提示', {
+                    this.$confirm('此操作将永久删除该活动, 是否继续?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'

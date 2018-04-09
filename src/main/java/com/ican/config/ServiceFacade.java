@@ -73,6 +73,17 @@ public class ServiceFacade {
     @Autowired
     private StudentWebService studentWebService;
 
+    @Autowired
+    private MessageService messageService;
+
+    public MessageService getMessageService() {
+        return messageService;
+    }
+
+    public void setMessageService(MessageService messageService) {
+        this.messageService = messageService;
+    }
+
     public SchoolService getSchoolService() {
         return schoolService;
     }

@@ -30,7 +30,7 @@ public class ApiInterceptor extends HandlerInterceptorAdapter {
                     }
                 }
             }
-            response.sendRedirect(request.getContextPath()+"/loginFail?role=5");
+            response.sendRedirect(request.getContextPath()+"/");
         } catch (IOException iox) {
             logger.error("iox" + iox);
             return false;

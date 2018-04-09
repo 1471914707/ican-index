@@ -436,7 +436,7 @@ CREATE TABLE `message` (
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   INDEX `conversation_index` (`conversation_id` ASC),
-  INDEX `gmt_create` (`gmt_create` ASC))
+  INDEX `gmt_create` (`gmt_create` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='聊天消息';
 /*站内交流与博客模块 end*/
 

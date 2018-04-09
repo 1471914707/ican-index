@@ -10,7 +10,7 @@ public class Message {
     private int toId;
     private String content;
     private int hasRead;
-    private int conversationId;
+    private String conversationId;
     private String gmtCreate;
     private String gmtModified;
 
@@ -54,11 +54,11 @@ public class Message {
         this.hasRead = hasRead;
     }
 
-    public int getConversationId() {
+    public String getConversationId() {
         return conversationId;
     }
 
-    public void setConversationId(int conversationId) {
+    public void setConversationId(String conversationId) {
         this.conversationId = conversationId;
     }
 
