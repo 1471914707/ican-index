@@ -2,6 +2,7 @@ package com.ican.config;
 
 import com.ican.domain.School;
 import com.ican.service.*;
+import com.ican.webservice.PaperWebService;
 import com.ican.webservice.ProjectWebService;
 import com.ican.webservice.StudentWebService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,13 +69,36 @@ public class ServiceFacade {
     private TaskService taskService;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
+    private MajorService majorService;
+
+
+    @Autowired
     private ProjectWebService projectWebService;
 
     @Autowired
     private StudentWebService studentWebService;
 
     @Autowired
-    private MessageService messageService;
+    private PaperWebService paperWebService;
+
+    public MajorService getMajorService() {
+        return majorService;
+    }
+
+    public void setMajorService(MajorService majorService) {
+        this.majorService = majorService;
+    }
+
+    public PaperWebService getPaperWebService() {
+        return paperWebService;
+    }
+
+    public void setPaperWebService(PaperWebService paperWebService) {
+        this.paperWebService = paperWebService;
+    }
 
     public MessageService getMessageService() {
         return messageService;

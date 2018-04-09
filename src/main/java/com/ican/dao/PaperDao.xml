@@ -9,7 +9,7 @@
                 and id in (${ids})
             </if>
             <if test="_parameter.containsKey('title') and title != null and title != ''">
-                and title LIKE (#{title},'%')
+                and title LIKE concat(#{title},'%')
             </if>
             <if test="_parameter.containsKey('activityId') and activityId > 0">
                 and activity_id = #{activityId}

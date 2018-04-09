@@ -67,6 +67,17 @@ public class DaoFacade {
     @Autowired
     private MessageDao messageDao;
 
+    @Autowired
+    private MajorDao majorDao;
+
+    public MajorDao getMajorDao() {
+        return majorDao;
+    }
+
+    public void setMajorDao(MajorDao majorDao) {
+        this.majorDao = majorDao;
+    }
+
     public MessageDao getMessageDao() {
         return messageDao;
     }

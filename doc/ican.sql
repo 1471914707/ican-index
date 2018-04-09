@@ -157,6 +157,21 @@ CREATE TABLE `department_teacher` (
   KEY `idx_teacher_id` (`teacher_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系-教师关联表';
 
+DROP TABLE IF EXISTS `major`;
+CREATE TABLE `major` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
+  `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
+  `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
+  `name` varchar(150) NOT NULL COMMENT '专业',
+  `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
+  `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_school_id` (`school_id`),
+  KEY `idx_college_id` (`college_id`),
+  KEY `idx_department_id` (`department_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='专业表';
+
 DROP TABLE IF EXISTS `clazz`;
 CREATE TABLE `clazz` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
@@ -242,6 +257,7 @@ CREATE TABLE `login_ticket` (
 DROP TABLE IF EXISTS `paper`;
 CREATE TABLE `paper` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `activity_id` int(11) UNSIGNED NOT NULL COMMENT '活动',
   `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
@@ -258,6 +274,7 @@ CREATE TABLE `paper` (
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
+  KEY `idx_activity_id` (`activity_id`),
   KEY `idx_teacher_id` (`teacher_id`),
   KEY `idx_school_id` (`school_id`),
   KEY `idx_college_id` (`college_id`),
@@ -271,6 +288,7 @@ CREATE TABLE `paper_student` (
   `current` int(11) UNSIGNED NOT NULL COMMENT '某届',
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
+  `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
   `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '教师id',
   `clazz_id` int(11) UNSIGNED NOT NULL COMMENT '班级id',
   `student_id` int(11) UNSIGNED NOT NULL COMMENT '学生id',
@@ -281,6 +299,7 @@ CREATE TABLE `paper_student` (
   KEY `idx_student_id` (`student_id`),
   KEY `idx_school_id` (`school_id`),
   KEY `idx_teacher_id` (`teacher_id`),
+  KEY `idx_department_id` (`department_id`),
   KEY `idx_paper_id` (`paper_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='毕业设计选题与学生关联表';
 
