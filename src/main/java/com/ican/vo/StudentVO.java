@@ -12,6 +12,8 @@ public class StudentVO {
     private String collegeName;
     private int departmentId;
     private String departmentName;
+    private int majorId;
+    private String majorName;
     private int clazzId;
     private String clazzName;
     private int teacherId;
@@ -46,6 +48,7 @@ public class StudentVO {
         this.teacherId = student.getTeacherId();
         this.current = student.getCurrent();
         this.jobId = student.getJobId();
+        this.majorId = student.getMajorId();
 
         this.headshot = userInfo.getHeadshot();
         this.name = userInfo.getName();
@@ -111,6 +114,22 @@ public class StudentVO {
 
     public void setDepartmentId(int departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public int getMajorId() {
+        return majorId;
+    }
+
+    public void setMajorId(int majorId) {
+        this.majorId = majorId;
+    }
+
+    public String getMajorName() {
+        return majorName;
+    }
+
+    public void setMajorName(String majorName) {
+        this.majorName = majorName;
     }
 
     public int getClazzId() {

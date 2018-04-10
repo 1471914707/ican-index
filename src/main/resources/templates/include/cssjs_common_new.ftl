@@ -76,9 +76,6 @@
 <!--//scrolling js-->
 
 <script src="http://cdn.ican.com/public/js/classie.js"></script>
-<#--
 
-&lt;#&ndash;
-时间
-&ndash;&gt;
-<script src="http://cdn.ican.com/public/js/date_common.js"></script>-->
+<#--时间-->
+<script src="http://cdn.ican.com/public/js/date_common.js"></script>

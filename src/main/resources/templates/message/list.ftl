@@ -53,9 +53,12 @@
             <el-col :span="5">
                 <img :src="toHeadshot">
             </el-col>
-            <el-col :span="19" style="line-height: 60px">
+            <el-col :span="17" style="line-height: 60px">
                 {{toName.length>10?toName.substring(0,10)+'...':toName}}&nbsp;&nbsp;&nbsp;
                 <span style="color: gray">(共{{total>1000?'1000+':total}}条信息)</span>
+            </el-col>
+            <el-col :span="2" style="line-height: 60px;cursor: pointer">
+                <a @click="page=1;loadMessageList()"><i class="el-icon-refresh"></i></a>
             </el-col>
         </el-row>
     </div>
@@ -175,29 +178,7 @@
                 }
             },
             getDateTime:function (date) {
-                var minute = 60 * 1000;// 1分钟
-                var hour = 60 * minute;// 1小时
-                var day= 24 * hour;// 1天
-                var month = 31 * day;// 月
-                if (date == null) {
-                    return null;
-                }
-                var diff = new Date().getTime() - (new Date(date)).getTime();
-                var r = 0;
-                if (diff > day) {
-                    var d = (new Date(date));
-
-                    return d.Format("yyyy-MM-dd HH:mm:ss");
-                }
-                if (diff > hour) {
-                    r = Math.round(diff / hour);
-                    return r + "个小时前";
-                }
-                if (diff > minute) {
-                    r = Math.round(diff / minute);
-                    return r + "分钟前";
-                }
-                return "刚刚";
+                return DateFun.getTimeFormatText(date);
             },
             getStatus:function (read) {
                 switch (read){

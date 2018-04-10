@@ -23,6 +23,15 @@
             <if test="_parameter.containsKey('departmentId') and departmentId > 0">
                 and department_id = #{departmentId}
             </if>
+            <if test="_parameter.containsKey('majorId') and majorId > 0">
+                and major_id = #{majorId}
+            </if>
+            <if test="_parameter.containsKey('paperId') and paperId > 0">
+                and paper_id = #{paperId}
+            </if>
+            <if test="_parameter.containsKey('departmentId') and departmentId > 0">
+                and department_id = #{departmentId}
+            </if>
             <if test="_parameter.containsKey('teacherId') and teacherId > 0">
                 and teacher_id = #{teacherId}
             </if>
@@ -33,7 +42,7 @@
                 and student_id = #{studentId}
             </if>
             <if test="_parameter.containsKey('title') and title != null and title != ''">
-                and title LIKE contact(${title},'%')
+                and title LIKE concat(#{title},'%')
             </if>
         </where>
     </sql>

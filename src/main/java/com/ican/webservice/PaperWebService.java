@@ -76,7 +76,7 @@ public class PaperWebService {
                 paperVO.setTeacher((TeacherVO) teacherMap.get(paper.getTeacherId()));
                 paperVO.setPaper(paper);
                 int num = Constant.ServiceFacade.getPaperStudentService().count(null, paper.getActivityId(), paper.getCurrent(), paper.getSchoolId(), paper.getCollegeId(),
-                        paper.getDepartmentId(), 0, 0, 0, paper.getId());
+                        paper.getDepartmentId(), 0, 0, 0, 0, paper.getId());
                 paperVO.setNum(num);
                 paperVOList.add(paperVO);
             }
@@ -108,7 +108,7 @@ public class PaperWebService {
             paperVO.setTeacher(teacherVO);
             //关联的学生
             List<PaperStudent> paperStudentList = Constant.ServiceFacade.getPaperStudentService().list(null, paper.getActivityId(), 0, paper.getSchoolId(),
-                    0, 0, 0, 0, 0, paper.getId(), "id desc", 1, 100);
+                    0, 0, 0 ,0, 0, 0, paper.getId(), "id desc", 1, 100);
             Set<String> studentSet = new HashSet<>();
             for (PaperStudent paperStudent : paperStudentList) {
                 studentSet.add(paperStudent.getStudentId() + "");

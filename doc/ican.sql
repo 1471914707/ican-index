@@ -179,6 +179,7 @@ CREATE TABLE `clazz` (
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
   `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
   `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
+  `major_id` int(11) UNSIGNED NOT NULL COMMENT '专业',
   `name` varchar(150) NOT NULL COMMENT '班名',
   `amount` tinyint(2) NOT NULL COMMENT '人数',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
@@ -186,7 +187,8 @@ CREATE TABLE `clazz` (
   PRIMARY KEY (`id`),
   KEY `idx_school_id` (`school_id`),
   KEY `idx_college_id` (`college_id`),
-  KEY `idx_department_id` (`department_id`)
+  KEY `idx_department_id` (`department_id`),
+  KEY `idx_major_id` (`major_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='班表';
 
 DROP TABLE IF EXISTS `student`;
@@ -198,6 +200,7 @@ CREATE TABLE `student` (
   `clazz_id` int(11) UNSIGNED NOT NULL COMMENT '班级id',
   `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '最终导师id',
   `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
+  `major_id` int(11) UNSIGNED NOT NULL COMMENT '专业',
   `job_id` varchar(50) NOT NULL COMMENT '学号',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
@@ -206,7 +209,8 @@ CREATE TABLE `student` (
   KEY `idx_college_id` (`college_id`),
   KEY `idx_department_id` (`department_id`),
   KEY `idx_clazz_id` (`clazz_id`),
-  KEY `idx_teacher_id` (`teacher_id`)
+  KEY `idx_teacher_id` (`teacher_id`),
+  KEY `idx_major_id` (`major_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学生';
 
 DROP TABLE IF EXISTS `school_appeal`;
@@ -289,6 +293,7 @@ CREATE TABLE `paper_student` (
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
   `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
+  `major_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
   `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '教师id',
   `clazz_id` int(11) UNSIGNED NOT NULL COMMENT '班级id',
   `student_id` int(11) UNSIGNED NOT NULL COMMENT '学生id',
@@ -298,6 +303,7 @@ CREATE TABLE `paper_student` (
   PRIMARY KEY (`id`),
   KEY `idx_student_id` (`student_id`),
   KEY `idx_school_id` (`school_id`),
+  KEY `idx_major_id` (`major_id`),
   KEY `idx_teacher_id` (`teacher_id`),
   KEY `idx_department_id` (`department_id`),
   KEY `idx_paper_id` (`paper_id`)
@@ -311,9 +317,11 @@ CREATE TABLE `project` (
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
   `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
+  `major_id` int(11) UNSIGNED NOT NULL COMMENT '专业id',
   `clazz_id` int(11) UNSIGNED NOT NULL COMMENT '班级id',
   `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '教师id',
   `student_id` int(11) UNSIGNED NOT NULL COMMENT '学生id',
+  `paper_id` int(11) UNSIGNED NOT NULL COMMENT '课题id',
   `title` varchar(300) NOT NULL COMMENT '题目',
   `content` varchar(2500) NOT NULL COMMENT '概述',
   `condition` varchar(2000) NOT NULL COMMENT '条件',
@@ -328,6 +336,8 @@ CREATE TABLE `project` (
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_teacher_id` (`teacher_id`),
+  KEY `idx_paper_id` (`paper_id`),
+  KEY `idx_major_id` (`major_id`),
   KEY `idx_school_id` (`school_id`),
   KEY `idx_college_id` (`college_id`),
   KEY `idx_department_id` (`department_id`),

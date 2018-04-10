@@ -45,8 +45,9 @@ public class PaperStudentServiceImpl implements PaperStudentService {
     }
 
     @Override
-    public List<PaperStudent> list(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId, int clazzId, int teacherId,
-                                    int studentId, int paperId, String order, int page, int size) throws icanServiceException {
+    public List<PaperStudent> list(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId,
+                                   int majorId, int clazzId, int teacherId,
+                                   int studentId, int paperId, String order, int page, int size) throws icanServiceException {
         HashMap param = new HashMap();
         param.put("ids", ids);
         param.put("activityId", activityId);
@@ -54,6 +55,7 @@ public class PaperStudentServiceImpl implements PaperStudentService {
         param.put("schoolId", schoolId);
         param.put("collegeId", collegeId);
         param.put("departmentId", departmentId);
+        param.put("majorId", majorId);
         param.put("clazzId", clazzId);
         param.put("teacherId", teacherId);
         param.put("studentId", studentId);
@@ -65,8 +67,9 @@ public class PaperStudentServiceImpl implements PaperStudentService {
     }
 
     @Override
-    public int count(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId, int clazzId, int teacherId,
-                      int studentId, int paperId) throws icanServiceException {
+    public int count(String ids, int activityId, int current, int schoolId,
+                     int collegeId, int departmentId, int majorId,int clazzId, int teacherId,
+                     int studentId, int paperId) throws icanServiceException {
         HashMap param = new HashMap();
         param.put("ids", ids);
         param.put("activityId", activityId);
@@ -74,6 +77,7 @@ public class PaperStudentServiceImpl implements PaperStudentService {
         param.put("schoolId", schoolId);
         param.put("collegeId", collegeId);
         param.put("departmentId", departmentId);
+        param.put("majorId", majorId);
         param.put("clazzId", clazzId);
         param.put("teacherId", teacherId);
         param.put("studentId", studentId);

@@ -27,7 +27,7 @@ import java.util.*;
 public class ProjectSController {
     private final static Logger logger = LoggerFactory.getLogger(ProjectSController.class);
 
-    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/", "/list"}, method = RequestMethod.GET)
     public String index() {
         return "/school/project/list";
     }
@@ -50,46 +50,7 @@ public class ProjectSController {
         try {
             List<Project> projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, current, self.getId(), collegeId, departmentId,
                     classId, teacherId, 0, title, "id desc", page, size);
-            //关联学院,因为学院不多，所以全拿出来
-            List<College> collegeList = Constant.ServiceFacade.getCollegeService().list(null, self.getId(), null, 1, 1000);
-            Map collegeMap = new HashMap();
-            for (College college : collegeList) {
-                collegeMap.put(college.getId(), college);
-            }
-            //关联教师
-            Set<String> teacherSet = new HashSet<>();
-            //系
-            Set<String> departmentSet = new HashSet<>();
-            for (Project project : projectList) {
-                teacherSet.add(project.getTeacherId() + "");
-                departmentSet.add(project.getDepartmentId() + "");
-            }
-            String teacherIds = String.join(",", teacherSet);
-            String departmentIds = String.join(",", departmentSet);
-            List<UserInfo> teacherList = Constant.ServiceFacade.getUserInfoService().list(teacherIds, null, null,
-                    UserInfoService.USER_TEACHER, null, page, size);
-            List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(departmentIds, self.getId(), 0, null, page, size);
-            Map teacherMap = new HashMap();
-            Map departmentMap = new HashMap();
-            for (UserInfo userInfo : teacherList) {
-                teacherMap.put(userInfo.getId(), userInfo);
-            }
-            for (Department department : departmentList) {
-                departmentMap.put(department.getId(), department);
-            }
-            List<ProjectVO> projectVOList = new ArrayList<>();
-            for (Project project : projectList) {
-                ProjectVO projectVO = new ProjectVO();
-                projectVO.setProject(project);
-                projectVO.setId(project.getId());
-                projectVO.setCollegeId(((College) collegeMap.get(project.getCollegeId())).getId());
-                projectVO.setCollegeName(((College) collegeMap.get(project.getCollegeId())).getName());
-                projectVO.setDepartmentId(((Department) departmentMap.get(project.getDepartmentId())).getId());
-                projectVO.setDepartmentName(((Department) departmentMap.get(project.getDepartmentId())).getName());
-                projectVO.setTeacherId(((UserInfo) teacherMap.get(project.getTeacherId())).getId());
-                projectVO.setTeacherName(((UserInfo) teacherMap.get(project.getTeacherId())).getName());
-                projectVOList.add(projectVO);
-            }
+            List<ProjectVO> projectVOList = Constant.ServiceFacade.getProjectWebService().projectVOList(projectList);
             int total = Constant.ServiceFacade.getProjectService().count(null, activityId, current, self.getId(), collegeId, departmentId,
                     classId, teacherId, 0, title);
             Map data = new HashMap();
@@ -104,6 +65,7 @@ public class ProjectSController {
     }
 
     @ApiOperation("获取项目详情")
+    @ResponseBody
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public BaseResult info(@RequestParam(value = "id",defaultValue = "0") int id,
                            HttpServletRequest request, HttpServletResponse response) {
@@ -111,7 +73,7 @@ public class ProjectSController {
         UserInfo self = Ums.getUser(request);
         try {
             Project project = Constant.ServiceFacade.getProjectService().select(id);
-            if (project != null || project.getSchoolId() != self.getId()) {
+            if (project == null || project.getSchoolId() != self.getId()) {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }

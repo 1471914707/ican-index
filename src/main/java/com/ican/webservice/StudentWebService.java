@@ -26,6 +26,8 @@ public class StudentWebService {
             Set<String> departmentSet = new HashSet<>();
             //教师
             Set<String> teacherSet = new HashSet<>();
+            //专业
+            Set<String> majorSet = new HashSet<>();
             //班级
             Set<String> clazzSet = new HashSet<>();
 
@@ -35,10 +37,12 @@ public class StudentWebService {
                 departmentSet.add(student.getDepartmentId() + "");
                 teacherSet.add(student.getTeacherId() + "");
                 clazzSet.add(student.getClazzId() + "");
+                majorSet.add(student.getMajorId() + "");
             }
             String ids = String.join(",", studentSet);
             String collegeIds = String.join(",", collegeSet);
             String departmentIds = String.join(",", departmentSet);
+            String majorIds = String.join(",", majorSet);
             String teacherIds = String.join(",", teacherSet);
             String clazzIds = String.join(",", clazzSet);
             List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(ids, null, null,
@@ -46,12 +50,14 @@ public class StudentWebService {
             List<College> collegeList = Constant.ServiceFacade.getCollegeService().list(collegeIds, 0, null, 1, 100);
             List<UserInfo> teacherInfoList = Constant.ServiceFacade.getUserInfoService().list(teacherIds, null, null, 0, null, 1, 100);
             List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(departmentIds, 0, 0, null, 1, 100);
+            List<Major> majorList = Constant.ServiceFacade.getMajorService().list(majorIds, 0, 0, 0, null, 1, 100);
             List<Clazz> clazzList = Constant.ServiceFacade.getClazzService().list(clazzIds, 0, 0, 0, 0, null, 1, 100);
 
             Map userInfoMap = new HashMap();
             Map collegeMap = new HashMap();
             Map departmentMap = new HashMap();
             Map teacherMap = new HashMap();
+            Map majorMap = new HashMap();
             Map clazzMap = new HashMap();
             for (UserInfo userInfo : userInfoList) {
                 userInfoMap.put(userInfo.getId(), userInfo);
@@ -61,6 +67,9 @@ public class StudentWebService {
             }
             for (Department department : departmentList) {
                 departmentMap.put(department.getId(), department);
+            }
+            for (Major major : majorList) {
+                majorMap.put(major.getId(), major);
             }
             for (UserInfo userInfo : teacherInfoList) {
                 teacherMap.put(userInfo.getId(), userInfo);
@@ -73,6 +82,7 @@ public class StudentWebService {
                 StudentVO studentVO = new StudentVO(student, (UserInfo) userInfoMap.get(student.getId()));
                 studentVO.setCollegeName(((College) collegeMap.get(student.getCollegeId())).getName());
                 studentVO.setDepartmentName(((Department) departmentMap.get(student.getDepartmentId())).getName());
+                studentVO.setMajorName(((Major) majorMap.get(student.getMajorId())).getName());
                 studentVO.setClazzName(((Clazz) clazzMap.get(student.getClazzId())).getName());
                 studentVOList.add(studentVO);
             }
@@ -101,6 +111,9 @@ public class StudentWebService {
             //系
             Department department = Constant.ServiceFacade.getDepartmentService().select(student.getDepartmentId());
             studentVO.setDepartmentName(department.getName());
+            //专业
+            Major major = Constant.ServiceFacade.getMajorService().select(student.getMajorId());
+            studentVO.setMajorName(major.getName());
             //班级
             Clazz clazz = Constant.ServiceFacade.getClazzService().select(student.getClazzId());
             studentVO.setClazzName(clazz.getName());
@@ -115,7 +128,7 @@ public class StudentWebService {
             if (activityId > 0) {
                 //选题,只有一条
                 List<PaperStudent> paperStudentList = Constant.ServiceFacade.getPaperStudentService().list(null, activityId, 0, schoolId, 0, 0,
-                        0, 0, id, 0, null, 1, 100);
+                        0,0, 0, id, 0, null, 1, 100);
                 if (paperStudentList != null && paperStudentList.size() > 0) {
                     Paper paper = Constant.ServiceFacade.getPaperService().select(paperStudentList.get(0).getPaperId());
                     studentVO.setPaper(paper);

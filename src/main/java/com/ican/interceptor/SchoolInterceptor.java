@@ -3,6 +3,7 @@ package com.ican.interceptor;
 import com.ican.config.Constant;
 import com.ican.domain.School;
 import com.ican.domain.UserInfo;
+import com.ican.service.UserInfoService;
 import com.ican.util.IcanUtil;
 import com.ican.util.JedisAdapter;
 import com.ican.vo.SchoolVO;
@@ -29,13 +30,17 @@ public class SchoolInterceptor extends HandlerInterceptorAdapter {
                     String userId = jedisAdapter.get(cookieList[i].getValue());
                     if (userId != null && userId.length() > 0) {
                         int id = Integer.valueOf(userId);
-                        SchoolVO schoolVO = Constant.ServiceFacade.getSchoolService().selectVO(id);
-                        request.setAttribute("school", schoolVO);
+                        UserInfo userInfo = Constant.ServiceFacade.getUserInfoService().select(id);
+                        if (userInfo == null || userInfo.getRole() != UserInfoService.USER_SCHOOL) {
+                            response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_SCHOOL);
+                        }
+                        School school = Constant.ServiceFacade.getSchoolService().select(id);
+                        request.setAttribute("school", new SchoolVO(school, userInfo));
                         return true;
                     }
                 }
             }
-            response.sendRedirect(request.getContextPath()+"/login?role=3");
+            response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_SCHOOL);
         } catch (IOException iox) {
             logger.error("iox" + iox);
             return false;

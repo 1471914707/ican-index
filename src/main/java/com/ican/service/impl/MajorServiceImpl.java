@@ -15,22 +15,22 @@ import java.util.Map;
 public class MajorServiceImpl implements MajorService {
     @Override
     public int insert(Major major) throws icanServiceException {
-        return Constant.ServiceFacade.getMajorService().insert(major);
+        return Constant.DaoFacade.getMajorDao().insert(major);
     }
 
     @Override
     public Major select(int id) throws icanServiceException {
-        return (Major) Constant.ServiceFacade.getMajorService().select(id);
+        return (Major) Constant.DaoFacade.getMajorDao().select(id);
     }
 
     @Override
     public int update(Major major) throws icanServiceException {
-        return Constant.ServiceFacade.getMajorService().update(major);
+        return Constant.DaoFacade.getMajorDao().update(major);
     }
 
     @Override
     public int delete(int id) throws icanServiceException {
-        return Constant.ServiceFacade.getMajorService().delete(id);
+        return Constant.DaoFacade.getMajorDao().delete(id);
     }
 
     @Override

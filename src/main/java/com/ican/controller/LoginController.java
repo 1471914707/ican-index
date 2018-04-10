@@ -167,6 +167,22 @@ public class LoginController {
 
     }*/
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        UserInfo userInfo = Ums.getUser(request);
+        if (userInfo == null) {
+            return "/login";
+        }
+        int role = userInfo.getRole();
+        JedisAdapter jedisAdapter = new JedisAdapter();
+        String cookie = jedisAdapter.get(userInfo.getId() + "");
+        jedisAdapter.delete(cookie);
+        jedisAdapter.delete(userInfo.getId() + "");
+
+        request.setAttribute("role", role);
+        return "/login";
+    }
+
     @RequestMapping(value = "/loginFail", method = RequestMethod.GET)
     public String loginFail(@RequestParam("role") int role,
                             HttpServletRequest request, HttpServletResponse response) {

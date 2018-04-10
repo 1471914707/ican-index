@@ -35,6 +35,13 @@
                             </el-collapse-item></a>
                             <a href="/school/student/list"><el-collapse-item title="学生情况" name="4">
                             </el-collapse-item></a>
+                            <el-collapse-item title="个人设置" name="5">
+                                <div style="color: #409EFF;cursor: pointer">
+                                    <div onclick="javascript:window.location.href='/school/edit'">个人资料</div>
+                                    <div onclick="javascript:window.location.href='/password'">密码修改</div>
+                                    <div onclick="javascript:window.location.href='/logout'">退出</div>
+                                </div>
+                            </el-collapse-item>
                         </el-collapse>
                     </div>
                 </nav>
@@ -43,12 +50,21 @@
         <div class="sticky-header header-section ">
             <div class="header-left">
                 <img src="${school.banner}">
-            </div>
-            <div class="header-right" style="float: right;">
-                <div class="profile_details">
-                </div>
-                <button id="showLeftPush"><img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
                 <div class="clearfix"> </div>
+            </div>
+            <div class="header-right" style="float: right;margin-right: 50px;">
+                <div class="profile_details" style="margin-top: 10%">
+                    <el-row>
+                        <el-col :span="12" style="line-height: 60px"></el-col>
+                        <el-col :span="10">
+                            <a href="/bk">
+                                <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
+                        </el-col>
+                    </el-row>
+                </div>
+                <button id="showLeftPush" style="padding-top: 30px;">
+                    <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
+                <div class="clearfix"></div>
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -95,9 +111,14 @@
                                             :filter-multiple="false">
                                     </el-table-column>
                                     <el-table-column
+                                            prop="majorName"
+                                            label="专业"
+                                            width="180">
+                                    </el-table-column>
+                                    <el-table-column
                                             prop="current"
                                             label="届"
-                                            width="150"
+                                                width="120"
                                             :filters="currentList"
                                             :filter-method="filterCurrentHandler"
                                             :filter-multiple="false">
@@ -105,7 +126,7 @@
                                     <el-table-column
                                             prop="clazzName"
                                             label="班级"
-                                            width="180"
+                                            width="150"
                                             :filters="clazzList"
                                             :filter-method="filterClazzHandler"
                                             :filter-multiple="false">
@@ -113,7 +134,7 @@
                                     <el-table-column
                                             prop="name"
                                             label="姓名"
-                                            width="180">
+                                            width="120">
                                     </el-table-column>
                                     <el-table-column
                                             prop="phone"
@@ -136,7 +157,7 @@
                                             min-width="150">
                                         <template slot-scope="scope">
                                             <el-button type="text" size="small" @click="detail(scope.row.id)">查看</el-button>
-                                            <el-button type="text" size="small" @click="detail(scope.row.id)">私信</el-button>
+                                            <el-button type="text" size="small" @click="openMessageWindow(scope.row.id)">私信</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -264,6 +285,10 @@
                         return dateTime.split(" ")[0];
                     }
                     return '';
+                },
+                openMessageWindow:function (toId) {
+                    window.open ('/message?toId='+toId, 'newwindow',
+                            'height=600, width=400, top=150,left=500%, toolbar=no, menubar=no, scrollbars= no, resizable=no,location=true,status=no');
                 },
                 filterCollegeHandler:function (value, row, column) {
                     this.collegeId = value;

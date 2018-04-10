@@ -1,6 +1,8 @@
 package com.ican.vo;
 
 import com.ican.domain.Department;
+import com.ican.domain.Major;
+import com.ican.domain.Paper;
 import com.ican.domain.Project;
 
 public class ProjectVO {
@@ -9,7 +11,9 @@ public class ProjectVO {
     private TeacherVO teacher;
     private CollegeVO college;
     private Department department;
-    private StudentVO studentVO;
+    private Major major;
+    private StudentVO student;
+    private Paper paper;
 
     private int id;
     private String collegeName;
@@ -18,6 +22,40 @@ public class ProjectVO {
     private int departmentId;
     private String TeacherName;
     private int teacherId;
+    private int majorId;
+    private String majorName;
+
+    public Paper getPaper() {
+        return paper;
+    }
+
+    public void setPaper(Paper paper) {
+        this.paper = paper;
+    }
+
+    public Major getMajor() {
+        return major;
+    }
+
+    public void setMajor(Major major) {
+        this.major = major;
+    }
+
+    public int getMajorId() {
+        return majorId;
+    }
+
+    public void setMajorId(int majorId) {
+        this.majorId = majorId;
+    }
+
+    public String getMajorName() {
+        return majorName;
+    }
+
+    public void setMajorName(String majorName) {
+        this.majorName = majorName;
+    }
 
     public int getCollegeId() {
         return collegeId;
@@ -83,12 +121,12 @@ public class ProjectVO {
         this.department = department;
     }
 
-    public StudentVO getStudentVO() {
-        return studentVO;
+    public StudentVO getStudent() {
+        return student;
     }
 
-    public void setStudentVO(StudentVO studentVO) {
-        this.studentVO = studentVO;
+    public void setStudent(StudentVO student) {
+        this.student = student;
     }
 
     public int getId() {

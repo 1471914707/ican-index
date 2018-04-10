@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>${school.schoolName} | 学生列表</title>
+    <title>${school.schoolName} | 选题列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="毕业设计平台" />
@@ -35,6 +35,13 @@
                             </el-collapse-item></a>
                             <a href="/school/student/list"><el-collapse-item title="学生情况" name="4">
                             </el-collapse-item></a>
+                            <el-collapse-item title="个人设置" name="5">
+                                <div style="color: #409EFF;cursor: pointer">
+                                    <div onclick="javascript:window.location.href='/school/edit'">个人资料</div>
+                                    <div onclick="javascript:window.location.href='/password'">密码修改</div>
+                                    <div onclick="javascript:window.location.href='/logout'">退出</div>
+                                </div>
+                            </el-collapse-item>
                         </el-collapse>
                     </div>
                 </nav>
@@ -43,12 +50,21 @@
         <div class="sticky-header header-section ">
             <div class="header-left">
                 <img src="${school.banner}">
-            </div>
-            <div class="header-right" style="float: right;">
-                <div class="profile_details">
-                </div>
-                <button id="showLeftPush"><img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
                 <div class="clearfix"> </div>
+            </div>
+            <div class="header-right" style="float: right;margin-right: 50px;">
+                <div class="profile_details" style="margin-top: 10%">
+                    <el-row>
+                        <el-col :span="12" style="line-height: 60px"></el-col>
+                        <el-col :span="10">
+                            <a href="/bk">
+                                <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
+                        </el-col>
+                    </el-row>
+                </div>
+                <button id="showLeftPush" style="padding-top: 30px;">
+                    <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
+                <div class="clearfix"></div>
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -57,13 +73,14 @@
                 <!--grids-->
                 <div class="grids">
                     <div class="progressbar-heading grids-heading">
-                        <h2 style="display: inline-block">选题列表</h2>
                         <div style="float: right;display: inline-block;margin-right: 1.5%;margin-top: 1%">
                             <el-row>
-                                <el-col :span="16" style="margin-right: 15px;"><el-input v-model="jobId" placeholder="请输入学号"></el-input></el-col>
-                                <el-col :span="4"><el-button type="success" icon="el-icon-search" @click="locadPaperList()"></el-button></el-col>
+                                <el-col :span="16" style="margin-right: 15px;"><el-input v-model="title" placeholder="请输入标题"></el-input></el-col>
+                                <el-col :span="4"><el-button type="success" icon="el-icon-search" @click="loadPaperList()"></el-button></el-col>
                             </el-row>
-                        </div>
+                        </div><br/>
+                        <h2 style="display: inline-block;text-align: center">${school.schoolName}毕业设计（论文）选题汇总</h2>
+                        <h2 style="display: inline-block;text-align: center">（{{current}}届）</h2>
                     </div>
                     <el-row v-if="!loading">
                         <div class="panel panel-widget">
@@ -74,70 +91,60 @@
                                 >
                                     <el-table-column
                                             style="max-width: 40px;"
-                                            prop="jobId"
-                                            label="学号"
-                                            width="180">
+                                            prop="paper.id"
+                                            label="序号"
+                                            width="100">
                                     </el-table-column>
                                     <el-table-column
-                                            prop="collegeName"
+                                            prop="teacher.name"
+                                            label="指导教师"
+                                            width="120">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="teacher.degreeName"
+                                            label="职称"
+                                            width="120">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="college.collegeName"
                                             label="所在学院"
-                                            width="180"
+                                            width="150"
                                             :filters="collegeList"
                                             :filter-method="filterCollegeHandler"
                                             :filter-multiple="false">
                                     </el-table-column>
                                     <el-table-column
-                                            prop="departmentName"
-                                            label="系"
-                                            width="180"
+                                            prop="department.name"
+                                            label="所在系（部门）"
+                                            width="150"
                                             :filters="departmentList"
                                             :filter-method="filterDepartmentHandler"
                                             :filter-multiple="false">
                                     </el-table-column>
                                     <el-table-column
-                                            prop="current"
-                                            label="届"
-                                            width="150"
-                                            :filters="currentList"
-                                            :filter-method="filterCurrentHandler"
-                                            :filter-multiple="false">
+                                            prop="paper.title"
+                                            label="毕业设计（论文）题目"
+                                            width="250">
                                     </el-table-column>
                                     <el-table-column
-                                            prop="clazzName"
-                                            label="班级"
-                                            width="180"
-                                            :filters="clazzList"
-                                            :filter-method="filterClazzHandler"
-                                            :filter-multiple="false">
+                                            prop="paper.require"
+                                            label="要求和说明"
+                                            width="250">
                                     </el-table-column>
                                     <el-table-column
-                                            prop="name"
-                                            label="姓名"
-                                            width="180">
-                                    </el-table-column>
-                                    <el-table-column
-                                            prop="phone"
-                                            label="电话"
+                                            prop="paper.minNumber"
+                                            label="需要学生人数"
                                             width="150">
                                     </el-table-column>
                                     <el-table-column
-                                            prop="email"
-                                            label="邮箱"
-                                            width="180">
+                                            prop="num"
+                                            label="已选人数"
+                                            width="100">
                                     </el-table-column>
                                     <el-table-column
-                                            prop="gmtCreate"
-                                            label="注册时间"
-                                            width="150">
+                                            prop="paper.remark"
+                                            label="备注">
                                     </el-table-column>
-                                    <el-table-column
-                                            fixed="right"
-                                            label="操作"
-                                            min-width="150">
-                                        <template slot-scope="scope">
-                                            <el-button type="text" size="small" @click="detail(scope.row.id)">查看</el-button>
-                                            <el-button type="text" size="small" @click="detail(scope.row.id)">私信</el-button>
-                                        </template>
                                     </el-table-column>
                                 </el-table>
                             </template>
@@ -186,11 +193,6 @@
         <#else>
         var activityId = 0;
         </#if>
-        <#if current??>
-        var current = ${current}
-        <#else>
-        var current = 0;
-        </#if>
 
         var app = new Vue({
             el: "#app",
@@ -206,19 +208,15 @@
                     departmentId:0,
                     collegeId:0,
                     title:'',
-                    current:0,
                     collegeList:[],
                     departmentList:[],
-                    currentList:[],
-                    clazzList:[]
+                    clazzList:[],
+                    current:'--',
                 }
             },
             mounted: function () {
-                this.locadPaperList();
+                this.loadPaperList();
                 this.loadCollegeList();
-                for (var i=2018; i<2022; i++) {
-                    this.currentList.push({text: i, value: i});
-                }
             },
             methods:{
                 detail:function (id) {
@@ -228,17 +226,15 @@
                         window.open('/school/student/detail?studentId=' + id);
                     }*/
                 },
-                locadPaperList:function (page, size) {
+                loadPaperList:function (page, size) {
                     var self = this;
                     self.loading = true;
                     var page = page || this.page || 1;
                     var size = size || this.size || 20;
-                    Api.get('/school/student/listJson',{
-                        degree:self.degree,
-                        jobId:self.jobId,
+                    Api.get('/school/paper/listJson',{
                         activityId:activityId,
                         collegeId:self.collegeId,
-                        clazzId:self.clazzId,
+                        title:self.title,
                         departmentId:self.departmentId,
                         page:page,
                         size:size
@@ -248,7 +244,11 @@
                                 self.list = result.data.list;
                                 self.total = result.data.total;
                                 for (var i=0; i<self.list.length; i++) {
-                                    self.list[i].gmtCreate = self.getDate(self.list[i].gmtCreate);
+                                    self.list[i].teacher.degreeName = self.getDegreeName(self.list[i].teacher.degree, self.list[i].teacher.degreeName);
+                                    self.list[i].paper.minNumber = self.list[i].paper.minNumber + '-' + self.list[i].paper.maxNumber;
+                                }
+                                if (self.list.length > 0) {
+                                    self.current = self.list[0].paper.current;
                                 }
                                 self.loading = false;
                             }
@@ -257,6 +257,22 @@
                             self.loading = false;
                         }
                     });
+                },
+                getDegreeName:function (degree,degreeName) {
+                    switch (degree){
+                        case 1:
+                            return '助教';
+                        case 2:
+                            return '讲师';
+                        case 3:
+                            return '副教授';
+                        case 4:
+                            return '教授';
+                        case 5:
+                            return '高级工程师';
+                        case 6:
+                            return degreeName;
+                    }
                 },
                 getDate:function (dateTime) {
                     if (dateTime.trim() != '') {
@@ -270,22 +286,16 @@
                     this.departmentId = 0;
                     this.clazzList = [];
                     this.clazzId = 0;
-                    this.locadPaperList();
+                    this.loadPaperList();
                 },
                 filterDepartmentHandler:function (value, row, column) {
                     this.departmentId = value;
                     this.clazzList = [];
-                    this.locadPaperList();
-                },
-                filterCurrentHandler:function (value, row, column) {
-                    this.current = value;
-                    this.loadClazzList(this.departmentId,value);
-                    this.clazzId = 0;
-                    this.locadPaperList();
+                    this.loadPaperList();
                 },
                 filterClazzHandler:function (value, row, column) {
                     this.clazzId = value;
-                    this.locadPaperList();
+                    this.loadPaperList();
                 },
                 loadCollegeList:function () {
                     var self = this;
@@ -312,7 +322,7 @@
                             }
                         }
                     });
-                },
+                },/*
                 loadClazzList:function (departmentId, current) {
                     var self = this;
                     Api.get("/clazzListJson",{departmentId:departmentId,current:current},function (result) {
@@ -324,14 +334,14 @@
                             }
                         }
                     });
-                },
+                },*/
                 handleSizeChange:function (size) {
                     this.size = size;
-                    this.locadPaperList(this.page, this.size);
+                    this.loadPaperList(this.page, this.size);
                 },
                 handleCurrentChange:function (page) {
                     this.page = page;
-                    this.locadPaperList(this.page, this.size);
+                    this.loadPaperList(this.page, this.size);
                 }
             }
         });

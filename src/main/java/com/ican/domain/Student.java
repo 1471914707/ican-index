@@ -9,6 +9,7 @@ public class Student {
     private int schoolId;
     private int collegeId;
     private int departmentId;
+    private int majorId;
     private int clazzId;
     private int teacherId;
     private int current;
@@ -31,6 +32,14 @@ public class Student {
 
     public void setSchoolId(int schoolId) {
         this.schoolId = schoolId;
+    }
+
+    public int getMajorId() {
+        return majorId;
+    }
+
+    public void setMajorId(int majorId) {
+        this.majorId = majorId;
     }
 
     public int getCollegeId() {

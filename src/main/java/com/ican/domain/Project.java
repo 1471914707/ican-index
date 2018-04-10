@@ -11,7 +11,9 @@ public class Project {
     private int schoolId;
     private int collegeId;
     private int departmentId;
+    private int majorId;
     private int clazzId;
+    private int paperId;
     private int teacherId;
     private int studentId;
     private String title;
@@ -33,6 +35,14 @@ public class Project {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(int paperId) {
+        this.paperId = paperId;
     }
 
     public int getActivityId() {
@@ -89,6 +99,14 @@ public class Project {
 
     public void setTeacherId(int teacherId) {
         this.teacherId = teacherId;
+    }
+
+    public int getMajorId() {
+        return majorId;
+    }
+
+    public void setMajorId(int majorId) {
+        this.majorId = majorId;
     }
 
     public int getStudentId() {
