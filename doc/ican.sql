@@ -80,6 +80,8 @@ CREATE TABLE `school` (
   `name` varchar(150) NOT NULL COMMENT '校名',
   `url` varchar(500) NOT NULL COMMENT '官网',
   `banner` varchar(500) NOT NULL COMMENT '横幅地址',
+  `phone` varchar(30) NOT NULL COMMENT '学校电话',
+  `email` varchar(50) NOT NULL COMMENT '学校邮箱',
   `country` int(10) UNSIGNED NOT NULL COMMENT '国家',
   `province` int(10) UNSIGNED NOT NULL COMMENT '省份',
   `city` int(10) UNSIGNED NOT NULL COMMENT '城市',
@@ -111,6 +113,8 @@ CREATE TABLE `college` (
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `name` varchar(500) NOT NULL COMMENT '二级学院名称',
   `url` varchar(500) NOT NULL COMMENT '官网',
+  `phone` varchar(30) NOT NULL COMMENT '学校电话',
+  `email` varchar(50) NOT NULL COMMENT '学校邮箱',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
@@ -163,13 +167,15 @@ CREATE TABLE `major` (
   `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
   `department_id` int(11) UNSIGNED NOT NULL COMMENT '系id',
+  `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '专业审核人id',
   `name` varchar(150) NOT NULL COMMENT '专业',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_school_id` (`school_id`),
   KEY `idx_college_id` (`college_id`),
-  KEY `idx_department_id` (`department_id`)
+  KEY `idx_department_id` (`department_id`),
+  KEY `idx_teacher_id` (`teacher_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='专业表';
 
 DROP TABLE IF EXISTS `clazz`;
@@ -395,15 +401,15 @@ DROP TABLE IF EXISTS `file`;
 CREATE TABLE `file` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` int(11) UNSIGNED NOT NULL COMMENT '保存人id',
-  `entity_id` int(11) UNSIGNED NOT NULL COMMENT '针对的东西id',
-  `entity_type` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '类型（0-未知,1-文件上传安排,2-博客,3-学校,4-二级学院,5-导师,6-学生,7-课题,8-task,,9-聊天文件）',
+  `target_id` int(11) UNSIGNED NOT NULL COMMENT '针对的东西id',
+  `type` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '类型（0-未知,1-活动,2-文件上传安排,3-博客,4-学校,5-二级学院,6-导师,7-学生,8-课题,9-task,,10-聊天文件）',
   `name` varchar(300) NOT NULL COMMENT '名称',
   `url` varchar(500) NOT NULL COMMENT '保存路径',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`),
-  INDEX `entity_index` (`entity_id` ASC, `entity_type` ASC)
+  INDEX `target_index` (`target_id` ASC, `type` ASC )
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='文件资源表';
 
 DROP TABLE IF EXISTS `comment`;
@@ -441,12 +447,11 @@ DROP TABLE IF EXISTS `blog`;
 CREATE TABLE `blog` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
-  `title` varchar(150) NOT NULL COMMENT '标题',
   `content` text NOT NULL COMMENT '内容',
+  `image` varchar(1000) NOT NULL COMMENT '图片Json',
   `like_count` int(11) UNSIGNED NOT NULL COMMENT '点赞数量',
   `comment_count` int(11) UNSIGNED NOT NULL COMMENT '评论数量',
   `hits` int(11) UNSIGNED NOT NULL COMMENT '热度',
-  `status` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '状态(0-初始化,1-生效,2-失效(封停))',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),

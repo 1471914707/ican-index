@@ -34,6 +34,8 @@ public class ProjectWebService {
             Set<String> departmentSet = new HashSet<>();
             //专业
             Set<String> majorSet = new HashSet<>();
+            //班级
+            Set<String> clazzSet = new HashSet<>();
             //学生
             Set<String> studentSet = new HashSet<>();
             //关联课题
@@ -44,6 +46,7 @@ public class ProjectWebService {
                 majorSet.add(project.getMajorId() + "");
                 studentSet.add(project.getStudentId() + "");
                 paperSet.add(project.getPaperId() + "");
+                clazzSet.add(project.getClazzId() + "");
             }
 
             String teacherIds = String.join(",", teacherSet);
@@ -51,15 +54,18 @@ public class ProjectWebService {
             String majorIds = String.join(",", majorSet);
             String studentIds = String.join(",", studentSet);
             String paperIds = String.join(",", paperSet);
+            String clazzIds = String.join(",", clazzSet);
 
             List<UserInfo> teacherInfoList = Constant.ServiceFacade.getUserInfoService().list(teacherIds, null, null,
                     UserInfoService.USER_TEACHER, null, 1, 100);
             List<Teacher> teacherList = Constant.ServiceFacade.getTeacherService().list(teacherIds, null, 0, null, 1, 100);
             List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(departmentIds, schoolId, 0, null, 1, 100);
-            List<Major> majorList = Constant.ServiceFacade.getMajorService().list(majorIds, 0, 0, 0, null, 1, 100);
+            List<Major> majorList = Constant.ServiceFacade.getMajorService().list(majorIds, 0, 0, 0, 0, null, 1, 100);
             List<UserInfo> studentInfoList = Constant.ServiceFacade.getUserInfoService().list(studentIds, null, null, 0, null, 1, 100);
             List<Student> studentList = Constant.ServiceFacade.getStudentService().list(studentIds, 0, 0, 0, 0, 0, 0, null, null, 1, 100);
             List<Paper> paperList = Constant.ServiceFacade.getPaperService().list(paperIds, 0, 0, 0, 0, 0, 0, null, null, 1, 100);
+            List<Clazz> clazzList = Constant.ServiceFacade.getClazzService().list(clazzIds, 0, 0, 0, 0, 0, null, 1, 100);
+
             Map teacherInfoMap = new HashMap();
             Map teacherMap = new HashMap();
             Map studentMap = new HashMap();
@@ -67,6 +73,8 @@ public class ProjectWebService {
             Map departmentMap = new HashMap();
             Map majorMap = new HashMap();
             Map paperMap = new HashMap();
+            Map clazzMap = new HashMap();
+
             for (UserInfo userInfo : teacherInfoList) {
                 teacherInfoMap.put(userInfo.getId(), userInfo);
             }
@@ -88,6 +96,9 @@ public class ProjectWebService {
             for (Paper paper : paperList) {
                 paperMap.put(paper.getId(), paper);
             }
+            for (Clazz clazz : clazzList) {
+                clazzMap.put(clazz.getId(), clazz);
+            }
             List<ProjectVO> projectVOList = new ArrayList<>();
             for (Project project : projectList) {
                 ProjectVO projectVO = new ProjectVO();
@@ -104,6 +115,9 @@ public class ProjectWebService {
                 projectVO.setTeacher(new TeacherVO((Teacher) teacherMap.get(project.getTeacherId()), (UserInfo) teacherInfoMap.get(project.getTeacherId())));
                 projectVO.setStudent(new StudentVO((Student) studentMap.get(project.getStudentId()), (UserInfo) studentInfoMap.get(project.getStudentId())));
                 projectVO.setPaper((Paper)paperMap.get(project.getPaperId()));
+                projectVO.setClazz((Clazz) clazzMap.get(project.getClazzId()));
+                projectVO.setClazzId(((Clazz) clazzMap.get(project.getClazzId())).getId());
+                projectVO.setClazzName(((Clazz) clazzMap.get(project.getClazzId())).getName());
                 projectVOList.add(projectVO);
             }
             return projectVOList;

@@ -7,10 +7,11 @@ package com.ican.domain;
 public class Blog {
     private int id;
     private int userId;
-    private String title;
     private String content;
+    private String image;
     private int likeCount;
     private int commentCount;
+    private int hits;
     private String gmtCreate;
     private String gmtModified;
 
@@ -30,20 +31,28 @@ public class Blog {
         this.userId = userId;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getHits() {
+        return hits;
+    }
+
+    public void setHit(int hits) {
+        this.hits = hits;
     }
 
     public int getLikeCount() {

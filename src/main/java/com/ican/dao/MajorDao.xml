@@ -20,6 +20,9 @@
             <if test="_parameter.containsKey('departmentId') and departmentId > 0">
                 and department_id = #{departmentId}
             </if>
+            <if test="_parameter.containsKey('teacherId') and teacherId > 0">
+                and teacher_id = #{teacherId}
+            </if>
         </where>
     </sql>
 
@@ -42,8 +45,8 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.Major" useGeneratedKeys="true" keyProperty="id">
-        insert into major (school_id,college_id,department_id,name,gmt_create,gmt_modified)
-        values (#{schoolId},#{collegeId},#{departmentId},#{name},now(),now())
+        insert into major (school_id,college_id,department_id,teacher_id,name,gmt_create,gmt_modified)
+        values (#{schoolId},#{collegeId},#{departmentId},#{teacherId},#{name},now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.Major">
@@ -57,6 +60,9 @@
             </if>
             <if test="departmentId != 0">
                 department_id=#{departmentId},
+            </if>
+            <if test="teacherId != 0">
+                teacher_id=#{teacherId},
             </if>
             <if test="name != null">
                 name=#{name},

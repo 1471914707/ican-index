@@ -57,7 +57,7 @@
                     <el-row>
                         <el-col :span="12" style="line-height: 60px"></el-col>
                         <el-col :span="10">
-                            <a href="/bk">
+                            <a href="/bk" target="_blank">
                                 <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
                         </el-col>
                     </el-row>
@@ -219,13 +219,6 @@
                 this.loadCollegeList();
             },
             methods:{
-                detail:function (id) {
-                   /* if (activityId > 0) {
-                        window.open('/school/student/detail?activityId='+activityId+'&studentId=' + id);
-                    } else {
-                        window.open('/school/student/detail?studentId=' + id);
-                    }*/
-                },
                 loadPaperList:function (page, size) {
                     var self = this;
                     self.loading = true;

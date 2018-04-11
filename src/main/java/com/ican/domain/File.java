@@ -7,8 +7,8 @@ package com.ican.domain;
 public class File {
     private int id;
     private int userId;
-    private int entityId;
-    private int entityType;
+    private int targetId;
+    private int type;
     private String name;
     private String url;
     private String gmtCreate;
@@ -30,20 +30,20 @@ public class File {
         this.userId = userId;
     }
 
-    public int getEntityId() {
-        return entityId;
+    public int getTargetId() {
+        return targetId;
     }
 
-    public void setEntityId(int entityId) {
-        this.entityId = entityId;
+    public void setTargetId(int targetId) {
+        this.targetId = targetId;
     }
 
-    public int getEntityType() {
-        return entityType;
+    public int getType() {
+        return type;
     }
 
-    public void setEntityType(int entityType) {
-        this.entityType = entityType;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getName() {

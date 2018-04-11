@@ -8,6 +8,7 @@ public class Clazz {
     private int schoolId;
     private int collegeId;
     private int departmentId;
+    private int majorId;
     private int current;
     private String name;
     private int amount;
@@ -20,6 +21,14 @@ public class Clazz {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getMajorId() {
+        return majorId;
+    }
+
+    public void setMajorId(int majorId) {
+        this.majorId = majorId;
     }
 
     public int getSchoolId() {

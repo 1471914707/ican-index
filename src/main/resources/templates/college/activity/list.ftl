@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>${college.collegeName}活动列表</title>
+    <title>${college.collegeName}|活动列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="毕业设计平台" />
@@ -15,6 +15,12 @@
             color: #fff;
             font-weight: 600;
             padding-left: 5%;
+        }
+        .el-button+.el-button{
+            margin-left: 0px;
+        }
+        .el-button--text {
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -35,6 +41,13 @@
                             </el-collapse-item></a>
                             <a href="/college/student/list"><el-collapse-item title="学生情况" name="4">
                             </el-collapse-item></a>
+                            <el-collapse-item title="个人设置" name="5">
+                                <div style="color: #409EFF;cursor: pointer">
+                                    <div onclick="javascript:window.location.href='/school/edit'">个人资料</div>
+                                    <div onclick="javascript:window.location.href='/password'">密码修改</div>
+                                    <div onclick="javascript:window.location.href='/logout'">退出</div>
+                                </div>
+                            </el-collapse-item>
                         </el-collapse>
                     </div>
                 </nav>
@@ -50,7 +63,7 @@
                     <el-row>
                         <el-col :span="12" style="line-height: 60px"><span>学校：</span></el-col>
                         <el-col :span="10">
-                            <a href="#">
+                            <a href="/bk?id=${schoolId}" target="_blank">
                                 <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
                         </el-col>
                     </el-row>
@@ -107,11 +120,11 @@
                                         <el-button type="text" size="small" @click="student(scope.row.id)">学生情况</el-button>
                                         <el-button type="text" size="small" @click="paper(scope.row.id)">选题情况</el-button>
                                         <el-button type="text" size="small" @click="project(scope.row.id)">学生项目</el-button>
-                                        <el-button type="text" size="small" @click="fileArrange(scope.row.id)">过程文档</el-button>
+                                        <el-button type="text" size="small" @click="fileArrange(scope.row.id)">共享文档</el-button>
+                                        <el-button type="text" size="small" @click="arrange(scope.row.id)">流程设置</el-button>
+                                        <el-button type="text" size="small" @click="majorTeacher(scope.row.id)">专业审核人设置</el-button>
                                         <el-button type="text" size="small" @click="rating(scope.row.id)">评审答辩</el-button>
                                         <el-button type="text" size="small" @click="project(scope.row.id)">统计情况</el-button>
-                                        <el-button type="text" size="small" @click="edit(scope.row.id)">编辑</el-button>
-                                        <el-button type="text" size="small" @click="activityDelete(scope.row.id)">删除</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -123,58 +136,12 @@
                 </div>
             </div>
 
-            <template v-if="editFlag">
-                <el-dialog
-                        :title="activity.id==0?'新增活动':'编辑活动'"
-                        :visible.sync="editFlag"
-                        width="35%">
-                    <el-form ref="activity" :model="activity" label-width="80px">
-                        <el-form-item label="活动名称" style="width: 68%">
-                            <el-input v-model="activity.name"></el-input>
-                        </el-form-item>
-                        <el-form-item label="活动目标">
-                            <el-select v-model="activity.current" placeholder="请选择某届">
-                                <el-option
-                                        v-for="item in 100"
-                                        :key="item+1970"
-                                        :label="item+1970"
-                                        :value="item+1970">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="开始时间">
-                            <el-date-picker
-                                    v-model="activity.startTime"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    @change="startTimeChange"
-                                    placeholder="选择日期">
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item label="结束时间">
-                            <el-date-picker
-                                    v-model="activity.endTime"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    @change="endTimeChange"
-                                    placeholder="选择日期">
-                            </el-date-picker>
-                        </el-form-item>
-                    </el-form>
-                    <span slot="footer" class="dialog-footer">
-                    <el-button @click="editFlag = false">取 消</el-button>
-                    <el-button type="primary" @click="saveActivity()">确 定</el-button>
-                  </span>
-                </el-dialog>
-
-            </template>
-
             <div class="block-pagination">
                 <el-pagination
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
                         :current-page="page"
-                        :page-sizes="[2, 4, 6, 8]"
+                        :page-sizes="[10, 20, 30, 40]"
                         :page-size="size"
                         layout="total, sizes, prev, pager, next, jumper"
                         :total="total">
@@ -254,8 +221,11 @@
                 project:function (id) {
                     window.open('/college/project/list?activityId=' + id);
                 },
+                majorTeacher:function (id) {
+                    window.open('/college/major/list?activityId=' + id);
+                },
                 fileArrange:function (id) {
-                    window.open('/college/fileArrange/list?activityId=' + id);
+                    window.open('/college/file/list?activityId=' + id);
                 },
                 rating:function (id) {
                     window.open('/college/rating/list?activityId=' + id);

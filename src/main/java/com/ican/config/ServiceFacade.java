@@ -5,6 +5,7 @@ import com.ican.service.*;
 import com.ican.webservice.PaperWebService;
 import com.ican.webservice.ProjectWebService;
 import com.ican.webservice.StudentWebService;
+import com.ican.webservice.TeacherWebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -74,6 +75,11 @@ public class ServiceFacade {
     @Autowired
     private MajorService majorService;
 
+    @Autowired
+    private BlogService blogService;
+
+    @Autowired
+    private FileService fileService;
 
     @Autowired
     private ProjectWebService projectWebService;
@@ -83,6 +89,33 @@ public class ServiceFacade {
 
     @Autowired
     private PaperWebService paperWebService;
+
+    @Autowired
+    private TeacherWebService teacherWebService;
+
+    public TeacherWebService getTeacherWebService() {
+        return teacherWebService;
+    }
+
+    public void setTeacherWebService(TeacherWebService teacherWebService) {
+        this.teacherWebService = teacherWebService;
+    }
+
+    public FileService getFileService() {
+        return fileService;
+    }
+
+    public void setFileService(FileService fileService) {
+        this.fileService = fileService;
+    }
+
+    public BlogService getBlogService() {
+        return blogService;
+    }
+
+    public void setBlogService(BlogService blogService) {
+        this.blogService = blogService;
+    }
 
     public MajorService getMajorService() {
         return majorService;

@@ -50,8 +50,8 @@ public class StudentWebService {
             List<College> collegeList = Constant.ServiceFacade.getCollegeService().list(collegeIds, 0, null, 1, 100);
             List<UserInfo> teacherInfoList = Constant.ServiceFacade.getUserInfoService().list(teacherIds, null, null, 0, null, 1, 100);
             List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(departmentIds, 0, 0, null, 1, 100);
-            List<Major> majorList = Constant.ServiceFacade.getMajorService().list(majorIds, 0, 0, 0, null, 1, 100);
-            List<Clazz> clazzList = Constant.ServiceFacade.getClazzService().list(clazzIds, 0, 0, 0, 0, null, 1, 100);
+            List<Major> majorList = Constant.ServiceFacade.getMajorService().list(majorIds, 0, 0, 0, 0, null, 1, 100);
+            List<Clazz> clazzList = Constant.ServiceFacade.getClazzService().list(clazzIds, 0, 0, 0, 0, 0, null, 1, 100);
 
             Map userInfoMap = new HashMap();
             Map collegeMap = new HashMap();
@@ -103,10 +103,10 @@ public class StudentWebService {
             UserInfo userInfo = Constant.ServiceFacade.getUserInfoService().select(id);
             StudentVO studentVO = new StudentVO(student, userInfo);
             //学校
-            School school = Constant.ServiceFacade.getSchoolService().select(student.getSchoolId());
+            UserInfo school = Constant.ServiceFacade.getUserInfoService().select(student.getSchoolId());
             studentVO.setSchoolName(school.getName());
             //学院
-            College college = Constant.ServiceFacade.getCollegeService().select(student.getCollegeId());
+            UserInfo college = Constant.ServiceFacade.getUserInfoService().select(student.getCollegeId());
             studentVO.setCollegeName(college.getName());
             //系
             Department department = Constant.ServiceFacade.getDepartmentService().select(student.getDepartmentId());

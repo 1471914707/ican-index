@@ -70,6 +70,28 @@ public class DaoFacade {
     @Autowired
     private MajorDao majorDao;
 
+    @Autowired
+    private BlogDao blogDao;
+
+    @Autowired
+    private FileDao fileDao;
+
+    public FileDao getFileDao() {
+        return fileDao;
+    }
+
+    public void setFileDao(FileDao fileDao) {
+        this.fileDao = fileDao;
+    }
+
+    public BlogDao getBlogDao() {
+        return blogDao;
+    }
+
+    public void setBlogDao(BlogDao blogDao) {
+        this.blogDao = blogDao;
+    }
+
     public MajorDao getMajorDao() {
         return majorDao;
     }

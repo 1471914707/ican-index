@@ -38,13 +38,13 @@ public class StudentCController {
         return "college/student/list";
     }
 
-    @RequestMapping(value = "detail",method = RequestMethod.GET)
+    @RequestMapping(value = "/detail",method = RequestMethod.GET)
     public String detail(@RequestParam(value = "studentId", defaultValue = "0") String studentId,
                          @RequestParam(value = "activityId",defaultValue = "0",required = false) int activityId,
                          HttpServletRequest request, HttpServletResponse response){
         request.setAttribute("studentId", studentId);
         request.setAttribute("activityId", activityId);
-        return "school/student/detail";
+        return "college/student/detail";
     }
 
     @ApiOperation("获取学生列表")
@@ -85,6 +85,7 @@ public class StudentCController {
                            HttpServletRequest request, HttpServletResponse response){
         BaseResult result = BaseResultUtil.initResult();
         UserInfo self = Ums.getUser(request);
+        System.out.println("==============="+self.getId());
         try {
             //基本信息
             Student student = Constant.ServiceFacade.getStudentService().select(id);

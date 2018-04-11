@@ -50,12 +50,13 @@ public class MajorServiceImpl implements MajorService {
     }
 
     @Override
-    public List<Major> list(String ids, int schoolId, int collegeId, int departmentId, String order, int page, int size) throws icanServiceException {
+    public List<Major> list(String ids, int schoolId, int collegeId, int departmentId, int teacherId, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
         param.put("schoolId", schoolId);
         param.put("collegeId", collegeId);
         param.put("departmentId", departmentId);
+        param.put("teacherId", teacherId);
         param.put("order", order);
         param.put("start", (page - 1) * size);
         param.put("size", size);
@@ -63,12 +64,13 @@ public class MajorServiceImpl implements MajorService {
     }
 
     @Override
-    public int count(String ids, int schoolId, int collegeId, int departmentId) throws icanServiceException {
+    public int count(String ids, int schoolId, int collegeId, int departmentId, int teacherId) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
         param.put("schoolId", schoolId);
         param.put("collegeId", collegeId);
         param.put("departmentId", departmentId);
+        param.put("teacherId", teacherId);
         return Constant.DaoFacade.getMajorDao().count(param);
     }
 }

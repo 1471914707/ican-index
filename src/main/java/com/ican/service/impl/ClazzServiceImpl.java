@@ -50,12 +50,13 @@ public class ClazzServiceImpl implements ClazzService{
     }
 
     @Override
-    public List<Clazz> list(String ids, int schoolId, int collegeId, int departmentId, int current, String order, int page, int size) throws icanServiceException {
+    public List<Clazz> list(String ids, int schoolId, int collegeId, int departmentId, int majorId, int current, String order, int page, int size) throws icanServiceException {
         Map params = new HashMap();
         params.put("ids", ids);
         params.put("schoolId", schoolId);
         params.put("collegeId", collegeId);
         params.put("departmentId", departmentId);
+        params.put("majorId", majorId);
         params.put("current", current);
         params.put("order", order);
         params.put("start", (page - 1) * size);
@@ -64,13 +65,14 @@ public class ClazzServiceImpl implements ClazzService{
     }
 
     @Override
-    public int count(String ids, int schoolId, int collegeId, int departmentId, int current) throws icanServiceException {
+    public int count(String ids, int schoolId, int collegeId, int departmentId, int majorId, int current) throws icanServiceException {
         Map params = new HashMap();
         params.put("ids", ids);
         params.put("schoolId", schoolId);
         params.put("collegeId", collegeId);
         params.put("departmentId", departmentId);
         params.put("current", current);
+        params.put("majorId", majorId);
         return Constant.DaoFacade.getClazzDao().count(params);
     }
 

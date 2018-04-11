@@ -82,7 +82,7 @@ public class CollegeTO {
         UserInfo userInfo = new UserInfo();
         userInfo.setId(this.id);
         userInfo.setHeadshot(this.headshot);
-        userInfo.setName(this.name);
+        userInfo.setName(this.collegeName);
         userInfo.setPhone(this.phone);
         userInfo.setEmail(this.email);
         userInfo.setRole(UserInfoService.USER_COLLEGE);
@@ -94,7 +94,7 @@ public class CollegeTO {
         College college = new College();
         college.setId(this.id);
         college.setUrl(this.url);
-        college.setName(this.collegeName);
+        college.setName(this.name);
         college.setSchoolId(this.schoolId);
         return college;
     }

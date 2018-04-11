@@ -20,12 +20,12 @@ public class CollegeVO {
         this.id = userInfo.getId();
         this.schoolId = college.getSchoolId();
         this.headshot = userInfo.getHeadshot();
-        this.name = userInfo.getName();
+        this.name = college.getName();
         this.role = userInfo.getRole();
         this.status = userInfo.getStatus();
         this.phone = userInfo.getPhone();
         this.email = userInfo.getEmail();
-        this.collegeName = college.getName();
+        this.collegeName = userInfo.getName();
         this.url = college.getUrl();
         this.gmtCreate = college.getGmtCreate();
         this.gmtModified = college.getGmtModified();
@@ -131,7 +131,7 @@ public class CollegeVO {
         UserInfo userInfo = new UserInfo();
         userInfo.setStatus(this.status);
         userInfo.setRole(this.role);
-        userInfo.setName(this.name);
+        userInfo.setName(this.collegeName);
         userInfo.setHeadshot(this.headshot);
         userInfo.setId(this.id);
         userInfo.setPhone(this.phone);
@@ -143,7 +143,7 @@ public class CollegeVO {
         College college = new College();
         college.setId(this.id);
         college.setSchoolId(this.schoolId);
-        college.setName(this.collegeName);
+        college.setName(this.name);
         college.setUrl(this.url);
         return college;
     }

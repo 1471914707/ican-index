@@ -34,10 +34,12 @@ public class CollegeInterceptor extends HandlerInterceptorAdapter {
                         UserInfo userInfo = Constant.ServiceFacade.getUserInfoService().select(id);
                         if (userInfo == null || userInfo.getRole() != UserInfoService.USER_COLLEGE) {
                             response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_COLLEGE);
+                            return false;
                         }
                         College college = Constant.ServiceFacade.getCollegeService().select(id);
                         SchoolVO schoolVO = Constant.ServiceFacade.getSchoolService().selectVO(college.getSchoolId());
                         request.setAttribute("school", schoolVO);
+                        request.setAttribute("schoolId", schoolVO.getId() + "");
                         request.setAttribute("college", new CollegeVO((college), userInfo));
                         return true;
                     }

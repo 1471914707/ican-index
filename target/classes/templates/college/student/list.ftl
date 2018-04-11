@@ -35,6 +35,13 @@
                             </el-collapse-item></a>
                             <a href="/college/student/list"><el-collapse-item title="学生情况" name="4">
                             </el-collapse-item></a>
+                            <el-collapse-item title="个人设置" name="5">
+                                <div style="color: #409EFF;cursor: pointer">
+                                    <div onclick="javascript:window.location.href='/school/edit'">个人资料</div>
+                                    <div onclick="javascript:window.location.href='/password'">密码修改</div>
+                                    <div onclick="javascript:window.location.href='/logout'">退出</div>
+                                </div>
+                            </el-collapse-item>
                         </el-collapse>
                     </div>
                 </nav>
@@ -50,7 +57,7 @@
                     <el-row>
                         <el-col :span="12" style="line-height: 60px"><span>学校：</span></el-col>
                         <el-col :span="10">
-                            <a href="#">
+                            <a href="/bk?id=${schoolId}" target="_blank">
                                 <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
                         </el-col>
                     </el-row>

@@ -9,6 +9,8 @@ public class School {
     private String name;
     private String url;
     private String banner;
+    private String phone;
+    private String email;
     private int country;
     private int province;
     private int city;
@@ -22,6 +24,22 @@ public class School {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {

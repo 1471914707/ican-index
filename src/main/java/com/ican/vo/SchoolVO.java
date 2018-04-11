@@ -28,7 +28,8 @@ public class SchoolVO {
     public SchoolVO(School school, UserInfo userInfo) {
         this.id = userInfo.getId();
         this.headshot = userInfo.getHeadshot();
-        this.name = userInfo.getName();
+        this.schoolName = userInfo.getName();
+        this.name = school.getName();
         this.sex = userInfo.getSex();
         this.role = userInfo.getRole();
         this.status = userInfo.getStatus();
@@ -36,7 +37,7 @@ public class SchoolVO {
         this.email = userInfo.getEmail();
         this.gmtCreate = school.getGmtCreate();
         this.gmtModified = school.getGmtModified();
-        this.schoolName = school.getName();
+
         this.url = school.getUrl();
         this.banner = school.getBanner();
         this.country = school.getCountry();

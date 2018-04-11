@@ -52,45 +52,7 @@ public class TeacherSController {
         BaseResult result = new BaseResult();
         UserInfo self = Ums.getUser(request);
         try {
-            //先找出该学校之下的所有系
-            int departmentTotal = Constant.ServiceFacade.getDepartmentService().count(null, self.getId(), 0);
-            List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(null, self.getId(), 0, null, 1, departmentTotal);
-            //拿到系ids
-            Set<String> departmentSet = new HashSet<>();
-            for (Department department : departmentList) {
-                departmentSet.add(department.getId() + "");
-            }
-            String departmentIds = String.join(",", departmentSet);
-            //查出所有的关联教师id
-            int departmentTeacherTotal = Constant.ServiceFacade.getDepartmentTeacherService().count(departmentIds, 0, 0);
-            List<DepartmentTeacher> departmentTeacherList = Constant.ServiceFacade.getDepartmentTeacherService().list(departmentIds, 0, 0, null, 1, departmentTeacherTotal);
-            Set<String> teacherSet = new HashSet<>();
-            for (DepartmentTeacher departmentTeacher : departmentTeacherList) {
-                teacherSet.add(departmentTeacher.getTeacherId() + "");
-            }
-            String teacherIds = String.join(",", teacherSet);
-            //查出教师列表
-            List<Teacher> teacherList = Constant.ServiceFacade.getTeacherService().list(teacherIds, jobId, degree, "id desc", page, size);
-            int teacherTotal = Constant.ServiceFacade.getTeacherService().count(teacherIds, jobId, 0);
-            Set<String> userInfoSet = new HashSet<>();
-            for (Teacher teacher : teacherList) {
-                userInfoSet.add(teacher.getId() + "");
-            }
-            //对应的基础信息
-            String userInfoIds = String.join(",", userInfoSet);
-            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(userInfoIds, null, null, UserInfoService.USER_TEACHER, null, page, size);
-            Map userInfoMap = new HashMap();
-            for (UserInfo userInfo : userInfoList) {
-                userInfoMap.put(userInfo.getId(), userInfo);
-            }
-            List<TeacherVO> teacherVOList = new ArrayList<>();
-            for (Teacher teacher : teacherList) {
-                TeacherVO teacherVO = new TeacherVO(teacher, (UserInfo) userInfoMap.get(teacher.getId()));
-                teacherVOList.add(teacherVO);
-            }
-            Map data = new HashMap();
-            data.put("list", teacherVOList);
-            data.put("total", teacherTotal);
+            HashMap data = Constant.ServiceFacade.getTeacherWebService().listVO(self.getId(), 0, degree, jobId);
             BaseResultUtil.setSuccess(result, data);
             return result;
         } catch (Exception e) {

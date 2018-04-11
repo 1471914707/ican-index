@@ -43,7 +43,7 @@
     <update id="update" parameterType="com.ican.domain.City">
         update city
         <set>
-            <if test="parentId != null">
+            <if test="parentId != 0">
                 parent_id=#{parentId},
             </if>
             <if test="name != null">
@@ -55,7 +55,7 @@
             <if test="first != null">
                 first=#{first},
             </if>
-            <if test="type != null">
+            <if test="type != 0">
                 type=#{type},
             </if>
             <if test="true">

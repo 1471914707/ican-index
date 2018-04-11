@@ -1,15 +1,13 @@
 package com.ican.vo;
 
-import com.ican.domain.Department;
-import com.ican.domain.Major;
-import com.ican.domain.Paper;
-import com.ican.domain.Project;
+import com.ican.domain.*;
 
 public class ProjectVO {
     private Project project;
     private SchoolVO school;
     private TeacherVO teacher;
     private CollegeVO college;
+    private Clazz clazz;
     private Department department;
     private Major major;
     private StudentVO student;
@@ -24,6 +22,32 @@ public class ProjectVO {
     private int teacherId;
     private int majorId;
     private String majorName;
+    private int clazzId;
+    private String clazzName;
+
+    public Clazz getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Clazz clazz) {
+        this.clazz = clazz;
+    }
+
+    public int getClazzId() {
+        return clazzId;
+    }
+
+    public void setClazzId(int clazzId) {
+        this.clazzId = clazzId;
+    }
+
+    public String getClazzName() {
+        return clazzName;
+    }
+
+    public void setClazzName(String clazzName) {
+        this.clazzName = clazzName;
+    }
 
     public Paper getPaper() {
         return paper;

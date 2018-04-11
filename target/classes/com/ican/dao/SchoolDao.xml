@@ -42,8 +42,8 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.School" useGeneratedKeys="true" keyProperty="id">
-        insert into school (id,name,url,banner,country,province,city,address,gmt_create,gmt_modified)
-        values (#{id},#{name},#{url},#{banner},#{country},#{province},#{city},#{address},now(),now())
+        insert into school (id,name,url,banner,email,phone,country,province,city,address,gmt_create,gmt_modified)
+        values (#{id},#{name},#{url},#{banner},#{email},#{phone},#{country},#{province},#{city},#{address},now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.School">
@@ -57,6 +57,12 @@
             </if>
             <if test="banner != null">
                 banner=#{banner},
+            </if>
+            <if test="phone != null">
+                phone=#{phone},
+            </if>
+            <if test="email != null">
+                email=#{email},
             </if>
             <if test="country != 0">
                 country=#{country},

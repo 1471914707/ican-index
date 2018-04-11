@@ -5,6 +5,7 @@ public class Major {
     private int schoolId;
     private int collegeId;
     private int departmentId;
+    private int teacherId;
     private String name;
     private String gmtCreate;
     private String gmtModified;
@@ -17,12 +18,16 @@ public class Major {
         this.id = id;
     }
 
-    public int getSchoolId() {
-        return schoolId;
+    public void setSchoolId(int schoolId) {
+        this.schoolId = schoolId;
     }
 
-    public void setSchoollId(int schoollId) {
-        this.schoolId = schoollId;
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 
     public int getCollegeId() {

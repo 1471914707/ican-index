@@ -18,8 +18,8 @@ public interface MajorService {
 
     int save(Major major) throws icanServiceException;
 
-    List<Major> list(String ids, int schoolId, int collegeId, int departmentId, String order, int page, int size) throws icanServiceException;
+    List<Major> list(String ids, int schoolId, int collegeId, int departmentId, int teacherId, String order, int page, int size) throws icanServiceException;
 
-    int count(String ids, int schoolId, int collegeId, int departmentId) throws icanServiceException;
+    int count(String ids, int schoolId, int collegeId, int departmentId, int teacherId) throws icanServiceException;
 
 }

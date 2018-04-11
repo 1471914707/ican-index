@@ -138,7 +138,7 @@ public class SchoolTO {
         UserInfo userInfo = new UserInfo();
         userInfo.setId(this.id);
         userInfo.setHeadshot(this.headshot);
-        userInfo.setName(this.name);
+        userInfo.setName(this.schoolName);
         userInfo.setPhone(this.phone);
         userInfo.setEmail(this.email);
         userInfo.setRole(UserInfoService.USER_SCHOOL);
@@ -150,7 +150,7 @@ public class SchoolTO {
         School school = new School();
         school.setId(id);
         school.setAddress(this.address);
-        school.setName(this.schoolName);
+        school.setName(this.name);
         school.setUrl(this.url);
         school.setCountry(this.country);
         school.setProvince(this.province);

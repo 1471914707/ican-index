@@ -59,22 +59,6 @@ public class MessageController {
             List<Message> messageList = Constant.ServiceFacade.getMessageService().list(null, 0, 0, conversationId, "id desc", page, size);
             int total = Constant.ServiceFacade.getMessageService().count(null, 0, 0, conversationId);
             Map data = new HashMap();
-            if (fromUser.getRole() == UserInfoService.USER_COLLEGE) {
-                College college = Constant.ServiceFacade.getCollegeService().select(fromUser.getId());
-                fromUser.setName(college.getName());
-            }
-            if (fromUser.getRole() == UserInfoService.USER_SCHOOL) {
-                School school = Constant.ServiceFacade.getSchoolService().select(fromUser.getId());
-                fromUser.setName(school.getName());
-            }
-            if (toUser.getRole() == UserInfoService.USER_COLLEGE) {
-                College college = Constant.ServiceFacade.getCollegeService().select(toUser.getId());
-                toUser.setName(college.getName());
-            }
-            if (toUser.getRole() == UserInfoService.USER_SCHOOL) {
-                School school = Constant.ServiceFacade.getSchoolService().select(toUser.getId());
-                toUser.setName(school.getName());
-            }
             data.put("fromName", fromUser.getName());
             data.put("fromHeadshot", fromUser.getHeadshot());
             data.put("toName", toUser.getName());

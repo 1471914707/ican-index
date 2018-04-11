@@ -5,6 +5,8 @@ public class College {
     private int schoolId;
     private String name;
     private String url;
+    private String phone;
+    private String email;
     private String gmtCreate;
     private String gmtModified;
 
@@ -14,6 +16,23 @@ public class College {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public int getSchoolId() {

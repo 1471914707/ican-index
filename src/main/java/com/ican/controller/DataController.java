@@ -11,13 +11,14 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.util.List;
+import java.util.*;
 
 /**
  * 基本数据接口
@@ -158,10 +159,9 @@ public class DataController {
         }
     }
 
-    @ApiOperation("获取本校本院本系的班级")
-    @RequestMapping(value = "/clazzListJson",method = RequestMethod.GET)
-    public BaseResult clazzListJson(@RequestParam(value = "departmentId",required = false) int departmentId,
-                                    @RequestParam(value = "current",required = false) int current,
+    @ApiOperation("获取本系的专业")
+    @RequestMapping(value = "/majorListJson",method = RequestMethod.GET)
+    public BaseResult majorListJson(@RequestParam(value = "departmentId",required = false) int departmentId,
                                     HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo self = Ums.getUser(request);
@@ -170,12 +170,54 @@ public class DataController {
             return result;
         }
         try {
+            List<Major> majorList = Constant.ServiceFacade.getMajorService().list(null, 0, 0, departmentId, 0, null, 1, 1000);
+            BaseResultUtil.setSuccess(result, majorList);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取本系的专业异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("获取本校本院本系的班级")
+    @RequestMapping(value = "/clazzListJson",method = RequestMethod.GET)
+    public BaseResult clazzListJson(@RequestParam(value = "departmentId",required = false) int departmentId,
+                                    @RequestParam(value = "majorId",required = false) int majorId,
+                                    @RequestParam(value = "current",required = false) int current,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
             List<Clazz> clazzList = Constant.ServiceFacade.getClazzService().list(null, 0, 0, departmentId,
-                    current, null, 1, 1000);
+                    majorId, current, null, 1, 1000);
             BaseResultUtil.setSuccess(result, clazzList);
             return result;
         } catch (Exception e) {
             logger.error("获取本校本院本系的班级列表异常", e);
+            return result;
+        }
+    }
+
+
+    @ApiOperation("获取本院的教师")
+    @RequestMapping(value = "/teacherListJson",method = RequestMethod.GET)
+    public BaseResult teacherListJson(HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || self.getRole() != UserInfoService.USER_COLLEGE) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            HashMap data = Constant.ServiceFacade.getTeacherWebService().listVO(0, self.getId(), 0, null);
+            BaseResultUtil.setSuccess(result, data);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取本院的教师异常", e);
             return result;
         }
     }
