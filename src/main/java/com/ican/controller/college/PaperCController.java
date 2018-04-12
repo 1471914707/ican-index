@@ -52,13 +52,15 @@ public class PaperCController {
         UserInfo self = Ums.getUser(request);
         try {
             List<Paper> paperList = Constant.ServiceFacade.getPaperService().list(null, activityId, current, 0, self.getId(), departmentId,
-                    teacherId, title, "id desc", page, size);
+                    teacherId, title, 0,"id desc", page, size);
             List<PaperVO> paperVOList = Constant.ServiceFacade.getPaperWebService().listVO(paperList);
             int total = Constant.ServiceFacade.getPaperService().count(null, activityId, current, 0, self.getId(), departmentId, teacherId,
-                    title);
+                    title,0);
+            Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
             Map data = new HashMap();
             data.put("list", paperVOList);
             data.put("total", total);
+            data.put("activity", activity);
             BaseResultUtil.setSuccess(result, data);
             return result;
         } catch (Exception e) {
@@ -69,14 +71,14 @@ public class PaperCController {
 
     @ApiOperation("获取选题详情")
     @ResponseBody
-    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
     public BaseResult info(@RequestParam(value = "id", defaultValue = "0") int id,
                            HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo self = Ums.getUser(request);
         try {
             Paper paper = Constant.ServiceFacade.getPaperService().select(id);
-            if (paper == null || paper.getSchoolId() != self.getId()) {
+            if (paper == null || paper.getCollegeId() != self.getId()) {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }
@@ -88,7 +90,6 @@ public class PaperCController {
             return result;
         }
     }
-
 
     @ApiOperation("获取选题学生关联")
     @ResponseBody
@@ -136,6 +137,37 @@ public class PaperCController {
         }
     }
 
+    @ApiOperation("改变选题状态")
+    @ResponseBody
+    @RequestMapping(value = "/status", method = RequestMethod.POST)
+    public BaseResult status(@RequestParam(value = "id", defaultValue = "0") int id,
+                             HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        if (id <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        UserInfo self = Ums.getUser(request);
+        try {
+            Paper paper = Constant.ServiceFacade.getPaperService().select(id);
+            if (paper == null || paper.getCollegeId() != self.getId()) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            if (paper.getStatus() == 1) {
+                paper.setStatus(2);
+            } else {
+                paper.setStatus(1);
+            }
+            Constant.ServiceFacade.getPaperService().save(paper);
+            BaseResultUtil.setSuccess(result, paper.getStatus());
+            return result;
+        } catch (Exception e) {
+            logger.error("获取选题详情异常", e);
+            return result;
+        }
+    }
+
     @ApiOperation("导出选题excel表")
     @ResponseBody
     @RequestMapping(value = "/excel", method = RequestMethod.GET)
@@ -154,9 +186,9 @@ public class PaperCController {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }
-            int total = Constant.ServiceFacade.getPaperService().count(null, activityId, 0, college.getSchoolId(), self.getId(), 0, 0, null);
+            int total = Constant.ServiceFacade.getPaperService().count(null, activityId, 0, college.getSchoolId(), self.getId(), 0, 0, null,0);
             List<Paper> paperList = Constant.ServiceFacade.getPaperService().list(null, activityId, 0, college.getSchoolId(),
-                    self.getId(), 0, 0, null, null, 1, total);
+                    self.getId(), 0, 0, null, 0,null, 1, total);
             List<PaperVO> paperVOList = Constant.ServiceFacade.getPaperWebService().listVO(paperList);
             if (paperVOList != null && paperVOList.size() > 0) {
                 Collections.sort(paperVOList, new Comparator<PaperVO>() {
@@ -196,7 +228,7 @@ public class PaperCController {
                     }
                     vlist.add(paperVO.getDepartment().getName());
                     vlist.add(paperVO.getPaper().getTitle());
-                    vlist.add(paperVO.getPaper().getRequire());
+                    vlist.add(paperVO.getPaper().getRequires());
                     if (paperVO.getPaper().getMaxNumber() == paperVO.getPaper().getMinNumber()) {
                         vlist.add(paperVO.getPaper().getMinNumber() + "");
                     } else {

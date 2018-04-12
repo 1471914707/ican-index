@@ -28,7 +28,7 @@ import java.util.Map;
 
 @Api("文件")
 @Controller
-@RequestMapping("/college/file")
+@RequestMapping("/file")
 public class FileCController {
     private final static Logger logger = LoggerFactory.getLogger(FileCController.class);
 
@@ -56,6 +56,7 @@ public class FileCController {
             data.put("list", fileList);
             data.put("total", total);
             data.put("activity", activity);
+            data.put("userInfo", self);
             BaseResultUtil.setSuccess(result, data);
             return result;
         } catch (Exception e) {

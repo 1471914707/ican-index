@@ -20,7 +20,7 @@
             font-weight: bolder;
         }
         .el-form-item{
-            width:20%;
+            width:33%;
         }
     </style>
 </head>
@@ -33,13 +33,13 @@
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div>
                         <el-collapse>
-                            <a href="/school/activity/list"><el-collapse-item title="活动列表" name="1">
+                            <a href="/college/activity/list"><el-collapse-item title="活动列表" name="1">
                             </el-collapse-item></a>
-                            <a href="/school/college/list"><el-collapse-item title="二级学院" name="2">
+                            <a href="/college/college/list"><el-collapse-item title="二级学院" name="2">
                             </el-collapse-item></a>
-                            <a href="/school/teacher/list"><el-collapse-item title="教师情况" name="3">
+                            <a href="/college/teacher/list"><el-collapse-item title="教师情况" name="3">
                             </el-collapse-item></a>
-                            <a href="/school/student/list"><el-collapse-item title="学生情况" name="4">
+                            <a href="/college/student/list"><el-collapse-item title="学生情况" name="4">
                             </el-collapse-item></a>
                             <el-collapse-item title="个人设置" name="5">
                                 <div style="color: #409EFF;cursor: pointer">
@@ -59,18 +59,24 @@
                 <div class="clearfix"> </div>
             </div>
             <div class="header-right" style="float: right;margin-right: 50px;">
-                <div class="profile_details" style="margin-top: 10%">
-                    <el-row>
-                        <el-col :span="12" style="line-height: 60px">学校：</el-col>
-                        <el-col :span="10">
-                            <a href="/bk" target="_blank">
-                                <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
-                        </el-col>
-                    </el-row>
-                </div>
-                <button id="showLeftPush" style="padding-top: 30px;">
-                    <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
-                <div class="clearfix"></div>
+                <el-row>
+                    <el-col :span="10">
+                        <div style="width: 1px;height: 1px;"></div>
+                    </el-col>
+                    <el-col :span="4">
+                        <a href="/bk?id=${schoolId}" target="_blank">
+                            <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
+                    </el-col>
+                    <el-col :span="4">
+                        <a href="/bk?id=${college.id?c}" target="_blank">
+                            <img src="${college.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
+                    </el-col>
+                    <el-col :span="6">
+                        <button id="showLeftPush" style="padding-top: 30px;float:right;">
+                            <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
+                        <div class="clearfix"></div>
+                    </el-col>
+                </el-row>
             </div>
             <div class="clearfix"> </div>
         </div>

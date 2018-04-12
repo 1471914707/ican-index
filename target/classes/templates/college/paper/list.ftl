@@ -53,18 +53,24 @@
                 <div class="clearfix"> </div>
             </div>
             <div class="header-right" style="float: right;margin-right: 50px;">
-                <div class="profile_details" style="margin-top: 5%">
-                    <el-row>
-                        <el-col :span="12" style="line-height: 60px"><span>学校：</span></el-col>
-                        <el-col :span="10">
-                            <a href="/bk?id=${schoolId}" target="_blank">
-                                <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
-                        </el-col>
-                    </el-row>
-                </div>
-                <button id="showLeftPush" style="padding-top: 30px;">
-                    <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
-                <div class="clearfix"></div>
+                <el-row>
+                    <el-col :span="10">
+                        <div style="width: 1px;height: 1px;"></div>
+                    </el-col>
+                    <el-col :span="4">
+                        <a href="/bk?id=${schoolId}" target="_blank">
+                            <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
+                    </el-col>
+                    <el-col :span="4">
+                        <a href="/bk?id=${college.id?c}" target="_blank">
+                            <img src="${college.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
+                    </el-col>
+                    <el-col :span="6">
+                        <button id="showLeftPush" style="padding-top: 30px;float:right;">
+                            <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
+                        <div class="clearfix"></div>
+                    </el-col>
+                </el-row>
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -75,9 +81,10 @@
                     <div class="progressbar-heading grids-heading">
                         <div style="float: right;display: inline-block;margin-right: 1.5%;margin-top: 1%">
                             <el-row>
-                                <el-col :span="12" style="margin-right: 15px;"><el-input v-model="title" placeholder="请输入标题"></el-input></el-col>
+                                <el-col :span="10" style="margin-right: 15px;"><el-input v-model="title" placeholder="请输入标题"></el-input></el-col>
                                 <el-col :span="4"><el-button type="success" icon="el-icon-search" @click="loadPaperList()"></el-button></el-col>
-                                <el-col :span="4" style="margin-right: 15px;"><el-button type="primary" class="el-icon-download" @click="excel()">导出</el-button></el-col>
+                                <el-col :span="3" style="margin-right: 15px;"><el-button type="primary" class="el-icon-download" @click="excel()">导出</el-button></el-col>
+                                <el-col :span="4" style="margin-left: 20px;margin-top: 10px;"><el-switch v-model="paperFlag" @change="paperStudent()"></el-switch></el-col>
                             </el-row>
                         </div><br/>
                         <h2 style="display: inline-block;text-align: center">${school.schoolName}-${college.collegeName}毕业设计（论文）选题汇总</h2>
@@ -97,10 +104,17 @@
                                             width="100">
                                     </el-table-column>
                                     <el-table-column
+                                            label="指导教师"
+                                            width="120">
+                                        <template slot-scope="scope">
+                                            <el-button type="text" size="small" @click="openBk(scope.row.teacher.id)">{{scope.row.teacher.name}}</el-button>
+                                        </template>
+                                    </el-table-column>
+                                    <#--<el-table-column
                                             prop="teacher.name"
                                             label="指导教师"
                                             width="120">
-                                    </el-table-column>
+                                    </el-table-column>-->
                                     <el-table-column
                                             prop="teacher.degreeName"
                                             label="职称"
@@ -122,7 +136,7 @@
                                             width="250">
                                     </el-table-column>
                                     <el-table-column
-                                            prop="paper.require"
+                                            prop="paper.requires"
                                             label="要求和说明"
                                             width="250">
                                     </el-table-column>
@@ -137,10 +151,17 @@
                                             width="250">
                                     </el-table-column>
                                     <el-table-column
-                                            fixed="right"
                                             label="已选人数">
                                         <template slot-scope="scope">
                                             <el-button type="text" size="small" @click="getPaperStudent(scope.row.paper.id);infoDialog=true">{{scope.row.num}}</el-button>
+                                         </template>
+                                    </el-table-column>
+                                    <el-table-column
+                                            fixed="right"
+                                            label="操作">
+                                        <template slot-scope="scope">
+                                            <el-button type="text" size="small" @click="statusChange(scope.row.paper.id);" v-if="scope.row.paper.status==1">无效</el-button>
+                                            <el-button type="text" size="small" @click="statusChange(scope.row.paper.id);" v-if="scope.row.paper.status==2">有效</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -221,14 +242,14 @@
                     current:'--',
                     title:'',
                     infoDialog:false,
-
+                    paperFlag:false,
                 }
             },
             mounted: function () {
-                this.loadMajorList();
+                this.loadPaperList();
             },
             methods:{
-                loadMajorList:function (page, size) {
+                loadPaperList:function (page, size) {
                     var self = this;
                     self.loading = true;
                     var page = page || this.page || 1;
@@ -241,15 +262,17 @@
                         size:size
                     },function (result) {
                         if (result.code == 0) {
-                            if (result.data.list) {
+                            if (result.data.list.length > 0) {
                                 self.list = result.data.list;
                                 self.total = result.data.total;
-                                for (var i=0; i<self.teacherList.length; i++) {
+                                for (var i=0; i<self.list.length; i++) {
                                     self.list[i].teacher.degreeName = self.getDegreeName(self.list[i].teacher.degree, self.list[i].teacher.degreeName);
                                 }
                                 self.current = self.list[0].paper.current;
-                                self.loading = false;
                             }
+                            self.paperFlag = result.data.activity.paper == 2?true:false;
+                            self.current = result.data.activity.current;
+                            self.loading = false;
                         }else {
                             self.$message({showClose: true, message: result.msg, type: 'error'});
                             self.loading = false;
@@ -266,11 +289,39 @@
                        }
                     });
                 },
+                paperStudent:function () {
+                    var self = this;
+                    Api.post("/college/activity/paper",{id:activityId},function (result) {
+                        if (result.code == 0) {
+                            self.paperFlag = result.data ==2?true:false;
+                        } else {
+                            self.$message({showClose: true, message: result.msg, type: 'error'});
+                        }
+                    });
+                },
+                statusChange:function (id) {
+                    var self = this;
+                    Api.post("/college/paper/status",{id:id},function (result) {
+                        if (result.code == 0) {
+                            self.$message({showClose: true, message: '修改成功', type: 'success'});
+                            for (var i=0; i<self.list.length; i++) {
+                                if (id == self.list[i].paper.id){
+                                    self.list[i].paper.status = result.data;
+                                }
+                            }
+                        } else {
+                            self.$message({showClose: true, message: result.msg, type: 'error'});
+                        }
+                    });
+                },
                 openStudentDetail:function (id) {
                     window.open("/college/student/detail?studentId=" + id + "&activityId=" + activityId);
                 },
                 excel:function () {
                     location.href = "/college/paper/excel?activityId=" + activityId;
+                },
+                openBk:function (id) {
+                    window.open('/bk?id=' + id);
                 },
                 handleClose:function () {
                     this.studentList = [];

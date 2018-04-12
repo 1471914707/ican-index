@@ -22,9 +22,10 @@ CREATE TABLE `city` (
 DROP TABLE IF EXISTS `activity`;
 CREATE TABLE `activity` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `user_id` int(11) unsigned NOT NULL COMMENT '活动主办方,目前只支持学校',
+  `user_id` int(11) unsigned NOT NULL COMMENT '活动主办方,目前只支持学院,学校?',
   `name` varchar(100) NOT NULL COMMENT '活动名称',
   `current` int(11) unsigned NOT NULL COMMENT '活动对象',
+  `paper` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '状态（0-初始化,1-不开启,2-开启）',
   `start_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '预计开始时间',
   `end_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '预计结束时间',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
@@ -239,7 +240,7 @@ CREATE TABLE `follow` (
   `follow_user_id` int(11) UNSIGNED NOT NULL COMMENT '跟进人id',
   `follow_user_name` varchar(20) NOT NULL COMMENT '跟进人姓名',
   `follow_id` int(11) UNSIGNED NOT NULL COMMENT '被跟进的id',
-  `follow_type` tinyint(2) UNSIGNED NOT NULL COMMENT '被跟进类型,1-学校,2-申议',
+  `follow_type` tinyint(2) UNSIGNED NOT NULL COMMENT '被跟进类型,1-学校,2-申议,3-教师选题,4-学生选题',
   `mode` tinyint(2) UNSIGNED NOT NULL COMMENT '跟进方式,1-电话,2-QQ,3-微信,4-邮箱',
   `content` varchar(1500) NOT NULL COMMENT '跟进内容',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
@@ -275,11 +276,11 @@ CREATE TABLE `paper` (
   `clazz_id` int(11) UNSIGNED NOT NULL COMMENT '班级id',
   `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '教师id',
   `title` varchar(300) NOT NULL COMMENT '题目',
-  `require` varchar(500) NOT NULL COMMENT '要求与说明',
+  `requires` varchar(500) NOT NULL COMMENT '要求与说明',
   `max_number` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '需要最多学生数量',
   `min_number` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '需要最少学生数量',
   `remark` varchar(500) NOT NULL COMMENT '备注',
-  `status` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '状态（0-初始化，1-提交成功,2-需要修改,3-选题中,4-已被选,5-全被选,6-进行中,7-结束,8-失效）',
+  `status` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '状态（0-初始化，1-不通过,2-通过）',
   `version` int(11) UNSIGNED NOT NULL COMMENT '版本号，做乐观锁用',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
@@ -337,6 +338,7 @@ CREATE TABLE `project` (
   `start_time` DATETIME NOT NULL COMMENT '开始时间',
   `end_time` DATETIME NOT NULL COMMENT '结束时间',
   `warn` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '开启任务即将到期提醒？（0-初始化,1-不开,2-开)',
+  `status` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '状态（1-待审,2-通过,3-不通过)',
   `complete` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '进度（0-初始化)',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
@@ -380,13 +382,15 @@ CREATE TABLE `task` (
   KEY `idx_project_id` (`project_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='安排发起的任务';
 
-DROP TABLE IF EXISTS `file_arrange`;
-CREATE TABLE `file_arrange` (
+DROP TABLE IF EXISTS `arrange`;
+CREATE TABLE `arrange` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` int(11) UNSIGNED NOT NULL COMMENT '发起人id',
   `activity_id` int(11) UNSIGNED NOT NULL COMMENT '针对的活动',
-  `type` tinyint(2) UNSIGNED NOT NULL  default '0' COMMENT '针对类型要求（0-未知,1-超级管理员,2-管理员,3-学校,4-二级学院,5-导师,6-学生）',
-  `name` varchar(300) NOT NULL COMMENT '名称（开题报告、任务书...）',
+  `follow` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '有无审核,1-无,2-有',
+  `file` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '有无文件要求,1-无,2-有',
+  `obj` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '面向对象,1-教师\学生,2-学生,3-教师',
+  `name` varchar(500) NOT NULL COMMENT '名称（开题报告、任务书...）',
   `weight` tinyint(2) UNSIGNED NOT NULL COMMENT '权重,用于优先级排序',
   `start_time` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '开始时间',
   `end_time`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '截止时间',
@@ -395,7 +399,7 @@ CREATE TABLE `file_arrange` (
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`),
   KEY `idx_activity_id` (`activity_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='发起文件收集表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='发起流程安排表';
 
 DROP TABLE IF EXISTS `file`;
 CREATE TABLE `file` (

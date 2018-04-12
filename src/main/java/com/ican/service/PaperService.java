@@ -19,8 +19,8 @@ public interface PaperService {
     int save(Paper paper) throws icanServiceException;
 
     List<Paper> list(String ids, int activityId,int current, int schoolId, int collegeId, int departmentId,
-                     int teacherId, String title, String order,int page, int size) throws icanServiceException;
+                     int teacherId, String title, int status, String order,int page, int size) throws icanServiceException;
 
     int count(String ids, int activityId,int current, int schoolId, int collegeId, int departmentId,
-              int teacherId, String title) throws icanServiceException;
+              int teacherId, String title, int status) throws icanServiceException;
 }

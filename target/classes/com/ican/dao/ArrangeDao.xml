@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ican.dao.ArrangeDao">
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
+                and id in (${ids})
+            </if>
+            <if test="_parameter.containsKey('userId') and userId > 0">
+                and user_id = #{userId}
+            </if>
+            <if test="_parameter.containsKey('activityId') and activityId > 0">
+                and activity_id = #{activityId}
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" resultType="com.ican.domain.Arrange">
+        select * from arrange where id=#{id}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from arrange
+        <include refid="dynamicWhere" />
+    </select>
+
+    <select id="list" resultType="com.ican.domain.Arrange">
+        select * from arrange
+        <include refid="dynamicWhere" />
+        <if test="_parameter.containsKey('order') and order!=null">
+            order by ${order}
+        </if>
+        limit #{start},#{size}
+    </select>
+
+    <insert id="insert" parameterType="com.ican.domain.Arrange" useGeneratedKeys="true" keyProperty="id">
+        insert into arrange (user_id,activity_id,follow,file,obj,name,weight,start_time,end_time,gmt_create,gmt_modified)
+        values (#{userId},#{activityId},#{follow},#{file},#{obj},#{name},#{weight},#{startTime},#{endTime},now(),now())
+    </insert>
+
+    <update id="update" parameterType="com.ican.domain.Arrange">
+        update arrange
+        <set>
+            <if test="userId != 0">
+                user_id=#{userId},
+            </if>
+            <if test="activityId != 0">
+                activity_id=#{activityId},
+            </if>
+            <if test="follow != 0">
+                follow=#{follow},
+            </if>
+            <if test="file != 0">
+                file=#{file},
+            </if>
+            <if test="obj != 0">
+                obj=#{obj},
+            </if>
+            <if test="name != null">
+                name=#{name},
+            </if>
+            <if test="weight != 0">
+                weight=#{weight},
+            </if>
+            <if test="startTime != null">
+                start_time=#{startTime},
+            </if>
+            <if test="endTime != null">
+                end_time=#{endTime},
+            </if>
+            <if test="true">
+                gmt_modified=now(),
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="delete">
+        delete from arrange where id=#{id}
+    </update>
+
+</mapper>

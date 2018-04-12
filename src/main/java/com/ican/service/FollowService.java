@@ -10,6 +10,7 @@ public interface FollowService {
     //跟进类型定义
     int FOLLOW_TYPE_SCHOOL = 1;
     int FOLLOW_TYPE_APPEAL = 2;
+    int FOLLOW_TYPE_PROJECT = 3;
 
     //基础方法
     int insert(Follow follow) throws icanServiceException;

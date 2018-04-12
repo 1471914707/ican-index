@@ -22,6 +22,36 @@ public class MailSender implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(MailSender.class);
     private static JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
+    public boolean send(String to, String content) {
+        try {
+            String nick = null;
+            JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+            mailSender.setHost("smtp.163.com");
+            mailSender.setPort(465);
+            mailSender.setUsername("18813960106@163.com");
+            mailSender.setPassword("12ab12ab");
+            //加认证机制
+            Properties javaMailProperties = new Properties();
+            javaMailProperties.put("mail.smtp.auth", true);
+            javaMailProperties.put("mail.smtp.starttls.enable", true);
+            javaMailProperties.put("mail.smtp.timeout", 5000);
+            javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            mailSender.setJavaMailProperties(javaMailProperties);
+            //创建邮件内容
+            SimpleMailMessage message=new SimpleMailMessage();
+            message.setFrom("18813960106@163.com");
+            message.setTo(to);
+            message.setSubject("毕业设计平台ICAN消息");
+            message.setText(content);
+            //发送邮件
+            mailSender.send(message);
+            return true;
+        } catch (Exception e) {
+            logger.error("发送邮件失败" + e.getMessage());
+            return false;
+        }
+    }
+
     public static void mainx(String[] args) {
         String nick = null;
 

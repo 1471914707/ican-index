@@ -53,14 +53,9 @@
                 <div class="clearfix"> </div>
             </div>
             <div class="header-right" style="float: right;margin-right: 50px;">
-                <div class="profile_details" style="margin-top: 10%">
-                    <el-row>
-                        <el-col :span="12" style="line-height: 60px"></el-col>
-                        <el-col :span="10">
-                            <a href="/bk" target="_blank">
-                                <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
-                        </el-col>
-                    </el-row>
+                <div class="profile_details" style="margin-top: 10px;">
+                    <a href="/bk?id=${school.id?c}" target="_blank">
+                        <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
                 </div>
                 <button id="showLeftPush" style="padding-top: 30px;">
                     <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
@@ -127,7 +122,7 @@
                                             width="250">
                                     </el-table-column>
                                     <el-table-column
-                                            prop="paper.require"
+                                            prop="paper.requires"
                                             label="要求和说明"
                                             width="250">
                                     </el-table-column>

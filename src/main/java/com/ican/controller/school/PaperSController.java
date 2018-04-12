@@ -50,10 +50,10 @@ public class PaperSController {
         UserInfo self = Ums.getUser(request);
         try {
             List<Paper> paperList = Constant.ServiceFacade.getPaperService().list(null, activityId, current, self.getId(), collegeId, departmentId,
-                    teacherId, title, "id desc", page, size);
+                    teacherId, title, 0,"id desc", page, size);
             List<PaperVO> paperVOList = Constant.ServiceFacade.getPaperWebService().listVO(paperList);
             int total = Constant.ServiceFacade.getPaperService().count(null, activityId, current, self.getId(), collegeId, departmentId, teacherId,
-                    title);
+                    title,0);
             Map data = new HashMap();
             data.put("list", paperVOList);
             data.put("total", total);

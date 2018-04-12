@@ -76,6 +76,17 @@ public class DaoFacade {
     @Autowired
     private FileDao fileDao;
 
+    @Autowired
+    private ArrangeDao arrangeDao;
+
+    public ArrangeDao getArrangeDao() {
+        return arrangeDao;
+    }
+
+    public void setArrangeDao(ArrangeDao arrangeDao) {
+        this.arrangeDao = arrangeDao;
+    }
+
     public FileDao getFileDao() {
         return fileDao;
     }

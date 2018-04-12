@@ -65,7 +65,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> list(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId, int clazzId, int teacherId, int studentId, String title, String order, int page, int size) throws icanServiceException {
+    public List<Project> list(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId,
+                              int clazzId, int teacherId, int studentId, String title, int status, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
         param.put("activityId", activityId);
@@ -77,6 +78,7 @@ public class ProjectServiceImpl implements ProjectService {
         param.put("teacherId", teacherId);
         param.put("studentId", studentId);
         param.put("title", title);
+        param.put("status", status);
         param.put("order", order);
         param.put("start", (page - 1) * size);
         param.put("size", size);
@@ -84,7 +86,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public int count(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId, int clazzId, int teacherId, int studentId, String title) throws icanServiceException {
+    public int count(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId, int clazzId, int teacherId,
+                     int studentId, String title, int status) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
         param.put("activityId", activityId);
@@ -96,6 +99,28 @@ public class ProjectServiceImpl implements ProjectService {
         param.put("teacherId", teacherId);
         param.put("studentId", studentId);
         param.put("title", title);
+        param.put("status", status);
+        return Constant.DaoFacade.getProjectDao().count(param);
+    }
+
+    @Override
+    public List<Project> list(String majorIds, int activityId, int collegeId, int teacherId, int status, String order, int page, int size) throws icanServiceException {
+        Map param = new HashMap();
+        param.put("majorIds", majorIds);
+        param.put("activityId", activityId);
+        param.put("status", status);
+        param.put("order", order);
+        param.put("start", (page - 1) * size);
+        param.put("size", size);
+        return Constant.DaoFacade.getProjectDao().list(param);
+    }
+
+    @Override
+    public int count(String majorIds, int activityId, int collegeId, int teacherId, int status) throws icanServiceException {
+        Map param = new HashMap();
+        param.put("majorIds", majorIds);
+        param.put("activityId", activityId);
+        param.put("status", status);
         return Constant.DaoFacade.getProjectDao().count(param);
     }
 }

@@ -1,6 +1,7 @@
 package com.ican.vo;
 
 import com.ican.domain.Department;
+import com.ican.domain.Follow;
 import com.ican.domain.Paper;
 import com.ican.domain.School;
 
@@ -13,6 +14,7 @@ public class PaperVO {
     private CollegeVO college;
     private Department department;
     private List<StudentVO> studentList;
+    private Follow follow;
 
     private int num; //已选人数
 

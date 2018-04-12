@@ -79,4 +79,21 @@ public class ActivityServiceImpl implements ActivityService {
         param.put("userId", userId);
         return Constant.DaoFacade.getActivityDao().count(param);
     }
+
+    @Override
+    public List<Activity> list(String userIds, String order, int page, int size) throws icanServiceException {
+        Map param = new HashMap();
+        param.put("userIds", userIds);
+        param.put("order", order);
+        param.put("start", (page - 1) * size);
+        param.put("size", size);
+        return Constant.DaoFacade.getActivityDao().list(param);
+    }
+
+    @Override
+    public int count(String userIds) throws icanServiceException {
+        Map param = new HashMap();
+        param.put("userIds", userIds);
+        return Constant.DaoFacade.getActivityDao().count(param);
+    }
 }

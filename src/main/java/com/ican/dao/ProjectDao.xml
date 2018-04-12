@@ -8,6 +8,9 @@
             <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
                 and id in (${ids})
             </if>
+            <if test="_parameter.containsKey('majorIds') and majorIds != null and majorIds != ''">
+                and major_id in (${majorIds})
+            </if>
             <if test="_parameter.containsKey('activityId') and activityId > 0">
                 and activity_id = #{activityId}
             </if>
@@ -41,6 +44,9 @@
             <if test="_parameter.containsKey('studentId') and studentId > 0">
                 and student_id = #{studentId}
             </if>
+            <if test="_parameter.containsKey('status') and status > 0">
+                and status = #{status}
+            </if>
             <if test="_parameter.containsKey('title') and title != null and title != ''">
                 and title LIKE concat(#{title},'%')
             </if>
@@ -66,8 +72,8 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.Project" useGeneratedKeys="true" keyProperty="id">
-        insert into project (activity_id,current,school_id,college_id,depaerment_id,teacher_id,clazz_id,student_id,title,content,condition,size,difficulty,number,start_time,end_time,warn,complete,gmt_create,gmt_modified)
-        values (#{activityId},#{current},#{schoolId},#{collegeId},#{departmentId},#{teacherId},#{clazzId},#{studentId},#{title},#{content},#{condition},#{size},#{difficulty},#{number},#{startTime},#{endTime},#{warn},#{complete},now(),now())
+        insert into project (activity_id,current,school_id,college_id,depaerment_id,teacher_id,clazz_id,student_id,title,content,condition,size,difficulty,number,start_time,end_time,warn,complete,status,gmt_create,gmt_modified)
+        values (#{activityId},#{current},#{schoolId},#{collegeId},#{departmentId},#{teacherId},#{clazzId},#{studentId},#{title},#{content},#{condition},#{size},#{difficulty},#{number},#{startTime},#{endTime},#{warn},#{complete},1,now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.Project">
@@ -126,6 +132,9 @@
             </if>
             <if test="complete != 0">
                 complete=#{complete},
+            </if>
+            <if test="status != 0">
+                status=#{status},
             </if>
             <if test="true">
                 gmt_modified=now(),

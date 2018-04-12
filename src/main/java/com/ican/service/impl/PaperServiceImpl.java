@@ -45,8 +45,8 @@ public class PaperServiceImpl implements PaperService{
             if (StringUtils.isEmpty(paper.getRemark())) {
                 paper.setRemark("");
             }
-            if (StringUtils.isEmpty(paper.getRequire())) {
-                paper.setRequire("");
+            if (StringUtils.isEmpty(paper.getRequires())) {
+                paper.setRequires("");
             }
             insert(paper);
         }
@@ -55,7 +55,7 @@ public class PaperServiceImpl implements PaperService{
 
     @Override
     public List<Paper> list(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId,
-                            int teacherId, String title, String order, int page, int size) throws icanServiceException {
+                            int teacherId, String title, int status, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
         param.put("activityId", activityId);
@@ -65,6 +65,7 @@ public class PaperServiceImpl implements PaperService{
         param.put("departmentId", departmentId);
         param.put("teacherId", teacherId);
         param.put("title", title);
+        param.put("status", status);
         param.put("order", order);
         param.put("start", (page - 1) * size);
         param.put("size", size);
@@ -73,13 +74,14 @@ public class PaperServiceImpl implements PaperService{
 
     @Override
     public int count(String ids, int activityId, int current, int schoolId, int collegeId, int departmentId,
-                     int teacherId, String title) throws icanServiceException {
+                     int teacherId, String title, int status) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
         param.put("activityId", activityId);
         param.put("current", current);
         param.put("schoolId", schoolId);
         param.put("collegeId", collegeId);
+        param.put("status", status);
         param.put("departmentId", departmentId);
         param.put("teacherId", teacherId);
         param.put("title", title);

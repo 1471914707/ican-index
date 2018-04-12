@@ -54,10 +54,10 @@ public class ProjectCController {
         UserInfo self = Ums.getUser(request);
         try {
             List<Project> projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, current, 0, self.getId(), departmentId,
-                    classId, teacherId, 0, title, "id desc", page, size);
+                    classId, teacherId, 0, title,0, "id desc", page, size);
             List<ProjectVO> projectVOList = Constant.ServiceFacade.getProjectWebService().projectVOList(projectList);
             int total = Constant.ServiceFacade.getProjectService().count(null, activityId, current, 0, self.getId(), departmentId,
-                    classId, teacherId, 0, title);
+                    classId, teacherId, 0, title,0);
             Map data = new HashMap();
             data.put("list", projectVOList);
             data.put("total", total);

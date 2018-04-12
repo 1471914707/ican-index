@@ -1,7 +1,8 @@
 package com.ican.async;
 
 public enum EventType {
-    TEST(0);
+    TEST(0),
+    PROJECT_FOLLOW(1);
 /*    LIKE(0),
     COMMENT(1),
     LOGIN(2),

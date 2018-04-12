@@ -11,8 +11,9 @@ public class Paper {
     private int collegeId;
     private int departmentId;
     private int teacherId;
+    private int clazzId;
     private String title;
-    private String require;
+    private String requires;
     private int maxNumber;
     private int minNumber;
     private String remark;
@@ -47,6 +48,14 @@ public class Paper {
 
     public int getSchoolId() {
         return schoolId;
+    }
+
+    public int getClazzId() {
+        return clazzId;
+    }
+
+    public void setClazzId(int clazzId) {
+        this.clazzId = clazzId;
     }
 
     public void setSchoolId(int schoolId) {
@@ -85,12 +94,12 @@ public class Paper {
         this.title = title;
     }
 
-    public String getRequire() {
-        return require;
+    public String getRequires() {
+        return requires;
     }
 
-    public void setRequire(String require) {
-        this.require = require;
+    public void setRequires(String requires) {
+        this.requires = requires;
     }
 
     public int getMaxNumber() {

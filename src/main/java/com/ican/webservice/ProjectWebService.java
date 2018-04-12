@@ -2,6 +2,7 @@ package com.ican.webservice;
 
 import com.ican.config.Constant;
 import com.ican.domain.*;
+import com.ican.service.FollowService;
 import com.ican.service.UserInfoService;
 import com.ican.vo.*;
 import org.apache.catalina.LifecycleState;
@@ -40,6 +41,7 @@ public class ProjectWebService {
             Set<String> studentSet = new HashSet<>();
             //关联课题
             Set<String> paperSet = new HashSet<>();
+
             for (Project project : projectList) {
                 teacherSet.add(project.getTeacherId() + "");
                 departmentSet.add(project.getDepartmentId() + "");
@@ -63,7 +65,7 @@ public class ProjectWebService {
             List<Major> majorList = Constant.ServiceFacade.getMajorService().list(majorIds, 0, 0, 0, 0, null, 1, 100);
             List<UserInfo> studentInfoList = Constant.ServiceFacade.getUserInfoService().list(studentIds, null, null, 0, null, 1, 100);
             List<Student> studentList = Constant.ServiceFacade.getStudentService().list(studentIds, 0, 0, 0, 0, 0, 0, null, null, 1, 100);
-            List<Paper> paperList = Constant.ServiceFacade.getPaperService().list(paperIds, 0, 0, 0, 0, 0, 0, null, null, 1, 100);
+            List<Paper> paperList = Constant.ServiceFacade.getPaperService().list(paperIds, 0, 0, 0, 0, 0, 0, null, 0,null, 1, 100);
             List<Clazz> clazzList = Constant.ServiceFacade.getClazzService().list(clazzIds, 0, 0, 0, 0, 0, null, 1, 100);
 
             Map teacherInfoMap = new HashMap();

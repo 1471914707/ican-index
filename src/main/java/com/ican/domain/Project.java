@@ -26,6 +26,7 @@ public class Project {
     private String endTime;
     private int warn;
     private int complete;
+    private int status;
     private String gmtCreate;
     private String gmtModified;
 
@@ -211,5 +212,13 @@ public class Project {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

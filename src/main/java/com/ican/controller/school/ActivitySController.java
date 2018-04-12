@@ -2,6 +2,7 @@ package com.ican.controller.school;
 
 import com.ican.config.Constant;
 import com.ican.domain.Activity;
+import com.ican.domain.College;
 import com.ican.domain.UserInfo;
 import com.ican.util.BaseResult;
 import com.ican.util.BaseResultUtil;
@@ -11,12 +12,12 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Api("学校发起的活动")
 @Controller
@@ -38,8 +39,20 @@ public class ActivitySController {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo userInfo = Ums.getUser(request);
         try {
-            List<Activity> activityList = Constant.ServiceFacade.getActivityService().list(null, userInfo.getId(), "id desc", page, size);
-            int total = Constant.ServiceFacade.getActivityService().count(null, userInfo.getId());
+            List<College> collegeList = Constant.ServiceFacade.getCollegeService().list(null, userInfo.getId(), null, 1, 100);
+            Set<String> collegeSet = new HashSet<>();
+            for (College college : collegeList) {
+                collegeSet.add(college.getId() + "");
+            }
+            collegeSet.add(userInfo.getId() + "");
+            String collegeIds = String.join(",", collegeSet);
+            List<Activity> activityList = new ArrayList<>();
+            int total = 0;
+            if (!StringUtils.isEmpty(collegeIds)) {
+                activityList = Constant.ServiceFacade.getActivityService().list(collegeIds, "id desc", page, size);
+                total = Constant.ServiceFacade.getActivityService().count(collegeIds);
+
+            }
             HashMap data = new HashMap();
             data.put("list", activityList);
             data.put("total", total);

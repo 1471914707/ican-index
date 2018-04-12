@@ -35,8 +35,6 @@
                         <el-collapse>
                             <a href="/college/activity/list"><el-collapse-item title="活动列表" name="1">
                             </el-collapse-item></a>
-                            <a href="/college/college/list"><el-collapse-item title="二级学院" name="2">
-                            </el-collapse-item></a>
                             <a href="/college/teacher/list"><el-collapse-item title="教师情况" name="3">
                             </el-collapse-item></a>
                             <a href="/college/student/list"><el-collapse-item title="学生情况" name="4">
@@ -59,18 +57,24 @@
                 <div class="clearfix"> </div>
             </div>
             <div class="header-right" style="float: right;margin-right: 50px;">
-                <div class="profile_details" style="margin-top: 5%">
-                    <el-row>
-                        <el-col :span="12" style="line-height: 60px"><span>学校：</span></el-col>
-                        <el-col :span="10">
-                            <a href="/bk?id=${schoolId}" target="_blank">
-                                <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
-                        </el-col>
-                    </el-row>
-                </div>
-                <button id="showLeftPush" style="padding-top: 30px;">
-                    <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
-                <div class="clearfix"></div>
+                <el-row>
+                    <el-col :span="10">
+                        <div style="width: 1px;height: 1px;"></div>
+                    </el-col>
+                    <el-col :span="4">
+                        <a href="/bk?id=${schoolId}" target="_blank">
+                            <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
+                    </el-col>
+                    <el-col :span="4">
+                        <a href="/bk?id=${college.id?c}" target="_blank">
+                            <img src="${college.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
+                    </el-col>
+                    <el-col :span="6">
+                        <button id="showLeftPush" style="padding-top: 30px;float:right;">
+                            <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
+                        <div class="clearfix"></div>
+                    </el-col>
+                </el-row>
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -78,7 +82,7 @@
             <div class="main-page">
                 <div class="grids">
                     <div class="progressbar-heading grids-heading">
-                        <h2>活动列表</h2>
+                        <h2>活动列表<i class="el-icon-circle-plus" @click="edit(0)" style="cursor: pointer;"></i></h2>
                     </div>
                     <div class="panel panel-widget">
                         <template v-if="!loading">
@@ -125,6 +129,8 @@
                                         <el-button type="text" size="small" @click="majorTeacher(scope.row.id)">专业审核人设置</el-button>
                                         <el-button type="text" size="small" @click="rating(scope.row.id)">评审答辩</el-button>
                                         <el-button type="text" size="small" @click="project(scope.row.id)">统计情况</el-button>
+                                        <el-button type="text" size="small" @click="edit(scope.row.id)">编辑</el-button>
+                                        <el-button type="text" size="small" @click="activityDelete(scope.row.id)">删除</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -135,6 +141,53 @@
                     </div>
                 </div>
             </div>
+
+
+            <template v-if="editFlag">
+                <el-dialog
+                        :title="activity.id==0?'新增活动':'编辑活动'"
+                        :visible.sync="editFlag"
+                        width="35%">
+                    <el-form ref="activity" :model="activity" label-width="80px">
+                        <el-form-item label="活动名称" style="width: 68%">
+                            <el-input v-model="activity.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="活动目标">
+                            <el-select v-model="activity.current" placeholder="请选择某届">
+                                <el-option
+                                        v-for="item in 100"
+                                        :key="item+1970"
+                                        :label="item+1970"
+                                        :value="item+1970">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="开始时间">
+                            <el-date-picker
+                                    v-model="activity.startTime"
+                                    type="date"
+                                    value-format="yyyy-MM-dd"
+                                    @change="startTimeChange"
+                                    placeholder="选择日期">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="结束时间">
+                            <el-date-picker
+                                    v-model="activity.endTime"
+                                    type="date"
+                                    value-format="yyyy-MM-dd"
+                                    @change="endTimeChange"
+                                    placeholder="选择日期">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-form>
+                    <span slot="footer" class="dialog-footer">
+                    <el-button @click="editFlag = false">取 消</el-button>
+                    <el-button type="primary" @click="saveActivity()">确 定</el-button>
+                  </span>
+                </el-dialog>
+
+            </template>
 
             <div class="block-pagination">
                 <el-pagination
@@ -164,6 +217,12 @@
     </div>
 
     <script>
+        <#if college.id??>
+        var collegeId = ${college.id?c}
+        <#else>
+        var collegeId = 0;
+        </#if>
+
         var app = new Vue({
             el: "#app",
             data: function () {
@@ -206,6 +265,59 @@
                         }
                     });
                 },
+                activityDelete:function (id) {
+                    var self = this;
+                    this.$confirm('此操作将永久删除该活动, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function () {
+                        Api.post("/college/activity/delete",{id:id},function (result) {
+                            if (result.code == 0) {
+                                for (var i=0; i<self.list.length; i++) {
+                                    if (self.list[i].id == id) {
+                                        self.list.splice(i, 1);
+                                    }
+                                }
+                                self.$message({showClose: true, message: "删除成功", type: 'success'});
+                            } else {
+                                self.$message({showClose: true, message: result.msg, type: 'error'});
+                            }
+                        });
+
+                    }).catch(function () {
+                        this.$message({type: 'info', message: '已取消删除'});
+                    });
+                },
+                edit:function (id) {
+                    var self = this;
+                    if (id == 0) {
+                        this.activity = {id:0,name:'',current:2018,startTime:'',endTime:''};
+                        this.editFlag = true;
+                        return true;
+                    } else {
+                        Api.get("/college/activity/info",{id:id},function (result) {
+                            if (result.code == 0) {
+                                self.activity = result.data;
+                            } else {
+                                self.$message({showClose: true, message: result.msg, type: 'error'});
+                            }
+                        });
+                        self.editFlag = true;
+                    }
+                },
+                saveActivity:function () {
+                    var self = this;
+                    Api.post("/college/activity/save",self.activity,function (result) {
+                        if (result.code == 0) {
+                            self.$message({showClose: true, message: "保存成功", type: 'success'});
+                            self.loadActivityList();
+                            self.editFlag = false;
+                        } else {
+                            self.$message({showClose: true, message: result.msg, type: 'error'});
+                        }
+                    });
+                },
                 getDate:function (dateTime) {
                     if (dateTime.trim() != '') {
                         return dateTime.split(" ")[0];
@@ -221,11 +333,14 @@
                 project:function (id) {
                     window.open('/college/project/list?activityId=' + id);
                 },
+                arrange:function (id) {
+                    window.open('/arrange/list?activityId=' + id + '&collegeId=' + collegeId);
+                },
                 majorTeacher:function (id) {
                     window.open('/college/major/list?activityId=' + id);
                 },
                 fileArrange:function (id) {
-                    window.open('/college/file/list?activityId=' + id);
+                    window.open('/file/list?activityId=' + id);
                 },
                 rating:function (id) {
                     window.open('/college/rating/list?activityId=' + id);

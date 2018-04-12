@@ -56,7 +56,8 @@
                 <el-col :span="17" style="line-height: 23px;">
                     <div style="float:right;">
                         <img src="http://cdn.ican.com/public/images/blogAdd.png" style="width: 28px;height: 28px;cursor: pointer" @click="addVisible=true"></div>
-                    <h1 class="display_name">${bk.name}</h1><br>
+                    <h1 class="display_name">${bk.name}</h1>
+                    <br>
                     <span class="text_gray">角色：</span>${bk.roleName}<br>
                     <#if bk.phone??>
                         <span class="text_gray">电话：</span>${bk.phone}<br>
@@ -71,6 +72,7 @@
                         <span class="text_gray">创建时间：</span>${bk.gmtCreate}<br>
                     </#if>
                     <span class="text_gray">发布：</span>${bk.total}条<br>
+                    <span @click="openMessageWindow(${bk.id})">私信</span>
                 </el-col>
             </el-row>
         </div>
@@ -290,6 +292,10 @@
                             this.imageList.split(i, 1);
                         }
                     }
+                },
+                openMessageWindow:function () {
+                    window.open ('/message?toId='+id, 'newwindow',
+                            'height=600, width=400, top=150,left=500%, toolbar=no, menubar=no, scrollbars= no, resizable=no,location=true,status=no');
                 },
                 getTime:function (time) {
                     return DateFun.getTimeFormatText(time);

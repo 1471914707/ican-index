@@ -8,6 +8,7 @@ public class Activity {
     private int userId;
     private String name;
     private int current;
+    private int paper;
     private String startTime;
     private String endTime;
     private String gmtCreate;
@@ -19,6 +20,14 @@ public class Activity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getPaper() {
+        return paper;
+    }
+
+    public void setPaper(int paper) {
+        this.paper = paper;
     }
 
     public int getUserId() {

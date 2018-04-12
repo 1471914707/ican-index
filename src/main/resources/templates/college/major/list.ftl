@@ -53,18 +53,24 @@
                 <div class="clearfix"> </div>
             </div>
             <div class="header-right" style="float: right;margin-right: 50px;">
-                <div class="profile_details" style="margin-top: 5%">
-                    <el-row>
-                        <el-col :span="12" style="line-height: 60px"><span>学校：</span></el-col>
-                        <el-col :span="10">
-                            <a href="/bk?id=${schoolId}" target="_blank">
-                                <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
-                        </el-col>
-                    </el-row>
-                </div>
-                <button id="showLeftPush" style="padding-top: 30px;">
-                    <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
-                <div class="clearfix"></div>
+                <el-row>
+                    <el-col :span="10">
+                        <div style="width: 1px;height: 1px;"></div>
+                    </el-col>
+                    <el-col :span="4">
+                        <a href="/bk?id=${schoolId}" target="_blank">
+                            <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
+                    </el-col>
+                    <el-col :span="4">
+                        <a href="/bk?id=${college.id?c}" target="_blank">
+                            <img src="${college.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
+                    </el-col>
+                    <el-col :span="6">
+                        <button id="showLeftPush" style="padding-top: 30px;float:right;">
+                            <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
+                        <div class="clearfix"></div>
+                    </el-col>
+                </el-row>
             </div>
             <div class="clearfix"> </div>
         </div>

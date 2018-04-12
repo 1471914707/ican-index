@@ -2,11 +2,13 @@ package com.ican.domain;
 
 import java.io.Serializable;
 
-public class FileArrange implements Serializable {
+public class Arrange implements Serializable {
     private int id;
     private int userId;
     private int activityId;
-    private int type;
+    private int follow;
+    private int file;
+    private int obj;
     private String name;
     private int weight;
     private String startTime;
@@ -20,6 +22,14 @@ public class FileArrange implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getObj() {
+        return obj;
+    }
+
+    public void setObj(int obj) {
+        this.obj = obj;
     }
 
     public int getUserId() {
@@ -38,12 +48,20 @@ public class FileArrange implements Serializable {
         this.activityId = activityId;
     }
 
-    public int getType() {
-        return type;
+    public int getFollow() {
+        return follow;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setFollow(int follow) {
+        this.follow = follow;
+    }
+
+    public int getFile() {
+        return file;
+    }
+
+    public void setFile(int file) {
+        this.file = file;
     }
 
     public String getName() {

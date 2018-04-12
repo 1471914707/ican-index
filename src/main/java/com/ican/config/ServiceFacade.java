@@ -82,6 +82,11 @@ public class ServiceFacade {
     private FileService fileService;
 
     @Autowired
+    private ArrangeService arrangeService;
+
+
+
+    @Autowired
     private ProjectWebService projectWebService;
 
     @Autowired
@@ -92,6 +97,14 @@ public class ServiceFacade {
 
     @Autowired
     private TeacherWebService teacherWebService;
+
+    public ArrangeService getArrangeService() {
+        return arrangeService;
+    }
+
+    public void setArrangeService(ArrangeService arrangeService) {
+        this.arrangeService = arrangeService;
+    }
 
     public TeacherWebService getTeacherWebService() {
         return teacherWebService;

@@ -135,7 +135,7 @@ public class StudentWebService {
                 }
                 //学生的项目,只有一条
                 List<Project> projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, 0, 0, 0, 0,
-                        0, 0, id, null, null, 1, 100);
+                        0, 0, id, null, 0,null, 1, 100);
                 if (projectList != null && projectList.size() > 0) {
                     Project project = projectList.get(0);
                     studentVO.setProject(project);
