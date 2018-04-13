@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EventProducer {
-    @Autowired
-    JedisAdapter jedisAdapter;
+    /*@Autowired
+    JedisAdapter jedisAdapter;*/
+    private static JedisAdapter jedisAdapter = new JedisAdapter();
 
     public boolean fireEvent(EventModel model) {
         try {
+            //JedisAdapter jedisAdapter = new JedisAdapter();
             String json = JSONObject.toJSONString(model);
             String key = RedisKeyUtil.getEventQueueKey();
             jedisAdapter.lpush(key, json);

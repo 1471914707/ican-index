@@ -14,6 +14,9 @@ public class Message {
     private String gmtCreate;
     private String gmtModified;
 
+    //非数据库字段
+    private int msgCount;
+
     public int getId() {
         return id;
     }

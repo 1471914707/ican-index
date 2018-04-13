@@ -22,4 +22,7 @@ public interface MessageService {
 
     int count(String ids, int fromId, int toId, String conversationId) throws icanServiceException;
 
+    List<Message> list(int id, int page, int size) throws icanServiceException;
+
+    int count(int id) throws icanServiceException;
 }

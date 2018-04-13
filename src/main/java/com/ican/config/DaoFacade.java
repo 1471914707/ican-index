@@ -79,6 +79,39 @@ public class DaoFacade {
     @Autowired
     private ArrangeDao arrangeDao;
 
+    @Autowired
+    private GroupsDao groupsDao;
+
+    @Autowired
+    private GroupsTeacherDao groupsTeacherDao;
+
+    @Autowired
+    private RatingDao ratingDao;
+
+    public GroupsDao getGroupsDao() {
+        return groupsDao;
+    }
+
+    public void setGroupsDao(GroupsDao groupsDao) {
+        this.groupsDao = groupsDao;
+    }
+
+    public GroupsTeacherDao getGroupsTeacherDao() {
+        return groupsTeacherDao;
+    }
+
+    public void setGroupsTeacherDao(GroupsTeacherDao groupsTeacherDao) {
+        this.groupsTeacherDao = groupsTeacherDao;
+    }
+
+    public RatingDao getRatingDao() {
+        return ratingDao;
+    }
+
+    public void setRatingDao(RatingDao ratingDao) {
+        this.ratingDao = ratingDao;
+    }
+
     public ArrangeDao getArrangeDao() {
         return arrangeDao;
     }

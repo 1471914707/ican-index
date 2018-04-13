@@ -84,6 +84,15 @@ public class ServiceFacade {
     @Autowired
     private ArrangeService arrangeService;
 
+    @Autowired
+    private GroupsService groupsService;
+
+    @Autowired
+    private GroupsTeacherService groupsTeacherService;
+
+    @Autowired
+    private RatingService ratingService;
+
 
 
     @Autowired
@@ -97,6 +106,31 @@ public class ServiceFacade {
 
     @Autowired
     private TeacherWebService teacherWebService;
+
+
+    public GroupsService getGroupsService() {
+        return groupsService;
+    }
+
+    public void setGroupsService(GroupsService groupsService) {
+        this.groupsService = groupsService;
+    }
+
+    public GroupsTeacherService getGroupsTeacherService() {
+        return groupsTeacherService;
+    }
+
+    public void setGroupsTeacherService(GroupsTeacherService groupsTeacherService) {
+        this.groupsTeacherService = groupsTeacherService;
+    }
+
+    public RatingService getRatingService() {
+        return ratingService;
+    }
+
+    public void setRatingService(RatingService ratingService) {
+        this.ratingService = ratingService;
+    }
 
     public ArrangeService getArrangeService() {
         return arrangeService;

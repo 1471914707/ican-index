@@ -72,7 +72,7 @@
                         <span class="text_gray">创建时间：</span>${bk.gmtCreate}<br>
                     </#if>
                     <span class="text_gray">发布：</span>${bk.total}条<br>
-                    <span @click="openMessageWindow(${bk.id})">私信</span>
+                    <span @click="openMessageWindow(${bk.id})" style="cursor: pointer;">私信</span>
                 </el-col>
             </el-row>
         </div>

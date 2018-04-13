@@ -71,4 +71,14 @@ public class MessageServiceImpl implements MessageService {
         param.put("conversationId", conversationId);
         return Constant.DaoFacade.getMessageDao().count(param);
     }
+
+    @Override
+    public List<Message> list(int id, int page, int size) throws icanServiceException {
+        return Constant.DaoFacade.getMessageDao().listByUserId(id, page - 1, size);
+    }
+
+    @Override
+    public int count(int id) throws icanServiceException {
+        return Constant.DaoFacade.getMessageDao().countByUserId(id);
+    }
 }

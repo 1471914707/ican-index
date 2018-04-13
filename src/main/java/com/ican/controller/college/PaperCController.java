@@ -2,14 +2,12 @@ package com.ican.controller.college;
 
 
 import com.ican.config.Constant;
-import com.ican.controller.school.PaperSController;
 import com.ican.domain.*;
 import com.ican.util.*;
 import com.ican.vo.PaperVO;
 import com.ican.vo.StudentVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.tomcat.util.bcel.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

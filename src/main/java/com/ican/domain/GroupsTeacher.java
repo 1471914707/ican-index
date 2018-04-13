@@ -1,7 +1,8 @@
 package com.ican.domain;
 
-public class GroupTeacher {
+public class GroupsTeacher {
     private int id;
+    private int activityIds;
     private int teacherId;
     private int groupId;
     private String gmtCreate;
@@ -13,6 +14,14 @@ public class GroupTeacher {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getActivityIds() {
+        return activityIds;
+    }
+
+    public void setActivityIds(int activityIds) {
+        this.activityIds = activityIds;
     }
 
     public int getTeacherId() {

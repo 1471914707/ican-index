@@ -49,8 +49,8 @@ public class FileCController {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo self = Ums.getUser(request);
         try {
-            List<File> fileList = Constant.ServiceFacade.getFileService().list(null, self.getId(), activityId, FileService.FILE_TYPE_ACTIVITY, "id desc", page, size);
-            int total = Constant.ServiceFacade.getFileService().count(null, self.getId(), activityId, FileService.FILE_TYPE_ACTIVITY);
+            List<File> fileList = Constant.ServiceFacade.getFileService().list(null, 0, activityId, FileService.FILE_TYPE_ACTIVITY, "id desc", page, size);
+            int total = Constant.ServiceFacade.getFileService().count(null, 0, activityId, FileService.FILE_TYPE_ACTIVITY);
             Map data = new HashMap<>();
             Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
             data.put("list", fileList);

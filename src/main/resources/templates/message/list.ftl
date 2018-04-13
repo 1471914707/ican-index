@@ -1,198 +1,163 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>对话信息 | Ican毕业设计平台</title>
+    <title>消息列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="毕业设计平台" />
     <#include '/include/cssjs_common_new.ftl'>
     <style>
-        .dialog-header{
-            background: #409EFF;
-            display: flex;
+        img{
+            display: inline-block;
+            width:50px;height: 50px;border-radius: 50%
         }
-        .dialog-header img{
-            width: 50px;height: 50px;border-radius: 50px;
-            margin-top:5px;margin-left: 10px;
-        }
-        body {
-            margin: auto;
-            height:600px;
-            width:400px;
-        }
-        .dialog-add{
-            height: 60px;
-            width: 400px;
-            background-color: #ddd;
-            position: fixed;
-            bottom: 0;
-        }
-        .dialog-body{
-            overflow:scroll; width:400px; height:480px;
-            overflow-x: hidden;
-        }
-        .dialog-content{
-            border-radius:7px;
-            overflow: auto;
-            padding: 5px;
-        }
-        .dialog-content-div-left{
-            margin-top: 20px;margin-bottom: 20px;
-            margin-right: 40px;margin-left: 10px;
-        }
-        .dialog-content-div-right{
-            margin-top: 15px;margin-bottom: 15px;
-            margin-left: 40px;margin-right: 10px;
+        .item1 {
+            margin-top: 10px;
+            margin-right: 40px;
         }
     </style>
 </head>
-<body style="background: #f4f7f9;">
-<div id="app">
-    <div class="dialog-header">
-        <el-row style="width: 400px">
-            <el-col :span="5">
-                <img :src="toHeadshot">
-            </el-col>
-            <el-col :span="17" style="line-height: 60px">
-                {{toName.length>10?toName.substring(0,10)+'...':toName}}&nbsp;&nbsp;&nbsp;
-                <span style="color: gray">(共{{total>1000?'1000+':total}}条信息)</span>
-            </el-col>
-            <el-col :span="2" style="line-height: 60px;cursor: pointer">
-                <a @click="page=1;loadMessageList()"><i class="el-icon-refresh"></i></a>
-            </el-col>
-        </el-row>
-    </div>
-    <div class="dialog-body" id="testDiv">
-        <template v-for="(item, index) in list">
-            <div v-if="toId==item.fromId" class="dialog-content-div-left">
-                <#--对方的信息-->
-                <div style="background-color:#ffffff; padding: 8px 8px 8px 8px;" class="dialog-content">
-                    {{item.content}}</div>
-                    <span style="color: #999;font-size: 10px">{{getDateTime(item.gmtCreate)}}--{{getStatus(item.hasRead)}}</span>
-            </div>
-            <div v-if="toId!=item.fromId" class="dialog-content-div-right">
-                <#--本方的信息-->
-                <div style="background-color:lawngreen; padding: 8px 8px 8px 8px;" class="dialog-content">
-                    {{item.content}}</div><#--<div class="triangle"></div>-->
-            </div>
-        </template>
-        <#--<div name="msg_end"></div>-->
-    </div>
-    <div class="dialog-add">
-        <el-row style="width: 400px">
-            <el-col :span="19" style="line-height: 60px;margin-left: 10px">
-                <el-input v-model="content" placeholder="请输入内容"></el-input>
-            </el-col>
-            <el-col :span="4" style="line-height: 60px;margin-left: 5px;">
-                <el-button size="small" type="primary" @Click="addMessage()">发送</el-button>
-            </el-col>
-        </el-row>
-    </div>
-</div>
-<script type="text/javascript">
-    <#if toId??>
-    var toId = ${toId}
-    <#else>
-    var toId = 0;
-    </#if>
+<body class="cbp-spmenu-push">
+<div class="main-content">
+    <div id="app">
+        <div class="sticky-header header-section ">
+            <h2 style="display: inline-block;line-height: 68px;margin-left: 5%;">我的消息<i class="el-icon-refresh" @click="loadMessageList()" style="cursor:pointer;"></i></h2>
+        </div>
+       
+        <div style="padding-top: 75px;width: 90%;margin: 0 auto;">
+            <template v-if="loading">
+            <#include '/include/common/loading.ftl'>
+            </template>
+            <template v-if="!loading">
+                <template v-for="(item, index) in list">
+                    <div @click="openMessageWindow(userId==item.fromId?item.toId:item.fromId);" style="cursor: pointer;">
+                    <template v-if="item.fromId == userId">
+                        <template v-if="item.hasRead == 1">
+                            <el-badge value="new" class="item1">
+                                <img :src="item.toUser.headshot" style="">
+                            </el-badge>
+                        </template>
+                        <template v-if="item.hasRead == 2" class="item1">
+                            <el-badge class="item1">
+                                <img :src="item.toUser.headshot" style="">
+                            </el-badge>
+                        </template>
+                    </template>
+                    <template v-if="item.toId == userId">
+                        <template v-if="item.hasRead == 1">
+                            <el-badge value="new" class="item1">
+                                <img :src="item.fromUser.headshot">
+                            </el-badge>
+                        </template>
+                        <template v-if="item.hasRead == 2" class="item1">
+                            <el-badge class="item1">
+                                <img :src="item.fromUser.headshot">
+                            </el-badge>
+                        </template>
+                    </template>
+                        <span style="margin-right: 3%;" v-if="userId==item.fromId">{{item.toUser.name}}</span>
+                        <span style="margin-right: 3%;" v-if="userId==item.toId">{{item.fromUser.name}}</span>
+                        <span style="margin-right: 3%;font-weight: bolder">{{item.content}}</span>
+                        <span>{{item.gmtCreate}}</span>
+                    </div>
+                    <br>
+                </template>
+            </template>
+        </div>
+        
+        
+        <div class="block-pagination">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="page"
+                    :page-sizes="[20, 30, 40, 50]"
+                    :page-size="size"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </div>
 
-    var app = new Vue({
-        el: "#app",
-        data: function () {
-            return {
-                total:0,
-                list:[],
-                fromName:'',
-                fromHeadshot:'',
-                toName:'',
-                toHeadshot:'',
-                content:'',
-                page:1,
-                size:20,
-                toId:toId,
-                scroll:''
-            }
-        },
-        mounted: function () {
-            this.loadMessageList();
-            this.scroll = document.getElementById('testDiv');
-            this.scroll.onscroll = this.divScroll;
-            /*window.location.hash = "#msg_end";*/
-        },
-        methods: {
-            loadMessageList:function () {
-                var self = this;
-                var page = page || this.page || 1;
-                var size = size || this.size || 20;
-                Api.get("/message/list",{toId:toId,page:page,size:size},function (result) {
-                    if (result.code == 0) {
-                        if (result.data.list && result.data.list.length == 0 && page > 1) {
-                            self.$message({showClose: true, message: '没有更多信息了', type: 'success'});
-                            return true;
-                        }
-                        if (page == 1) {
-                            self.list = result.data.list.reverse();
-                        } else {
-                            var newList = result.data.list.reverse();
-                            for (var i=0; i<self.list.length; i++) {
-                                newList.push(self.list[i]);
+    </div>
+
+    <script>
+
+        var app = new Vue({
+            el: "#app",
+            data: function () {
+                return {
+                    slogan:'全站最热门广告位招租！！！有意者电话联系18813960106！！！',
+                    page:1,
+                    size:20,
+                    total:0,
+                    list: [],
+                    loading:true,
+                    userList:[],
+                    userId:0,
+                }
+            },
+            mounted: function () {
+                this.loadMessageList();
+            },
+            methods:{
+                loadMessageList:function (page, size) {
+                    var self = this;
+                    self.loading = true;
+                    var page = page || this.page || 1;
+                    var size = size || this.size || 20;
+                    Api.get('/message/listMy',{
+                        page:page,
+                        size:size
+                    },function (result) {
+                        if (result.code == 0) {
+                            self.list = result.data.list;
+                            self.total = result.data.total;
+                            self.userList = result.data.userList;
+                            self.userId = result.data.userId;
+
+                            for (var j=0; j<self.list.length; j++) {
+                                self.list[j].gmtCreate = self.getDate(self.list[j].gmtCreate);
+                                for (var i=0; i<self.userList.length; i++) {
+                                    if (self.userList[i].id == self.list[j].fromId) {
+                                        self.list[j].fromUser = self.userList[i];
+                                    }
+                                    if (self.userList[i].id == self.list[j].toId) {
+                                        self.list[j].toUser = self.userList[i];
+                                    }
+                                }
                             }
-                            self.list = newList;
+                            self.loading = false;
+                        }else {
+                            self.$message({showClose: true, message: result.msg, type: 'error'});
+                            self.loading = false;
                         }
-                        self.fromName = result.data.fromName;
-                        self.fromHeadshot = result.data.fromHeadshot;
-                        self.toName = result.data.toName;
-                        self.toHeadshot = result.data.toHeadshot;
-                        self.total = result.data.total;
-                    } else {
-                        self.$message({showClose: true, message: '获取会话信息异常', type: 'error'});
+                    });
+                },
+                getDate:function (dateTime) {
+                    if (dateTime.trim() != '') {
+                        return dateTime.split(".")[0];
                     }
-                });
-            },
-            addMessage:function () {
-                var self = this;
-                Api.post("/message/add",{toId:toId,content:self.content},function (result) {
-                    if (result.code == 0) {
-                        self.page = 1;
-                        self.loadMessageList();
-                        self.content = '';
-                    } else{
-                        self.$message({showClose: true, message: '发送信息失败', type: 'error'});
-                    }
-                })
-            },
-            divScroll:function () {
-                var wholeHeight = this.scroll.scrollHeight;
-                var scrollTop = this.scroll.scrollTop;
-                var divHeight = this.scroll.clientHeight;
-                if(scrollTop + divHeight >= wholeHeight){
-                    console.log('滚动到底部了！');
-                    this.page = 1;
-                    this.loadMessageList();
-                    //这里写动态加载的逻辑，比如Ajax请求后端返回下一个页面的内容
-                }
-                if(scrollTop == 0){
-                    console.log('滚动到头部了！');
-                    this.page += 1;
-                    this.loadMessageList();
-                }
-            },
-            getDateTime:function (date) {
-                return DateFun.getTimeFormatText(date);
-            },
-            getStatus:function (read) {
-                switch (read){
-                    case 1:
-                        return '未读';
-                    case 2:
-                        return '已读';
-                    default:
-                        return '未知';
+                    return '';
+                },
+                openMessageWindow:function (id) {
+                    window.open ('/message?toId='+id, 'newwindow',
+                            'height=600, width=400, top=150,left=500%, toolbar=no, menubar=no, scrollbars= no, resizable=no,location=true,status=no');
+                },
+                handleClose:function () {
+                    this.studentList = [];
+                    this.infoDialog = false;
+                },
+                handleSizeChange:function (size) {
+                    this.size = size;
+                    this.loadMessageList(this.page, this.size);
+                },
+                handleCurrentChange:function (page) {
+                    this.page = page;
+                    this.loadMessageList(this.page, this.size);
                 }
             }
-        }
-    });
-
-</script>
+        });
+    </script>
+</div>
 </body>
 </html>

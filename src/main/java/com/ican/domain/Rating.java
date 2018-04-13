@@ -6,15 +6,11 @@ package com.ican.domain;
  */
 public class Rating {
     private int id;
-    private int current;
-    private int schoolId;
-    private int collegeId;
+    private int activityId;
     private int projectId;
     private int teacherId;
-    private int ratio;
     private int score;
     private String remark;
-    private int type;
     private String gmtCreate;
     private String gmtModified;
 
@@ -26,28 +22,12 @@ public class Rating {
         this.id = id;
     }
 
-    public int getCurrent() {
-        return current;
+    public int getActivityId() {
+        return activityId;
     }
 
-    public void setCurrent(int current) {
-        this.current = current;
-    }
-
-    public int getSchoolId() {
-        return schoolId;
-    }
-
-    public void setSchoolId(int schoolId) {
-        this.schoolId = schoolId;
-    }
-
-    public int getCollegeId() {
-        return collegeId;
-    }
-
-    public void setCollegeId(int collegeId) {
-        this.collegeId = collegeId;
+    public void setActivityId(int activityId) {
+        this.activityId = activityId;
     }
 
     public int getProjectId() {
@@ -66,14 +46,6 @@ public class Rating {
         this.teacherId = teacherId;
     }
 
-    public int getRatio() {
-        return ratio;
-    }
-
-    public void setRatio(int ratio) {
-        this.ratio = ratio;
-    }
-
     public int getScore() {
         return score;
     }
@@ -88,14 +60,6 @@ public class Rating {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public String getGmtCreate() {

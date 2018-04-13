@@ -23,8 +23,11 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
     private Map<EventType, List<EventHandler>> config = new HashMap<EventType, List<EventHandler>>();
     private ApplicationContext applicationContext;
 
-    @Autowired
-    JedisAdapter jedisAdapter;
+    /*@Autowired
+    JedisAdapter jedisAdapter;*/
+
+    private static JedisAdapter jedisAdapter = new JedisAdapter();
+
 
     @Override
     public void afterPropertiesSet() throws Exception {

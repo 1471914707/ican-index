@@ -75,8 +75,8 @@ public class PaperWebService {
                 paperVO.setDepartment((Department) departmentMap.get(paper.getDepartmentId()));
                 paperVO.setTeacher((TeacherVO) teacherMap.get(paper.getTeacherId()));
                 paperVO.setPaper(paper);
-                int num = Constant.ServiceFacade.getPaperStudentService().count(null, paper.getActivityId(), paper.getCurrent(), paper.getSchoolId(), paper.getCollegeId(),
-                        paper.getDepartmentId(), 0, 0, 0, 0, paper.getId());
+                int num = Constant.ServiceFacade.getPaperStudentService().count(null, paper.getActivityId(), paper.getCurrent(), 0, 0,
+                        0, 0, 0, 0, 0, paper.getId());
                 paperVO.setNum(num);
                 paperVOList.add(paperVO);
             }
@@ -93,6 +93,7 @@ public class PaperWebService {
         }
         try {
             PaperVO paperVO = new PaperVO();
+            paperVO.setPaper(paper);
             //关联二级学院
             College college = Constant.ServiceFacade.getCollegeService().select(paper.getCollegeId());
             UserInfo collegeInfo = Constant.ServiceFacade.getUserInfoService().select(paper.getCollegeId());

@@ -9,10 +9,10 @@
                 and id in (${ids})
             </if>
             <if test="_parameter.containsKey('fromId') and fromId > 0">
-                and fromId = #{fromId}
+                and from_id = #{fromId}
             </if>
             <if test="_parameter.containsKey('toId') and toId > 0">
-                and toId = #{toId}
+                and to_id = #{toId}
             </if>
             <if test="_parameter.containsKey('conversationId') and conversationId != null and conversationId !=  ''">
                 and conversation_id = #{conversationId}
@@ -29,6 +29,10 @@
         <include refid="dynamicWhere" />
     </select>
 
+    <select id="countByUserId" resultType="int">
+        select count(distinct conversation_id) from message WHERE from_id = #{id} or to_id = #{id};
+    </select>
+
     <select id="list" resultType="com.ican.domain.Message">
         select * from message
         <include refid="dynamicWhere" />
@@ -36,6 +40,10 @@
             order by ${order}
         </if>
         limit #{start},#{size}
+    </select>
+
+    <select id="listByUserId" resultType="com.ican.domain.Message">
+        SELECT *,count(*) as msgCount FROM (select * from message where to_id=#{id} or from_id=#{id}) tt group by conversation_id desc  order by has_read asc,id desc limit #{start},#{size};
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.Message" useGeneratedKeys="true" keyProperty="id">
@@ -55,6 +63,9 @@
             <if test="content != null">
                 content=#{content},
             </if>
+            <if test="hasRead != 0">
+                has_read=#{hasRead},
+            </if>
             <if test="conversationId != null">
                 conversation_id=#{conversationId},
             </if>
@@ -68,5 +79,6 @@
     <update id="delete">
         delete from message where id=#{id}
     </update>
+
 
 </mapper>

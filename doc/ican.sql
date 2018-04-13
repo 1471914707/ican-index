@@ -480,54 +480,48 @@ CREATE TABLE `message` (
 
 /*指导评分模块*/
 /*还是保存在redis好了*/
-DROP TABLE IF EXISTS `group`;
-CREATE TABLE `group` (
+DROP TABLE IF EXISTS `groups`;
+CREATE TABLE `groups` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
-  `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
-  `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
+  `activity_id` int(11) UNSIGNED NOT NULL COMMENT '某个活动',
   `user_id` int(11) UNSIGNED NOT NULL COMMENT '负责人id',
   `name` VARCHAR(50) NOT NULL COMMENT '组名',
-  `teacher_ids` VARCHAR(500) NOT NULL COMMENT '导师id组',
   `project_ids` VARCHAR(500) NOT NULL COMMENT '负责项目id组',
-  `type` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '类型,0未定义,1-正式,2-非正式',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_school_id` (`school_id`),
-  KEY `idx_college_id` (`college_id`),
+  KEY `idx_activity_id` (`activity_id`),
   KEY `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评分组';
 
-DROP TABLE IF EXISTS `group_teacher`;
-CREATE TABLE `group_teacher` (
+DROP TABLE IF EXISTS `groups_teacher`;
+CREATE TABLE `groups_teacher` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `teacher_id` VARCHAR(500) NOT NULL COMMENT '导师id',
-  `group_id` VARCHAR(500) NOT NULL COMMENT '组id',
+  `activity_id` int(11) UNSIGNED NOT NULL COMMENT '某个活动',
+  `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '导师id',
+  `groups_id` int(11) UNSIGNED NOT NULL COMMENT '组id',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_group_id` (`group_id`),
+   KEY `idx_activity_id` (`activity_id`),
+  KEY `idx_groups_id` (`groups_id`),
   KEY `idx_teacher_id` (`teacher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评分组与教师关联表';
 
 DROP TABLE IF EXISTS `rating`;
 CREATE TABLE `rating` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `current` int(11) UNSIGNED NOT NULL COMMENT '多少届',
-  `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
-  `college_id` int(11) UNSIGNED NOT NULL COMMENT '二级学院id',
+  `activity_id` int(11) UNSIGNED NOT NULL COMMENT '某个活动',
+  `groups_id` int(11) UNSIGNED NOT NULL COMMENT '答辩组',
   `project_id` int(11) UNSIGNED NOT NULL COMMENT '项目id',
-  `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '指导教师id',
-  `ratio` tinyint(2) UNSIGNED NOT NULL COMMENT '比例',
+  `teacher_id` int(11) UNSIGNED NOT NULL COMMENT '指导教师id',ra
   `score` tinyint(2) UNSIGNED NOT NULL COMMENT '得分',
   `remark` VARCHAR(500) NOT NULL COMMENT '建议',
-  `type` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '类型,0未定义,1.审核、2-非正式,3-正式',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_school_id` (`school_id`),
-  KEY `idx_college_id` (`college_id`),
+  KEY `idx_groups_id` (`groups_id`),
+  KEY `idx_activity_id` (`activity_id`),
   KEY `idx_project_id` (`project_id`),
   KEY `idx_teacher_id` (`teacher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评分';

@@ -34,14 +34,12 @@
                     <el-col :xs="0" :sm="4" :md="6" :lg="6" :xl="8">
                         <div style="width: 1px;height: 1px;"></div>
                     </el-col>
-                    <el-col :xs="12" :sm="8" :md="8" :lg="6" :xl="8">
+                    <el-col :xs="12" :sm="8" :md="8" :lg="6" :xl="6">
                         <a href="/bk?id=${teacher.id?c}" target="_blank">
                             <img src="${teacher.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 10%"></a>
                     </el-col>
-                    <el-col :xs="0" :sm="8" :md="6" :lg="6" :xl="3">
-                        <a href="/teacher/edit" target="_blank">${teacher.name}</a>
-                    </el-col>
-                    <el-col :xs="0" :sm="4" :md="4" :lg="3" :xl="3">
+                    <el-col :xs="0" :sm="8" :md="6" :lg="6" :xl="6">
+                        <a href="/teacher/edit" target="_blank">${teacher.name}</a> &nbsp;&nbsp; <a hre> 私信</a>
                         <a href="/logout">退出</a>
                     </el-col>
                 </el-row>

@@ -13,6 +13,7 @@ public class PaperStudent {
     private int departmentId;
     private int teacherId;
     private int clazzId;
+    private int majorId;
     private int studentId;
     private int paperId;
     private String gmtCreate;
@@ -24,6 +25,14 @@ public class PaperStudent {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getMajorId() {
+        return majorId;
+    }
+
+    public void setMajorId(int majorId) {
+        this.majorId = majorId;
     }
 
     public int getSchoolId() {
