@@ -156,7 +156,7 @@
                     remember:remember
                 },function (result) {
                     if (result.code == 0) {
-                        self.$message({showClose: true, message: '点了登录', type: 'success'});
+                        self.$message({showClose: true, message: '登录成功', type: 'success'});
                         /*window.location.href = '/success?role='+role;*/
                         /*alert(result.data);*/
                         window.location.href = result.data;

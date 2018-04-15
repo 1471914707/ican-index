@@ -186,7 +186,7 @@
                                     </el-table-column>
                                     <el-table-column
                                             label="预计人数"
-                                            prop="project.number">
+                                            prop="project.num">
                                     </el-table-column>
                                 </el-table>
                             </template>

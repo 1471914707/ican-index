@@ -18,10 +18,10 @@ public class Project {
     private int studentId;
     private String title;
     private String content;
-    private String condition;
+    private String conditions;
     private String size;
     private String difficulty;
-    private int number;
+    private int num;
     private String startTime;
     private String endTime;
     private int warn;
@@ -146,6 +146,14 @@ public class Project {
         return endTime;
     }
 
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
@@ -182,12 +190,12 @@ public class Project {
         this.gmtModified = gmtModified;
     }
 
-    public String getCondition() {
-        return condition;
+    public String getConditions() {
+        return conditions;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setConditions(String conditions) {
+        this.conditions = conditions;
     }
 
     public String getSize() {
@@ -206,13 +214,7 @@ public class Project {
         this.difficulty = difficulty;
     }
 
-    public int getNumber() {
-        return number;
-    }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
 
     public int getStatus() {
         return status;

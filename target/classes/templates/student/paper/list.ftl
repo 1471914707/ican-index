@@ -254,7 +254,6 @@
                 },
                 saveStudentPaper:function (paperId, version, index) {
                     var self = this;
-                    alert(self.paper.paper.id);
                     Api.post('/student/paper/save',{
                         activityId:activityId,
                         paperId:paperId,

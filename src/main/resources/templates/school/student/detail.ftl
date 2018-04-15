@@ -273,7 +273,7 @@
                                 <h3>条件：</h3>
                             </div></el-col>
                             <el-col :span="8" :xs="16"><div class="grid-content bg-purple-light">
-                                {{project.condition}}
+                                {{project.conditions}}
                             </div></el-col>
                         </el-row>
                         <el-row>

@@ -9,15 +9,13 @@ public class Task {
     private int activityId;
     private int ownerId;
     private int executorId;
-    private int teacherId;
-    private int studentId;
     private int projectId;
     private String title;
     private String content;
     private String startTime;
     private String endTime;
     private int parentId;
-    private int accept;
+    private int status;
     private String gmtCreate;
     private String gmtModified;
 
@@ -51,22 +49,6 @@ public class Task {
 
     public void setExecutorId(int executorId) {
         this.executorId = executorId;
-    }
-
-    public int getTeacherId() {
-        return teacherId;
-    }
-
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
-    }
-
-    public int getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
     }
 
     public int getProjectId() {
@@ -117,12 +99,12 @@ public class Task {
         this.parentId = parentId;
     }
 
-    public int getAccept() {
-        return accept;
+    public int getStatus() {
+        return status;
     }
 
-    public void setAccept(int accept) {
-        this.accept = accept;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getGmtCreate() {

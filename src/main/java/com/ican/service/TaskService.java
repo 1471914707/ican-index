@@ -17,9 +17,7 @@ public interface TaskService {
 
     int save(Task task) throws icanServiceException;
 
-    List<Task> list(String ids, String activityId, int ownerId, int executorId, int teacherId,
-                       int studentId, int projectId, String order, int page, int size) throws icanServiceException;
+    List<Task> list(String ids, int activityId, int ownerId, int executorId, int projectId, int status, String order, int page, int size) throws icanServiceException;
 
-    int count(String ids, String activityId, int ownerId, int executorId, int teacherId,
-              int studentId, int projectId) throws icanServiceException;
+    int count(String ids, int activityId, int ownerId, int executorId, int projectId, int status) throws icanServiceException;
 }

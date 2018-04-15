@@ -72,8 +72,8 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.Project" useGeneratedKeys="true" keyProperty="id">
-        insert into project (activity_id,current,school_id,college_id,depaerment_id,teacher_id,clazz_id,student_id,title,content,condition,size,difficulty,number,start_time,end_time,warn,complete,status,gmt_create,gmt_modified)
-        values (#{activityId},#{current},#{schoolId},#{collegeId},#{departmentId},#{teacherId},#{clazzId},#{studentId},#{title},#{content},#{condition},#{size},#{difficulty},#{number},#{startTime},#{endTime},#{warn},#{complete},1,now(),now())
+        insert into project (activity_id,current,school_id,college_id,department_id,teacher_id,clazz_id,student_id,title,content,conditions,size,difficulty,num,start_time,end_time,warn,complete,status,gmt_create,gmt_modified)
+        values (#{activityId},#{current},#{schoolId},#{collegeId},#{departmentId},#{teacherId},#{clazzId},#{studentId},#{title},#{content},#{conditions},#{size},#{difficulty},#{num},#{startTime},#{endTime},#{warn},0,1,now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.Project">
@@ -109,8 +109,8 @@
             <if test="content != null">
                 content=#{content},
             </if>
-            <if test="condition != null">
-                condition=#{condition},
+            <if test="conditions != null">
+                conditions=#{conditions},
             </if>
             <if test="size != null">
                 size=#{size},
@@ -118,8 +118,8 @@
             <if test="difficulty != null">
                 difficulty=#{difficulty},
             </if>
-            <if test="number != 0">
-                number=#{number},
+            <if test="num != 0">
+                num=#{num},
             </if>
             <if test="startTime != null">
                 start_time=#{startTime},
@@ -130,7 +130,7 @@
             <if test="warn != 0">
                 warn=#{warn},
             </if>
-            <if test="complete != 0">
+            <if test="complete >= 0">
                 complete=#{complete},
             </if>
             <if test="status != 0">

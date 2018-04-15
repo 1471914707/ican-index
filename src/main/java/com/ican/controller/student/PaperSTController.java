@@ -33,6 +33,30 @@ public class PaperSTController {
         return "/student/paper/list";
     }
 
+    @ApiOperation("检查选题是否开放")
+    @ResponseBody
+    @RequestMapping(value = {"/paperStatus"}, method = RequestMethod.GET)
+    public BaseResult paperStatus(@RequestParam("activityId") int activityId,
+                                  HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
+            if (activity == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            if (activity.getPaper() == 2){
+                //已经开启
+                BaseResultUtil.setSuccess(result, null);
+                return result;
+            }
+        } catch (Exception e) {
+            logger.error("检查选题是否开放异常", e);
+            return result;
+        }
+        return result;
+    }
+
     @ApiOperation("获取个人选题")
     @RequestMapping(value = "/my", method = RequestMethod.GET)
     @ResponseBody
@@ -158,6 +182,8 @@ public class PaperSTController {
             paperStudent.setSchoolId(student.getSchoolId());
             paperStudent.setTeacherId(paper.getTeacherId());
             paperStudent.setDepartmentId(student.getDepartmentId());
+            student.setTeacherId(paper.getTeacherId());
+            Constant.ServiceFacade.getStudentService().save(student);
             Constant.ServiceFacade.getPaperStudentService().save(paperStudent);
 
             BaseResultUtil.setSuccess(result, null);

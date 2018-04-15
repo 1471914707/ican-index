@@ -17,14 +17,11 @@
             <if test="_parameter.containsKey('executorId') and executorId > 0">
                 and executor_id = #{executorId}
             </if>
-            <if test="_parameter.containsKey('teacherId') and teacherId > 0">
-                and teacher_id = #{teacherId}
-            </if>
             <if test="_parameter.containsKey('projectId') and projectId > 0">
                 and project_id = #{projectId}
             </if>
-            <if test="_parameter.containsKey('studentId') and studentId > 0">
-                and student_id = #{studentId}
+            <if test="_parameter.containsKey('status') and status > 0">
+                and status = #{status}
             </if>
         </where>
     </sql>
@@ -48,8 +45,8 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.Task" useGeneratedKeys="true" keyProperty="id">
-        insert into task (activity_id,owner_id,executor_id,teacher_id,student_id,project_id,title,content,start_time,end_time,parent_id,accept,gmt_create,gmt_modified)
-        values (#{activityId},#{ownerId},#{executorId},#{teacherId},#{studentId},#{projectId},#{title},#{content},#{startTime},#{endTime},#{parentId},#{accept},now(),now())
+        insert into task (activity_id,owner_id,executor_id,project_id,title,content,start_time,end_time,parent_id,status,gmt_create,gmt_modified)
+        values (#{activityId},#{ownerId},#{executorId},#{projectId},#{title},#{content},#{startTime},#{endTime},#{parentId},1,now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.Task">
@@ -59,16 +56,10 @@
                 activity_id=#{activityId},
             </if>
             <if test="ownerId != 0">
-                ownerId=#{ownerId},
+                owner_id=#{ownerId},
             </if>
             <if test="executorId != 0">
                 executor_id=#{executorId},
-            </if>
-            <if test="teacherId != 0">
-                teacher_id=#{teacherId},
-            </if>
-            <if test="studentId != 0">
-                student_id=#{studentId},
             </if>
             <if test="projectId != 0">
                 project_id=#{projectId},
@@ -88,8 +79,8 @@
             <if test="parentId != 0">
                 parent_id=#{parentId},
             </if>
-            <if test="accept != 0">
-                accept=#{accept},
+            <if test="status != 0">
+                status=#{status},
             </if>
             <if test="true">
                 gmt_modified=now(),

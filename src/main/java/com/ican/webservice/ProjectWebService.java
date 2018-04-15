@@ -163,7 +163,7 @@ public class ProjectWebService {
             List<PaperStudent> paperStudentList = Constant.ServiceFacade.getPaperStudentService().list(null, project.getActivityId(), project.getCurrent(),
                     project.getSchoolId(), project.getCollegeId(), project.getDepartmentId(), project.getMajorId(), project.getClazzId(), project.getTeacherId(),
                     project.getStudentId(), 0, null, 1, 1);
-            if (paperStudentList != null || paperStudentList.size() > 0) {
+            if (paperStudentList != null && paperStudentList.size() > 0) {
                 int paperId = paperStudentList.get(0).getPaperId();
                 Paper paper = Constant.ServiceFacade.getPaperService().select(paperId);
                 projectVO.setPaper(paper);

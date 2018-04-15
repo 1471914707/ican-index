@@ -65,31 +65,30 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> list(String ids, String activityId, int ownerId, int executorId, int teacherId, int studentId, int projectId, String order, int page, int size) throws icanServiceException {
+    public List<Task> list(String ids, int activityId, int ownerId, int executorId,
+                           int projectId, int status, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
         param.put("activityId", activityId);
         param.put("ownerId", ownerId);
         param.put("executorId", executorId);
-        param.put("teacherId", teacherId);
-        param.put("studentId", studentId);
+        param.put("status", status);
         param.put("projectId", projectId);
         param.put("order", order);
         param.put("start", (page - 1) * size);
         param.put("size", size);
-        return Constant.DaoFacade.getTeacherDao().list(param);
+        return Constant.DaoFacade.getTaskDao().list(param);
     }
 
     @Override
-    public int count(String ids, String activityId, int ownerId, int executorId, int teacherId, int studentId, int projectId) throws icanServiceException {
+    public int count(String ids, int activityId, int ownerId, int executorId, int projectId, int status) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
         param.put("activityId", activityId);
         param.put("ownerId", ownerId);
         param.put("executorId", executorId);
-        param.put("teacherId", teacherId);
-        param.put("studentId", studentId);
         param.put("projectId", projectId);
-        return Constant.DaoFacade.getTeacherDao().count(param);
+        param.put("status", status);
+        return Constant.DaoFacade.getTaskDao().count(param);
     }
 }
