@@ -31,12 +31,9 @@ public class MajorCController {
     private final static Logger logger = LoggerFactory.getLogger(MajorCController.class);
 
     @RequestMapping(value = {"", "/", "/list"}, method = RequestMethod.GET)
-    public String list(@RequestParam("activityId") String activityId,
-                       HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("activityId", activityId);
+    public String list(HttpServletRequest request, HttpServletResponse response) {
         return "college/major/list";
     }
-
 
     @ApiOperation("二级学院专业列表")
     @RequestMapping(value = "/listJson", method = RequestMethod.GET)
@@ -59,7 +56,6 @@ public class MajorCController {
             return result;
         }
     }
-
 
     @ApiOperation("二级学院专业设置专业审核人")
     @RequestMapping(value = "/teacher", method = RequestMethod.POST)
@@ -89,7 +85,7 @@ public class MajorCController {
             BaseResultUtil.setSuccess(result, major);
             return result;
         } catch (Exception e) {
-            logger.error("二二级学院专业设置专业审核人异常", e);
+            logger.error("二级学院专业设置专业审核人异常", e);
             return result;
         }
     }

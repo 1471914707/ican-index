@@ -29,13 +29,13 @@
                         <el-collapse>
                             <a href="/college/activity/list"><el-collapse-item title="活动列表" name="1">
                             </el-collapse-item></a>
-                            <a href="/college/college/list"><el-collapse-item title="二级学院" name="2">
-                            </el-collapse-item></a>
                             <a href="/college/teacher/list"><el-collapse-item title="教师情况" name="3">
                             </el-collapse-item></a>
                             <a href="/college/student/list"><el-collapse-item title="学生情况" name="4">
                             </el-collapse-item></a>
-                            <el-collapse-item title="个人设置" name="5">
+                            <a href="/college/major/list"><el-collapse-item title="专业审核人设置" name="5">
+                            </el-collapse-item></a>
+                            <el-collapse-item title="个人设置" name="6">
                                 <div style="color: #409EFF;cursor: pointer">
                                     <div onclick="javascript:window.location.href='/school/edit'">个人资料</div>
                                     <div onclick="javascript:window.location.href='/password'">密码修改</div>

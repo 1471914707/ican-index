@@ -33,13 +33,17 @@
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div>
                         <el-collapse>
-                            <a href="/college/activity/list"><el-collapse-item title="活动列表" name="1">
+                            <a href="/college/activity/list" target="_blank"><el-collapse-item title="活动列表" name="1">
                             </el-collapse-item></a>
-                            <a href="/college/teacher/list"><el-collapse-item title="教师情况" name="3">
+                            <a href="/college/teacher/list" target="_blank"><el-collapse-item title="教师情况" name="3">
                             </el-collapse-item></a>
-                            <a href="/college/student/list"><el-collapse-item title="学生情况" name="4">
+                            <a href="/college/student/list" target="_blank"><el-collapse-item title="学生情况" name="4">
                             </el-collapse-item></a>
-                            <el-collapse-item title="个人设置" name="5">
+                            <a href="/college/major/list" target="_blank"><el-collapse-item title="专业审核人设置" name="5">
+                            </el-collapse-item></a>
+                            <a href="/message/my" target="_blank"><el-collapse-item title="我的私信" name="6">
+                            </el-collapse-item></a>
+                            <el-collapse-item title="个人设置" name="7">
                                 <div style="color: #409EFF;cursor: pointer">
                                     <div onclick="javascript:window.location.href='/school/edit'">个人资料</div>
                                     <div onclick="javascript:window.location.href='/password'">密码修改</div>
@@ -126,7 +130,6 @@
                                         <el-button type="text" size="small" @click="project(scope.row.id)">学生项目</el-button>
                                         <el-button type="text" size="small" @click="fileArrange(scope.row.id)">共享文档</el-button>
                                         <el-button type="text" size="small" @click="arrange(scope.row.id)">流程设置</el-button>
-                                        <el-button type="text" size="small" @click="majorTeacher(scope.row.id)">专业审核人设置</el-button>
                                         <el-button type="text" size="small" @click="rating(scope.row.id)">评审答辩</el-button>
                                         <el-button type="text" size="small" @click="project(scope.row.id)">统计情况</el-button>
                                         <el-button type="text" size="small" @click="edit(scope.row.id)">编辑</el-button>
@@ -335,9 +338,6 @@
                 },
                 arrange:function (id) {
                     window.open('/arrange/list?activityId=' + id + '&collegeId=' + collegeId);
-                },
-                majorTeacher:function (id) {
-                    window.open('/college/major/list?activityId=' + id);
                 },
                 fileArrange:function (id) {
                     window.open('/file/list?activityId=' + id);

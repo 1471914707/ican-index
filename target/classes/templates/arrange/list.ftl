@@ -189,10 +189,11 @@
                         <el-form-item label="文件要求">
                             <el-switch v-model="arrange.file"></el-switch>
                         </el-form-item>
-                        <el-form-item label="对象">
-                            <el-select v-model="arrange.obj" placeholder="请选择活动区域">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
+                        <el-form-item label="要求对象">
+                            <el-select v-model="arrange.obj" placeholder="请选择对象">
+                                <el-option label="学生、教师" value="1"></el-option>
+                                <el-option label="学生" value="2"></el-option>
+                                <el-option label="教师" value="3"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-form>
@@ -232,7 +233,7 @@
                     commitFileLoading:false,
                     commitFileDialog:false,
                     arrangeId:0,
-                    arrange:{id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:''}
+                    arrange:{id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:'',obj:'1'}
                 }
             },
             mounted: function () {
@@ -364,20 +365,22 @@
                 },
                 saveArrange:function () {
                     var self = this;
-                    if (self.list.length > 0) {
-                        self.arrange.weight = self.list[0].weight + 1;
-                    } else{
-                        self.arrange.weight = 0;
+                    if (self.arrange.id <= 0) {
+                        if (self.list.length > 0) {
+                            self.arrange.weight = self.list[0].weight + 1;
+                        } else{
+                            self.arrange.weight = 0;
+                        }
                     }
-                    if (self.activity.follow == true){
-                        self.activity.follow == 2;
+                    if (self.arrange.follow){
+                        self.arrange.follow = 2;
                     }else{
-                        self.activity.follow == 1;
+                        self.arrange.follow = 1;
                     }
-                    if (self.activity.file == true){
-                        self.activity.file == 2;
+                    if (self.arrange.file){
+                        self.arrange.file = 2;
                     }else{
-                        self.activity.file == 1;
+                        self.arrange.file = 1;
                     }
                     Api.post("/arrange/save",self.arrange,function (result) {
                         if (result.code == 0){
@@ -398,10 +401,13 @@
                                 self.arrange = result.data;
                                 self.arrange.follow == 2 ? self.arrange.follow=true : self.arrange.follow=false;
                                 self.arrange.file == 2 ? self.arrange.file=true : self.arrange.file=false;
+                                self.arrange.obj = self.arrange.obj + '';
                             }else{
-                                self.arrange = {id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:''};
+                                self.arrange = {id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:'',obj:'1'};
                             }
                         });
+                    } else {
+                        self.arrange = {id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:'',obj:'1'};
                     }
                     self.editFlag = true;
                 },

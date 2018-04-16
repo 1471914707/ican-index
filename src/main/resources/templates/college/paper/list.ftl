@@ -27,15 +27,17 @@
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
                     <div>
                         <el-collapse>
-                            <a href="/school/activity/list"><el-collapse-item title="活动列表" name="1">
+                            <a href="/college/activity/list" target="_blank"><el-collapse-item title="活动列表" name="1">
                             </el-collapse-item></a>
-                            <a href="/school/college/list"><el-collapse-item title="二级学院" name="2">
+                            <a href="/college/teacher/list" target="_blank"><el-collapse-item title="教师情况" name="3">
                             </el-collapse-item></a>
-                            <a href="/school/teacher/list"><el-collapse-item title="教师情况" name="3">
+                            <a href="/college/student/list" target="_blank"><el-collapse-item title="学生情况" name="4">
                             </el-collapse-item></a>
-                            <a href="/school/student/list"><el-collapse-item title="学生情况" name="4">
+                            <a href="/college/major/list" target="_blank"><el-collapse-item title="专业审核人设置" name="5">
                             </el-collapse-item></a>
-                            <el-collapse-item title="个人设置" name="5">
+                            <a href="/message/my" target="_blank"><el-collapse-item title="我的私信" name="6">
+                            </el-collapse-item></a>
+                            <el-collapse-item title="个人设置" name="7">
                                 <div style="color: #409EFF;cursor: pointer">
                                     <div onclick="javascript:window.location.href='/school/edit'">个人资料</div>
                                     <div onclick="javascript:window.location.href='/password'">密码修改</div>
@@ -158,7 +160,7 @@
                                     </el-table-column>
                                     <el-table-column
                                             fixed="right"
-                                            label="操作">
+                                            label="状态">
                                         <template slot-scope="scope">
                                             <el-button type="text" size="small" @click="statusChange(scope.row.paper.id);" v-if="scope.row.paper.status==1">无效</el-button>
                                             <el-button type="text" size="small" @click="statusChange(scope.row.paper.id);" v-if="scope.row.paper.status==2">有效</el-button>
@@ -267,6 +269,9 @@
                                 self.total = result.data.total;
                                 for (var i=0; i<self.list.length; i++) {
                                     self.list[i].teacher.degreeName = self.getDegreeName(self.list[i].teacher.degree, self.list[i].teacher.degreeName);
+                                    if (self.list[i].paper.minNumber != self.list[i].paper.maxNumber) {
+                                        self.list[i].paper.minNumber = self.list[i].paper.minNumber + '-' + self.list[i].paper.maxNumber;
+                                    }
                                 }
                                 self.current = self.list[0].paper.current;
                             }

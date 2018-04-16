@@ -210,6 +210,11 @@
                                 self.list = result.data.list;
                                 self.total = result.data.total;
                             }
+                            for (var i=0; i<self.list[i].length; i++) {
+                                if (self.list[i].paper.minNumber != self.list[i].paper.maxNumber) {
+                                    self.list[i].paper.minNumber = self.list[i].paper.minNumber + '-' + self.list[i].paper.maxNumber;
+                                }
+                            }
                             self.activity = result.data.activity;
                             self.loading = false;
                         }else {
