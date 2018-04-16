@@ -91,4 +91,9 @@ public class TaskServiceImpl implements TaskService {
         param.put("status", status);
         return Constant.DaoFacade.getTaskDao().count(param);
     }
+
+    @Override
+    public int count(int executorId, String nowDay) throws icanServiceException {
+        return Constant.DaoFacade.getTaskDao().countByNowDay(executorId, nowDay);
+    }
 }

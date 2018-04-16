@@ -71,6 +71,7 @@
                                         label="操作">
                                     <template slot-scope="scope">
                                         <el-button type="text" size="small" @click="fileDownload(scope.row.url)">下载</el-button>
+                                        <el-button type="text" size="small" @click="fileUrl=scope.row.url;fileUrlDialog=true;">链接</el-button>
                                         <template v-if="userInfo.role == 4">
                                             <el-button type="text" size="small" @click="fileDelete(scope.row.id)">删除</el-button>
                                         </template>
@@ -95,6 +96,17 @@
                         :total="total">
                 </el-pagination>
             </div>
+
+            <el-dialog
+                    title="请复制这条链接"
+                    :visible.sync="fileUrlDialog"
+                    width="50%">
+                <span>{{fileUrl}}</span>
+                <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="fileUrlDialog = false">关 闭</el-button>
+              </span>
+            </el-dialog>
+
 
         </div>
 
@@ -129,7 +141,9 @@
                     loading:false,
                     editFlag:false,
                     activity:{},
-                    userInfo:{}
+                    userInfo:{},
+                    fileUrlDialog:false,
+                    fileUrl:''
                 }
             },
             mounted: function () {

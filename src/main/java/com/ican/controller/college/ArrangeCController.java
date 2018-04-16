@@ -60,7 +60,7 @@ public class ArrangeCController {
             Map data = new HashMap();
             data.put("list", arrangeList);
             data.put("total", total);
-            data.put("userInfo", self);
+            data.put("role", self.getRole());
             data.put("activity", activity);
             BaseResultUtil.setSuccess(result, data);
             return result;

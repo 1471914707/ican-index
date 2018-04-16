@@ -102,7 +102,7 @@
                                         <el-button type="text" size="small" @click="project(scope.row.id,scope.row.userId)">我的项目</el-button>
                                         <el-button type="text" size="small" @click="task(scope.row.id)">计划安排</el-button>
                                         <el-button type="text" size="small" @click="fileArrange(scope.row.id)">共享文档</el-button>
-                                        <el-button type="text" size="small" @click="arrange(scope.row.id)">流程查看</el-button>
+                                        <el-button type="text" size="small" @click="arrange(scope.row.id, scope.row.userId)">流程查看</el-button>
                                         <el-button type="text" size="small" @click="rating(scope.row.id)">评审答辩</el-button>
                                     </template>
                                 </el-table-column>
@@ -225,8 +225,8 @@
                 task:function (id) {
                     window.open('/task/student/list?activityId=' + id);
                 },
-                arrange:function (id) {
-                    window.open('/arrange/list?activityId=' + id + '&teacherId=' + teacherId);
+                arrange:function (id, collegeId) {
+                    window.open('/arrange/list?activityId=' + id + '&collegeId=' + collegeId);
                 },
                 fileArrange:function (id) {
                     window.open('/file/list?activityId=' + id);

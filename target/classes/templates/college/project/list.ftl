@@ -172,9 +172,15 @@
                                             :filter-method="filterTeacherHandler"
                                             :filter-multiple="false">
                                     </el-table-column>
-                                    <el-table-column
+                                    <#--<el-table-column
                                             label="题目"
                                             prop="project.title">
+                                    </el-table-column>-->
+                                    <el-table-column
+                                            label="题目">
+                                        <template slot-scope="scope">
+                                            <el-button type="text" size="small" @click="checkTask(scope.row.project.id,scope.row.project.studentId);">{{scope.row.project.title}}</el-button>
+                                        </template>
                                     </el-table-column>
                                     <el-table-column
                                             label="工作量"
@@ -318,6 +324,9 @@
                         case 6:
                             return degreeName;
                     }
+                },
+                checkTask:function (projectId, studentId) {
+                    window.open('/task/list?projectId=' + projectId + '&studentId=' + studentId);
                 },
                 getDate:function (dateTime) {
                     if (dateTime.trim() != '') {

@@ -294,7 +294,13 @@
                                 self.followList = result.data.followList;
                                 for (var i=0; i<self.followList.length; i++) {
                                     self.followList[i].gmtCreate = self.getDate(self.followList[i].gmtCreate);
-                                    self.followList[i].mode = self.followList[i].mode == 2 ? '通过' : '不通过';
+                                    if (self.followList[i].mode == 2){
+                                        self.followList[i].mode = '通过';
+                                    } else if (self.followList[i].mode == 1) {
+                                        self.followList[i].mode = '不通过';
+                                    } else {
+                                        self.followList[i].mode = '建议';
+                                    }
                                 }
                                 if (self.code == 2) {
                                     self.project = result.data.project.project;

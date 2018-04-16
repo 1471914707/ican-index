@@ -65,7 +65,7 @@ public class FileCController {
         }
     }
 
-    @ApiOperation("二级学院保存共享文档")
+    @ApiOperation("二级学院保存文档")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult save(@RequestParam(value = "activityId", required = true) int activityId,
@@ -94,6 +94,35 @@ public class FileCController {
         }
     }
 
+    @ApiOperation("保存计划文档")
+    @RequestMapping(value = "/arrange/save", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult arrangeSave(@RequestParam(value = "arrangeId", required = true) int arrangeId,
+                                  @RequestParam(value = "name", required = true) String name,
+                                  @RequestParam(value = "url", required = true) String url,
+                                  HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        if (arrangeId <= 0 || StringUtils.isEmpty(name) || StringUtils.isEmpty(url)) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        UserInfo self = Ums.getUser(request);
+        try {
+            File file = new File();
+            file.setUrl(url);
+            file.setName(name);
+            file.setTargetId(arrangeId);
+            file.setType(FileService.FILE_TYPE_ARRANGE);
+            file.setUserId(self.getId());
+            Constant.ServiceFacade.getFileService().save(file);
+            BaseResultUtil.setSuccess(result, null);
+            return result;
+        } catch (Exception e) {
+            logger.error("保存计划文档异常", e);
+            return result;
+        }
+    }
+
     @ApiOperation("二级学院删除共享文档")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
@@ -116,6 +145,27 @@ public class FileCController {
             return result;
         } catch (Exception e) {
             logger.error("二级学院删除共享文档异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("计划性提交的文档列表")
+    @RequestMapping(value = "/arrange/listJson", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult listJson(@RequestParam("arrangeId") int arrangeId,
+                               HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        try {
+            int total = Constant.ServiceFacade.getFileService().count(null, self.getId(), arrangeId, FileService.FILE_TYPE_ARRANGE);
+            List<File> fileList = Constant.ServiceFacade.getFileService().list(null, self.getId(), arrangeId, FileService.FILE_TYPE_ARRANGE, "id desc", 1, total);
+            Map data = new HashMap<>();
+            data.put("list", fileList);
+            data.put("total", total);
+            BaseResultUtil.setSuccess(result, data);
+            return result;
+        } catch (Exception e) {
+            logger.error("计划性提交的文档列表异常", e);
             return result;
         }
     }

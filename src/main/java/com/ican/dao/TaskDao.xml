@@ -35,6 +35,10 @@
         <include refid="dynamicWhere" />
     </select>
 
+    <select id="countByNowDay" resultType="int">
+        select count(*) from task where executor_id=#{executorId} and end_time LIKE concat(#{nowDay}, '%') and status != 3
+    </select>
+
     <select id="list" resultType="com.ican.domain.Task">
         select * from task
         <include refid="dynamicWhere" />

@@ -6,6 +6,8 @@ import com.ican.exception.icanServiceException;
 import java.util.List;
 
 public interface ProjectService {
+    int WARN_NO = 1;
+    int WARN_YES = 2;
     //基础方法
     int insert(Project project) throws icanServiceException;
 
@@ -26,4 +28,8 @@ public interface ProjectService {
     List<Project> list(String majorIds, int activityId, int collegeId, int teacherId, int status, String order, int page, int size) throws icanServiceException;
 
     int count(String majorIds, int activityId, int collegeId, int teacherId, int status) throws icanServiceException;
+
+    List<Integer> list(int warn, int page, int size);
+
+    int count(int warn);
 }

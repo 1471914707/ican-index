@@ -6,6 +6,7 @@ public class Groups {
     private int userId;
     private String name;
     private String projectIds;
+    private int type;
     private String gmtCreate;
     private String gmtModified;
 
@@ -15,6 +16,14 @@ public class Groups {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getActivityId() {

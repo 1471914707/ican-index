@@ -123,4 +123,16 @@ public class ProjectServiceImpl implements ProjectService {
         param.put("status", status);
         return Constant.DaoFacade.getProjectDao().count(param);
     }
+
+    @Override
+    public List<Integer> list(int warn, int page, int size) {
+        return Constant.DaoFacade.getProjectDao().listByWarn(warn, (page - 1) * size, size);
+    }
+
+    @Override
+    public int count(int warn) {
+        Map param = new HashMap();
+        param.put("warn", warn);
+        return Constant.DaoFacade.getProjectDao().countByWarn(warn);
+    }
 }

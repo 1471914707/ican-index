@@ -20,4 +20,6 @@ public interface TaskService {
     List<Task> list(String ids, int activityId, int ownerId, int executorId, int projectId, int status, String order, int page, int size) throws icanServiceException;
 
     int count(String ids, int activityId, int ownerId, int executorId, int projectId, int status) throws icanServiceException;
+
+    int count(int executorId, String nowDay) throws icanServiceException;
 }

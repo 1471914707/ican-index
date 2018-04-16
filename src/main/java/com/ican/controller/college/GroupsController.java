@@ -53,8 +53,8 @@ public class GroupsController {
             int total = 0;
 
             if (teacherId <= 0) {
-                groupsList = Constant.ServiceFacade.getGroupsService().list(null, activityId, 0, null, "id desc", page, size);
-                total = Constant.ServiceFacade.getGroupsService().count(null, activityId, 0, null);
+                groupsList = Constant.ServiceFacade.getGroupsService().list(null, activityId, 0, null, 0, "id desc", page, size);
+                total = Constant.ServiceFacade.getGroupsService().count(null, activityId, 0, null, 0);
             } else {
                 List<GroupsTeacher> groupsTeacherList = Constant.ServiceFacade.getGroupsTeacherService().list(null, activityId, teacherId, 0, null, page, size);
                 Set<String> groupsSet = new HashSet<>();
@@ -63,8 +63,8 @@ public class GroupsController {
                 }
                 String groupsIds = String.join(",", groupsSet);
                 if (!StringUtils.isEmpty(groupsIds)) {
-                    groupsList = Constant.ServiceFacade.getGroupsService().list(groupsIds, activityId, 0, null, "id desc", page, size);
-                    total = Constant.ServiceFacade.getGroupsService().count(groupsIds, activityId, 0, null);
+                    groupsList = Constant.ServiceFacade.getGroupsService().list(groupsIds, activityId, 0, null, 0, "id desc", page, size);
+                    total = Constant.ServiceFacade.getGroupsService().count(groupsIds, activityId, 0, null, 0);
                 }
             }
 

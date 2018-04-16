@@ -22,6 +22,10 @@
         i{
             cursor: pointer;
         }
+        a {
+            cursor: pointer;
+            color: #409EFF;
+        }
     </style>
 </head>
 <body>
@@ -33,7 +37,7 @@
         </div>
         <div id="page-wrapper" style="padding-top: 80px;">
             <div class="main-page">
-                    <template v-if="userInfo.role == 4">
+                    <template v-if="role == 4">
                         <el-button type="success" @click="edit(0)">新增</el-button>
                         <br /><br />
                     </template>
@@ -41,19 +45,24 @@
                     <div class="panel panel-widget">
                         <template v-if="!loading">
                             <el-row>
-                                <el-col :span="6">计划</el-col>
+                                <el-col :span="1">步骤</el-col>
+                                <el-col :span="6" style="margin-right: 20px;">计划</el-col>
                                 <el-col :span="3">开始时间</el-col>
                                 <el-col :span="3">结束时间</el-col>
                                 <el-col :span="2">审核需要</el-col>
                                 <el-col :span="2">文件要求</el-col>
                                 <el-col :span="2">对象</el-col>
-                                <el-col :span="6">操作</el-col>
+                                <el-col :span="2">操作</el-col>
                             </el-row>
                             <br />
                             <div style="background:#dddddd;width:100%;height: 1px;"></div><br />
                                 <template v-for="(item, index) in list">
                                     <el-row>
-                                        <el-col :span="6">{{item.name}}</el-col>
+                                        <el-col :span="1">
+                                            <div class="el-step__icon is-text">
+                                                <div class="el-step__icon-inner">{{index+1}}</div></div>
+                                        </el-col>
+                                        <el-col :span="6" style="margin-right: 20px;">{{item.name}}</el-col>
                                         <el-col :span="3">{{item.startTime}}</el-col>
                                         <el-col :span="3">{{item.endTime}}</el-col>
                                         <el-col :span="2">
@@ -70,27 +79,31 @@
                                             <span v-if="item.obj == 3">教师</span>
                                             <div style="width: 1px;height: 1px;"></div>
                                         </el-col>
-                                        <el-col :span="1" v-if="userInfo.role == 4">
+                                        <el-col :span="1" v-if="role == 4">
                                             <i class="el-icon-arrow-up" v-if="index != 0" @click="arrangeShift(item.id,index,1)"></i>
                                             <div style="width: 1px;height: 1px;" v-if="index == 0"></div>
                                         </el-col>
-                                        <el-col :span="1" v-if="userInfo.role == 4">
+                                        <el-col :span="1" v-if="role == 4">
                                             <i class="el-icon-arrow-down" v-if="index != list.length-1" @click="arrangeShift(item.id,index,2)"></i>
                                             <div style="width: 1px;height: 1px;" v-if="index == list.length-1"></div>
                                         </el-col>
-                                        <el-col :span="1" v-if="userInfo.role == 4">
+                                        <el-col :span="1" v-if="role == 4">
                                             <i class="el-icon-edit" @click="edit(item.id)"></i>
                                             <div style="width: 1px;height: 1px;"></div>
                                         </el-col>
-                                        <el-col :span="1" v-if="userInfo.role == 4">
+                                        <el-col :span="1" v-if="role == 4">
                                             <i class="el-icon-close" @click="arrangeDelete(item.id)"></i>
                                             <div style="width: 1px;height: 1px;" v-if="index == 0"></div>
                                         </el-col>
 
-                                        <el-col :span="4" v-if="userInfo.role == 6">提交相关文件</el-col>
+                                        <el-col :span="4" v-if="role == 6 && item.file == 2 && (item.obj == 1 || item.obj == 2)">
+                                            <el-button type="success" size="mini" :loading="commitFileLoading" @click="openCommitFile(item.id)">提交文件</el-button>
+                                        </el-col>
 
-                                        <el-col :span="3" v-if="userInfo.role == 5">提交相关文件</el-col>
-                                        <el-col :span="3" v-if="userInfo.role == 5">查看审核情况</el-col>
+                                        <el-col :span="3" v-if="role == 5 && item.file == 2 && (item.obj == 1 || item.obj == 3)">
+                                            <el-button type="success" size="mini" :loading="commitFileLoading" @click="openCommitFile(item.id)">提交文件</el-button>
+                                        </el-col>
+                                        <el-col :span="3" v-if="role == 5">查看审核情况</el-col>
                                     </el-row>
 
                                     <div style="background:#dddddd;width:100%;height: 1px;margin-top: 15px;margin-bottom: 15px;"></div>
@@ -102,6 +115,46 @@
                     </div>
                 </div>
             </div>
+
+            <el-dialog
+                    title="文档上交情况"
+                    :visible.sync="commitFileDialog"
+                    width="60%">
+                <template v-if="!commitFileLoading">
+                    <el-table
+                            :data="fileList"
+                            style="width: 100%"
+                    >
+                        <el-table-column
+                                prop="name"
+                                label="文件名称">
+                        </el-table-column>
+                        <el-table-column
+                                prop="gmtCreate"
+                                label="上传时间"
+                                width="150">
+                        </el-table-column>
+                        <el-table-column
+                                fixed="right"
+                                label="操作">
+                            <template slot-scope="scope">
+                                <el-button type="text" size="small" @click="fileDownload(scope.row.url)">下载</el-button>
+                                <el-button type="text" size="small" @click="fileDelete(scope.row.id)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template><br>
+                <el-upload
+                        action="/photoUpload"
+                        :show-file-list="false"
+                        :on-success="photoUploadSuccess">
+                    <el-button size="small" type="primary">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip">文件大小不能超过20mb</div>
+                </el-upload>
+                <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="commitFileDialog = false">关 闭</el-button>
+              </span>
+            </el-dialog>
 
             <template v-if="editFlag">
                 <el-dialog
@@ -165,7 +218,6 @@
         <#else>
         var collegeId = 0;
         </#if>
-
         var app = new Vue({
             el: "#app",
             data: function () {
@@ -175,7 +227,11 @@
                     loading:false,
                     editFlag:false,
                     activity:{},
-                    userInfo:{},
+                    role:0,
+                    fileList:[],
+                    commitFileLoading:false,
+                    commitFileDialog:false,
+                    arrangeId:0,
                     arrange:{id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:''}
                 }
             },
@@ -195,7 +251,7 @@
                                 self.list = result.data.list;
                                 self.total = result.data.total;
                                 self.activity = result.data.activity;
-                                self.userInfo = result.data.userInfo;
+                                self.role = result.data.role;
                                 for (var i=0; i<self.list.length; i++) {
                                     self.list[i].startTime = self.getDate(self.list[i].startTime);
                                     self.list[i].endTime = self.getDate(self.list[i].endTime);
@@ -207,6 +263,84 @@
                             self.loading = false;
                         }
                     });
+                },
+                openCommitFile:function (arrangeId) {
+                    if (arrangeId <= 0) {
+                        return false;
+                    }
+                    new Date().Format("yyyy-MM-dd")
+                    for (var i=0; i<this.list.length; i++) {
+                        if (arrangeId == this.list[i].id) {
+                            var nowDay = new Date(new Date().Format("yyyy-MM-dd"));
+                            var startDate = new Date(this.getDate(this.list[i].startTime));
+                            var endDate = new Date(this.getDate(this.list[i].endTime));
+                            if (nowDay >= startDate && nowDay <= endDate) {
+                                this.commitFileLoading = true;
+                                this.commitFileDialog = true;
+                                this.arrangeId = arrangeId;
+                                this.loadFileList();
+                            } else {
+                                this.$message({showClose: true, message: '现在不是文件提交时间', type: 'error'});
+                            }
+                        }
+                    }
+                },
+                loadFileList:function () {
+                    var self = this;
+                    Api.get("/file/arrange/listJson",{arrangeId:self.arrangeId},function (result) {
+                        if (result.code == 0) {
+                            self.fileList = result.data.list;
+                            self.commitFileLoading = false;
+                            for (var i=0; i<self.fileList.length; i++) {
+                                self.fileList[i].gmtCreate = self.getDate(self.fileList[i].gmtCreate);
+                            }
+                        }else{
+                            self.$message({showClose: true, message: result.msg, type: 'error'});
+                        }
+                    });
+                },
+                fileDelete:function (id) {
+                    var self = this;
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function () {
+                        Api.post("/file/delete",{id:id},function (result) {
+                            if (result.code == 0) {
+                                self.$message({showClose: true, message: '删除成功', type: 'success'});
+                                for (var i=0; i<self.fileList.length; i++) {
+                                    if (self.fileList[i].id == id) {
+                                        self.fileList.splice(i, 1);
+                                    }
+                                }
+                            } else {
+                                self.$message({showClose: true, message: result.msg, type: 'error'});
+                            }
+                        });
+
+                    }).catch(function () {
+                        this.$message({type: 'info', message: '已取消删除'});
+                    });
+                },
+                photoUploadSuccess:function (result, file, fileList) {
+                    var self = this;
+                    if (result.code == 0){
+                        Api.post("/file/arrange/save",{
+                            arrangeId:self.arrangeId,
+                            name:file.name,
+                            url:result.data
+                        },function (data) {
+                            if (data.code == 0) {
+                                self.loadFileList();
+                                self.$message({showClose: true, message: '保存成功', type: 'success'});
+                            } else {
+                                self.$message({showClose: true, message: '保存失败', type: 'error'});
+                            }
+                        });
+                    } else {
+                        self.$message({showClose: true, message: result.msg, type: 'error'});
+                    }
                 },
                 arrangeDelete:function (id) {
                     var self = this;
@@ -270,6 +404,9 @@
                         });
                     }
                     self.editFlag = true;
+                },
+                fileDownload:function (url) {
+                    window.open(url);
                 },
                 getDate:function (dateTime) {
                     if (dateTime.trim() != '') {

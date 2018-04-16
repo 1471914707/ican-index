@@ -32,6 +32,28 @@ public class TaskSTController {
 
     private final static Logger logger = LoggerFactory.getLogger(TaskSTController.class);
 
+    @RequestMapping(value = {"","/","/list"}, method = RequestMethod.GET)
+    public String list(@RequestParam("studentId") int studentId,
+                       @RequestParam("projectId") int projectId,
+                       HttpServletRequest request, HttpServletResponse response) {
+        UserInfo self = Ums.getUser(request);
+        if (self == null) {
+            return "/";
+        }
+        try {
+            Project project = Constant.ServiceFacade.getProjectService().select(projectId);
+            UserInfo student = Constant.ServiceFacade.getUserInfoService().select(studentId);
+            if (project == null || project.getStudentId() != student.getId()) {
+                return "/";
+            }
+            request.setAttribute("project", project);
+            request.setAttribute("student", student);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "/task/list2";
+    }
+
     @RequestMapping(value = {"/student/list"}, method = RequestMethod.GET)
     public String index(@RequestParam("activityId") int activityId,
                         HttpServletRequest request, HttpServletResponse response) {
@@ -57,28 +79,22 @@ public class TaskSTController {
         return "/task/list";
     }
 
-    @ApiOperation("学生获取任务列表")
-    @RequestMapping(value = "/student/listJson", method = RequestMethod.GET)
+    @ApiOperation("其他人获取任务列表")
+    @RequestMapping(value = "/listJson", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult listJson(@RequestParam(value = "page", defaultValue = "1") int page,
-                               @RequestParam(value = "size", defaultValue = "20") int size,
-                               @RequestParam(value = "activityId",required = true) int activityId,
-                               @RequestParam(value = "status",required = false) int status,
-                               HttpServletRequest request, HttpServletResponse response) {
+    public BaseResult listJson2(@RequestParam(value = "page", defaultValue = "1") int page,
+                                @RequestParam(value = "size", defaultValue = "20") int size,
+                                @RequestParam(value = "projectId",required = true) int projectId,
+                                @RequestParam(value = "status",required = false) int status,
+                                HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo self = Ums.getUser(request);
         try {
             List<Task> taskList = new ArrayList<>();
             int total = 0;
-            if (self.getRole() == UserInfoService.USER_STUDENT) {
-                List<Project> projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, 0, 0,
-                        0, 0, 0, 0, self.getId(), null, 0, "id desc", 1, 1);
-                if (projectList != null && projectList.size() > 0) {
-                    taskList = Constant.ServiceFacade.getTaskService().list(null, activityId, 0, self.getId(),
-                            projectList.get(0).getId(), status,"start_time desc", page, size);
-                    total = Constant.ServiceFacade.getTaskService().count(null, activityId, 0, self.getId(), projectList.get(0).getId(),status);
-                }
-            }
+            taskList = Constant.ServiceFacade.getTaskService().list(null, 0, 0, 0,
+                    projectId, status,"start_time desc", page, size);
+            total = Constant.ServiceFacade.getTaskService().count(null, 0, 0, 0, projectId,status);
             Map data = new HashMap();
             data.put("list", taskList);
             data.put("total", total);
@@ -86,6 +102,45 @@ public class TaskSTController {
             return result;
         } catch (Exception e) {
             logger.error("学生获取任务列表", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("学生获取任务列表")
+    @RequestMapping(value = "/student/listJson", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult listJson(@RequestParam(value = "page", defaultValue = "1") int page,
+                               @RequestParam(value = "size", defaultValue = "20") int size,
+                               @RequestParam("activityId") int activityId,
+                               @RequestParam(value = "status",required = false) int status,
+                               HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        if (activityId <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        UserInfo self = Ums.getUser(request);
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
+            if (activity == null || self.getRole() != UserInfoService.USER_STUDENT) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            List<Project> projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, 0, 0, 0, 0, 0,
+                    0, 0, null, 0, null, 1, 1);
+            List<Task> taskList = new ArrayList<>();
+            int total = 0;
+            if (projectList != null && projectList.size() > 0) {
+                taskList = Constant.ServiceFacade.getTaskService().list(null, 0, 0, 0, projectList.get(0).getId(), status, "start_time desc", page, size);
+                total = Constant.ServiceFacade.getTaskService().count(null, 0, 0, 0, projectList.get(0).getId(), status);
+            }
+            Map data = new HashMap();
+            data.put("list", taskList);
+            data.put("total", total);
+            BaseResultUtil.setSuccess(result, data);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取任务列表", e);
             return result;
         }
     }

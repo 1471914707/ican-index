@@ -119,9 +119,15 @@
                                             label="导师"
                                             prop="teacher.name">
                                     </el-table-column>
-                                    <el-table-column
+                                    <#--<el-table-column
                                             label="题目"
                                             prop="project.title">
+                                    </el-table-column>-->
+                                    <el-table-column
+                                            label="题目">
+                                        <template slot-scope="scope">
+                                            <el-button type="text" size="small" @click="checkTask(scope.row.project.id,scope.row.project.studentId);">{{scope.row.project.title}}</el-button>
+                                        </template>
                                     </el-table-column>
                                     <el-table-column
                                             label="工作量"
@@ -140,6 +146,7 @@
                                         <template slot-scope="scope">
                                             <span v-if="scope.row.project.status == 1">未通过</span>
                                             <span v-if="scope.row.project.status == 2">通过</span>
+                                            <span v-if="scope.row.project.status == 3">建议</span>
                                         </template>
                                     </el-table-column>
                                     <el-table-column
@@ -148,6 +155,7 @@
                                         <template slot-scope="scope">
                                             <el-button type="text" size="small" @click="followFun(scope.row.project.id);" v-if="followType=='2'">专业审核</el-button>
                                             <el-button type="text" size="small" @click="followFun(scope.row.project.id);" v-if="followType!='2'">审核</el-button>
+                                            <el-button type="text" size="small" @click="checkTask(scope.row.project.id,scope.row.project.studentId);" v-if="followType!='2'">进度</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -204,6 +212,7 @@
             <el-select v-model="follow.mode" placeholder="请选择审核状态">
                 <el-option label="不通过" value="1"></el-option>
                 <el-option label="通过" value="2"></el-option>
+                <el-option label="建议" value="3"></el-option>
             </el-select>
             <el-button @click="followDialog = false;followId=0;follow.mode=null;follow.content=''">取 消</el-button>
             <el-button type="primary" @click="saveFollow()">确 定</el-button>
@@ -299,6 +308,9 @@
                         }
                     });
                 },
+                checkTask:function (projectId, studentId) {
+                    window.open('/task/list?projectId=' + projectId + '&studentId=' + studentId);
+                },
                 followFun:function (id) {
                     this.followId = id;
                     var self = this;
@@ -308,8 +320,10 @@
                             for (var i=0; i<self.followList.length; i++) {
                                 if (self.followList[i].mode == 2){
                                     self.followList[i].mode = '通过';
-                                } else {
+                                } else if (self.followList[i].mode == 1) {
                                     self.followList[i].mode = '不通过';
+                                } else {
+                                    self.followList[i].mode = '建议';
                                 }
                             }
                         }

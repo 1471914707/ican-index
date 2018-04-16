@@ -99,7 +99,7 @@
                                         <el-button type="text" size="small" @click="paper(scope.row.id)">我的选题</el-button>
                                         <el-button type="text" size="small" @click="project(scope.row.id,scope.row.userId)">学生项目</el-button>
                                         <el-button type="text" size="small" @click="fileArrange(scope.row.id)">共享文档</el-button>
-                                        <el-button type="text" size="small" @click="arrange(scope.row.id)">流程查看</el-button>
+                                        <el-button type="text" size="small" @click="arrange(scope.row.id, scope.row.userId)">流程查看</el-button>
                                         <el-button type="text" size="small" @click="rating(scope.row.id)">评审答辩</el-button>
                                         <el-button type="text" size="small" @click="project(scope.row.id)">统计情况</el-button>
                                     </template>

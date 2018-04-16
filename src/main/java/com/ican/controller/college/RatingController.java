@@ -81,7 +81,7 @@ public class RatingController {
                 String groupsIds = String.join(",", groupsSet);
                 if (!StringUtils.isEmpty(groupsIds)) {
                  //   groupsList = Constant.ServiceFacade.getGroupsService().list(groupsIds, activityId, 0, null, "id desc", page, size);
-                    total = Constant.ServiceFacade.getGroupsService().count(groupsIds, activityId, 0, null);
+                    total = Constant.ServiceFacade.getGroupsService().count(groupsIds, activityId, 0, null, 0);
                 }
             }
 
