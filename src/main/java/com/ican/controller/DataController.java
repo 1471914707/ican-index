@@ -6,8 +6,11 @@ import com.ican.domain.*;
 import com.ican.service.UserInfoService;
 import com.ican.service.UserService;
 import com.ican.util.*;
+import com.ican.vo.StudentVO;
+import com.ican.vo.TeacherVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.tomcat.util.bcel.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,6 +162,31 @@ public class DataController {
         }
     }
 
+    @ApiOperation("根据活动获取本校本院的系类")
+    @RequestMapping(value = "/departmentListJson2",method = RequestMethod.GET)
+    public BaseResult departmentListJson2(@RequestParam(value = "activityId") int activityId,
+                                          HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || activityId <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
+            if (activity == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(null, 0, activity.getUserId(), null, 1, 1000);
+            BaseResultUtil.setSuccess(result, departmentList);
+            return result;
+        } catch (Exception e) {
+            logger.error("根据活动获取本校本院的系类列表异常", e);
+            return result;
+        }
+    }
+
     @ApiOperation("获取本系的专业")
     @RequestMapping(value = "/majorListJson",method = RequestMethod.GET)
     public BaseResult majorListJson(@RequestParam(value = "departmentId",required = false) int departmentId,
@@ -175,6 +203,32 @@ public class DataController {
             return result;
         } catch (Exception e) {
             logger.error("获取本系的专业异常", e);
+            return result;
+        }
+    }
+
+
+    @ApiOperation("根据活动获取专业")
+    @RequestMapping(value = "/majorListJson2",method = RequestMethod.GET)
+    public BaseResult majorListJson2(@RequestParam(value = "activityId") int activityId,
+                                     HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || activityId <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
+            if (activity == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            List<Major> majorList = Constant.ServiceFacade.getMajorService().list(null, 0, activity.getUserId(), 0, 0, null, 1, 1000);
+            BaseResultUtil.setSuccess(result, majorList);
+            return result;
+        } catch (Exception e) {
+            logger.error("根据活动获取专业异常", e);
             return result;
         }
     }
@@ -202,7 +256,6 @@ public class DataController {
         }
     }
 
-
     @ApiOperation("获取本院的教师")
     @RequestMapping(value = "/teacherListJson",method = RequestMethod.GET)
     public BaseResult teacherListJson(HttpServletRequest request, HttpServletResponse response) {
@@ -221,4 +274,89 @@ public class DataController {
             return result;
         }
     }
+
+    @ApiOperation("获取本院的某届所有学生")
+    @RequestMapping(value = "/studentListJson2",method = RequestMethod.GET)
+    public BaseResult studentListJson2(@RequestParam(value = "activityId") int activityId,
+                                      HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || activityId <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
+            if (activity == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            List<Student> studentList = Constant.ServiceFacade.getStudentService().list(null, 0, activity.getUserId(), 0, 0, 0, 0, null, null, 1, 2500);
+            List<StudentVO> studentVOList = Constant.ServiceFacade.getStudentWebService().listVO(studentList);
+            BaseResultUtil.setSuccess(result, studentVOList);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取本院的某届所有学生异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("获取该活动下所有的项目")
+    @RequestMapping(value = "/projectListJson2",method = RequestMethod.GET)
+    public BaseResult projectListJson2(@RequestParam(value = "activityId") int activityId,
+                                       HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || activityId <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
+            if (activity == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            List<Project> projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, 0, 0, 0, 0, 0, 0,
+                    0, null, 0, null, 1, 2000);
+
+            BaseResultUtil.setSuccess(result, projectList);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取该活动下所有的项目异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("获取本院的教师特定数据")
+    @RequestMapping(value = "/teacherListJson2",method = RequestMethod.GET)
+    public BaseResult teacherListJson2(@RequestParam(value = "activityId") int activityId,
+                                       HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || self.getRole() != UserInfoService.USER_COLLEGE) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
+            if (activity == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            HashMap data = Constant.ServiceFacade.getTeacherWebService().listVO(0, activity.getUserId(), 0, null);
+            List<TeacherVO> teacherVOList = (List<TeacherVO>) data.get("list");
+            if (teacherVOList != null && teacherVOList.size() > 0) {
+
+            }
+            BaseResultUtil.setSuccess(result, data);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取本院的教师异常", e);
+            return result;
+        }
+    }
+
+
+
 }

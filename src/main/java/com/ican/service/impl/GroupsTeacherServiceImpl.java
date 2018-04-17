@@ -46,10 +46,10 @@ public class GroupsTeacherServiceImpl implements GroupsTeacherService {
     }
 
     @Override
-    public List<GroupsTeacher> list(String ids, int activityId, int teacherId, int groupsId, String order, int page, int size) throws icanServiceException {
+    public List<GroupsTeacher> list(String ids, int answerId, int teacherId, int groupsId, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
-        param.put("activityId", activityId);
+        param.put("answerId", answerId);
         param.put("teacherId", teacherId);
         param.put("groupsId", groupsId);
         param.put("order", order);
@@ -59,12 +59,17 @@ public class GroupsTeacherServiceImpl implements GroupsTeacherService {
     }
 
     @Override
-    public int count(String ids, int activityId, int teacherId, int groupsId) throws icanServiceException {
+    public int count(String ids, int answerId, int teacherId, int groupsId) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
-        param.put("activityId", activityId);
+        param.put("answerId", answerId);
         param.put("teacherId", teacherId);
         param.put("groupsId", groupsId);
         return Constant.DaoFacade.getGroupsTeacherDao().count(param);
+    }
+
+    @Override
+    public List<GroupsTeacher> listByGroupsIds(String groupsIds) throws icanServiceException {
+        return Constant.DaoFacade.getGroupsTeacherDao().listByGroupsIds(groupsIds);
     }
 }

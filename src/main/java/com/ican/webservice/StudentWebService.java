@@ -47,7 +47,7 @@ public class StudentWebService {
             String clazzIds = String.join(",", clazzSet);
             List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(ids, null, null,
                     UserInfoService.USER_STUDENT, null, 1, 100);
-            List<College> collegeList = Constant.ServiceFacade.getCollegeService().list(collegeIds, 0, null, 1, 100);
+            List<UserInfo> collegeList = Constant.ServiceFacade.getUserInfoService().list(collegeIds, null, null, 0, null, 1, 100);
             List<UserInfo> teacherInfoList = Constant.ServiceFacade.getUserInfoService().list(teacherIds, null, null, 0, null, 1, 100);
             List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(departmentIds, 0, 0, null, 1, 100);
             List<Major> majorList = Constant.ServiceFacade.getMajorService().list(majorIds, 0, 0, 0, 0, null, 1, 100);
@@ -62,7 +62,7 @@ public class StudentWebService {
             for (UserInfo userInfo : userInfoList) {
                 userInfoMap.put(userInfo.getId(), userInfo);
             }
-            for (College college : collegeList) {
+            for (UserInfo college : collegeList) {
                 collegeMap.put(college.getId(), college);
             }
             for (Department department : departmentList) {
@@ -80,7 +80,7 @@ public class StudentWebService {
             List<StudentVO> studentVOList = new ArrayList<>();
             for (Student student : studentList) {
                 StudentVO studentVO = new StudentVO(student, (UserInfo) userInfoMap.get(student.getId()));
-                studentVO.setCollegeName(((College) collegeMap.get(student.getCollegeId())).getName());
+                studentVO.setCollegeName(((UserInfo) collegeMap.get(student.getCollegeId())).getName());
                 studentVO.setDepartmentName(((Department) departmentMap.get(student.getDepartmentId())).getName());
                 studentVO.setMajorName(((Major) majorMap.get(student.getMajorId())).getName());
                 studentVO.setClazzName(((Clazz) clazzMap.get(student.getClazzId())).getName());

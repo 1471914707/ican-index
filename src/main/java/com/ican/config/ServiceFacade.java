@@ -93,6 +93,9 @@ public class ServiceFacade {
     @Autowired
     private RatingService ratingService;
 
+    @Autowired
+    private AnswerArrangeService answerArrangeService;
+
 
 
     @Autowired
@@ -107,6 +110,13 @@ public class ServiceFacade {
     @Autowired
     private TeacherWebService teacherWebService;
 
+    public AnswerArrangeService getAnswerArrangeService() {
+        return answerArrangeService;
+    }
+
+    public void setAnswerArrangeService(AnswerArrangeService answerArrangeService) {
+        this.answerArrangeService = answerArrangeService;
+    }
 
     public GroupsService getGroupsService() {
         return groupsService;

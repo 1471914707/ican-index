@@ -80,6 +80,9 @@ public class DaoFacade {
     private ArrangeDao arrangeDao;
 
     @Autowired
+    private AnswerArrangeDao answerArrangeDao;
+
+    @Autowired
     private GroupsDao groupsDao;
 
     @Autowired
@@ -87,6 +90,14 @@ public class DaoFacade {
 
     @Autowired
     private RatingDao ratingDao;
+
+    public AnswerArrangeDao getAnswerArrangeDao() {
+        return answerArrangeDao;
+    }
+
+    public void setAnswerArrangeDao(AnswerArrangeDao answerArrangeDao) {
+        this.answerArrangeDao = answerArrangeDao;
+    }
 
     public GroupsDao getGroupsDao() {
         return groupsDao;

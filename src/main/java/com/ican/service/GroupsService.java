@@ -20,8 +20,8 @@ public interface GroupsService {
 
     int save(Groups groups) throws icanServiceException;
 
-    List<Groups> list(String ids, int activityId, int userId, String projectIds, int type, String order, int page, int size) throws icanServiceException;
+    List<Groups> list(String ids, int answerId, int userId, String order, int page, int size) throws icanServiceException;
 
-    int count(String ids, int activityId, int userId, String projectIds, int type) throws icanServiceException;
+    int count(String ids, int answerId, int userId) throws icanServiceException;
 
 }

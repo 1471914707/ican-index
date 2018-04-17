@@ -299,13 +299,11 @@
                         this.editFlag = true;
                         return true;
                     } else {
-                        Api.get("/college/activity/info",{id:id},function (result) {
-                            if (result.code == 0) {
-                                self.activity = result.data;
-                            } else {
-                                self.$message({showClose: true, message: result.msg, type: 'error'});
+                        for (var i=0; i<this.list.length; i++) {
+                            if (id == this.list[i].id) {
+                                self.activity = JSON.parse(JSON.stringify(this.list[i]));
                             }
-                        });
+                        }
                         self.editFlag = true;
                     }
                 },
@@ -343,7 +341,7 @@
                     window.open('/file/list?activityId=' + id);
                 },
                 rating:function (id) {
-                    window.open('/college/rating/list?activityId=' + id);
+                    window.open('/answerArrange/list?activityId=' + id);
                 },
                 handleSizeChange:function (size) {
                     this.size = size;

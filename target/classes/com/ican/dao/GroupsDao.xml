@@ -8,20 +8,11 @@
             <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
                 and id in (${ids})
             </if>
-            <if test="_parameter.containsKey('projectIds') and projectIds > 0">
-                and project_ids in (${projectIds})
-            </if>
-            <if test="_parameter.containsKey('name') and name != null and name != ''">
-                and name LIKE concat(#{name},'%')
-            </if>
-            <if test="_parameter.containsKey('activityId') and activityId > 0">
-                and activity_id = #{activityId}
+            <if test="_parameter.containsKey('answerId') and answerId > 0">
+                and answer_id = #{answerId}
             </if>
             <if test="_parameter.containsKey('userId') and userId > 0">
                 and user_id = #{userId}
-            </if>
-            <if test="_parameter.containsKey('type') and type > 0">
-                and type = #{type}
             </if>
         </where>
     </sql>
@@ -45,15 +36,15 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.Groups" useGeneratedKeys="true" keyProperty="id">
-        insert into groups (activity_id,user_id,name,project_ids,type,gmt_create,gmt_modified)
-        values (#{activityId},#{userId},#{name},#{projectIds},#{type},now(),now())
+        insert into groups (answer_id,user_id,name,project_ids,rating_time,place,gmt_create,gmt_modified)
+        values (#{answerId},#{userId},#{name},#{projectIds},#{ratingTime},#{place},now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.Groups">
         update groups
         <set>
-            <if test="activityId != 0">
-                activity_id=#{activityId},
+            <if test="answerId != 0">
+                answer_id=#{answerId},
             </if>
             <if test="userId != 0">
                 user_id=#{userId},
@@ -61,11 +52,14 @@
             <if test="name != null">
                 name=#{name},
             </if>
-            <if test="project_ids != 0">
-                projectIds=#{project_ids},
+            <if test="projectIds != null">
+                project_ids=#{projectIds},
             </if>
-            <if test="type">
-                type=#{type},
+            <if test="ratingTime != null">
+                rating_time=#{ratingTime},
+            </if>
+            <if test="place != null">
+                place=#{place},
             </if>
             <if test="true">
                 gmt_modified=now(),

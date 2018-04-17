@@ -6,7 +6,7 @@ package com.ican.domain;
  */
 public class Rating {
     private int id;
-    private int activityId;
+    private int answerId;
     private int projectId;
     private int teacherId;
     private int score;
@@ -22,12 +22,12 @@ public class Rating {
         this.id = id;
     }
 
-    public int getActivityId() {
-        return activityId;
+    public int getAnswerId() {
+        return answerId;
     }
 
-    public void setActivityId(int activityId) {
-        this.activityId = activityId;
+    public void setAnswerId(int answerId) {
+        this.answerId = answerId;
     }
 
     public int getProjectId() {

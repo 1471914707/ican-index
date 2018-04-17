@@ -1,14 +1,38 @@
 package com.ican.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Groups {
     private int id;
-    private int activityId;
+    private int answerId;
     private int userId;
     private String name;
     private String projectIds;
-    private int type;
+    private String ratingTime;
+    private String place;
     private String gmtCreate;
     private String gmtModified;
+
+    //非数据数据
+    private Set<String> teacherSet = new HashSet<>();
+    private String teacherIds;
+
+    public Set<String> getTeacherSet() {
+        return teacherSet;
+    }
+
+    public void setTeacherSet(Set<String> teacherSet) {
+        this.teacherSet = teacherSet;
+    }
+
+    public String getTeacherIds() {
+        return teacherIds;
+    }
+
+    public void setTeacherIds(String teacherIds) {
+        this.teacherIds = teacherIds;
+    }
 
     public int getId() {
         return id;
@@ -18,20 +42,28 @@ public class Groups {
         this.id = id;
     }
 
-    public int getType() {
-        return type;
+    public int getAnswerId() {
+        return answerId;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setAnswerId(int answerId) {
+        this.answerId = answerId;
     }
 
-    public int getActivityId() {
-        return activityId;
+    public String getRatingTime() {
+        return ratingTime;
     }
 
-    public void setActivityId(int activityId) {
-        this.activityId = activityId;
+    public void setRatingTime(String ratingTime) {
+        this.ratingTime = ratingTime;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public int getUserId() {

@@ -2,9 +2,9 @@ package com.ican.domain;
 
 public class GroupsTeacher {
     private int id;
-    private int activityIds;
+    private int answerId;
     private int teacherId;
-    private int groupId;
+    private int groupsId;
     private String gmtCreate;
     private String gmtModified;
 
@@ -16,12 +16,12 @@ public class GroupsTeacher {
         this.id = id;
     }
 
-    public int getActivityIds() {
-        return activityIds;
+    public int getAnswerId() {
+        return answerId;
     }
 
-    public void setActivityIds(int activityIds) {
-        this.activityIds = activityIds;
+    public void setAnswerId(int answerId) {
+        this.answerId = answerId;
     }
 
     public int getTeacherId() {
@@ -32,12 +32,12 @@ public class GroupsTeacher {
         this.teacherId = teacherId;
     }
 
-    public int getGroupId() {
-        return groupId;
+    public int getGroupsId() {
+        return groupsId;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setGroupsId(int groupsId) {
+        this.groupsId = groupsId;
     }
 
     public String getGmtCreate() {

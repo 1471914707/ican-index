@@ -50,10 +50,10 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public List<Rating> list(String ids, int activityId, int groupsId, int projectId, int teacherId, String order, int page, int size) throws icanServiceException {
+    public List<Rating> list(String ids, int answerId, int groupsId, int projectId, int teacherId, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
-        param.put("activityId", activityId);
+        param.put("answerId", answerId);
         param.put("teacherId", teacherId);
         param.put("groupsId", groupsId);
         param.put("projectId", projectId);
@@ -64,10 +64,10 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public int count(String ids, int activityId, int groupsId, int projectId, int teacherId) throws icanServiceException {
+    public int count(String ids, int answerId, int groupsId, int projectId, int teacherId) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
-        param.put("activityId", activityId);
+        param.put("answerId", answerId);
         param.put("teacherId", teacherId);
         param.put("groupsId", groupsId);
         param.put("projectId", projectId);

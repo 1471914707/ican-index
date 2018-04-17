@@ -18,8 +18,8 @@ public interface RatingService {
 
     int save(Rating rating) throws icanServiceException;
 
-    List<Rating> list(String ids, int activityId, int groupsId, int projectId, int teacherId, String order, int page, int size) throws icanServiceException;
+    List<Rating> list(String ids, int answerId, int groupsId, int projectId, int teacherId, String order, int page, int size) throws icanServiceException;
 
-    int count(String ids, int activityId, int groupsId, int projectId, int teacherId) throws icanServiceException;
+    int count(String ids, int answerId, int groupsId, int projectId, int teacherId) throws icanServiceException;
 
 }

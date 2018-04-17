@@ -365,22 +365,20 @@
                 },
                 saveArrange:function () {
                     var self = this;
-                    if (self.arrange.id <= 0) {
-                        if (self.list.length > 0) {
-                            self.arrange.weight = self.list[0].weight + 1;
-                        } else{
-                            self.arrange.weight = 0;
-                        }
+                    if (self.list.length > 0) {
+                        self.arrange.weight = self.list[0].weight + 1;
+                    } else{
+                        self.arrange.weight = 0;
                     }
-                    if (self.arrange.follow){
-                        self.arrange.follow = 2;
+                    if (self.activity.follow == true){
+                        self.activity.follow == 2;
                     }else{
-                        self.arrange.follow = 1;
+                        self.activity.follow == 1;
                     }
-                    if (self.arrange.file){
-                        self.arrange.file = 2;
+                    if (self.activity.file == true){
+                        self.activity.file == 2;
                     }else{
-                        self.arrange.file = 1;
+                        self.activity.file == 1;
                     }
                     Api.post("/arrange/save",self.arrange,function (result) {
                         if (result.code == 0){
@@ -401,13 +399,11 @@
                                 self.arrange = result.data;
                                 self.arrange.follow == 2 ? self.arrange.follow=true : self.arrange.follow=false;
                                 self.arrange.file == 2 ? self.arrange.file=true : self.arrange.file=false;
-                                self.arrange.obj = self.arrange.obj + '';
                             }else{
-                                self.arrange = {id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:'',obj:'1'};
+                                self.arrange = {id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:''};
                             }
                         });
-                    } else {
-                        self.arrange = {id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:'',obj:'1'};
+                        return tr
                     }
                     self.editFlag = true;
                 },

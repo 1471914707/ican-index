@@ -53,13 +53,11 @@ public class GroupsServiceImpl implements GroupsService {
     }
 
     @Override
-    public List<Groups> list(String ids, int activityId, int userId, String projectIds, int type, String order, int page, int size) throws icanServiceException {
+    public List<Groups> list(String ids, int answerId, int userId, String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
-        param.put("activityId", activityId);
+        param.put("answerId", answerId);
         param.put("userId", userId);
-        param.put("projectIds", projectIds);
-        param.put("type", type);
         param.put("order", order);
         param.put("start", (page - 1) * size);
         param.put("size", size);
@@ -67,13 +65,12 @@ public class GroupsServiceImpl implements GroupsService {
     }
 
     @Override
-    public int count(String ids, int activityId, int userId, String projectIds, int type) throws icanServiceException {
+    public int count(String ids, int answerId, int userId) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
-        param.put("activityId", activityId);
+        param.put("answerId", answerId);
         param.put("userId", userId);
-        param.put("projectIds", projectIds);
-        param.put("type", type);
         return Constant.DaoFacade.getGroupsDao().count(param);
     }
+
 }

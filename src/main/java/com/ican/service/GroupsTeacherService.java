@@ -18,8 +18,10 @@ public interface GroupsTeacherService {
 
     int save(GroupsTeacher groupsTeacher) throws icanServiceException;
 
-    List<GroupsTeacher> list(String ids, int activityId, int teacherId, int groupsId, String order, int page, int size) throws icanServiceException;
+    List<GroupsTeacher> list(String ids, int answerId, int teacherId, int groupsId, String order, int page, int size) throws icanServiceException;
 
-    int count(String ids, int activityId, int teacherId, int groupsId) throws icanServiceException;
+    int count(String ids, int answerId, int teacherId, int groupsId) throws icanServiceException;
+
+    List<GroupsTeacher> listByGroupsIds(String groupsIds) throws icanServiceException;
 
 }

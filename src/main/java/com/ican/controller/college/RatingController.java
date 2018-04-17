@@ -76,12 +76,12 @@ public class RatingController {
                 List<GroupsTeacher> groupsTeacherList = Constant.ServiceFacade.getGroupsTeacherService().list(null, activityId, teacherId, 0, null, page, size);
                 Set<String> groupsSet = new HashSet<>();
                 for (GroupsTeacher groupsTeacher : groupsTeacherList) {
-                    groupsSet.add(groupsTeacher.getGroupId() + "");
+                 //   groupsSet.add(groupsTeacher.getGroupId() + "");
                 }
                 String groupsIds = String.join(",", groupsSet);
                 if (!StringUtils.isEmpty(groupsIds)) {
                  //   groupsList = Constant.ServiceFacade.getGroupsService().list(groupsIds, activityId, 0, null, "id desc", page, size);
-                    total = Constant.ServiceFacade.getGroupsService().count(groupsIds, activityId, 0, null, 0);
+                   // total = Constant.ServiceFacade.getGroupsService().count(groupsIds, activityId, 0, null, 0);
                 }
             }
 
@@ -128,7 +128,7 @@ public class RatingController {
         try {
             Groups groups = new Groups();
             groups.setId(id);
-            groups.setActivityId(activityId);
+           // groups.setActivityId(activityId);
             groups.setUserId(userId);
             groups.setName(name);
             Constant.ServiceFacade.getGroupsService().save(groups);
@@ -158,14 +158,14 @@ public class RatingController {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }
-            List<GroupsTeacher> groupsTeacherList = Constant.ServiceFacade.getGroupsTeacherService().list(null, groups.getActivityId(), teacherId, id, null, 1, 10);
+           /* List<GroupsTeacher> groupsTeacherList = Constant.ServiceFacade.getGroupsTeacherService().list(null, groups.getActivityId(), teacherId, id, null, 1, 10);
             if (groupsTeacherList != null && groupsTeacherList.size() > 0) {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
-            }
+            }*/
             GroupsTeacher groupsTeacher = new GroupsTeacher();
-            groupsTeacher.setActivityIds(groups.getActivityId());
-            groupsTeacher.setGroupId(id);
+            /*groupsTeacher.setActivityIds(groups.getActivityId());
+            groupsTeacher.setGroupId(id);*/
             groupsTeacher.setTeacherId(teacherId);
             Constant.ServiceFacade.getGroupsTeacherService().save(groupsTeacher);
             BaseResultUtil.setSuccess(result, groups);

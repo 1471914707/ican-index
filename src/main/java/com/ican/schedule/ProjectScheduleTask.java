@@ -19,8 +19,9 @@ public class ProjectScheduleTask {
     private final static Logger logger = LoggerFactory.getLogger(ProjectScheduleTask.class);
 
     //明天7点扫一扫
-    @Scheduled(cron = "0 0 7 * * ?")
+    //@Scheduled(cron = "0 0 7 * * ?")
     //@Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "0 0 18 * * ?")
     private void ProjectWarn() {
         try {
             int total = Constant.ServiceFacade.getProjectService().count(ProjectService.WARN_YES);
