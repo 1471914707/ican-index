@@ -47,8 +47,10 @@
                                 </template>
                             </el-table-column>
                             <el-table-column
-                                    label="标题"
-                                    prop="title">
+                                    label="标题">
+                                <template slot-scope="scope">
+                                    <span v-html="scope.row.title"></span>
+                                </template>
                             </el-table-column>
                             <el-table-column
                                     label="开始时间"
@@ -62,7 +64,7 @@
                             </el-table-column>
                             <el-table-column
                                     fixed="right"
-                                    label="修改状态"
+                                    label="状态"
                                     width="120"
                                     :filters="[{text: '待进行', value: 1}, {text: '进行中', value: 2}, {text: '已完成', value: 3}]"
                                     :filter-method="filterHandler"
@@ -155,6 +157,9 @@
                             for (var i=0; i<self.list.length; i++) {
                                 self.list[i].startTime = self.getDate(self.list[i].startTime);
                                 self.list[i].endTime = self.getDate(self.list[i].endTime);
+                                if (self.list[i].status == 3) {
+                                    self.list[i].title = "<del>" + self.list[i].title + "</del>";
+                                }
                                 self.list[i].status = self.getStatusName(self.list[i].status);
                             }
                         }else {
@@ -175,10 +180,10 @@
                 },
                 getStatusName:function (status) {
                     if (status == 1) {
-                        return '待进行';
+                        return "<span style=\"color: red;\">待进行</span>";
                     }
                     if (status == 2) {
-                        return '进行中';
+                        return "<span style=\"color: green;\">进行中</span>";
                     }
                     if (status == 3) {
                         return '<i class="el-icon-check"></i>';

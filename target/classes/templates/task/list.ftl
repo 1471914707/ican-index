@@ -61,8 +61,10 @@
                                 </template>
                             </el-table-column>
                             <el-table-column
-                                    label="标题"
-                                    prop="title">
+                                    label="标题">
+                                <template slot-scope="scope">
+                                    <span v-html="scope.row.titleShow"></span>
+                                </template>
                             </el-table-column>
                             <el-table-column
                                     label="开始时间"
@@ -219,7 +221,7 @@
             },
             mounted: function () {
                 this.loadTaskList();
-                this.warn = this.toBoolean(this.warn);
+                this.warn = this.toBoolean(this.oldWarn);
             },
             methods:{
                 loadTaskList:function () {
@@ -234,13 +236,17 @@
                         size:size
                     },function (result) {
                         if (result.code == 0) {
-                            for (var i=0; i<result.data.list.length; i++) {
-                                result.data.list[i].startTime = self.getDate(result.data.list[i].startTime);
-                                result.data.list[i].endTime = self.getDate(result.data.list[i].endTime);
-                                self.oldStatusList.push({status: result.data.list[i].status});
-                            }
                             self.list = result.data.list;
                             self.total = result.data.total;
+                            for (var i=0; i<self.list.length; i++) {
+                                self.list[i].startTime = self.getDate(self.list[i].startTime);
+                                self.list[i].endTime = self.getDate(self.list[i].endTime);
+                                self.oldStatusList.push({status: self.list[i].status});
+                                self.list[i].titleShow = self.list[i].title;
+                                if (self.list[i].status == 3){
+                                    self.list[i].titleShow = "<del>" + self.list[i].title + "</del>";
+                                }
+                            }
                         }else {
                             self.$message({showClose: true, message: result.msg, type: 'error'});
                         }
@@ -261,13 +267,14 @@
                 },
                 changeWarn:function () {
                     var self = this;
+                    self.warn = self.warnsel;
                     Api.post("/task/student/warn",{activityId:activityId},function (result) {
                         if (result.code == 0) {
-                            self.$message({showClose: true, message: '开启成功', type: 'success'});
+                            self.$message({showClose: true, message: '修改成功', type: 'success'});
                             self.oldWarn = result.data;
                             self.warn = self.toBoolean(result.data);
                         } else {
-                            self.$message({showClose: true, message: '开启失败', type: 'error'});
+                            self.$message({showClose: true, message: '修改失败', type: 'error'});
                             self.warn = self.toBoolean(self.oldWarn);
                         }
                     });
@@ -321,12 +328,27 @@
                             j = i;
                         }
                     }
-                    console.log("status" + status1);
                     Api.post("/task/student/status",{taskId:taskId,status:status1},function (result) {
                         if (result.code == 0) {
                             self.$message({showClose: true, message: '更改成功', type: 'success'});
                             self.oldStatusList[j] = self.list[j].status;
                             self.complete = result.data;
+                            if (status1 == 3){
+                                for (var i=0; i<self.list.length; i++) {
+                                    if (self.list[i].id == taskId){
+                                        alert("ddd")
+                                        self.list[i].titleShow = "<del>" + self.list[i].title + "</del>";
+                                        break;
+                                    }
+                                }
+                            } else {
+                                for (var i=0; i<self.list.length; i++) {
+                                    if (self.list[i].id == taskId){
+                                        self.list[i].titleShow = self.list[i].title;
+                                        break;
+                                    }
+                                }
+                            }
                         } else {
                             self.$message({showClose: true, message: '保存失败', type: 'error'});
                             self.list[j].status = self.oldStatusList[j];
@@ -339,7 +361,7 @@
                     this.loadTaskList();
                 },
                 toBoolean:function (warn) {
-                  if (warn == 2){
+                  if (warn == 2 || warn){
                     return true;
                   } else {
                     return false;

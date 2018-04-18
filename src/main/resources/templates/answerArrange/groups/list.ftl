@@ -37,11 +37,15 @@
         <div id="page-wrapper" style="width:90%">
             <div class="main-page">
                 <div class="grids">
-                    <div class="panel panel-widget">
+
                         <template v-if="!loading">
+                            <div class="panel panel-widget">
+                                <el-button type="text" v-if="role==4" @click="edit();index1=-1">新增</el-button><br>
                             <template v-for="(item, index) in list">
                                 <el-row>
-                                    <el-col :span="4" class="col-border">
+                                    <el-col :span="5" class="col-border">
+                                        <el-button style="float: right; padding: 12px 10px" type="text" v-if="role==4" @click="deleteGroups(index)">删除</el-button>
+                                        <el-button style="float: right; padding: 12px 10px" type="text" v-if="role==4" @click="index1=index;edit();">编辑</el-button>
                                         <div class="col-div">编号：{{item.id}}</div>
                                         <div class="col-div">组名：{{item.name}}</div>
                                         <div class="col-div">组长：{{item.userName}}</div>
@@ -52,27 +56,33 @@
                                         <div class="col-div">小组成员：<el-button style="float: right; padding: 3px 0" type="text" v-if="role==4" @click="teacherDialog=true;groupsId=item.id">增加</el-button></div>
                                         <div class="col-div">
                                             <template v-for="teacher in list[index].teacherList">
-                                                <a @click="">{{teacher.name}}</a>({{teacher.departmentName}})<i class="el-icon-close" @click="deleteTeacher(item.id, teacher.id)"></i><br>
+                                                <a @click="teacherRatingInfo(item.id, teacher.id)" v-if="role==4 || role==3">{{teacher.name}}</a>
+                                                <span v-if="role==5">{{teacher.name}}</span>
+                                                ({{teacher.departmentName}})
+                                                <i class="el-icon-close" @click="deleteTeacher(item.id, teacher.id)" v-if="role==4"></i><br>
                                             </template>
                                         </div>
                                     </el-col>
-                                    <el-col :span="12" class="col-border">
+                                    <el-col :span="13" class="col-border">
                                         <div class="col-div">检查项目：<el-button style="float: right; padding: 3px 0" type="text" v-if="role==4" @click="projectDialog=true;groupsId=item.id">增加</el-button></div>
                                         <div class="col-div">
                                             <template v-for="project in list[index].projectList">
-                                                <a @click="">{{project.title}}</a>({{project.student.clazzName}}-{{project.student.name}})
-                                                <i @click="deleteProject(item.id, project.id)" class="el-icon-close"></i><br>
+                                                <a @click="projectRatingInfo(item.id, project.id)" v-if="role==4 || role==3">{{project.title}}</a>
+                                                <a @click="ratingProject(item.id, project.id);projectTitle='评价'+project.title;" v-if="role==5">{{project.title}}</a>
+                                                ({{project.student.clazzName}}-{{project.student.name}}/指导教师：{{project.student.teacherName}})
+                                                <i @click="deleteProject(item.id, project.id)" class="el-icon-close" v-if="role==4"></i><br>
                                             </template>
                                         </div>
                                     </el-col>
                                 </el-row>
+                            </div>
                             </template>
                         </template>
                         <template v-if="loading">
                         <#include '/include/common/loading.ftl'>
                         </template>
                     </div>
-                </div>
+
             </div>
 
             <div class="block-pagination">
@@ -128,6 +138,100 @@
                 <el-button type="primary" @click="saveGroupsProject()">确 定</el-button>
            </span>
         </el-dialog>
+
+        <el-dialog
+                title="评价情况"
+                :visible.sync="ratingDialog"
+                width="60%">
+                <el-table
+                        :data="ratingList"
+                        style="width: 100%">
+                    <el-table-column
+                            prop="teacher.name"
+                            label="教师">
+                    </el-table-column>
+                    <el-table-column
+                            prop="project.title"
+                            label="项目">
+                    </el-table-column>
+                    <el-table-column
+                            prop="gmtCreate"
+                            label="时间">
+                    </el-table-column>
+                    <el-table-column
+                            prop="score"
+                            label="评分">
+                    </el-table-column>
+                    <el-table-column
+                            prop="remark"
+                            label="点评">
+                    </el-table-column>
+                </el-table>
+                <span slot="footer" class="dialog-footer">
+                      <el-button type="primary" @click="ratingDialog = false">关闭</el-button>
+                </span>
+        </el-dialog>
+
+        <el-dialog
+                :title="projectTitle"
+                :visible.sync="teacherRatingDialog"
+                width="40%"
+                :before-close="handleClose">
+            <el-form ref="form" :model="rating" label-width="40px">
+                <el-form-item label="评分">
+                    <el-input-number v-model="rating.score" :step="10" :min="0" :max="100"></el-input-number>
+                </el-form-item>
+                <el-form-item label="评价">
+                    <el-input
+                            type="textarea"
+                            :rows="4"
+                            placeholder="请输入内容"
+                            v-model="rating.remark">
+                    </el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="teacherRatingDialog = false">取 消</el-button>
+                <el-button type="primary" @click="saveTeacherRating()">保 存</el-button>
+            </span>
+        </el-dialog>
+
+        <el-dialog
+                title="编辑小组"
+                :visible.sync="editDialog"
+                width="40%">
+            <el-form ref="form" :model="groups" label-width="80px">
+                <el-form-item label="小组名称">
+                    <el-input v-model="groups.name"></el-input>
+                </el-form-item>
+                <el-form-item label="负责教师">
+                    <el-select v-model="groups.userId" placeholder="请选择">
+                        <el-option
+                                v-for="item in teacherList"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="答辩时间">
+                    <el-date-picker
+                            v-model="groups.ratingTime"
+                            type="datetime"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            placeholder="选择日期时间">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="地点">
+                    <el-input v-model="groups.place"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="saveGroups()">保存</el-button>
+                    <el-button @click="editDialog=false">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+
     </div>
 
     <script>
@@ -171,7 +275,15 @@
                     projectId:0,
                     selectedTeacherId:0,
                     selectedProjectId:0,
-                    validProjectList:[]
+                    validProjectList:[],
+                    ratingDialog:false,
+                    ratingList:[],
+                    rating:{id:0,answerId:answerId,groupsId:0,projectId:0,score:'',remark:''},
+                    teacherRatingDialog:false,
+                    projectTitle:'',
+                    editDialog:false,
+                    groups:{id:0,name:'',userId:null,ratingTime:'',place:'',answerId:answerId},
+                    index1:-1,
                 }
             },
             mounted: function () {
@@ -394,6 +506,132 @@
                     }).catch(function () {
                         self.$message({type: 'info', message: '已取消删除'});
                     });
+                },
+                teacherRatingInfo:function (groupsId, teacherId) {
+                    var self = this;
+                    Api.get("/answerArrange/groups/teacherRating",{groupsId:groupsId,teacherId:teacherId},function (result) {
+                       if (result.code == 0) {
+                           self.ratingList = result.data;
+                           for (var i=0; i<self.ratingList.length; i++) {
+                               self.ratingList[i].gmtCreate = self.getDate(self.ratingList[i].gmtCreate);
+                               for (var j=0; j<self.projectList.length; j++) {
+                                   if (self.ratingList[i].projectId == self.projectList[j].id){
+                                       self.ratingList[i].project = JSON.parse(JSON.stringify(self.projectList[j]));
+                                       break;
+                                   }
+                               }
+                               for (var j=0; j<self.teacherList.length; j++) {
+                                   if (self.ratingList[i].teacherId == self.teacherList[j].id) {
+                                       self.ratingList[i].teacher = JSON.parse(JSON.stringify(self.teacherList[j]));
+                                   }
+                               }
+                           }
+                           self.ratingDialog = true;
+                       } else {
+                           self.$message({showClose: true, message: result.msg, type: 'error'});
+                       }
+                    });
+                },
+                projectRatingInfo:function (groupsId, projectId) {
+                    var self = this;
+                    Api.get("/answerArrange/groups/projectRating",{groupsId:groupsId,projectId:projectId},function (result) {
+                        if (result.code == 0) {
+                            self.ratingList = result.data;
+                            for (var i=0; i<self.ratingList.length; i++) {
+                                self.ratingList[i].gmtCreate = self.getDate(self.ratingList[i].gmtCreate);
+                                for (var j=0; j<self.projectList.length; j++) {
+                                    if (self.ratingList[i].projectId == self.projectList[j].id){
+                                        self.ratingList[i].project = JSON.parse(JSON.stringify(self.projectList[j]));
+                                        break;
+                                    }
+                                }
+                                for (var j=0; j<self.teacherList.length; j++) {
+                                    if (self.ratingList[i].teacherId == self.teacherList[j].id) {
+                                        self.ratingList[i].teacher = JSON.parse(JSON.stringify(self.teacherList[j]));
+                                    }
+                                }
+                            }
+                            self.ratingDialog = true;
+                        } else {
+                            self.$message({showClose: true, message: result.msg, type: 'error'});
+                        }
+                    });
+                },
+                ratingProject:function (groupsId, projectId) {
+                    var self = this;
+                    self.rating.groupsId = groupsId;
+                    self.rating.projectId = projectId;
+                    Api.get("/answerArrange/groups/teacher/rating/info",{groupsId:groupsId,projectId:projectId},function (result) {
+                       if (result.code == 0) {
+                           if (result.data.code == 0) {
+                               self.rating = result.data.rating;
+                           }
+                           self.teacherRatingDialog = true;
+                       } else {
+                           self.$message({showClose: true, message: result.msg, type: 'error'});
+                       }
+                    });
+
+                },
+                saveTeacherRating:function () {
+                  var self = this;
+                  Api.post("/answerArrange/groups/teacher/rating/save",self.rating,function (result) {
+                      if (result.code == 0) {
+                          self.$message({showClose: true, message: '保存成功', type: 'success'});
+                      } else {
+                          self.$message({showClose: true, message: result.msg, type: 'error'});
+                      }
+                  });
+                },
+                edit:function () {
+                    var index = parseInt(this.index1);
+                    alert(index)
+                    if (index < 0) {
+                        this.groups = {id:0,name:'',userId:null,ratingTime:'',place:'',answerId:answerId};
+                    } else {
+                        this.groups.id = this.list[index].id;
+                        this.groups.name = this.list[index].name;
+                        this.groups.userId = this.list[index].userId;
+                        this.groups.ratingTime = this.list[index].ratingTime;
+                        this.groups.place = this.list[index].place;
+                        this.groups.answerId = this.list[index].answerId;
+                    }
+                    this.editDialog = true;
+                },
+                saveGroups:function () {
+                    var self = this;
+                    Api.post("/answerArrange/groups/save",self.groups,function (result) {
+                       if (result.code == 0) {
+                           self.page = 1;
+                           self.loadGroupsList();
+                           self.editDialog = false;
+                       } else {
+                           self.$message({showClose: true, message: result.msg, type: 'error'});
+                       }
+                    });
+                },
+                deleteGroups:function (index) {
+                    var self = this;
+                    self.$confirm('此操作将永久删除该组此项目, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function () {
+                        var groupsId = self.list[index].id;
+                        Api.post("/answerArrange/groups/delete",{groupsId:groupsId},function (result) {
+                            if (result.code == 0) {
+                                self.loadGroupsList();
+                            } else {
+                                self.$message({showClose: true, message: result.msg, type: 'error'});
+                            }
+                        });
+                    }).catch(function () {
+                        self.$message({type: 'info', message: '已取消删除'});
+                    });
+                },
+                handleClose:function () {
+                    this.teacherRatingDialog = false;
+                    this.rating = {id: 0, answerId: answerId, groupsId: 0, projectId: 0, score: '', remark: ''};
                 },
                 getDate:function (dateTime) {
                     if (dateTime.trim() != '') {

@@ -38,8 +38,8 @@
                         <a href="/bk?id=${teacher.id?c}" target="_blank">
                             <img src="${teacher.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 10%"></a>
                     </el-col>
-                    <el-col :xs="0" :sm="8" :md="6" :lg="6" :xl="6">
-                        <a href="/teacher/edit" target="_blank">${teacher.name}</a> &nbsp;&nbsp; <a hre> 私信</a>
+                    <el-col :xs="0" :sm="8" :md="6" :lg="8" :xl="6">
+                        <a href="/teacher/edit" target="_blank">${teacher.name}</a> &nbsp;&nbsp; <a href="/message/my" target="_blank"> 私信</a>
                         <a href="/logout">退出</a>
                     </el-col>
                 </el-row>
@@ -220,10 +220,10 @@
                     window.open('/teacher/major/list?activityId=' + id);
                 },
                 fileArrange:function (id) {
-                    window.open('/file/list?activityId=' + id);
+                    window.open('/answerArrange/list?activityId=' + id);
                 },
                 rating:function (id) {
-                    window.open('/teacher/rating/list?activityId=' + id);
+                    window.open('/answerArrange/list?activityId=' + id);
                 },
                 handleSizeChange:function (size) {
                     this.size = size;

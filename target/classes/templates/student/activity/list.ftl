@@ -232,7 +232,7 @@
                     window.open('/file/list?activityId=' + id);
                 },
                 rating:function (id) {
-                    window.open('/student/rating/list?activityId=' + id);
+                    window.open('/answerArrange/student?activityId=' + id);
                 },
                 handleSizeChange:function (size) {
                     this.size = size;

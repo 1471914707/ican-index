@@ -38,6 +38,15 @@ public class AnswerArrangeCController {
         return "answerArrange/list";
     }
 
+
+    @ApiOperation("学生打开答辩安排见面看到的数据")
+    @RequestMapping(value = "/student", method = RequestMethod.GET)
+    public String studentRating(@RequestParam(value = "activityId") int activityId,
+                                HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("activityId", activityId);
+        return "answerArrange/student_list";
+    }
+
     @ApiOperation("获取答辩安排列表")
     @RequestMapping(value = "/listJson", method = RequestMethod.GET)
     @ResponseBody

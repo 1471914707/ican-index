@@ -44,13 +44,14 @@ public class GroupsController {
         return "/answerArrange/groups/list";
     }
 
+
     @ApiOperation("获取评分分组列表")
     @RequestMapping(value = "/listJson", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult listJson(@RequestParam(value = "page", defaultValue = "1") int page,
                                @RequestParam(value = "size", defaultValue = "20") int size,
                                @RequestParam(value = "answerId", defaultValue = "0") int answerId,
-                               @RequestParam(value = "my", defaultValue = "0",required = false) int my,
+                               @RequestParam(value = "my", defaultValue = "0", required = false) int my,
                                HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo self = Ums.getUser(request);
@@ -67,7 +68,7 @@ public class GroupsController {
             List<Groups> groupsList = Constant.ServiceFacade.getGroupsService().list(null, answerId, 0, "id desc", page, size);
             Set<String> groupsSet = new HashSet<>();
             Map groupsMap = new HashMap();
-            for (int i=0; i<groupsList.size(); i++) {
+            for (int i = 0; i < groupsList.size(); i++) {
                 groupsSet.add(groupsList.get(i).getId() + "");
                 groupsMap.put(groupsList.get(i).getId(), i);
             }
@@ -149,6 +150,42 @@ public class GroupsController {
             return result;
         } catch (Exception e) {
             logger.error("保存评分组异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("删除评分组")
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult delete(@RequestParam(value = "groupsId", defaultValue = "0") int groupsId,
+                             HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (groupsId <= 0 || self == null || self.getRole() != UserInfoService.USER_COLLEGE) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Groups groups = Constant.ServiceFacade.getGroupsService().select(groupsId);
+            if (groups == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            AnswerArrange answerArrange = Constant.ServiceFacade.getAnswerArrangeService().select(groups.getAnswerId());
+            if (groups == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            Activity activity = Constant.ServiceFacade.getActivityService().select(answerArrange.getActivityId());
+            if (activity == null || activity.getUserId() != self.getId()) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            Constant.ServiceFacade.getGroupsService().delete(groupsId);
+            BaseResultUtil.setSuccess(result, null);
+            return result;
+        } catch (Exception e) {
+            logger.error("删除评分组异常", e);
             return result;
         }
     }
@@ -309,14 +346,58 @@ public class GroupsController {
         }
     }
 
+    @ApiOperation("获取教师的项目评价")
+    @RequestMapping(value = "/teacherRating", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult teacherRating(@RequestParam(value = "groupsId", defaultValue = "0") int groupsId,
+                                    @RequestParam(value = "teacherId", defaultValue = "0") int teacherId,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || self.getRole() != UserInfoService.USER_COLLEGE) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            List<Rating> ratingList = Constant.ServiceFacade.getRatingService().list(null, 0, groupsId, 0, teacherId, null, 1, 100);
+            BaseResultUtil.setSuccess(result, ratingList);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取教师的项目评价异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("获取项目的教师评价")
+    @RequestMapping(value = "/projectRating", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult projectRating(@RequestParam(value = "groupsId", defaultValue = "0") int groupsId,
+                                    @RequestParam(value = "projectId", defaultValue = "0") int projectId,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || self.getRole() != UserInfoService.USER_COLLEGE) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            List<Rating> ratingList = Constant.ServiceFacade.getRatingService().list(null, 0, groupsId, projectId, 0, null, 1, 100);
+            BaseResultUtil.setSuccess(result, ratingList);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取项目的教师评价异常", e);
+            return result;
+        }
+    }
+
     @ApiOperation("获取活动特定数据")
     @ResponseBody
-    @RequestMapping(value = "/infoListJson",method = RequestMethod.GET)
+    @RequestMapping(value = "/infoListJson", method = RequestMethod.GET)
     public BaseResult infoListJson(@RequestParam(value = "activityId") int activityId,
                                    HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo self = Ums.getUser(request);
-        if (self == null || self.getRole() != UserInfoService.USER_COLLEGE) {
+        if (self == null) {
             result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
             return result;
         }
@@ -358,4 +439,143 @@ public class GroupsController {
         }
     }
 
+    @ApiOperation("保存评分")
+    @ResponseBody
+    @RequestMapping(value = "/teacher/rating/save", method = RequestMethod.POST)
+    public BaseResult studentRating(Rating rating,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || rating.getProjectId() <= 0
+                || rating.getAnswerId() <= 0 || rating.getGroupsId() <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Project project = Constant.ServiceFacade.getProjectService().select(rating.getProjectId());
+            AnswerArrange answerArrange = Constant.ServiceFacade.getAnswerArrangeService().select(rating.getAnswerId());
+            Groups groups = Constant.ServiceFacade.getGroupsService().select(rating.getGroupsId());
+            if (project == null || answerArrange == null || groups == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            rating.setTeacherId(self.getId());
+            Constant.ServiceFacade.getRatingService().save(rating);
+            BaseResultUtil.setSuccess(result, null);
+            return result;
+        } catch (Exception e) {
+            logger.error("保存评分异常", e);
+            return result;
+        }
+    }
+
+
+    @ApiOperation("获取单个评分")
+    @ResponseBody
+    @RequestMapping(value = "/teacher/rating/info", method = RequestMethod.GET)
+    public BaseResult info(@RequestParam(value = "groupsId") int groupsId,
+                           @RequestParam(value = "projectId") int projectId,
+                           HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || groupsId <= 0 || projectId <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            //该教师无权利评价该项目的情况
+            List<GroupsTeacher> groupsTeacherList = Constant.ServiceFacade.getGroupsTeacherService().list(null, 0,
+                    self.getId(), groupsId, null, 1, 1);
+            if (groupsTeacherList == null || groupsTeacherList.size() <= 0) {
+                result.setMsg("你无权利评价该项目");
+                return result;
+            }
+            List<Rating> ratingList = Constant.ServiceFacade.getRatingService().list(null, 0, groupsId, projectId, self.getId(),
+                    null, 1, 1);
+            Rating rating = new Rating();
+            Map data = new HashMap();
+            data.put("code", 1);
+            if (ratingList != null && ratingList.size() > 0) {
+                data.put("code", 0);
+                rating = ratingList.get(0);
+            }
+            data.put("rating", rating);
+            BaseResultUtil.setSuccess(result, data);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取评分异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("学生打开答辩安排见面看到的数据")
+    @ResponseBody
+    @RequestMapping(value = "/student/rating", method = RequestMethod.GET)
+    public BaseResult studentRating(@RequestParam(value = "activityId") int activityId,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || activityId <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
+            if (activity == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            List<Project> projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, 0, 0, 0, 0, 0,
+                    0, self.getId(), null, 0, null, 1, 5);
+            List<Rating> ratingList = new ArrayList<>();
+            List<AnswerArrange> answerArrangeList = new ArrayList<>();
+            List<Groups> groupsList = new ArrayList<>();
+            int teacherId = 0;
+            if (projectList != null && projectList.size() > 0) {
+                Project project = projectList.get(0);
+                teacherId = project.getTeacherId();
+                ratingList = Constant.ServiceFacade.getRatingService().list(null, 0, 0, project.getId(), 0, "id desc", 1, 1000);
+                Set<String> answerArrangeSet = new HashSet<>();
+                for (Rating rating : ratingList) {
+                    answerArrangeSet.add(rating.getAnswerId() + "");
+                }
+                String answerArrangeIds = String.join(",", answerArrangeSet);
+                if (!StringUtils.isEmpty(answerArrangeIds)) {
+                    answerArrangeList = Constant.ServiceFacade.getAnswerArrangeService().list(answerArrangeIds, activityId, 0, null, 1, 100);
+                    List<Groups> groupsList2 = new ArrayList<>();
+                    boolean flag = false;
+                    for (AnswerArrange answerArrange : answerArrangeList) {
+                        groupsList2 = Constant.ServiceFacade.getGroupsService().list(null, answerArrange.getId(), 0, null, 1, 200);
+                        for (Groups groups : groupsList2) {
+                            //分析一下有没有现在这个项目
+                            String projectIds = groups.getProjectIds();
+                            String[] projectIdArray = projectIds.split(",");
+                            for (String id : projectIdArray) {
+                                if (id.equals(project.getId() + "")) {
+                                    groupsList.add(groups);
+                                    flag = true;
+                                    break;
+                                }
+                            }
+                            if (flag) {
+                                break;
+                            }
+                        }
+                        flag = false;
+                    }
+                }
+            }
+            Map data = new HashMap();
+            data.put("ratingList", ratingList);
+            data.put("answerList", answerArrangeList);
+            data.put("activity", activity);
+            data.put("teacherId", teacherId);
+            data.put("groupsList", groupsList);
+            BaseResultUtil.setSuccess(result, data);
+            return result;
+        } catch (Exception e) {
+            logger.error("学生打开答辩安排见面看到的数据异常", e);
+            return result;
+        }
+    }
 }
