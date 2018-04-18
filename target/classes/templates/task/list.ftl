@@ -336,7 +336,6 @@
                             if (status1 == 3){
                                 for (var i=0; i<self.list.length; i++) {
                                     if (self.list[i].id == taskId){
-                                        alert("ddd")
                                         self.list[i].titleShow = "<del>" + self.list[i].title + "</del>";
                                         break;
                                     }

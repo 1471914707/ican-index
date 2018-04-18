@@ -18,7 +18,6 @@
             <div class="main-page">
                 <div class="grids">
                     <div class="progressbar-heading grids-heading">
-                        <h2>安排列表</h2>
                     </div>
                     <div class="panel panel-widget">
                         <template v-if="!loading">
@@ -29,63 +28,65 @@
                                 <el-table-column
                                         style="max-width: 40px;"
                                         prop="id"
-                                        label="序号"
-                                        width="80">
+                                        label="序号">
                                 </el-table-column>
                                 <el-table-column
                                         prop="name"
-                                        label="安排名称"
-                                        width="200">
+                                        label="安排名称">
                                     <template slot-scope="scope">
                                         <a @click="openGroups(scope.row.id)" style="cursor: pointer;color: #409EFF">{{scope.row.name}}</a>
                                     </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="startTime"
-                                        label="开始时间"
-                                        width="150">
+                                        label="开始时间">
                                 </el-table-column>
                                 <el-table-column
                                         prop="endTime"
-                                        label="结束时间"
-                                        width="150">
+                                        label="结束时间">
                                 </el-table-column>
                                 <el-table-column
                                         prop="ratio1"
-                                        label="指导教师评分比例(%)"
-                                        width="150">
+                                        label="导师评分比例(%)">
                                 </el-table-column>
                                 <el-table-column
                                         prop="ratio2"
-                                        label="小组教师评分比例(%)"
-                                        width="150">
+                                        label="小组评分比例(%)">
                                 </el-table-column>
                                 <el-table-column
                                         prop="type"
-                                        label="类型"
-                                        width="120">
+                                        label="类型">
                                 </el-table-column>
                                 <el-table-column
                                         prop="groups.name"
-                                        label="评分小组"
-                                        width="120">
+                                        label="评分小组">
                                 </el-table-column>
                                 <el-table-column
                                         prop="groups.ratingTime"
-                                        label="答辩时间"
-                                        width="120">
+                                        label="答辩时间">
                                 </el-table-column>
                                 <el-table-column
                                         prop="groups.place"
-                                        label="地点"
-                                        width="150">
+                                        label="地点">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="rating.teacherRating"
+                                        label="导师评分">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="rating.groupsRating"
+                                        label="小组评分">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="rating.totalRating"
+                                        label="总分">
                                 </el-table-column>
                                     <el-table-column
                                             fixed="right"
                                             label="操作"
                                             min-width="120">
                                         <template slot-scope="scope">
-                                            <el-button type="text" size="small" @click="ratingInfo(scope.row.id)">评价信息</el-button>
+                                            <el-button type="text" size="small" @click="ratingInfo(scope.row.id)" :loading="ratingLoading">评价信息</el-button>
                                     </el-table-column>
                                 </template>
                             </el-table>
@@ -104,12 +105,37 @@
                 <div class="container">
                     <div class="copyright">
                         <p>
-                            <a href="/">首页</a> > 答辩安排列表
+                            <a href="/">首页</a> > 答辩列表
                         </p>
                     </div>
                 </div>
             </div>
         </div>
+
+        <el-dialog
+                title="评价情况"
+                :visible.sync="ratingDialog"
+                width="60%">
+            <el-table
+                    :data="projectRatingList"
+                    style="width: 100%">
+                <el-table-column
+                        prop="gmtCreate"
+                        label="时间">
+                </el-table-column>
+                <el-table-column
+                        prop="score"
+                        label="评分">
+                </el-table-column>
+                <el-table-column
+                        prop="remark"
+                        label="点评">
+                </el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+                      <el-button type="primary" @click="ratingDialog = false">关闭</el-button>
+                </span>
+        </el-dialog>
     </div>
 
     <script>
@@ -129,6 +155,10 @@
                     groupsList:[],
                     teacherId:0,
                     loading:false,
+                    projectId:0,
+                    ratingLoading:false,
+                    ratingDialog:false,
+                    projectRatingList:[]
                 }
             },
             mounted: function () {
@@ -148,6 +178,7 @@
                                 self.activity = result.data.activity;
                                 self.teacherId = result.data.teacherId;
                                 self.groupsList = result.data.groupsList;
+                                self.projectId = result.data.projectId;
                                 for (var i=0; i<self.answerList.length; i++) {
                                     self.answerList[i].startTime = self.getDate(self.answerList[i].startTime);
                                     self.answerList[i].endTime = self.getDate(self.answerList[i].endTime);
@@ -159,71 +190,47 @@
                                             break;
                                         }
                                     }
+                                    var info = {};
+                                    var groupsNumTotal = 0;
+                                    var groupsScoreTotal = 0;
+                                    var teacherRatio = self.answerList[i].ratio1 / 100;
+                                    var groupsRatio = self.answerList[i].ratio2 / 100;
+                                    for (var j=0; j<self.ratingList.length; j++) {
+                                        if (self.ratingList[j].answerId == self.answerList[i].id && self.ratingList[j].teacherId == self.teacherId){
+                                            //项目的指导教师评分
+                                            info.teacherRating = self.ratingList[j].score;
+                                            continue;
+                                        }
+                                        if (self.ratingList[j].answerId == self.answerList[i].id && self.ratingList[j].projectId == self.projectId){
+                                            groupsNumTotal ++;
+                                            groupsScoreTotal += self.ratingList[j].score;
+                                        }
+                                    }
+                                    info.groupsRating = groupsScoreTotal / groupsNumTotal;
+                                    info.totalRating = info.teacherRating * teacherRatio + info.groupsRating * groupsRatio;
+                                    self.answerList[i].rating = info;
                                 }
                                 self.loading = false;
                             }
-                        }else {
+                        } else {
                             self.$message({showClose: true, message: result.msg, type: 'error'});
                             self.loading = false;
                         }
                     });
                 },
-                answerArrangeDelete:function (id) {
-                    var self = this;
-                    this.$confirm('此操作将永久删除该答辩安排, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(function () {
-                        Api.post("/answerArrange/delete",{id:id},function (result) {
-                            if (result.code == 0) {
-                                for (var i=0; i<self.list.length; i++) {
-                                    if (self.list[i].id == id) {
-                                        self.list.splice(i, 1);
-                                    }
-                                }
-                                self.$message({showClose: true, message: "删除成功", type: 'success'});
-                            } else {
-                                self.$message({showClose: true, message: result.msg, type: 'error'});
-                            }
-                        });
-
-                    }).catch(function () {
-                        this.$message({type: 'info', message: '已取消删除'});
-                    });
-                },
-                edit:function (id) {
-                    var self = this;
-                    if (id == 0) {
-                        this.answerArrange = {id:0,name:'',activityId:activityId,startTime:'',endTime:'',ratio1:0,ratio2:0,type:'1'};
-                    } else {
-                        for (var i=0; i<this.list.length; i++) {
-                            if (this.list[i].id == id) {
-                                this.answerArrange = JSON.parse(JSON.stringify(this.list[i]));
-                                this.answerArrange.type = this.answerArrange.type == '正式'?'2':'1';
-                            }
+                ratingInfo:function () {
+                    this.ratingLoading = true;
+                    this.projectRatingList = [];
+                    for (var i=0; i<this.ratingList.length; i++) {
+                        if (this.projectId == this.ratingList[i].projectId) {
+                            this.projectRatingList.push(JSON.parse(JSON.stringify(this.ratingList[i])));
                         }
                     }
-                    this.editFlag = true;
-                    return true;
-                },
-                saveAnswerArrange:function () {
-                    var self = this;
-                    Api.post("/answerArrange/save",self.answerArrange,function (result) {
-                        if (result.code == 0) {
-                            self.$message({showClose: true, message: "保存成功", type: 'success'});
-                            self.loadAnswerArrangeList();
-                            self.editFlag = false;
-                        } else {
-                            self.$message({showClose: true, message: result.msg, type: 'error'});
-                        }
-                    });
-                },
-                handleRatio1Change:function (ratio1) {
-                    this.answerArrange.ratio2 = 100 - ratio1;
-                },
-                openGroups:function (id) {
-                    window.location.href = '/answerArrange/groups?activityId='+activityId+'&answerId=' + id;
+                    for (var i=0; i<this.projectRatingList.length; i++) {
+                        this.projectRatingList[i].gmtCreate = this.getDate2(this.projectRatingList[i].gmtCreate);
+                    }
+                    this.ratingDialog = true;
+                    this.ratingLoading = false;
                 },
                 getDate:function (dateTime) {
                     if (dateTime.trim() != '') {

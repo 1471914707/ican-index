@@ -9,6 +9,7 @@ import org.apache.catalina.LifecycleState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -25,9 +26,17 @@ public class ProjectWebService {
             int schoolId = projectList.get(0).getSchoolId();
             //关联学院,因为学院不多，所以全拿出来
             List<College> collegeList = Constant.ServiceFacade.getCollegeService().list(null, schoolId, null, 1, 1000);
+            Set<String> collegeSet = new HashSet<>();
             Map collegeMap = new HashMap();
             for (College college : collegeList) {
-                collegeMap.put(college.getId(), college);
+                collegeSet.add(college.getId() + "");
+            }
+            String collegeIds = String.join(",", collegeSet);
+            if (!StringUtils.isEmpty(collegeIds)) {
+                List<UserInfo> collegeInfoList = Constant.ServiceFacade.getUserInfoService().list(collegeIds, null, null, UserInfoService.USER_COLLEGE, null, 1, 1000);
+                for (UserInfo userInfo : collegeInfoList) {
+                    collegeMap.put(userInfo.getId(), userInfo);
+                }
             }
             //关联教师
             Set<String> teacherSet = new HashSet<>();
@@ -106,8 +115,8 @@ public class ProjectWebService {
                 ProjectVO projectVO = new ProjectVO();
                 projectVO.setProject(project);
                 projectVO.setId(project.getId());
-                projectVO.setCollegeId(((College) collegeMap.get(project.getCollegeId())).getId());
-                projectVO.setCollegeName(((College) collegeMap.get(project.getCollegeId())).getName());
+                projectVO.setCollegeId(((UserInfo) collegeMap.get(project.getCollegeId())).getId());
+                projectVO.setCollegeName(((UserInfo) collegeMap.get(project.getCollegeId())).getName());
                 projectVO.setDepartmentId(((Department) departmentMap.get(project.getDepartmentId())).getId());
                 projectVO.setDepartmentName(((Department) departmentMap.get(project.getDepartmentId())).getName());
                 projectVO.setMajorId(((Major) majorMap.get(project.getMajorId())).getId());

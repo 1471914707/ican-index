@@ -22,4 +22,6 @@ public interface RatingService {
 
     int count(String ids, int answerId, int groupsId, int projectId, int teacherId) throws icanServiceException;
 
+    List<Rating> list(String groupsIds) throws icanServiceException;
+
 }

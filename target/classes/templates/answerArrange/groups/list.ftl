@@ -40,7 +40,7 @@
 
                         <template v-if="!loading">
                             <div class="panel panel-widget">
-                                <el-button type="text" v-if="role==4" @click="edit();index1=-1">新增</el-button><br>
+                                <el-button type="text" v-if="role==4" @click="edit();index1=-1">新增</el-button>
                             <template v-for="(item, index) in list">
                                 <el-row>
                                     <el-col :span="5" class="col-border">

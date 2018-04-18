@@ -7,6 +7,7 @@ import com.ican.service.RatingService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,5 +73,13 @@ public class RatingServiceImpl implements RatingService {
         param.put("groupsId", groupsId);
         param.put("projectId", projectId);
         return Constant.DaoFacade.getRatingDao().count(param);
+    }
+
+    @Override
+    public List<Rating> list(String groupsIds) throws icanServiceException {
+        if (StringUtils.isEmpty(groupsIds)) {
+            return new ArrayList<>();
+        }
+        return Constant.DaoFacade.getRatingDao().listByGroupsId(groupsIds);
     }
 }

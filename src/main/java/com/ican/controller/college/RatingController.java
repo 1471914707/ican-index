@@ -11,6 +11,7 @@ import com.ican.vo.ProjectVO;
 import com.ican.vo.RatingVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.tomcat.util.bcel.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,21 +25,87 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.concurrent.locks.Condition;
+import java.util.regex.Pattern;
 
 @Api("评价")
 @Controller
-@RequestMapping("/rating")
+@RequestMapping("/college/rating")
 public class RatingController {
     private final static Logger logger = LoggerFactory.getLogger(RatingController.class);
 
     @RequestMapping(value = {"", "/", "/list"}, method = RequestMethod.GET)
     public String index(@RequestParam("activityId") int activityId,
+                        @RequestParam("answerId") int answerId,
                         HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("answerId", answerId);
         request.setAttribute("activityId", activityId);
-        return "/rating/list";
+        return "college/rating/list";
     }
 
     @ApiOperation("获取评分列表")
+    @RequestMapping(value = "/listJson", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult listJson(@RequestParam(value = "page", defaultValue = "1") int page,
+                               @RequestParam(value = "size", defaultValue = "20") int size,
+                               @RequestParam(value = "activityId", defaultValue = "0") int activityId,
+                               @RequestParam(value = "answerId", defaultValue = "0") int answerId,
+                               HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (activityId <= 0 || answerId <= 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
+            AnswerArrange answerArrange = Constant.ServiceFacade.getAnswerArrangeService().select(answerId);
+            if (activity == null || answerArrange == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            List<Groups> groupsList = Constant.ServiceFacade.getGroupsService().list(null, answerId, 0, null, page, size);
+            List<Rating> ratingList = new ArrayList<>();
+            List<ProjectVO> projectVOList = new ArrayList<>();
+            Set<String> groupsSet = new HashSet<>();
+            Set<String> projectSet = new HashSet<>();
+            for (Groups groups : groupsList) {
+                groupsSet.add(groups.getId() + "");
+                String[] projectArray = groups.getProjectIds().split(",");
+                for (String string : projectArray) {
+                    if (!("").equals(string.trim())) {
+                        projectSet.add(string + "");
+                    }
+                }
+            }
+            String groupsIds = String.join(",", groupsSet);
+            if (!StringUtils.isEmpty(groupsIds)) {
+                ratingList = Constant.ServiceFacade.getRatingService().list(groupsIds);
+            }
+            String projectIds = String.join(",", projectSet);
+            if (!StringUtils.isEmpty(projectIds)) {
+                List<Project> projectList = Constant.ServiceFacade.getProjectService().list(projectIds, 0, 0, 0, 0, 0,
+                        0, 0, 0, null, 0, null, 1, projectSet.size());
+                projectVOList = Constant.ServiceFacade.getProjectWebService().projectVOList(projectList);
+            }
+            int total = Constant.ServiceFacade.getProjectService().count(null, activityId, 0, 0, 0, 0, 0, 0,
+                    0, null, 0);
+
+            Map data = new HashMap();
+            data.put("activity", activity);
+            data.put("answerArrange", answerArrange);
+            data.put("ratingList", ratingList);
+            data.put("projectList", projectVOList);
+            data.put("total", total);
+            BaseResultUtil.setSuccess(result, data);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取评分列表异常", e);
+            return result;
+        }
+    }
+
+
+  /*  @ApiOperation("获取评分列表")
     @RequestMapping(value = "/listJson", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult listJson(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -158,14 +225,14 @@ public class RatingController {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }
-           /* List<GroupsTeacher> groupsTeacherList = Constant.ServiceFacade.getGroupsTeacherService().list(null, groups.getActivityId(), teacherId, id, null, 1, 10);
+           *//* List<GroupsTeacher> groupsTeacherList = Constant.ServiceFacade.getGroupsTeacherService().list(null, groups.getActivityId(), teacherId, id, null, 1, 10);
             if (groupsTeacherList != null && groupsTeacherList.size() > 0) {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
-            }*/
+            }*//*
             GroupsTeacher groupsTeacher = new GroupsTeacher();
-            /*groupsTeacher.setActivityIds(groups.getActivityId());
-            groupsTeacher.setGroupId(id);*/
+            *//*groupsTeacher.setActivityIds(groups.getActivityId());
+            groupsTeacher.setGroupId(id);*//*
             groupsTeacher.setTeacherId(teacherId);
             Constant.ServiceFacade.getGroupsTeacherService().save(groupsTeacher);
             BaseResultUtil.setSuccess(result, groups);
@@ -205,6 +272,37 @@ public class RatingController {
         } catch (Exception e) {
             logger.error("评分组增加教师异常", e);
             return result;
+        }
+    }*/
+
+    public static void mainx(String[] args) {
+        String[] strs = {"a11", "a12", "b10", "b001", "b004", "A00006","009","10","100003", "A00001", "A00005", "A00002", "B11"};
+        List list = Arrays.asList(strs);
+        Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (pattern.matcher(o1).matches() && pattern.matcher(o2).matches()) {
+                    if (o1.length() != o2.length()) {
+                        return o1.length() - o2.length();
+                    }
+                    int i1 = Integer.valueOf(o1);
+                    int i2 = Integer.valueOf(o2);
+                    return i1 - i2;
+                }
+                if (o1.substring(0, 1).toLowerCase().toCharArray()[0] != o2.substring(0, 1).toLowerCase().toCharArray()[0]) {
+                    return o1.substring(0, 1).toLowerCase().toCharArray()[0] - o2.substring(0, 1).toLowerCase().toCharArray()[0];
+                } else if (o1.length() == o2.length()){
+                    int i1 = Integer.valueOf(o1.substring(1,o1.length()));
+                    int i2 = Integer.valueOf(o2.substring(1,o2.length()));
+                    return i1 - i2;
+                } else {
+                    return o2.length() - o2.length();
+                }
+            }
+        });
+        for (int i=0; i<list.size(); i++) {
+            System.out.println(list.get(i) + "  ");
         }
     }
 }

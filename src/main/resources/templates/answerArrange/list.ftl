@@ -71,6 +71,7 @@
                                         label="操作"
                                         min-width="120">
                                     <template slot-scope="scope">
+                                        <el-button type="text" v-if="role==4" @click="openRating(scope.row.id)">成绩</el-button>
                                         <el-button type="text" size="small" @click="edit(scope.row.id)">编辑</el-button>
                                         <el-button type="text" size="small" @click="answerArrangeDelete(scope.row.id)">删除</el-button>
                                     </template>
@@ -258,6 +259,9 @@
                         return dateTime.split(" ")[0];
                     }
                     return '';
+                },
+                openRating:function (id) {
+                    window.open("/college/rating?activityId=" + activityId  + "&answerId=" + id);
                 }
             }
         });

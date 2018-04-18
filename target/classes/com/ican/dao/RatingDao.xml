@@ -41,6 +41,10 @@
         limit #{start},#{size}
     </select>
 
+    <select id="listByGroupsId" resultType="com.ican.domain.Rating">
+        select * from rating where groups_id in (${groupsIds})
+    </select>
+
     <insert id="insert" parameterType="com.ican.domain.Rating" useGeneratedKeys="true" keyProperty="id">
         insert into rating (answer_id,groups_id,project_id,teacher_id,score,remark,gmt_create,gmt_modified)
         values (#{answerId},#{groupsId},#{projectId},#{teacherId},#{score},#{remark},now(),now())

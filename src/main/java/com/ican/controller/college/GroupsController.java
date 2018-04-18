@@ -571,6 +571,7 @@ public class GroupsController {
             data.put("activity", activity);
             data.put("teacherId", teacherId);
             data.put("groupsList", groupsList);
+            data.put("projectId", projectList.get(0).getId());
             BaseResultUtil.setSuccess(result, data);
             return result;
         } catch (Exception e) {
