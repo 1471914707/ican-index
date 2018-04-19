@@ -2,6 +2,7 @@ package com.ican.service;
 
 import com.ican.exception.icanServiceException;
 import com.ican.domain.Student;
+import com.ican.to.StudentTO;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public interface StudentService {
     int update(Student student) throws icanServiceException;
 
     int save(Student student) throws icanServiceException;
+
+    int save(StudentTO studentTO) throws icanServiceException;
 
     List<Student> list(String ids, int schoolId, int collegeId, int departmentId,
                        int clazzId, int teacherId, int current, String jobId,

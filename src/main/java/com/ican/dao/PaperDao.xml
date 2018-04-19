@@ -20,7 +20,7 @@
             <if test="_parameter.containsKey('schoolId') and schoolId > 0">
                 and school_id = #{schoolId}
             </if>
-            <if test="_parameter.containsKey('status') and schoolId > 0">
+            <if test="_parameter.containsKey('status') and status > 0">
                 and status = #{status}
             </if>
             <if test="_parameter.containsKey('collegeId') and collegeId > 0">

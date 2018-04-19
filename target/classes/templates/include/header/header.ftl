@@ -21,10 +21,9 @@
                 <h2>注册</h2>
               </span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item><a href="/register/school">学校注册</a></el-dropdown-item>
-                        <el-dropdown-item><a href="/login?role=4">学院注册</a></el-dropdown-item>
-                        <el-dropdown-item><a href="/login?role=5">导师注册</a></el-dropdown-item>
-                        <el-dropdown-item><a href="/login?role=6">学生注册</a></el-dropdown-item>
+                        <el-dropdown-item><a href="/register/schoolRegister">学校注册</a></el-dropdown-item>
+                        <el-dropdown-item><a href="/register/teacherRegister">导师注册</a></el-dropdown-item>
+                        <el-dropdown-item><a href="/register/studentRegister">学生注册</a></el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>

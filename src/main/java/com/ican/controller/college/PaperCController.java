@@ -180,7 +180,7 @@ public class PaperCController {
         try {
             College college = Constant.ServiceFacade.getCollegeService().select(self.getId());
             Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
-            if (activity == null || activity.getUserId() != college.getSchoolId()) {
+            if (activity == null || activity.getUserId() != college.getId()) {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }

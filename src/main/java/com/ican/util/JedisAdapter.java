@@ -206,6 +206,11 @@ public class JedisAdapter {
         jedisAdapter.set("林嘉瑜", "hello");
     }
 
+    public static void main(String[] args) {
+        JedisAdapter jedisAdapter = new JedisAdapter();
+        System.out.println(jedisAdapter.get("jfie"));
+    }
+
     private static Jedis jedis = null;
     private static JedisPool pool = null;
 

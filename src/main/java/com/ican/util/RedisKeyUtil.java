@@ -7,6 +7,11 @@ public class RedisKeyUtil {
     private static String BIZ_EVENT = "EVENT";
     private static String USER_ID_KEY = "USER_ID_KEY";
     private static String SCHOOL_DAY_LOGIN = "SCHOOL_DAY_LOGIN";
+    private static String EMAIL_VER = "EMAIL_VER";
+
+    public static String getEmailVer(String email) {
+        return EMAIL_VER + SPLIT + email;
+    }
 
     public static String getEventQueueKey() {
         return BIZ_EVENT;

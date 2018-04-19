@@ -1,16 +1,14 @@
 package com.ican.interceptor;
 
 import com.ican.config.Constant;
-import com.ican.domain.*;
+import com.ican.domain.Teacher;
+import com.ican.domain.UserInfo;
 import com.ican.service.UserInfoService;
 import com.ican.util.IcanUtil;
 import com.ican.util.JedisAdapter;
-import com.ican.vo.CollegeVO;
-import com.ican.vo.SchoolVO;
 import com.ican.vo.TeacherVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -18,13 +16,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-public class TeacherInterceptor extends HandlerInterceptorAdapter {
-    private final Logger logger = LoggerFactory.getLogger(TeacherInterceptor.class);
+public class AdminInterceptor extends HandlerInterceptorAdapter {
+    private final Logger logger = LoggerFactory.getLogger(AdminInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -37,20 +31,16 @@ public class TeacherInterceptor extends HandlerInterceptorAdapter {
                     if (userId != null && userId.length() > 0) {
                         int id = Integer.valueOf(userId);
                         UserInfo userInfo = Constant.ServiceFacade.getUserInfoService().select(id);
-                        if (userInfo == null || userInfo.getRole() != UserInfoService.USER_TEACHER) {
-                            response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_TEACHER);
+                        if (userInfo == null || userInfo.getRole() != UserInfoService.USER_ADMIN) {
+                            response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_ADMIN);
                             return false;
                         }
-                        UserInfo teacherInfo = Constant.ServiceFacade.getUserInfoService().select(id);
-                        Teacher teacher = Constant.ServiceFacade.getTeacherService().select(id);
-                        TeacherVO teacherVO = new TeacherVO(teacher, teacherInfo);
-
-                        request.setAttribute("teacher", teacherVO);
+                        request.setAttribute("admin", userInfo);
                         return true;
                     }
                 }
             }
-            response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_TEACHER);
+            response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_ADMIN);
         } catch (IOException iox) {
             logger.error("iox" + iox);
             return false;

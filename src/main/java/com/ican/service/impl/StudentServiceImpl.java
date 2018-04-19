@@ -4,7 +4,9 @@ import com.ican.config.Constant;
 import com.ican.exception.icanServiceException;
 import com.ican.domain.Student;
 import com.ican.service.StudentService;
+import com.ican.to.StudentTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -49,9 +51,26 @@ public class StudentServiceImpl implements StudentService {
         return student.getId();
     }
 
+    @Transactional
+    @Override
+    public int save(StudentTO studentTO) throws icanServiceException {
+        int id = Constant.ServiceFacade.getUserInfoService().save(studentTO.toUserInfo());
+        if (studentTO.getId() <= 0) {
+            Student student = studentTO.toStudent();
+            student.setId(id);
+            if (StringUtils.isEmpty(student.getJobId())) {
+                student.setJobId("");
+            }
+            Constant.ServiceFacade.getStudentService().insert(student);
+        } else {
+            Constant.ServiceFacade.getStudentService().update(studentTO.toStudent());
+        }
+        return id;
+    }
+
     @Override
     public List<Student> list(String ids, int schoolId, int collegeId, int departmentId,
-                              int clazzId, int teacherId, int current, String jobId,
+                              int clazzId, int studentId, int current, String jobId,
                               String order, int page, int size) throws icanServiceException {
         Map params = new HashMap();
         params.put("ids", ids);
@@ -59,7 +78,7 @@ public class StudentServiceImpl implements StudentService {
         params.put("collegeId", collegeId);
         params.put("departmentId", departmentId);
         params.put("clazzId", clazzId);
-        params.put("teacherId", teacherId);
+        params.put("studentId", studentId);
         params.put("current", current);
         params.put("jobId", jobId);
         params.put("order", order);
@@ -70,14 +89,14 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public int count(String ids, int schoolId, int collegeId, int departmentId,
-                     int clazzId, int teacherId, int current, String jobId) throws icanServiceException {
+                     int clazzId, int studentId, int current, String jobId) throws icanServiceException {
         Map params = new HashMap();
         params.put("ids", ids);
         params.put("schoolId", schoolId);
         params.put("collegeId", collegeId);
         params.put("departmentId", departmentId);
         params.put("clazzId", clazzId);
-        params.put("teacherId", teacherId);
+        params.put("studentId", studentId);
         params.put("current", current);
         params.put("jobId", jobId);
         return Constant.DaoFacade.getStudentDao().count(params);

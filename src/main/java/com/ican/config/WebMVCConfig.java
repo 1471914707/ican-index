@@ -33,5 +33,8 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
         registry.addInterceptor(new StudentInterceptor())
                 .addPathPatterns("/student")
                 .addPathPatterns("/student/**");
+        registry.addInterceptor(new AdminInterceptor())
+                .addPathPatterns("/admin")
+                .addPathPatterns("/admin/**");
     }
 }

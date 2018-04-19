@@ -48,7 +48,7 @@ public class StudentInterceptor extends HandlerInterceptorAdapter {
                     }
                 }
             }
-            response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_COLLEGE);
+            response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_STUDENT);
         } catch (IOException iox) {
             logger.error("iox" + iox);
             return false;

@@ -1,10 +1,13 @@
 package com.ican.service.impl;
 
 import com.ican.config.Constant;
+import com.ican.domain.School;
 import com.ican.exception.icanServiceException;
 import com.ican.domain.Teacher;
 import com.ican.service.TeacherService;
+import com.ican.to.TeacherTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -50,6 +53,26 @@ public class TeacherServiceImpl implements TeacherService {
             insert(teacher);
         }
         return teacher.getId();
+    }
+
+    @Transactional
+    @Override
+    public int save(TeacherTO teacherTO) throws icanServiceException {
+        int id = Constant.ServiceFacade.getUserInfoService().save(teacherTO.toUserInfo());
+        if (teacherTO.getId() <= 0) {
+            Teacher teacher = teacherTO.toTeacher();
+            teacher.setId(id);
+            if (StringUtils.isEmpty(teacher.getJobId())) {
+                teacher.setJobId("");
+            }
+            if (StringUtils.isEmpty(teacher.getDegreeName())) {
+                teacher.setDegreeName("");
+            }
+            Constant.ServiceFacade.getTeacherService().insert(teacher);
+        } else {
+            Constant.ServiceFacade.getTeacherService().update(teacherTO.toTeacher());
+        }
+        return id;
     }
 
     @Override
