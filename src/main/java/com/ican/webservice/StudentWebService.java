@@ -102,7 +102,9 @@ public class StudentWebService {
                 studentVO.setDepartmentName(((Department) departmentMap.get(student.getDepartmentId())).getName());
                 studentVO.setMajorName(((Major) majorMap.get(student.getMajorId())).getName());
                 studentVO.setClazzName(((Clazz) clazzMap.get(student.getClazzId())).getName());
-                studentVO.setTeacherName(((UserInfo) (teacherMap.get(student.getTeacherId()))).getName());
+                if (teacherMap.get(student.getTeacherId()) != null) {
+                    studentVO.setTeacherName(((UserInfo) (teacherMap.get(student.getTeacherId()))).getName());
+                }
                 studentVOList.add(studentVO);
             }
             return studentVOList;

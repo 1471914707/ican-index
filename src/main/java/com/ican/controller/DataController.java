@@ -187,6 +187,25 @@ public class DataController {
         }
     }
 
+    @ApiOperation("获取本院的系类")
+    @RequestMapping(value = "/departmentListJson3",method = RequestMethod.GET)
+    public BaseResult departmentListJson3(HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(null, 0, self.getId(), null, 1, 1000);
+            BaseResultUtil.setSuccess(result, departmentList);
+            return result;
+        } catch (Exception e) {
+            logger.error("根据活动获取本校本院的系类列表异常", e);
+            return result;
+        }
+    }
+
     @ApiOperation("获取本系的专业")
     @RequestMapping(value = "/majorListJson",method = RequestMethod.GET)
     public BaseResult majorListJson(@RequestParam(value = "departmentId",required = false) int departmentId,
@@ -266,7 +285,7 @@ public class DataController {
             return result;
         }
         try {
-            HashMap data = Constant.ServiceFacade.getTeacherWebService().listVO(0, self.getId(), 0, null);
+            HashMap data = Constant.ServiceFacade.getTeacherWebService().listVO(0, self.getId(), 0, null, 1, 2000);
             BaseResultUtil.setSuccess(result, data);
             return result;
         } catch (Exception e) {
@@ -344,7 +363,7 @@ public class DataController {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }
-            HashMap data = Constant.ServiceFacade.getTeacherWebService().listVO(0, activity.getUserId(), 0, null);
+            HashMap data = Constant.ServiceFacade.getTeacherWebService().listVO(0, activity.getUserId(), 0, null, 1, 2000);
             List<TeacherVO> teacherVOList = (List<TeacherVO>) data.get("list");
             if (teacherVOList != null && teacherVOList.size() > 0) {
 

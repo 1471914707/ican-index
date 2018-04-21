@@ -1,11 +1,9 @@
 package com.ican.to;
 
-import com.ican.domain.School;
 import com.ican.domain.Student;
 import com.ican.domain.UserInfo;
 import com.ican.service.UserInfoService;
 import com.ican.util.IcanUtil;
-import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

@@ -16,7 +16,7 @@ public class TeacherWebService {
 
     private final static Logger logger = LoggerFactory.getLogger(TeacherWebService.class);
 
-    public HashMap listVO(int schoolId, int collegeId, int degree, String jobId) {
+    public HashMap listVO(int schoolId, int collegeId, int degree, String jobId, int page, int size) {
         HashMap data = new HashMap();
         if (schoolId <= 0 && collegeId <= 0) {
             return data;
@@ -47,7 +47,7 @@ public class TeacherWebService {
                 }
                 String teacherIds = String.join(",", teacherSet);
                 //查出教师列表
-                List<Teacher> teacherList = Constant.ServiceFacade.getTeacherService().list(teacherIds, 0, jobId, degree, "id desc", 1, 100);
+                List<Teacher> teacherList = Constant.ServiceFacade.getTeacherService().list(teacherIds, 0, jobId, degree, "id desc", page, size);
                 teacherTotal = Constant.ServiceFacade.getTeacherService().count(teacherIds, 0, jobId, 0);
                 Set<String> userInfoSet = new HashSet<>();
                 for (Teacher teacher : teacherList) {
@@ -55,7 +55,7 @@ public class TeacherWebService {
                 }
                 //对应的基础信息
                 String userInfoIds = String.join(",", userInfoSet);
-                List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(userInfoIds, null, null, UserInfoService.USER_TEACHER, null, 1, 100);
+                List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(userInfoIds, null, null, UserInfoService.USER_TEACHER, null, page, size);
                 Map userInfoMap = new HashMap();
                 for (UserInfo userInfo : userInfoList) {
                     userInfoMap.put(userInfo.getId(), userInfo);

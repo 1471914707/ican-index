@@ -18,8 +18,11 @@ public class TeacherVO {
     private String gmtModified;
 
     private String schoolName;
+    private int schoolId;
     private String collegeName;
+    private int collegeId;
     private String departmentName;
+    private int departmentId;
 
     public TeacherVO() {
 
@@ -38,6 +41,30 @@ public class TeacherVO {
         this.degreeName = teacher.getDegreeName();
         this.gmtCreate = userInfo.getGmtCreate();
         this.gmtModified = userInfo.getGmtModified();
+    }
+
+    public int getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(int schoolId) {
+        this.schoolId = schoolId;
+    }
+
+    public int getCollegeId() {
+        return collegeId;
+    }
+
+    public void setCollegeId(int collegeId) {
+        this.collegeId = collegeId;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getSchoolName() {

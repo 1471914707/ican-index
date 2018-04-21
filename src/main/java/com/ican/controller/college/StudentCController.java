@@ -64,7 +64,7 @@ public class StudentCController {
             List<Student> studentList = Constant.ServiceFacade.getStudentService().list(null, 0,
                     self.getId(), departmentId, clazzId, teacherId, current, jobId, "current desc,id desc", page, size);
             List<StudentVO> studentVOList = Constant.ServiceFacade.getStudentWebService().listVO(studentList);
-            int total = Constant.ServiceFacade.getStudentService().count(null, self.getId(),
+            int total = Constant.ServiceFacade.getStudentService().count(null, 0,
                     self.getId(), departmentId, clazzId, teacherId, current, jobId);
             Map data = new HashMap();
             data.put("list", studentVOList);

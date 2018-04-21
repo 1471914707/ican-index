@@ -408,7 +408,7 @@ public class GroupsController {
                 return result;
             }
             //教师数据
-            HashMap teacherData = Constant.ServiceFacade.getTeacherWebService().listVO(0, activity.getUserId(), 0, null);
+            HashMap teacherData = Constant.ServiceFacade.getTeacherWebService().listVO(0, activity.getUserId(), 0, null, 1, 2000);
             List<TeacherVO> teacherVOList = (List<TeacherVO>) teacherData.get("list");
             //学生数据
             List<Student> studentList = Constant.ServiceFacade.getStudentService().list(null, 0, activity.getUserId(), 0, 0, 0, 0, null, null, 1, 2500);
