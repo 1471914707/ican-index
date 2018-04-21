@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.security.MessageDigest;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 public class IcanUtil {
@@ -84,5 +85,30 @@ public class IcanUtil {
             logger.error("生成MD5失败", e);
             return null;
         }
+    }
+
+    //获取随机六位验证码
+    public static String getRandom() {
+        String num = "";
+        for (int i = 0 ; i < 6 ; i ++) {
+            num = num + String.valueOf((int) Math.floor(Math.random() * 9 + 1));
+        }
+        return num;
+    }
+
+    //随机获取数字和字母组成特定长度的字符串
+    public static String getStrNumRandom(Integer length) {
+        StringBuilder str = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            boolean b = random.nextBoolean();
+            if (b) { // 字符串
+                int choice = random.nextBoolean() ? 65 : 97; //取得65大写字母还是97小写字母
+                str.append((char) (choice + random.nextInt(26)));// 取得大写字母
+            } else { // 数字
+                str.append(random.nextInt(10));
+            }
+        }
+        return str.toString();
     }
 }

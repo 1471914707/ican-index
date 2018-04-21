@@ -28,7 +28,7 @@ public class PaperWebService {
                 teacherSet.add(paper.getTeacherId() + "");
             }
             String teacherIds = String.join(",", teacherSet);
-            List<Teacher> teacherList = Constant.ServiceFacade.getTeacherService().list(teacherIds, null, 0, null, 1, 100);
+            List<Teacher> teacherList = Constant.ServiceFacade.getTeacherService().list(teacherIds, 0, null, 0, null, 1, 100);
             List<UserInfo> teacherInfoList = Constant.ServiceFacade.getUserInfoService().list(teacherIds, null, null, 0, null, 1, 100);
             Map teacherInfoMap = new HashMap();
             Map teacherMap = new HashMap();

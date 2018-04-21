@@ -49,7 +49,7 @@
         </div>
         <div class="sticky-header header-section ">
             <div class="header-left">
-                <img src="${school.banner}">
+                <img src="${school.banner}" style="height: 84px;width: auto">
                 <div class="clearfix"> </div>
             </div>
             <div class="header-right" style="float: right;margin-right: 50px;">
@@ -82,8 +82,9 @@
                         <h2 style="display: inline-block">学生列表</h2>
                         <div style="float: right;display: inline-block;margin-right: 1.5%;margin-top: 1%">
                             <el-row>
-                                <el-col :span="16" style="margin-right: 15px;"><el-input v-model="jobId" placeholder="请输入学号"></el-input></el-col>
+                                <el-col :span="12" style="margin-right: 15px;"><el-input v-model="jobId" placeholder="请输入学号"></el-input></el-col>
                                 <el-col :span="4"><el-button type="success" icon="el-icon-search" @click="loadStudentList()"></el-button></el-col>
+                                <el-col :span="4"><el-button type="success" :loading="keytLoading" @click="openKeyt()">注册口令</el-button></el-col>
                             </el-row>
                         </div>
                     </div>
@@ -199,6 +200,21 @@
                 </div>
             </div>
         </div>
+
+        <template v-if="keytDialog">
+            <el-dialog
+                    title="学生注册口令"
+                    :visible.sync="keytDialog"
+                    width="30%">
+                有效时间（小时）：<el-input-number v-model="hours" :min="1" size="mini"></el-input-number>
+                <el-button type="primary" size="mini" @click="updateKeyt()">获取/更新</el-button><br><br>
+                <div>口令只有一个，请妥善使用&nbsp;&nbsp;<el-button type="danger" size="mini" @click="deleteKeyt()">删除</el-button></div>
+                <div>口令：<span style="font-weight: bolder">{{keyt.keyt}}</span></div>
+                <div>过期时间：{{keyt.time}}</div>
+                <span slot="footer" class="dialog-footer">
+                <el-button @click="keytDialog = false" @click="keytDialog = false">关 闭</el-button>
+            </span>
+            </el-dialog></template>
     </div>
 
 
@@ -233,7 +249,11 @@
                     collegeList:[],
                     departmentList:[],
                     currentList:[],
-                    clazzList:[]
+                    clazzList:[],
+                    keytDialog:false,
+                    keytLoading:false,
+                    keyt:{keyt:'',time:''},
+                    hours:1
                 }
             },
             mounted: function () {
@@ -279,6 +299,55 @@
                             self.$message({showClose: true, message: result.msg, type: 'error'});
                             self.loading = false;
                         }
+                    });
+                },
+                openKeyt:function () {
+                    var self = this;
+                    Api.post("/college/student/keyt",{},function (result) {
+                        if (result.code == 3){
+                            self.keyt.keyt = '口令已过期或还未生成';
+                            self.keytDialog = true;
+                            return false;
+                            self.keytDialog = true;
+                        } else if (result.code == 0) {
+                            self.keyt = result.data;
+                            self.keytDialog = true;
+                        } else {
+                            self.$message({showClose: true, message: result.msg, type: 'error'});
+                        }
+                    });
+                },
+                updateKeyt:function () {
+                    var self = this;
+                    Api.post("/college/student/updateKeyt",{hours:self.hours},function (result) {
+                        if (result.code == 0) {
+                            self.keyt = result.data;
+                        } else {
+                            self.$message({showClose: true, message: result.msg, type: 'error'});
+                        }
+                    });
+                },
+                deleteKeyt:function () {
+                    var self = this;
+                    if (self.keyt.time == '') {
+                        return false;
+                    }
+                    this.$confirm('此操作将永久删除该口令, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function () {
+                        Api.post("/college/student/deleteKeyt",{},function (result) {
+                            if (result.code == 0){
+                                self.$message({showClose: true, message: '删除成功', type: 'success'});
+                                self.keyt.keyt = '';
+                                self.keyt.time = '';
+                            } else {
+                                self.$message({showClose: true, message: result.msg, type: 'error'});
+                            }
+                        });
+                    }).catch(function () {
+                        this.$message({type: 'info', message: '已取消删除'});
                     });
                 },
                 getDate:function (dateTime) {

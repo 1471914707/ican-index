@@ -57,7 +57,7 @@
         </div>
         <div class="sticky-header header-section ">
             <div class="header-left">
-                <img src="${school.banner}">
+                <img src="${school.banner}" style="height: 84px;width: auto">
                 <div class="clearfix"> </div>
             </div>
             <div class="header-right" style="float: right;margin-right: 50px;">

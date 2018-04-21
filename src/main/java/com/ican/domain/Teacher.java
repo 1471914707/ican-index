@@ -6,6 +6,7 @@ package com.ican.domain;
  */
 public class Teacher {
     private int id;
+    private int schoolId;
     private String jobId;
     private int degree;
     private String degreeName;
@@ -18,6 +19,14 @@ public class Teacher {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(int schoolId) {
+        this.schoolId = schoolId;
     }
 
     public String getJobId() {

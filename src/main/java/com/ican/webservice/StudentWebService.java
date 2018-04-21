@@ -7,6 +7,7 @@ import com.ican.vo.StudentVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -45,14 +46,31 @@ public class StudentWebService {
             String majorIds = String.join(",", majorSet);
             String teacherIds = String.join(",", teacherSet);
             String clazzIds = String.join(",", clazzSet);
-            List<UserInfo> userInfoList = Constant.ServiceFacade.getUserInfoService().list(ids, null, null,
-                    UserInfoService.USER_STUDENT, null, 1, 100);
-            List<UserInfo> collegeList = Constant.ServiceFacade.getUserInfoService().list(collegeIds, null, null, 0, null, 1, 100);
-            List<UserInfo> teacherInfoList = Constant.ServiceFacade.getUserInfoService().list(teacherIds, null, null, 0, null, 1, 100);
-            List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(departmentIds, 0, 0, null, 1, 100);
-            List<Major> majorList = Constant.ServiceFacade.getMajorService().list(majorIds, 0, 0, 0, 0, null, 1, 100);
-            List<Clazz> clazzList = Constant.ServiceFacade.getClazzService().list(clazzIds, 0, 0, 0, 0, 0, null, 1, 100);
-
+            List<UserInfo> collegeList = new ArrayList<>();
+            List<UserInfo> userInfoList = new ArrayList<>();
+            List<UserInfo> teacherInfoList = new ArrayList<>();
+            List<Department> departmentList = new ArrayList<>();
+            List<Major> majorList = new ArrayList<>();
+            List<Clazz> clazzList = new ArrayList<>();
+            if (!StringUtils.isEmpty(ids)) {
+                userInfoList = Constant.ServiceFacade.getUserInfoService().list(ids, null, null,
+                        UserInfoService.USER_STUDENT, null, 1, 100);
+            }
+            if (!StringUtils.isEmpty(collegeIds)) {
+                collegeList = Constant.ServiceFacade.getUserInfoService().list(collegeIds, null, null, 0, null, 1, 100);
+            }
+            if (!StringUtils.isEmpty(teacherIds)) {
+                teacherInfoList = Constant.ServiceFacade.getUserInfoService().list(teacherIds, null, null, 0, null, 1, 100);
+            }
+            if (!StringUtils.isEmpty(departmentIds)) {
+                departmentList = Constant.ServiceFacade.getDepartmentService().list(departmentIds, 0, 0, null, 1, 100);
+            }
+            if (!StringUtils.isEmpty(majorIds)) {
+                majorList = Constant.ServiceFacade.getMajorService().list(majorIds, 0, 0, 0, 0, null, 1, 100);
+            }
+            if (!StringUtils.isEmpty(clazzIds)) {
+                clazzList = Constant.ServiceFacade.getClazzService().list(clazzIds, 0, 0, 0, 0, 0, null, 1, 100);
+            }
             Map userInfoMap = new HashMap();
             Map collegeMap = new HashMap();
             Map departmentMap = new HashMap();

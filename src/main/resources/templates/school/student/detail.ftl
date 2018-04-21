@@ -60,7 +60,7 @@
                             </el-collapse-item></a>
                             <a href="/school/college/list"><el-collapse-item title="二级学院" name="2">
                             </el-collapse-item></a>
-                            <a href="/school/student/list"><el-collapse-item title="教师情况" name="3">
+                            <a href="/school/teacher/list"><el-collapse-item title="教师情况" name="3">
                             </el-collapse-item></a>
                             <a href="/school/student/list"><el-collapse-item title="学生情况" name="4">
                             </el-collapse-item></a>
@@ -78,10 +78,10 @@
         </div>
         <div class="sticky-header header-section ">
             <div class="header-left">
-                <img src="${school.banner}">
+                <img src="${school.banner}" style="height: 84px;width: auto">
                 <div class="clearfix"> </div>
             </div>
-            <div class="header-right" style="float: right;margin-right: 50px;">
+            <div style="float: right;margin-right: 20px;">
                 <div class="profile_details" style="margin-top: 10px;">
                     <a href="/bk?id=${school.id?c}" target="_blank">
                         <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>

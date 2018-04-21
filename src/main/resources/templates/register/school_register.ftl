@@ -97,10 +97,10 @@
                           :rules="[
                           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
                           { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }]">
-                <el-input v-model="school.email" :disabled="lockEmailFlag"></el-input>
-                <div class="tips">注：本人的邮箱和账号将来会作为登录的账号</div>
+                <el-input v-model="school.email"></el-input>
+                <div class="tips">注：本人的邮箱将来会作为登录的账号</div>
             </el-form-item>
-            <#--<template v-if="!emailFlag">
+            <template v-if="!emailFlag">
                 <el-form-item label="滑块验证">
                     <div class="block">
                         <span class="demonstration">请将滑块滑动到最右完成验证</span>
@@ -110,11 +110,11 @@
             </template>
             <template v-if="emailFlag">
                 <el-form-item label="验证码">
-                    <el-input placeholder="请输入验证码" v-model="inputVerCode" class="input-with-select">
-                        <el-button slot="append" type="success" @click="getVerCode()" :disabled="verCodeBtnFlag" @change="lockEmail()">{{verCodeBtnText}}</el-button>
+                    <el-input placeholder="请输入验证码" v-model="school.code" class="input-with-select">
+                        <el-button slot="append" type="success" @click="getVerCode()" :disabled="verCodeBtnFlag">{{verCodeBtnText}}</el-button>
                     </el-input>
                 </el-form-item>
-            </template>-->
+            </template>
             <el-form-item label="密码" :rules="[
                           { required: true, message: '请输入密码', trigger: 'blur' }]">
                 <el-input v-model="school.password" type="password"></el-input>
@@ -205,7 +205,9 @@
                     province:null,
                     city:null,
                     schoolPhone:'',
-                    schoolEmail:''
+                    schoolEmail:'',
+                    password:'',
+                    code:''
                 },
                 allCityList:[],
                 countryList:[],
@@ -217,15 +219,12 @@
                 successFlag:false,
                 repeatPassword:'',
                 saveBtn:false,
-                /*sliderVal:0,
+                sliderVal:0,
                 emailFlag:false,
-                verCode:'',
                 verCodeBtnText:'请点击获取邮箱验证码',
                 verCodeBtnFlag:false,
                 timer:null,
-                count:0,
-                inputVerCode:'',
-                lockEmailFlag:false*/
+                count:0
             }
         },
         watch:{
@@ -236,10 +235,6 @@
         methods: {
             saveSchool:function () {
                 var self = this;
-                /*if (this.inputVerCode != this.verCode){
-                    self.$message({showClose: true, message: '验证码错误', type: 'error'});
-                    return false;
-                }*/
                 if (this.fileList3.length < 2 || this.fileList3.length != 2){
                     self.$message({showClose: true, message: '请上传两张认证图片', type: 'error'});
                 }
@@ -257,7 +252,7 @@
                     }
                 })
             },
-            /*getVerCode:function () {
+            getVerCode:function () {
                 var self = this;
                 var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
                 if (this.school.email.trim() == '' || !reg.test(this.school.email)){
@@ -288,10 +283,10 @@
                             if (result.data.num > 3){
                                 self.$message({showClose: true, message: result.msg, type: 'error'});
                                 this.saveBtn = true;
+                                return false;
                             }
                         }
                         self.$message({showClose: true, message: '邮箱验证码发送成功', type: 'success'});
-                        self.verCode = result.data;
                     } else {
                         self.$message({showClose: true, message: result.msg, type: 'error'});
                         self.verCodeBtnText = '请点击获取邮箱验证码';
@@ -301,16 +296,16 @@
                     }
                 });
             },
-            lockEmail:function () {
-              if (this.verCode == this.inputVerCode) {
-                  this.lockEmailFlag = true;
-              }
-            },
             checkSliderVal:function () {
               if (this.sliderVal == 100) {
+                  if (this.school.email.trim() == ''){
+                      this.$message({showClose: true, message: '邮箱尚未填写', type: 'error'});
+                      this.sliderVal = 0;
+                      return false;
+                  }
                   this.emailFlag = true;
               }
-            },*/
+            },
             checkPassword:function () {
               if (this.school.password != this.repeatPassword) {
                   this.$message({showClose: true, message: '两次输入的密码不一致', type: 'error'});

@@ -54,7 +54,7 @@
         <h1>学校申诉</h1><br>
     </div>
     <template v-if="successFlag"><h3>提交成功！您亦可主动联系客服:18813960106。</h3></template>
-    <div v-="!successFlag">
+    <div v-if="!successFlag">
         <el-form ref="form" :model="schoolAppeal" label-width="80px">
             <el-form-item label="本人姓名"
                           :rules="[

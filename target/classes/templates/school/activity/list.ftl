@@ -53,17 +53,17 @@
                 </nav>
             </div>
         </div>
-        <div class="sticky-header header-section ">
+        <div class="sticky-header header-section">
             <div class="header-left">
-                <img src="${school.banner}">
+                <img src="${school.banner}" style="height: 84px;width: auto">
                 <div class="clearfix"> </div>
             </div>
             <div style="float: right;margin-right: 20px;">
                 <div class="profile_details" style="margin-top: 10px;">
                     <a href="/bk?id=${school.id?c}" target="_blank">
-                        <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
+                        <img src="${school.headshot}" style="width: 45px;height: 45px;border-radius: 50%;margin-top: 10%"></a>
                 </div>
-                <button id="showLeftPush" style="padding-top: 30px;">
+                <button id="showLeftPush" style="padding-top: 25px;">
                     <img  src="http://cdn.ican.com/public/images/bars.png" style="max-width:18.003px;max-height:23.333px;"></button>
                 <div class="clearfix"></div>
             </div>

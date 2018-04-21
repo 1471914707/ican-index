@@ -44,6 +44,12 @@ public class StudentTO {
     @NotNull(message = "认证图片不能为空")
     private String auth2;//手持与该校的关系认证照片
 
+    @NotNull(message = "口令不能为空")
+    private String keyt;
+
+    @NotNull(message = "验证码不能为空")
+    private String code;
+
     public UserInfo toUserInfo() {
         UserInfo userInfo = new UserInfo();
         userInfo.setId(this.id);
@@ -71,6 +77,22 @@ public class StudentTO {
         student.setMajorId(this.majorId);
         student.setSchoolId(this.schoolId);
         return student;
+    }
+
+    public String getKeyt() {
+        return keyt;
+    }
+
+    public void setKeyt(String keyt) {
+        this.keyt = keyt;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public int getId() {

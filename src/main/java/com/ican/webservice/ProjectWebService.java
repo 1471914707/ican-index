@@ -67,15 +67,36 @@ public class ProjectWebService {
             String paperIds = String.join(",", paperSet);
             String clazzIds = String.join(",", clazzSet);
 
-            List<UserInfo> teacherInfoList = Constant.ServiceFacade.getUserInfoService().list(teacherIds, null, null,
-                    UserInfoService.USER_TEACHER, null, 1, 100);
-            List<Teacher> teacherList = Constant.ServiceFacade.getTeacherService().list(teacherIds, null, 0, null, 1, 100);
-            List<Department> departmentList = Constant.ServiceFacade.getDepartmentService().list(departmentIds, schoolId, 0, null, 1, 100);
-            List<Major> majorList = Constant.ServiceFacade.getMajorService().list(majorIds, 0, 0, 0, 0, null, 1, 100);
-            List<UserInfo> studentInfoList = Constant.ServiceFacade.getUserInfoService().list(studentIds, null, null, 0, null, 1, 100);
-            List<Student> studentList = Constant.ServiceFacade.getStudentService().list(studentIds, 0, 0, 0, 0, 0, 0, null, null, 1, 100);
-            List<Paper> paperList = Constant.ServiceFacade.getPaperService().list(paperIds, 0, 0, 0, 0, 0, 0, null, 0,null, 1, 100);
-            List<Clazz> clazzList = Constant.ServiceFacade.getClazzService().list(clazzIds, 0, 0, 0, 0, 0, null, 1, 100);
+            List<UserInfo> teacherInfoList = new ArrayList<>();
+            List<Teacher> teacherList = new ArrayList<>();
+            List<Department> departmentList = new ArrayList<>();
+            List<Major> majorList = new ArrayList<>();
+            List<UserInfo> studentInfoList = new ArrayList<>();
+            List<Student> studentList = new ArrayList<>();
+            List<Paper> paperList = new ArrayList<>();
+            List<Clazz> clazzList = new ArrayList<>();
+
+            if (!StringUtils.isEmpty(teacherIds)) {
+                teacherInfoList = Constant.ServiceFacade.getUserInfoService().list(teacherIds, null, null,
+                        UserInfoService.USER_TEACHER, null, 1, 100);
+                teacherList = Constant.ServiceFacade.getTeacherService().list(teacherIds, 0, null, 0, null, 1, 100);
+            }
+            if (!StringUtils.isEmpty(departmentIds)) {
+                departmentList = Constant.ServiceFacade.getDepartmentService().list(departmentIds, schoolId, 0, null, 1, 100);
+            }
+            if (!StringUtils.isEmpty(majorIds)) {
+                majorList = Constant.ServiceFacade.getMajorService().list(majorIds, 0, 0, 0, 0, null, 1, 100);
+            }
+            if (!StringUtils.isEmpty(studentIds)) {
+                studentInfoList = Constant.ServiceFacade.getUserInfoService().list(studentIds, null, null, 0, null, 1, 100);
+                studentList = Constant.ServiceFacade.getStudentService().list(studentIds, 0, 0, 0, 0, 0, 0, null, null, 1, 100);
+            }
+            if (!StringUtils.isEmpty(paperIds)) {
+                paperList = Constant.ServiceFacade.getPaperService().list(paperIds, 0, 0, 0, 0, 0, 0, null, 0, null, 1, 100);
+            }
+            if (!StringUtils.isEmpty(clazzIds)) {
+                clazzList = Constant.ServiceFacade.getClazzService().list(clazzIds, 0, 0, 0, 0, 0, null, 1, 100);
+            }
 
             Map teacherInfoMap = new HashMap();
             Map teacherMap = new HashMap();

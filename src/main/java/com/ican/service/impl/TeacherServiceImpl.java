@@ -1,6 +1,7 @@
 package com.ican.service.impl;
 
 import com.ican.config.Constant;
+import com.ican.domain.DepartmentTeacher;
 import com.ican.domain.School;
 import com.ican.exception.icanServiceException;
 import com.ican.domain.Teacher;
@@ -72,14 +73,21 @@ public class TeacherServiceImpl implements TeacherService {
         } else {
             Constant.ServiceFacade.getTeacherService().update(teacherTO.toTeacher());
         }
+        if (teacherTO.getDepartmentId() > 0) {
+            DepartmentTeacher departmentTeacher = new DepartmentTeacher();
+            departmentTeacher.setTeacherId(id);
+            departmentTeacher.setDepartmentId(teacherTO.getDepartmentId());
+            Constant.ServiceFacade.getDepartmentTeacherService().save(departmentTeacher);
+        }
         return id;
     }
 
     @Override
-    public List<Teacher> list(String ids, String jobId, int degree,
+    public List<Teacher> list(String ids, int schoolId, String jobId, int degree,
                               String order, int page, int size) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
+        param.put("schoolId", schoolId);
         param.put("jobId", jobId);
         param.put("degree", degree);
         param.put("order", order);
@@ -89,9 +97,10 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public int count(String ids, String jobId, int degree) throws icanServiceException {
+    public int count(String ids, int schoolId, String jobId, int degree) throws icanServiceException {
         Map param = new HashMap();
         param.put("ids", ids);
+        param.put("schoolId", schoolId);
         param.put("jobId", jobId);
         param.put("degree", degree);
         return Constant.DaoFacade.getTeacherDao().count(param);

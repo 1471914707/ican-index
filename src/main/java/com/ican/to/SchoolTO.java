@@ -42,12 +42,23 @@ public class SchoolTO {
     @NotNull(message = "认证图片不能为空")
     private String auth2;//手持与该校的关系认证照片
 
+    @NotNull(message = "验证码不能为空")
+    private String code;
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getPassword() {

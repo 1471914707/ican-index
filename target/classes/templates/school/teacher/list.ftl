@@ -24,7 +24,6 @@
 <body class="cbp-spmenu-push">
 <div class="main-content">
     <div id="app">
-        <!--left-fixed -navigation-->
         <div class="sidebar" role="navigation">
             <div class="navbar-collapse">
                 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right dev-page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cbp-spmenu-s1">
@@ -50,12 +49,12 @@
                 </nav>
             </div>
         </div>
-        <div class="sticky-header header-section ">
+        <div class="sticky-header header-section">
             <div class="header-left">
-                <img src="${school.banner}">
+                <img src="${school.banner}" style="height: 68px;width: auto">
                 <div class="clearfix"> </div>
             </div>
-            <div class="header-right" style="float: right;margin-right: 50px;">
+            <div style="float: right;margin-right: 20px;">
                 <div class="profile_details" style="margin-top: 10px;">
                     <a href="/bk?id=${school.id?c}" target="_blank">
                         <img src="${school.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 18%"></a>
@@ -74,8 +73,9 @@
                         <h2 style="display: inline-block">教师列表</h2>
                         <div style="float: right;display: inline-block;margin-right: 1.5%;margin-top: 1%">
                             <el-row>
-                                <el-col :span="16" style="margin-right: 15px;"><el-input v-model="jobId" placeholder="请输入教师证号"></el-input></el-col>
+                                <el-col :span="12" style="margin-right: 15px;"><el-input v-model="jobId" placeholder="请输入教师证号"></el-input></el-col>
                                 <el-col :span="4"><el-button type="success" icon="el-icon-search" @click="loadTeacherList()"></el-button></el-col>
+                                <el-col :span="4"><el-button type="success" :loading="keytLoading" @click="openKeyt()">注册口令</el-button></el-col>
                             </el-row>
                         </div>
                     </div>
@@ -93,9 +93,11 @@
                                             width="80">
                                     </el-table-column>
                                     <el-table-column
-                                            prop="name"
                                             label="姓名"
-                                            width="180">
+                                            width="150">
+                                        <template slot-scope="scope">
+                                            <el-button type="text" @click="openBk(scope.row.id)">{{scope.row.name}}</el-button>
+                                        </template>
                                     </el-table-column>
                                     <el-table-column
                                             prop="phone"
@@ -132,6 +134,7 @@
                                         <template slot-scope="scope">
                                             <el-button type="text" size="small" @click="detail(scope.row.id)">查看</el-button>
                                             <el-button type="text" size="small" @click="openMessageWindow(scope.row.id)">私信</el-button>
+                                            <el-button type="text" size="small" @click="deleteTeacher(scope.row.id)">删除</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -172,6 +175,21 @@
                 </div>
             </div>
         </div>
+
+        <template v-if="keytDialog">
+        <el-dialog
+                title="教师注册口令"
+                :visible.sync="keytDialog"
+                width="30%">
+            有效时间（小时）：<el-input-number v-model="hours" :min="1" size="mini"></el-input-number>
+            <el-button type="primary" size="mini" @click="updateKeyt()">获取/更新</el-button><br><br>
+            <div>口令只有一个，请妥善使用&nbsp;&nbsp;<el-button type="danger" size="mini" @click="deleteKeyt()">删除</el-button></div>
+            <div>口令：<span style="font-weight: bolder">{{keyt.keyt}}</span></div>
+            <div>过期时间：{{keyt.time}}</div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="keytDialog = false" @click="keytDialog = false">关 闭</el-button>
+            </span>
+        </el-dialog></template>
     </div>
 
 
@@ -187,7 +205,11 @@
                     list: [],
                     loading:false,
                     degree:0,
-                    jobId:''
+                    jobId:'',
+                    keytDialog:false,
+                    keytLoading:false,
+                    keyt:{keyt:'',time:''},
+                    hours:1
                 }
             },
             mounted: function () {
@@ -214,7 +236,7 @@
                                 self.total = result.data.total;
                                 for (var i=0; i<self.list.length; i++) {
                                     self.list[i].gmtCreate = self.getDate(self.list[i].gmtCreate);
-                                    self.list[i].degreeName = self.getDegreeName(self.list[i].degree,self.list.degreeName);
+                                    self.list[i].degreeName = self.getDegreeName(self.list[i].degree,self.list[i].degreeName);
                                 }
                                 self.loading = false;
                             }
@@ -222,6 +244,70 @@
                             self.$message({showClose: true, message: result.msg, type: 'error'});
                             self.loading = false;
                         }
+                    });
+                },
+                deleteTeacher:function (id) {
+                  var self = this;
+                  Api.post("/school/deleteTeacher",{id:id},function (result) {
+                      if (result.code == 0) {
+                          for (var i=0 ; i<self.list.length; i++) {
+                              if (id == self.list[i].id){
+                                  self.list.splice(i, 1);
+                                  break;
+                              }
+                          }
+                      } else {
+                          self.$message({showClose: true, message: result.msg, type: 'error'});
+                      }
+                  });
+                },
+                openKeyt:function () {
+                  var self = this;
+                  Api.post("/school/teacher/keyt",{},function (result) {
+                      if (result.code == 3){
+                          self.keyt.keyt = '口令已过期或还未生成';
+                          self.keytDialog = true;
+                          return false;
+                          self.keytDialog = true;
+                      } else if (result.code == 0) {
+                          self.keyt = result.data;
+                          self.keytDialog = true;
+                      } else {
+                          self.$message({showClose: true, message: result.msg, type: 'error'});
+                      }
+                  });
+                },
+                updateKeyt:function () {
+                  var self = this;
+                  Api.post("/school/teacher/updateKeyt",{hours:self.hours},function (result) {
+                     if (result.code == 0) {
+                         self.keyt = result.data;
+                     } else {
+                         self.$message({showClose: true, message: result.msg, type: 'error'});
+                     }
+                  });
+                },
+                deleteKeyt:function () {
+                    var self = this;
+                    if (self.keyt.time == '') {
+                        return false;
+                    }
+                    this.$confirm('此操作将永久删除该口令, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function () {
+                        Api.post("/school/teacher/deleteKeyt",{},function (result) {
+                            if (result.code == 0){
+                                self.$message({showClose: true, message: '删除成功', type: 'success'});
+                                self.keyt.keyt = '';
+                                self.keyt.time = '';
+                            } else {
+                                self.$message({showClose: true, message: result.msg, type: 'error'});
+                            }
+                        });
+                    }).catch(function () {
+                        this.$message({type: 'info', message: '已取消删除'});
                     });
                 },
                 openMessageWindow:function (toId) {
@@ -253,6 +339,9 @@
                 filterHandler:function (value, row, column) {
                     this.degree = value;
                     this.loadTeacherList();
+                },
+                openBk:function (id) {
+                    window.open('/bk?id=' + id);
                 },
                 handleSizeChange:function (size) {
                     this.size = size;

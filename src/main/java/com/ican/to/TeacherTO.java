@@ -1,5 +1,6 @@
 package com.ican.to;
 
+import com.ican.domain.DepartmentTeacher;
 import com.ican.domain.Student;
 import com.ican.domain.Teacher;
 import com.ican.domain.UserInfo;
@@ -20,20 +21,31 @@ public class TeacherTO {
     private String phone;
     @NotNull(message = "邮箱不能为空")
     private String email;
+    @Min(value = 1,message = "所在学校未知")
     private int schoolId;
+  //  @Min(value = 1,message = "所在二级学院为必选")
     private int collegeId;
-    @Min(value = 1,message = "所在系为必选")
+  //  @Min(value = 1,message = "所在系为必选")
     private int departmentId;
     @NotNull(message = "教师证编号不能为空")
     private String jobId;
     @NotNull(message = "密码不能为空")
     private String password;
+    @NotNull(message = "职称不能为空")
+    private int degree;
+    private String degreeName;
 
     //认证照片
     @NotNull(message = "认证图片不能为空")
     private String auth1;//手持身份认证
     @NotNull(message = "认证图片不能为空")
     private String auth2;//手持与该校的关系认证照片
+
+    @NotNull(message = "口令不能为空")
+    private String keyt;
+
+    @NotNull(message = "验证码不能为空")
+    private String code;
 
     public UserInfo toUserInfo() {
         UserInfo userInfo = new UserInfo();
@@ -53,11 +65,29 @@ public class TeacherTO {
 
     public Teacher toTeacher() {
         Teacher teacher = new Teacher();
+        teacher.setSchoolId(this.schoolId);
         teacher.setId(this.id);
         teacher.setJobId(this.jobId);
+        teacher.setDegreeName(this.degreeName);
+        teacher.setDegree(this.degree);
         return teacher;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getKeyt() {
+        return keyt;
+    }
+
+    public void setKeyt(String keyt) {
+        this.keyt = keyt;
+    }
 
     public int getId() {
         return id;
@@ -105,6 +135,22 @@ public class TeacherTO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getDegree() {
+        return degree;
+    }
+
+    public void setDegree(int degree) {
+        this.degree = degree;
+    }
+
+    public String getDegreeName() {
+        return degreeName;
+    }
+
+    public void setDegreeName(String degreeName) {
+        this.degreeName = degreeName;
     }
 
     public String getEmail() {

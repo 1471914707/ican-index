@@ -57,7 +57,7 @@
                     </template>
                         <span style="margin-right: 3%;" v-if="userId==item.fromId">{{item.toUser.name}}</span>
                         <span style="margin-right: 3%;" v-if="userId==item.toId">{{item.fromUser.name}}</span>
-                        <span style="margin-right: 3%;font-weight: bolder">{{item.content}}</span>
+                        <span style="margin-right: 3%;font-weight: bolder">{{item.content.length>45?item.content.substring(0,45):item.content}}</span>
                         <span>{{item.gmtCreate}}</span>
                     </div>
                     <br>

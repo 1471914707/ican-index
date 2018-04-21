@@ -53,7 +53,7 @@
                     <img src="${bk.headshot}"
                          alt="${bk.name}的头像" class="img_avatar">
                 </el-col>
-                <el-col :span="17" style="line-height: 23px;">
+                <el-col :span="17" style="line-height: 20x;">
                     <div style="float:right;">
                         <img src="http://cdn.ican.com/public/images/blogAdd.png" style="width: 28px;height: 28px;cursor: pointer" @click="addVisible=true"></div>
                     <h1 class="display_name">${bk.name}</h1>
