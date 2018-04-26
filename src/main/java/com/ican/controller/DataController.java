@@ -68,6 +68,38 @@ public class DataController {
         }
     }
 
+    @ApiOperation(value = "上传图片", notes = "")
+    @ResponseBody
+    @RequestMapping(value = "/docUpload", method = RequestMethod.POST)
+    public BaseResult docUpload(@RequestParam("file") MultipartFile file,
+                                HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        try {
+            String time = DateUtil.getCurrentYM();
+            if (!file.isEmpty()) {
+                File normalFile = new File(file.getOriginalFilename());
+                String ext = normalFile.getName().substring(normalFile.getName().lastIndexOf(".") + 1);
+                String filename = IcanUtil.getStrNumRandom(32) + System.currentTimeMillis() + "." + ext;
+                String filePath = baseConfig.getBaseDocPath() + "/" + time;
+                File path = new File(filePath);
+                if (!path.exists()) {
+                    path.mkdirs();
+                }
+                String dist = filePath + "/" + filename;
+                String url = baseConfig.getBaseDocUrl() + time + "/" + filename;
+                File localFile = new File(dist);
+                FileUtil.writIn(file.getInputStream(), dist);
+                BaseResultUtil.setSuccess(result, url);
+                return result;
+            }
+            return result;
+        } catch (Exception e) {
+            logger.error("上传图片异常： ", e);
+            e.printStackTrace();
+            return result;
+        }
+    }
+
     @ApiOperation("获取所有国家省份城市数据接口")
     @RequestMapping(value = "/allCityJson", method = RequestMethod.GET)
     public BaseResult allCityJson() {

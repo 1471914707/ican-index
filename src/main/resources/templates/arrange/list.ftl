@@ -145,9 +145,9 @@
                     </el-table>
                 </template><br>
                 <el-upload
-                        action="/photoUpload"
+                        action="/docUpload"
                         :show-file-list="false"
-                        :on-success="photoUploadSuccess">
+                        :on-success="docUploadSuccess">
                     <el-button size="small" type="primary">点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">文件大小不能超过20mb</div>
                 </el-upload>
@@ -324,7 +324,7 @@
                         this.$message({type: 'info', message: '已取消删除'});
                     });
                 },
-                photoUploadSuccess:function (result, file, fileList) {
+                docUploadSuccess:function (result, file, fileList) {
                     var self = this;
                     if (result.code == 0){
                         Api.post("/file/arrange/save",{

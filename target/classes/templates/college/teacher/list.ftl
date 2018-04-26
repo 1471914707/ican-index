@@ -362,6 +362,7 @@
                             self.$message({showClose: true, message: '关联成功', type: 'success'});
                             self.selectedTeacher = {id: 0, name: ''};
                             self.selectedDepartment = {id: 0, name: ''};
+                            self.addTeacherFlag = false;
                         } else {
                             self.$message({showClose: true, message: result.msg, type: 'error'});
                         }

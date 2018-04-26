@@ -17,9 +17,6 @@
             <if test="_parameter.containsKey('collegeId') and collegeId > 0">
                 and college_id = #{collegeId}
             </if>
-            <if test="_parameter.containsKey('teacherId') and teacherId > 0">
-                and teacher_id = #{teacherId}
-            </if>
         </where>
     </sql>
 

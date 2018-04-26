@@ -39,9 +39,11 @@
                             </el-collapse-item></a>
                             <a href="/college/student/list" target="_blank"><el-collapse-item title="学生情况" name="4">
                             </el-collapse-item></a>
-                            <a href="/college/major/list" target="_blank"><el-collapse-item title="专业审核人设置" name="5">
+                            <a href="/college/department/list" target="_blank"><el-collapse-item title="系部-专业-班级设置" name="5">
                             </el-collapse-item></a>
-                            <a href="/message/my" target="_blank"><el-collapse-item title="我的私信" name="6">
+                            <a href="/college/major/list" target="_blank"><el-collapse-item title="专业审核人设置" name="6">
+                            </el-collapse-item></a>
+                            <a href="/message/my" target="_blank"><el-collapse-item title="我的私信" name="7">
                             </el-collapse-item></a>
                             <el-collapse-item title="个人设置" name="7">
                                 <div style="color: #409EFF;cursor: pointer">

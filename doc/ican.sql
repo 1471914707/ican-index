@@ -403,7 +403,7 @@ CREATE TABLE `file` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` int(11) UNSIGNED NOT NULL COMMENT '保存人id',
   `target_id` int(11) UNSIGNED NOT NULL COMMENT '针对的东西id',
-  `type` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '类型（0-未知,1-活动,2-文件上传安排,3-博客,4-学校,5-二级学院,6-导师,7-学生,8-课题,9-task,,10-聊天文件）',
+  `type` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '类型（0-未知,1-活动,2-文件上传安排,3-博客,4-学校,5-二级学院,6-导师,7-学生,8-课题,9-task,10-聊天文件）',
   `name` varchar(300) NOT NULL COMMENT '名称',
   `url` varchar(500) NOT NULL COMMENT '保存路径',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',

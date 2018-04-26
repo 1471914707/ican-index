@@ -207,7 +207,6 @@
                                    for (var j=0; j<self.list.length; j++) {
                                        if (self.list[j].teacherId == self.teacherList[i].id) {
                                            self.list[j].teacherId = self.teacherList[i].name;
-                                           break;
                                        }
                                    }
                                 }

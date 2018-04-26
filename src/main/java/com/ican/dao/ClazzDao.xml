@@ -14,6 +14,9 @@
             <if test="_parameter.containsKey('collegeId') and collegeId != 0">
                 and college_id =#{collegeId}
             </if>
+            <if test="_parameter.containsKey('majorId') and majorId != 0">
+                and major_id =#{majorId}
+            </if>
             <if test="_parameter.containsKey('current') and current != 0">
                 and current =#{current}
             </if>
@@ -39,8 +42,8 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.Clazz" useGeneratedKeys="true" keyProperty="id">
-        insert into clazz (school_id,college_id,department_id,current,name,amount,gmt_create,gmt_modified)
-        values (#{schoolId},#{collegeId},#{departmentId},#{current},#{name},#{amount},now(),now())
+        insert into clazz (school_id,college_id,department_id,major_id,current,name,amount,gmt_create,gmt_modified)
+        values (#{schoolId},#{collegeId},#{departmentId},#{majorId},#{current},#{name},#{amount},now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.Clazz">
@@ -60,6 +63,9 @@
             </if>
             <if test="name != null">
                 name = #{name},
+            </if>
+            <if test="majorId != 0">
+                major_id = #{majorId},
             </if>
             <if test="amount != 0">
                 amount = #{amount},

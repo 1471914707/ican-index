@@ -38,7 +38,6 @@ public class AnswerArrangeCController {
         return "answerArrange/list";
     }
 
-
     @ApiOperation("学生打开答辩安排见面看到的数据")
     @RequestMapping(value = "/student", method = RequestMethod.GET)
     public String studentRating(@RequestParam(value = "activityId") int activityId,

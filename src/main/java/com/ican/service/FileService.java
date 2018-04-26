@@ -10,14 +10,22 @@ public interface FileService {
     //文件类型定义
     int FILE_TYPE_ACTIVITY = 1;
     int FILE_TYPE_ARRANGE = 2;
-    int FILE_TYPE_BLOG = 3;
+    int FILE_TYPE_COLLEGE = 3;
+    int FILE_TYPE_COLLEGE_TO_TEACHER = 4;
+    int FILE_TYPE_COLLEGE_TO_STUDENT = 5;
+    int FILE_TYPE_TEACHER = 6;
+    int FILE_TYPE_TEACHER_STUDENT = 7;
+    int FILE_TYPE_STUDENT = 8;
+    int FILE_TYPE_STUDENT_TEACHER = 9;
+
+/*    int FILE_TYPE_BLOG = 3;
     int FILE_TYPE_SCHOOL = 4;
     int FILE_TYPE_COLLEGE = 5;
     int FILE_TYPE_TEACHER = 6;
     int FILE_TYPE_STUDENT = 7;
     int FOLLOW_TYPE_PAPER = 8;
     int FOLLOW_TYPE_TASK = 9;
-    int FOLLOW_TYPE_MESSAGE = 10;
+    int FOLLOW_TYPE_MESSAGE = 10;*/
 
     //基础方法
     int insert(File file) throws icanServiceException;

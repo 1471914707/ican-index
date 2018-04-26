@@ -28,22 +28,31 @@
             <h2 style="margin-left: 3%;">{{activity.name}}--共享文件列表</h2>
             <div class="clearfix"> </div>
         </div>
-        <div id="page-wrapper">
+
+        <div id="page-wrapper" style="width: 90%">
             <div class="main-page">
                 <div class="grids">
                     <div class="progressbar-heading grids-heading">
                         <template v-if="userInfo.role == 4">
                         <el-upload
                                 class="upload-demo"
-                                action="/photoUpload"
+                                action="/docUpload"
                                 :show-file-list="false"
-                                :on-success="photoUploadSuccess">
+                                :on-success="docUploadSuccess">
                             <el-button size="small" type="primary">点击上传</el-button>
                             <div slot="tip" class="el-upload__tip">文件大小不能超过20mb</div>
                         </el-upload>
                             <br />
                         </template>
-                    </div>
+                        <template>
+                            <el-radio v-model="radio" label="1">全部</el-radio>
+                            <el-radio v-model="radio" label="2">活动共享</el-radio>
+                            <el-radio v-model="radio" label="3">个人</el-radio>
+                            <el-radio v-model="radio" label="4">教师可见</el-radio>
+                            <el-radio v-model="radio" label="5">学生可见</el-radio>
+                        </template>
+
+                    </div><br>
                     <div class="panel panel-widget">
                         <template v-if="!loading">
                             <el-table
@@ -143,7 +152,8 @@
                     activity:{},
                     userInfo:{},
                     fileUrlDialog:false,
-                    fileUrl:''
+                    fileUrl:'',
+                    radio:'1'
                 }
             },
             mounted: function () {
@@ -177,7 +187,7 @@
                         }
                     });
                 },
-                photoUploadSuccess:function (result, file, fileList) {
+                docUploadSuccess:function (result, file, fileList) {
                     var self = this;
                     if (result.code == 0){
                         Api.post("/file/save",{
