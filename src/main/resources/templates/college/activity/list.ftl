@@ -133,7 +133,7 @@
                                         <el-button type="text" size="small" @click="fileArrange(scope.row.id)">共享文档</el-button>
                                         <el-button type="text" size="small" @click="arrange(scope.row.id)">流程设置</el-button>
                                         <el-button type="text" size="small" @click="rating(scope.row.id)">评审答辩</el-button>
-                                        <el-button type="text" size="small" @click="project(scope.row.id)">统计情况</el-button>
+                                        <el-button type="text" size="small" @click="counts(scope.row.id)">统计情况</el-button>
                                         <el-button type="text" size="small" @click="edit(scope.row.id)">编辑</el-button>
                                         <el-button type="text" size="small" @click="activityDelete(scope.row.id)">删除</el-button>
                                     </template>
@@ -344,6 +344,9 @@
                 },
                 rating:function (id) {
                     window.open('/answerArrange/list?activityId=' + id);
+                },
+                counts:function (id) {
+                    window.open('/counts/list?activityId=' + id);
                 },
                 handleSizeChange:function (size) {
                     this.size = size;

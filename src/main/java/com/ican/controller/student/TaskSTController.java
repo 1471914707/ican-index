@@ -1,5 +1,8 @@
 package com.ican.controller.student;
 
+import com.ican.async.EventModel;
+import com.ican.async.EventProducer;
+import com.ican.async.EventType;
 import com.ican.config.Constant;
 import com.ican.domain.*;
 import com.ican.service.UserInfoService;
@@ -47,6 +50,7 @@ public class TaskSTController {
                 return "/";
             }
             request.setAttribute("project", project);
+            request.setAttribute("activityId", project.getActivityId());
             request.setAttribute("student", student);
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,7 +89,6 @@ public class TaskSTController {
     public BaseResult listJson2(@RequestParam(value = "page", defaultValue = "1") int page,
                                 @RequestParam(value = "size", defaultValue = "20") int size,
                                 @RequestParam(value = "projectId",required = true) int projectId,
-                                @RequestParam(value = "status",required = false) int status,
                                 HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo self = Ums.getUser(request);
@@ -93,8 +96,8 @@ public class TaskSTController {
             List<Task> taskList = new ArrayList<>();
             int total = 0;
             taskList = Constant.ServiceFacade.getTaskService().list(null, 0, 0, 0,
-                    projectId, status,"start_time desc", page, size);
-            total = Constant.ServiceFacade.getTaskService().count(null, 0, 0, 0, projectId,status);
+                    projectId, 0,"start_time desc", page, size);
+            total = Constant.ServiceFacade.getTaskService().count(null, 0, 0, 0, projectId,0);
             Map data = new HashMap();
             data.put("list", taskList);
             data.put("total", total);
@@ -174,7 +177,7 @@ public class TaskSTController {
         }
     }
 
-    @ApiOperation("学生保存任务")
+    @ApiOperation("保存任务")
     @RequestMapping(value = "/student/save", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult save(Task task,
@@ -192,12 +195,12 @@ public class TaskSTController {
                 return result;
             }
             List<Project> projectList = Constant.ServiceFacade.getProjectService().list(null, task.getActivityId(), 0, 0,
-                    0, 0, 0, 0, self.getId(), null, 0, "id desc", 1, 1);
+                    0, 0, 0, 0, task.getExecutorId(), null, 0, "id desc", 1, 1);
             if (projectList == null || projectList.size() <= 0) {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }
-            task.setExecutorId(self.getId());
+            //task.setExecutorId(self.getId());
             task.setOwnerId(self.getId());
             Constant.ServiceFacade.getTaskService().save(task);
             Project project = projectList.get(0);
@@ -217,6 +220,9 @@ public class TaskSTController {
             if (complete == 0) {
                 complete = project.getComplete();
             }
+            if (self.getRole() == UserInfoService.USER_TEACHER) {
+                new EventProducer().fireEvent(new EventModel().setType(EventType.PROJECT_ADD).setEntityOwnerId(self.getId()).setActorId(task.getExecutorId()).setEntityId(task.getId()));
+            }
             BaseResultUtil.setSuccess(result, (int) complete);
             return result;
         } catch (Exception e) {
@@ -224,7 +230,6 @@ public class TaskSTController {
             return result;
         }
     }
-
 
     /*@ApiOperation("学生保存任务")
     @RequestMapping(value = "/student/save", method = RequestMethod.POST)

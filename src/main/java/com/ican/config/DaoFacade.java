@@ -91,6 +91,17 @@ public class DaoFacade {
     @Autowired
     private RatingDao ratingDao;
 
+    @Autowired
+    private CountsDao countsDao;
+
+    public CountsDao getCountsDao() {
+        return countsDao;
+    }
+
+    public void setCountsDao(CountsDao countsDao) {
+        this.countsDao = countsDao;
+    }
+
     public AnswerArrangeDao getAnswerArrangeDao() {
         return answerArrangeDao;
     }

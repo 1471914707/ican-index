@@ -33,23 +33,25 @@
             <div class="main-page">
                 <div class="grids">
                     <div class="progressbar-heading grids-heading">
-                        <template v-if="userInfo.role == 4">
-                        <el-upload
-                                class="upload-demo"
-                                action="/docUpload"
-                                :show-file-list="false"
-                                :on-success="docUploadSuccess">
-                            <el-button size="small" type="primary">点击上传</el-button>
-                            <div slot="tip" class="el-upload__tip">文件大小不能超过20mb</div>
-                        </el-upload>
-                            <br />
-                        </template>
+                        <el-button size="small" type="primary" @click="chooseFileType=userInfo.role=='4'?'1':(userInfo.role==5?'6':'8');fileUploadFlag=true;">上传文件</el-button><br><br>
                         <template>
-                            <el-radio v-model="radio" label="1">全部</el-radio>
-                            <el-radio v-model="radio" label="2">活动共享</el-radio>
-                            <el-radio v-model="radio" label="3">个人</el-radio>
-                            <el-radio v-model="radio" label="4">教师可见</el-radio>
-                            <el-radio v-model="radio" label="5">学生可见</el-radio>
+                            <el-radio v-model="fileType" label="1">活动共享</el-radio>
+                            <template v-if="userInfo.role == 4">
+                                <el-radio v-model="fileType" label="3">个人</el-radio>
+                                <el-radio v-model="fileType" label="4">教师可见</el-radio>
+                                <el-radio v-model="fileType" label="5">学生可见</el-radio>
+                            </template>
+                            <template v-if="userInfo.role == 5">
+                                <el-radio v-model="fileType" label="6">个人</el-radio>
+                                <el-radio v-model="fileType" label="4">学院下发</el-radio>
+                                <el-radio v-model="fileType" label="7">学生可见</el-radio>
+                            </template>
+                            <template v-if="userInfo.role == 6">
+                                <el-radio v-model="fileType" label="8">个人</el-radio>
+                                <el-radio v-model="fileType" label="5">学院下发</el-radio>
+                                <el-radio v-model="fileType" label="7">教师下发</el-radio>
+                                <el-radio v-model="fileType" label="9">教师可见</el-radio>
+                            </template>
                         </template>
 
                     </div><br>
@@ -84,6 +86,12 @@
                                         <template v-if="userInfo.role == 4">
                                             <el-button type="text" size="small" @click="fileDelete(scope.row.id)">删除</el-button>
                                         </template>
+                                        <template v-if="userInfo.role == 5 && (fileType==6||fileType==7)">
+                                            <el-button type="text" size="small" @click="fileDelete(scope.row.id)">删除</el-button>
+                                        </template>
+                                        <template v-if="userInfo.role == 6 && fileType==8">
+                                            <el-button type="text" size="small" @click="fileDelete(scope.row.id)">删除</el-button>
+                                        </template>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -116,6 +124,41 @@
               </span>
             </el-dialog>
 
+            <el-dialog
+                    title="文件上传"
+                    :visible.sync="fileUploadFlag"
+                    width="50%">
+                <span>文件类型:</span>
+                <template>
+                    <template v-if="userInfo.role == 4">
+                        <el-radio v-model="chooseFileType" label="1">活动共享</el-radio>
+                        <el-radio v-model="chooseFileType" label="3">个人</el-radio>
+                        <el-radio v-model="chooseFileType" label="4">教师可见</el-radio>
+                        <el-radio v-model="chooseFileType" label="5">学生可见</el-radio>
+                    </template>
+                    <template v-if="userInfo.role == 5">
+                        <el-radio v-model="chooseFileType" label="6">个人</el-radio>
+                        <el-radio v-model="chooseFileType" label="7">学生可见</el-radio>
+                    </template>
+                    <template v-if="userInfo.role == 6">
+                        <el-radio v-model="chooseFileType" label="8">个人</el-radio>
+                        <el-radio v-model="chooseFileType" label="9">教师可见</el-radio>
+                    </template>
+                </template>
+                <template>
+                    <el-upload
+                            class="upload-demo"
+                            action="/docUpload"
+                            :show-file-list="false"
+                            :on-success="docUploadSuccess">
+                        <el-button size="small" type="primary">点击上传</el-button>
+                        <div slot="tip" class="el-upload__tip">文件大小不能超过20mb</div>
+                    </el-upload>
+                </template>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="fileUploadFlag = false">取 消</el-button>
+                </span>
+            </el-dialog>
 
         </div>
 
@@ -153,8 +196,15 @@
                     userInfo:{},
                     fileUrlDialog:false,
                     fileUrl:'',
-                    radio:'1'
+                    fileType:'1',
+                    chooseFileType:1,
+                    fileUploadFlag:false
                 }
+            },
+            watch:{
+              fileType:function () {
+                  this.loadFileList();
+              }
             },
             mounted: function () {
                 this.loadFileList();
@@ -167,6 +217,7 @@
                     var size = size || this.size || 20;
                     Api.get('/file/listJson',{
                         activityId:activityId,
+                        type:self.fileType,
                         page:page,
                         size:size
                     },function (result) {
@@ -193,11 +244,13 @@
                         Api.post("/file/save",{
                             activityId:activityId,
                             name:file.name,
-                            url:result.data
+                            url:result.data,
+                            type:self.chooseFileType
                         },function (data) {
                            if (data.code == 0) {
                                self.loadFileList(1,20);
                                self.$message({showClose: true, message: '保存成功', type: 'success'});
+                               self.fileUploadFlag = false;
                            } else {
                                self.$message({showClose: true, message: '保存失败', type: 'error'});
                            }

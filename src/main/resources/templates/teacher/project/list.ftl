@@ -7,20 +7,8 @@
     <meta name="keywords" content="毕业设计平台" />
 <#include '/include/cssjs_common_new.ftl'>
     <style>
-        ul{
-            list-style-type:none;
-        }
-        .el-carousel__mask, .el-cascader-menu, .el-cascader-menu__item.is-disabled:hover, .el-collapse-item__header, .el-collapse-item__wrap{
-            background-color: #2a2f43;
-            color: #fff;
-            font-weight: 600;
-            padding-left: 5%;
-        }
-        .el-form-item__label{
-            font-weight: bolder;
-        }
-        .el-form-item{
-            width:33%;
+        .el-button+.el-button {
+             margin-left: 0px !important;
         }
     </style>
 </head>
@@ -155,7 +143,9 @@
                                         <template slot-scope="scope">
                                             <el-button type="text" size="small" @click="followFun(scope.row.project.id);" v-if="followType=='2'">专业审核</el-button>
                                             <el-button type="text" size="small" @click="followFun(scope.row.project.id);" v-if="followType!='2'">审核</el-button>
-                                            <el-button type="text" size="small" @click="checkTask(scope.row.project.id,scope.row.project.studentId);" v-if="followType!='2'">进度</el-button>
+                                            <el-button type="text" size="small" @click="checkTask(scope.row.project.id,scope.row.project.studentId);" v-if="followType!='2'">计划进度</el-button>
+                                            <el-button type="text" size="small" @click="checkArrangeTask(scope.row.project.id,scope.row.project.studentId);" v-if="followType!='2'">过程文档</el-button>
+                                            <el-button type="text" size="small" @click="checkRating(scope.row.project.id,scope.row.project.studentId);" v-if="followType!='2'">成绩情况</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>

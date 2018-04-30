@@ -25,4 +25,8 @@ public interface ActivityService {
     List<Activity> list(String userIds, String order, int page, int size) throws icanServiceException;
 
     int count(String userIds) throws icanServiceException;
+
+    List<Activity> listByDate(String date, String order, int page, int size) throws icanServiceException;
+
+    int countByDate(String date) throws icanServiceException;
 }

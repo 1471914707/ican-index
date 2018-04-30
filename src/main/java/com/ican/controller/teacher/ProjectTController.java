@@ -59,25 +59,25 @@ public class ProjectTController {
             List<Project> projectList = new ArrayList<>();
             int total = 0;
             Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
-            if (activity == null || activity.getUserId() != collegeId) {
+            if (activity == null) {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }
-            if (type == 1) {
-                List<Major> majorList = Constant.ServiceFacade.getMajorService().list(null, 0, collegeId, 0, self.getId(), null, 1, 10);
+            if (type == 2) {
+                List<Major> majorList = Constant.ServiceFacade.getMajorService().list(null, 0, activity.getUserId(), 0, self.getId(), null, 1, 10);
                 Set<String> majorSet = new HashSet<>();
                 for (Major major : majorList) {
                     majorSet.add(major.getId() + "");
                 }
                 String majorIds = String.join(",", majorSet);
                 if (!StringUtils.isEmpty(majorIds)) {
-                    projectList = Constant.ServiceFacade.getProjectService().list(majorIds, activityId, collegeId, self.getId(), status, "id desc", page, size);
-                    total = Constant.ServiceFacade.getProjectService().count(majorIds, activityId, collegeId, self.getId(), status);
+                    projectList = Constant.ServiceFacade.getProjectService().list(majorIds, activityId, activity.getUserId(), self.getId(), status, "id desc", page, size);
+                    total = Constant.ServiceFacade.getProjectService().count(majorIds, activityId, activity.getUserId(), self.getId(), status);
                 }
             } else {
-                projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, 0, 0, collegeId, 0,
+                projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, 0, 0, activity.getUserId(), 0,
                         0, self.getId(), 0, null, status, "id desc", page, size);
-                total = Constant.ServiceFacade.getProjectService().count(null, activityId, 0, 0, 0, 0,
+                total = Constant.ServiceFacade.getProjectService().count(null, activityId, 0, 0, activity.getUserId(), 0,
                         0, self.getId(), 0, null,status);
             }
 

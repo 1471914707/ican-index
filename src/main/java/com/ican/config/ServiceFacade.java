@@ -96,6 +96,8 @@ public class ServiceFacade {
     @Autowired
     private AnswerArrangeService answerArrangeService;
 
+    @Autowired
+    private CountsService countsService;
 
 
     @Autowired
@@ -109,6 +111,14 @@ public class ServiceFacade {
 
     @Autowired
     private TeacherWebService teacherWebService;
+
+    public CountsService getCountsService() {
+        return countsService;
+    }
+
+    public void setCountsService(CountsService countsService) {
+        this.countsService = countsService;
+    }
 
     public AnswerArrangeService getAnswerArrangeService() {
         return answerArrangeService;

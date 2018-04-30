@@ -542,5 +542,16 @@ CREATE TABLE `rating` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评分';
 /*指导评分模块 end*/
 
-/*统计分析模块*/
+/*统计分析模块,一个表就够了，其他的不同的用json保存*/
+DROP TABLE IF EXISTS `counts`;
+CREATE TABLE `counts` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `activity_id` int(11) UNSIGNED NOT NULL COMMENT '哪次活动的记录',
+  `type` tinyint(2) UNSIGNED NOT NULL default '0' COMMENT '类型（0-初始化,1-进度)',
+  `content` TEXT NOT NULL COMMENT '内容Json',
+  `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
+  `gmt_modified` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_activity_id` (`activity_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='统计表';
 /*统计分析模块 end*/

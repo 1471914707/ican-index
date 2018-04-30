@@ -22,8 +22,8 @@
 <div class="main-content">
     <div id="app">
         <div class="sticky-header header-section ">
-            <h2 style="display: inline-block;line-height: 68px;margin-left: 3%;">毕业设计（论文）平台--教师工作台</h2>
-            <div class="header-right" style="float: right;margin-right: 50px;line-height: 68px;">
+            <h2 style="display: inline-block;line-height: 68px;margin-left: 3%;">学生列表</h2>
+            <#--<div class="header-right" style="float: right;margin-right: 50px;line-height: 68px;">
                 <el-row>
                     <el-col :xs="0" :sm="4" :md="6" :lg="6" :xl="8">
                         <div style="width: 1px;height: 1px;"></div>
@@ -39,15 +39,15 @@
                         <a href="/logout">退出</a>
                     </el-col>
                 </el-row>
-            </div>
+            </div>-->
         </div>
-        <div id="page-wrapper">
+        <div id="page-wrapper" style="width: 90%">
             <div class="main-page">
                 <!--grids-->
                 <div class="grids">
-                    <div class="progressbar-heading grids-heading">
-                        <h2 style="display: inline-block">学生列表</h2>
-                    </div>
+                  <#--  <div class="progressbar-heading grids-heading">
+                        <h2 style="display: inline-block"></h2>
+                    </div>-->
                     <el-row v-if="!loading">
                         <div class="panel panel-widget">
                             <template v-if="!loading">

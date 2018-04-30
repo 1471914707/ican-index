@@ -57,7 +57,9 @@
                                 style="width: 100%">
                             <el-table-column type="expand">
                                 <template slot-scope="props">
-                                    {{props.row.content}}
+                                    <div style="background:#eff;min-height: 25px;padding: 1em 1em;border-radius: 5px;">
+                                        {{props.row.content}}
+                                    </div>
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -244,7 +246,7 @@
                                 self.oldStatusList.push({status: self.list[i].status});
                                 self.list[i].titleShow = self.list[i].title;
                                 if (self.list[i].status == 3){
-                                    self.list[i].titleShow = "<del>" + self.list[i].title + "</del>";
+                                    self.list[i].titleShow = "<span style=\"color:green\"><del>" + self.list[i].title + "</del></span>";
                                 }
                             }
                         }else {
@@ -333,10 +335,11 @@
                             self.$message({showClose: true, message: '更改成功', type: 'success'});
                             self.oldStatusList[j] = self.list[j].status;
                             self.complete = result.data;
-                            if (status1 == 3){
+                            self.loadTaskList();
+                            /*if (status1 == 3){
                                 for (var i=0; i<self.list.length; i++) {
                                     if (self.list[i].id == taskId){
-                                        self.list[i].titleShow = "<del>" + self.list[i].title + "</del>";
+                                        self.list[i].titleShow = "<span style=\"color:green\"><del>" + self.list[i].title + "</del></span>";
                                         break;
                                     }
                                 }
@@ -347,7 +350,7 @@
                                         break;
                                     }
                                 }
-                            }
+                            }*/
                         } else {
                             self.$message({showClose: true, message: '保存失败', type: 'error'});
                             self.list[j].status = self.oldStatusList[j];

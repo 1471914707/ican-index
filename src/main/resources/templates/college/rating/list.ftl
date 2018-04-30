@@ -11,12 +11,15 @@
             border: solid #000000 1px;
             min-height:30px;
             text-align: center;
+            line-height: 30px;
         }
         .col-border-title{
             border: solid #000000 1px;
             line-height:35px;
             text-align: center;
             font-weight: bolder;
+            background: #409EFF;
+            color: white;
         }
         .col-div{
             text-align: left;

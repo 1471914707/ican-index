@@ -44,13 +44,14 @@ public class FileCController {
     @ResponseBody
     public BaseResult listJson(@RequestParam(value = "page", defaultValue = "1") int page,
                                @RequestParam(value = "size", defaultValue = "20") int size,
-                               @RequestParam("activityId") int activityId,
+                               @RequestParam(value = "type", required = true) int type,
+                               @RequestParam(value = "activityId", required = true) int activityId,
                                HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         UserInfo self = Ums.getUser(request);
         try {
-            List<File> fileList = Constant.ServiceFacade.getFileService().list(null, 0, activityId, FileService.FILE_TYPE_ACTIVITY, "id desc", page, size);
-            int total = Constant.ServiceFacade.getFileService().count(null, 0, activityId, FileService.FILE_TYPE_ACTIVITY);
+            List<File> fileList = Constant.ServiceFacade.getFileService().list(null, 0, activityId, type, "id desc", page, size);
+            int total = Constant.ServiceFacade.getFileService().count(null, 0, activityId, type);
             Map data = new HashMap<>();
             Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
             data.put("list", fileList);
@@ -65,12 +66,13 @@ public class FileCController {
         }
     }
 
-    @ApiOperation("二级学院保存文档")
+    @ApiOperation("二级学院等保存文档")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult save(@RequestParam(value = "activityId", required = true) int activityId,
                            @RequestParam(value = "name", required = true) String name,
                            @RequestParam(value = "url", required = true) String url,
+                           @RequestParam(value = "type", required = true) int type,
                            HttpServletRequest request, HttpServletResponse response) {
         BaseResult result = BaseResultUtil.initResult();
         if (activityId <= 0 || StringUtils.isEmpty(name) || StringUtils.isEmpty(url)) {
@@ -83,7 +85,7 @@ public class FileCController {
             file.setUrl(url);
             file.setName(name);
             file.setTargetId(activityId);
-            file.setType(FileService.FILE_TYPE_ACTIVITY);
+            file.setType(type);
             file.setUserId(self.getId());
             Constant.ServiceFacade.getFileService().save(file);
             BaseResultUtil.setSuccess(result, null);

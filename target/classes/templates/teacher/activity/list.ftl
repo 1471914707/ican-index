@@ -216,11 +216,8 @@
                 arrange:function (id) {
                     window.open('/arrange/list?activityId=' + id + '&teacherId=' + teacherId);
                 },
-                majorTeacher:function (id) {
-                    window.open('/teacher/major/list?activityId=' + id);
-                },
                 fileArrange:function (id) {
-                    window.open('/answerArrange/list?activityId=' + id);
+                    window.open('/file/list?activityId=' + id);
                 },
                 rating:function (id) {
                     window.open('/answerArrange/list?activityId=' + id);

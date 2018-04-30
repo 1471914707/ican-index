@@ -96,4 +96,14 @@ public class ActivityServiceImpl implements ActivityService {
         param.put("userIds", userIds);
         return Constant.DaoFacade.getActivityDao().count(param);
     }
+
+    @Override
+    public List<Activity> listByDate(String date, String order, int page, int size) throws icanServiceException {
+        return Constant.DaoFacade.getActivityDao().listByDate(date, order, (page - 1) * size, size);
+    }
+
+    @Override
+    public int countByDate(String date) throws icanServiceException {
+        return Constant.DaoFacade.getActivityDao().countByDate(date);
+    }
 }
