@@ -4,6 +4,7 @@ package com.ican.controller.college;
 import com.ican.config.Constant;
 import com.ican.domain.Activity;
 import com.ican.domain.File;
+import com.ican.domain.Project;
 import com.ican.domain.UserInfo;
 import com.ican.service.FileService;
 import com.ican.util.BaseResult;
@@ -168,6 +169,28 @@ public class FileCController {
             return result;
         } catch (Exception e) {
             logger.error("计划性提交的文档列表异常", e);
+            return result;
+        }
+    }
+
+    @ApiOperation("查看项目计划性提交的文档列表")
+    @RequestMapping(value = "/arrange/student/listJson", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult studentListJson(@RequestParam("arrangeId") int arrangeId,
+                                      @RequestParam("studentId") int studentId,
+                                      HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        try {
+            int total = Constant.ServiceFacade.getFileService().count(null, studentId, arrangeId, FileService.FILE_TYPE_ARRANGE);
+            List<File> fileList = Constant.ServiceFacade.getFileService().list(null, studentId, arrangeId, FileService.FILE_TYPE_ARRANGE, "id desc", 1, total);
+            Map data = new HashMap<>();
+            data.put("list", fileList);
+            data.put("total", total);
+            BaseResultUtil.setSuccess(result, data);
+            return result;
+        } catch (Exception e) {
+            logger.error("查看项目计划性提交的文档列表异常", e);
             return result;
         }
     }

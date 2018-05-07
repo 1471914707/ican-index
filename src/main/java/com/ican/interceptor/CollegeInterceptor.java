@@ -33,7 +33,7 @@ public class CollegeInterceptor extends HandlerInterceptorAdapter {
                         int id = Integer.valueOf(userId);
                         UserInfo userInfo = Constant.ServiceFacade.getUserInfoService().select(id);
                         if (userInfo == null || userInfo.getRole() != UserInfoService.USER_COLLEGE) {
-                            response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_COLLEGE);
+                            response.sendRedirect(request.getContextPath()+"/");
                             return false;
                         }
                         College college = Constant.ServiceFacade.getCollegeService().select(id);

@@ -54,10 +54,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<Blog> list(String ids, int userId, String order, int page, int size) throws icanServiceException {
+    public List<Blog> list(String ids, int userId, int schoolId, String order, int page, int size) throws icanServiceException {
         Map params = new HashMap();
         params.put("ids", ids);
         params.put("userId", userId);
+        params.put("schoolId", schoolId);
         params.put("order", order);
         params.put("start", (page - 1) * size);
         params.put("size", size);
@@ -65,9 +66,10 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public int count(String ids, int userId) throws icanServiceException {
+    public int count(String ids, int userId, int schoolId) throws icanServiceException {
         Map params = new HashMap();
         params.put("ids", ids);
+        params.put("schoolId", schoolId);
         params.put("userId", userId);
         return Constant.DaoFacade.getBlogDao().count(params);
     }

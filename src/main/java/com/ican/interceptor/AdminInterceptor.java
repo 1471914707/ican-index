@@ -32,7 +32,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
                         int id = Integer.valueOf(userId);
                         UserInfo userInfo = Constant.ServiceFacade.getUserInfoService().select(id);
                         if (userInfo == null || userInfo.getRole() != UserInfoService.USER_ADMIN) {
-                            response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_ADMIN);
+                            response.sendRedirect(request.getContextPath()+"/");
                             return false;
                         }
                         request.setAttribute("admin", userInfo);

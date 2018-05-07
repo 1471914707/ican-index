@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,9 +34,15 @@ public class ArrangeCController {
     @RequestMapping(value = {"", "/", "/list"}, method = RequestMethod.GET)
     public String list(@RequestParam("activityId") String activityId,
                        @RequestParam("collegeId") String collegeId,
+                       @RequestParam(value = "projectId", required = false) String projectId,
                        HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("activityId", activityId);
         request.setAttribute("collegeId", collegeId);
+        if (!StringUtils.isEmpty(projectId)) {
+            request.setAttribute("projectId", projectId);
+        } else {
+            request.setAttribute("projectId", 0);
+        }
         return "arrange/list";
     }
 
@@ -44,6 +51,7 @@ public class ArrangeCController {
     @ResponseBody
     public BaseResult listJson(@RequestParam(value = "activityId", required = true) int activityId,
                                @RequestParam(value = "collegeId", required = true) int collegeId,
+                               @RequestParam(value = "projectId",required = false) int projectId,
                                @RequestParam(value = "page", defaultValue = "1") int page,
                                @RequestParam(value = "size", defaultValue = "100") int size,
                                HttpServletRequest request, HttpServletResponse response){
@@ -58,6 +66,13 @@ public class ArrangeCController {
             List<Arrange> arrangeList = Constant.ServiceFacade.getArrangeService().list(null, 0, activityId, "weight desc", 1, total);
             Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
             Map data = new HashMap();
+            //项目信息
+            if (projectId > 0) {
+                Project project = Constant.ServiceFacade.getProjectService().select(projectId);
+                UserInfo student = Constant.ServiceFacade.getUserInfoService().select(project.getStudentId());
+                data.put("project", project);
+                data.put("student", student);
+            }
             data.put("list", arrangeList);
             data.put("total", total);
             data.put("role", self.getRole());
@@ -190,6 +205,44 @@ public class ArrangeCController {
             return result;
         }
     }
+/*
+
+    @ApiOperation("教师查看学生过程文档等情况")
+    @RequestMapping(value = "/student", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult student(@RequestParam(value = "activityId", required = true) int activityId,
+                               @RequestParam(value = "toId", required = true) int toId,
+                               HttpServletRequest request, HttpServletResponse response){
+        UserInfo self = Ums.getUser(request);
+        BaseResult result = BaseResultUtil.initResult();
+        try {
+            if (self == null || fromId <= 0 || toId <= 0) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            Arrange fromArrange = Constant.ServiceFacade.getArrangeService().select(fromId);
+            if (fromArrange == null || fromArrange.getUserId() != self.getId()) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            Arrange toArrange = Constant.ServiceFacade.getArrangeService().select(toId);
+            if (toArrange == null || toArrange.getUserId() != self.getId()) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            int temp;
+            temp = fromArrange.getWeight();
+            fromArrange.setWeight(toArrange.getWeight());
+            toArrange.setWeight(temp);
+            Constant.ServiceFacade.getArrangeService().save(fromArrange);
+            Constant.ServiceFacade.getArrangeService().save(toArrange);
+            BaseResultUtil.setSuccess(result, null);
+            return result;
+        } catch (Exception e) {
+            logger.error("交换安排流程异常", e);
+            return result;
+        }
+    }*/
 
    /* @ApiOperation("保存文件是否需要")
     @RequestMapping(value = "/fileSave", method = RequestMethod.POST)

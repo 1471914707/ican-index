@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="毕业设计平台" />
-    <#include '/include/cssjs_common_new.ftl'>
+<#include '/include/cssjs_common_new.ftl'>
     <style>
         ul{
             list-style-type:none;
@@ -32,15 +32,15 @@
 <div class="main-content">
     <div id="app">
         <div class="sticky-header header-section " style="line-height: 68px;">
-                <h2 style="margin-left: 3%;">{{activity.name}}--{{student.name!=null?student.name+'--'+project.title+'的':''}}安排计划</h2>
-                <div class="clearfix"> </div>
+            <h2 style="margin-left: 3%;">{{activity.name}}--学生项目安排计划</h2>
+            <div class="clearfix"> </div>
         </div>
         <div id="page-wrapper" style="padding-top: 80px;">
             <div class="main-page">
-                    <template v-if="role == 4">
-                        <el-button type="success" @click="edit(0)">新增</el-button>
-                        <br /><br />
-                    </template>
+                <template v-if="role == 4">
+                    <el-button type="success" @click="edit(0)">新增</el-button>
+                    <br /><br />
+                </template>
                 <div class="grids">
                     <div class="panel panel-widget">
                         <template v-if="!loading">
@@ -56,69 +56,61 @@
                             </el-row>
                             <br />
                             <div style="background:#dddddd;width:100%;height: 1px;"></div><br />
-                                <template v-for="(item, index) in list">
-                                    <el-row>
-                                        <el-col :span="1">
-                                            <div class="el-step__icon is-text">
-                                                <div class="el-step__icon-inner">{{index+1}}</div></div>
-                                        </el-col>
-                                        <el-col :span="6" style="margin-right: 20px;">{{item.name}}</el-col>
-                                        <el-col :span="3">{{item.startTime}}</el-col>
-                                        <el-col :span="3">{{item.endTime}}</el-col>
-                                        <el-col :span="2">
-                                            <i class="el-icon-check" v-if="item.follow == 2"></i>
-                                            <div style="width: 1px;height: 1px;" v-if="item.follow != 2"></div>
-                                        </el-col>
-                                        <el-col :span="2">
-                                            <i class="el-icon-check" v-if="item.file == 2"></i>
-                                            <div style="width: 1px;height: 1px;" v-if="item.file != 2"></div>
-                                        </el-col>
-                                        <el-col :span="2">
-                                            <span v-if="item.obj == 1">教师、学生</span>
-                                            <span v-if="item.obj == 2">学生</span>
-                                            <span v-if="item.obj == 3">教师</span>
-                                            <div style="width: 1px;height: 1px;"></div>
-                                        </el-col>
-                                        <el-col :span="1" v-if="role == 4">
-                                            <i class="el-icon-arrow-up" v-if="index != 0" @click="arrangeShift(item.id,index,1)"></i>
-                                            <div style="width: 1px;height: 1px;" v-if="index == 0"></div>
-                                        </el-col>
-                                        <el-col :span="1" v-if="role == 4">
-                                            <i class="el-icon-arrow-down" v-if="index != list.length-1" @click="arrangeShift(item.id,index,2)"></i>
-                                            <div style="width: 1px;height: 1px;" v-if="index == list.length-1"></div>
-                                        </el-col>
-                                        <el-col :span="1" v-if="role == 4">
-                                            <i class="el-icon-edit" @click="edit(item.id)"></i>
-                                            <div style="width: 1px;height: 1px;"></div>
-                                        </el-col>
-                                        <el-col :span="1" v-if="role == 4">
-                                            <i class="el-icon-close" @click="arrangeDelete(item.id)"></i>
-                                            <div style="width: 1px;height: 1px;" v-if="index == 0"></div>
-                                        </el-col>
+                            <template v-for="(item, index) in list">
+                                <el-row>
+                                    <el-col :span="1">
+                                        <div class="el-step__icon is-text">
+                                            <div class="el-step__icon-inner">{{index+1}}</div></div>
+                                    </el-col>
+                                    <el-col :span="6" style="margin-right: 20px;">{{item.name}}</el-col>
+                                    <el-col :span="3">{{item.startTime}}</el-col>
+                                    <el-col :span="3">{{item.endTime}}</el-col>
+                                    <el-col :span="2">
+                                        <i class="el-icon-check" v-if="item.follow == 2"></i>
+                                        <div style="width: 1px;height: 1px;" v-if="item.follow != 2"></div>
+                                    </el-col>
+                                    <el-col :span="2">
+                                        <i class="el-icon-check" v-if="item.file == 2"></i>
+                                        <div style="width: 1px;height: 1px;" v-if="item.file != 2"></div>
+                                    </el-col>
+                                    <el-col :span="2">
+                                        <span v-if="item.obj == 1">教师、学生</span>
+                                        <span v-if="item.obj == 2">学生</span>
+                                        <span v-if="item.obj == 3">教师</span>
+                                        <div style="width: 1px;height: 1px;"></div>
+                                    </el-col>
+                                    <el-col :span="1" v-if="role == 4">
+                                        <i class="el-icon-arrow-up" v-if="index != 0" @click="arrangeShift(item.id,index,1)"></i>
+                                        <div style="width: 1px;height: 1px;" v-if="index == 0"></div>
+                                    </el-col>
+                                    <el-col :span="1" v-if="role == 4">
+                                        <i class="el-icon-arrow-down" v-if="index != list.length-1" @click="arrangeShift(item.id,index,2)"></i>
+                                        <div style="width: 1px;height: 1px;" v-if="index == list.length-1"></div>
+                                    </el-col>
+                                    <el-col :span="1" v-if="role == 4">
+                                        <i class="el-icon-edit" @click="edit(item.id)"></i>
+                                        <div style="width: 1px;height: 1px;"></div>
+                                    </el-col>
+                                    <el-col :span="1" v-if="role == 4">
+                                        <i class="el-icon-close" @click="arrangeDelete(item.id)"></i>
+                                        <div style="width: 1px;height: 1px;" v-if="index == 0"></div>
+                                    </el-col>
 
-                                        <el-col :span="4" v-if="role == 6 && item.file == 2 && (item.obj == 1 || item.obj == 2)">
-                                            <el-button type="success" size="mini" :loading="commitFileLoading" @click="openCommitFile(item.id)">提交文件</el-button>
-                                        </el-col>
+                                    <el-col :span="4" v-if="role == 6 && item.file == 2 && (item.obj == 1 || item.obj == 2)">
+                                        <el-button type="success" size="mini" :loading="commitFileLoading" @click="openCommitFile(item.id)">提交文件</el-button>
+                                    </el-col>
 
-                                        <el-col :span="3" v-if="role == 5 && item.file == 2 && (item.obj == 1 || item.obj == 3) && project.id == 0">
-                                            <el-button type="success" size="mini" :loading="commitFileLoading" @click="openCommitFile(item.id)">提交文件</el-button>
-                                        </el-col>
-                                        <el-col :span="3" v-if="role == 5 && item.file == 2 && (item.obj == 1 || item.obj == 3) && project.id > 0">
-                                            <el-button type="success" size="mini" :loading="commitFileLoading" @click="openCommitFile2(item.id)">文件</el-button>
-                                        </el-col>
-                                        <el-col :span="3" v-if="role == 5 && item.follow == 2 && project.id <= 0">
-                                            <el-button type="success" size="mini" :loading="commitFollowLoading" @click="openFollow(item.id)">审核</el-button>
-                                        </el-col>
-                                        <el-col :span="3" v-if="role == 5 && item.follow == 2 && project.id > 0">
-                                            <el-button type="success" size="mini" :loading="commitFollowLoading" @click="openFollow2(item.id)">审核</el-button>
-                                        </el-col>
-                                    </el-row>
+                                    <el-col :span="3" v-if="role == 5 && item.file == 2 && (item.obj == 1 || item.obj == 3)">
+                                        <el-button type="success" size="mini" :loading="commitFileLoading" @click="openCommitFile(item.id)">提交文件</el-button>
+                                    </el-col>
+                                    <el-col :span="3" v-if="role == 5">查看审核情况</el-col>
+                                </el-row>
 
-                                    <div style="background:#dddddd;width:100%;height: 1px;margin-top: 15px;margin-bottom: 15px;"></div>
-                                </template>
+                                <div style="background:#dddddd;width:100%;height: 1px;margin-top: 15px;margin-bottom: 15px;"></div>
+                            </template>
                         </template>
                         <template v-if="loading">
-                            <#include '/include/common/loading.ftl'>
+                        <#include '/include/common/loading.ftl'>
                         </template>
                     </div>
                 </div>
@@ -227,11 +219,6 @@
         <#else>
         var collegeId = 0;
         </#if>
-        <#if projectId??>
-        var projectId = ${projectId}
-        <#else>
-        var projectId = 0;
-        </#if>
         var app = new Vue({
             el: "#app",
             data: function () {
@@ -245,12 +232,8 @@
                     fileList:[],
                     commitFileLoading:false,
                     commitFileDialog:false,
-                    commitFollowLoading:false,
-                    commitFollowDialog:false,
-                    project:{},
-                    student:{},
                     arrangeId:0,
-                    arrange:{id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:'',obj:null}
+                    arrange:{id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:'',obj:'1'}
                 }
             },
             mounted: function () {
@@ -262,8 +245,7 @@
                     self.loading = true;
                     Api.get('/arrange/listJson',{
                         activityId:activityId,
-                        collegeId:collegeId,
-                        projectId:projectId
+                        collegeId:collegeId
                     },function (result) {
                         if (result.code == 0) {
                             if (result.data.list) {
@@ -274,10 +256,6 @@
                                 for (var i=0; i<self.list.length; i++) {
                                     self.list[i].startTime = self.getDate(self.list[i].startTime);
                                     self.list[i].endTime = self.getDate(self.list[i].endTime);
-                                }
-                                if (result.data.project) {
-                                    self.project = result.data.project;
-                                    self.student = result.data.student;
                                 }
                             }
                             self.loading = false;
@@ -310,52 +288,9 @@
                         }
                     }*/
                 },
-                openCommitFile2:function (arrangeId) {
-                    if (arrangeId <= 0) {
-                        return false;
-                    }
-                    this.commitFileLoading = true;
-                    this.commitFileDialog = true;
-                    this.arrangeId = arrangeId;
-                    this.loadFileList2();
-                    /*new Date().Format("yyyy-MM-dd")
-                    for (var i=0; i<this.list.length; i++) {
-                        if (arrangeId == this.list[i].id) {
-                            var nowDay = new Date(new Date().Forma
-                            t("yyyy-MM-dd"));
-                            var startDate = new Date(this.getDate(this.list[i].startTime));
-                            var endDate = new Date(this.getDate(this.list[i].endTime));
-                            if (nowDay >= startDate && nowDay <= endDate) {
-
-                            } else {
-                                this.$message({showClose: true, message: '现在不是文件提交时间', type: 'error'});
-                            }
-                        }
-                    }*/
-                },
-                openFollow2:function () {
-                    window.location.href = "/teacher/project/list?activityId="+activityId+"&collegeId="+collegeId;
-                },
-                openFollow:function () {
-                  window.location.href = "/teacher/project/list?activityId="+activityId+"&collegeId="+collegeId;
-                },
                 loadFileList:function () {
                     var self = this;
                     Api.get("/file/arrange/listJson",{arrangeId:self.arrangeId},function (result) {
-                        if (result.code == 0) {
-                            self.fileList = result.data.list;
-                            self.commitFileLoading = false;
-                            for (var i=0; i<self.fileList.length; i++) {
-                                self.fileList[i].gmtCreate = self.getDate(self.fileList[i].gmtCreate);
-                            }
-                        }else{
-                            self.$message({showClose: true, message: result.msg, type: 'error'});
-                        }
-                    });
-                },
-                loadFileList2:function () {
-                    var self = this;
-                    Api.get("/file/arrange/student/listJson",{arrangeId:self.arrangeId,studentId:self.student.id},function (result) {
                         if (result.code == 0) {
                             self.fileList = result.data.list;
                             self.commitFileLoading = false;
@@ -450,23 +385,22 @@
                     } else{
                         self.arrange.weight = 0;
                     }
-                    if (self.arrange.follow == true){
-                        self.arrange.follow = 2;
+                    if (self.activity.follow == true){
+                        self.activity.follow == 2;
                     }else{
-                        self.arrange.follow = 1;
+                        self.activity.follow == 1;
                     }
-                    if (self.arrange.file == true){
-                        self.arrange.file = 2;
+                    if (self.activity.file == true){
+                        self.activity.file == 2;
                     }else{
-                        self.arrange.file = 1;
+                        self.activity.file == 1;
                     }
                     Api.post("/arrange/save",self.arrange,function (result) {
                         if (result.code == 0){
                             self.$message({showClose: true, message: '增加成功', type: 'success'});
                             self.loadArrangeList();
-                            self.editFlag = false;
                             self.arrange = {id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:''};
-
+                            self.editFlag = false;
                         } else {
                             self.$message({showClose: true, message: '增加失败', type: 'error'});
                         }
@@ -480,13 +414,11 @@
                                 self.arrange = result.data;
                                 self.arrange.follow == 2 ? self.arrange.follow=true : self.arrange.follow=false;
                                 self.arrange.file == 2 ? self.arrange.file=true : self.arrange.file=false;
-                                self.arrange.obj = self.arrange.obj + "";
                             }else{
-                                self.arrange = {id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:'',obj:null};
+                                self.arrange = {id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:''};
                             }
                         });
-                    } else {
-                       self.arrange = {id:0,userId:collegeId,activityId:activityId,follow:false,file:false,name:'',weight:0,startTime:'',endTime:'',obj:null};
+                        return tr
                     }
                     self.editFlag = true;
                 },

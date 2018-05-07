@@ -10,6 +10,9 @@
         .el-button+.el-button {
              margin-left: 0px !important;
         }
+        .el-form-item__label{
+            font-weight: bolder !important;
+        }
     </style>
 </head>
 <body class="cbp-spmenu-push">
@@ -58,13 +61,13 @@
                                                 </el-form-item>
                                                 <br/>
                                                 <el-form-item label="项目名称">
-                                                    <span>{{ props.row.project.title }}</span>
+                                                    <span>《{{ props.row.project.title }}》</span>
                                                 </el-form-item>
                                                 <el-form-item label="申报时间">
                                                     <span>{{ props.row.project.gmtCreate }}</span>
                                                 </el-form-item>
                                                 <el-form-item label="来源课题">
-                                                    <span>{{ props.row.paper.title }}</span>
+                                                    <span>《{{ props.row.paper.title }}》</span>
                                                 </el-form-item>
                                                 <br>
                                                 <el-form-item label="指导教师">
@@ -144,7 +147,7 @@
                                             <el-button type="text" size="small" @click="followFun(scope.row.project.id);" v-if="followType=='2'">专业审核</el-button>
                                             <el-button type="text" size="small" @click="followFun(scope.row.project.id);" v-if="followType!='2'">审核</el-button>
                                             <el-button type="text" size="small" @click="checkTask(scope.row.project.id,scope.row.project.studentId);" v-if="followType!='2'">计划进度</el-button>
-                                            <el-button type="text" size="small" @click="checkArrangeTask(scope.row.project.id,scope.row.project.studentId);" v-if="followType!='2'">过程文档</el-button>
+                                            <el-button type="text" size="small" @click="arrange(scope.row.id)" v-if="followType!='2'">过程文档</el-button>
                                             <el-button type="text" size="small" @click="checkRating(scope.row.project.id,scope.row.project.studentId);" v-if="followType!='2'">成绩情况</el-button>
                                         </template>
                                     </el-table-column>
@@ -319,6 +322,9 @@
                         }
                     });
                     this.followDialog = true;
+                },
+                arrange:function (id) {
+                    window.open('/arrange/list?activityId=' + activityId + '&collegeId=' + collegeId + '&projectId='+id);
                 },
                 saveFollow:function () {
                     var self = this;

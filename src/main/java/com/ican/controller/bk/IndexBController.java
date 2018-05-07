@@ -93,7 +93,7 @@ public class IndexBController {
                     bk.setRoleName(student.getCurrent() + "届学生");
                     break;
             }
-            int total = Constant.ServiceFacade.getBlogService().count(null, userInfo.getId());
+            int total = Constant.ServiceFacade.getBlogService().count(null, userInfo.getId(),0);
             bk.setTotal(total);
             request.setAttribute("bk", bk);
             request.setAttribute("id", userId);
@@ -108,6 +108,7 @@ public class IndexBController {
     @RequestMapping(value = "/listJson", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult listJson(@RequestParam(value = "id", defaultValue = "0", required = false) int id,
+                               @RequestParam(value = "type", defaultValue = "1") int type,
                                @RequestParam(value = "page", defaultValue = "1") int page,
                                @RequestParam(value = "size", defaultValue = "20") int size,
                                HttpServletRequest request, HttpServletResponse response) {
@@ -123,7 +124,36 @@ public class IndexBController {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }
-            List<Blog> blogList = Constant.ServiceFacade.getBlogService().list(null, userInfo.getId(), "id desc", page, size);
+            List<Blog> blogList = new ArrayList<>();
+            int total = 0;
+            if (type == 1) {
+                //本人的
+                blogList = Constant.ServiceFacade.getBlogService().list(null, userInfo.getId(), 0, "id desc", page, size);
+                total = Constant.ServiceFacade.getBlogService().count(null, userInfo.getId(), 0);
+            } else {
+                int schoolId = 0;
+                switch (userInfo.getRole()) {
+                    case UserInfoService.USER_SCHOOL:
+                        schoolId = userInfo.getId();
+                        break;
+                    case UserInfoService.USER_COLLEGE:
+                        College college = Constant.ServiceFacade.getCollegeService().select(userInfo.getId());
+                        schoolId = college.getSchoolId();
+                        break;
+                    case UserInfoService.USER_TEACHER:
+                        Teacher teacher = Constant.ServiceFacade.getTeacherService().select(userInfo.getId());
+                        schoolId = teacher.getSchoolId();
+                        break;
+                    case UserInfoService.USER_STUDENT:
+                        Student student = Constant.ServiceFacade.getStudentService().select(userInfo.getId());
+                        schoolId = student.getSchoolId();
+                        break;
+                    default:
+                        return result;
+                }
+                blogList = Constant.ServiceFacade.getBlogService().list(null, 0, schoolId, "id desc", page, size);
+                total = Constant.ServiceFacade.getBlogService().count(null, 0, schoolId);
+            }
             Set<String> userInfoSet = new HashSet<>();
             for (Blog blog : blogList) {
                 userInfoSet.add(blog.getUserId() + "");
@@ -142,7 +172,6 @@ public class IndexBController {
                 blogVO.setHeadshot(user.getHeadshot());
                 blogVOList.add(blogVO);
             }
-            int total = Constant.ServiceFacade.getBlogService().count(null, userInfo.getId());
             Map data = new HashMap();
             data.put("list", blogVOList);
             data.put("total", total);
@@ -171,6 +200,25 @@ public class IndexBController {
             blog.setUserId(self.getId());
             blog.setContent(content);
             blog.setImage(image);
+            switch (self.getRole()) {
+                case UserInfoService.USER_SCHOOL:
+                    blog.setSchoolId(self.getId());
+                    break;
+                case UserInfoService.USER_COLLEGE:
+                    College college = Constant.ServiceFacade.getCollegeService().select(self.getId());
+                    blog.setSchoolId(college.getSchoolId());
+                    break;
+                case UserInfoService.USER_TEACHER:
+                    Teacher teacher = Constant.ServiceFacade.getTeacherService().select(self.getId());
+                    blog.setSchoolId(teacher.getSchoolId());
+                    break;
+                case UserInfoService.USER_STUDENT:
+                    Student student = Constant.ServiceFacade.getStudentService().select(self.getId());
+                    blog.setSchoolId(student.getSchoolId());
+                    break;
+                default:
+                    return result;
+            }
             Constant.ServiceFacade.getBlogService().save(blog);
             BaseResultUtil.setSuccess(result, blog);
             return result;

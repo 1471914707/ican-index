@@ -8,8 +8,11 @@
             <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
                 and id in (${ids})
             </if>
-            <if test="_parameter.containsKey('userId') and type >= 0">
+            <if test="_parameter.containsKey('userId') and userId > 0">
                 and user_id =#{userId}
+            </if>
+            <if test="_parameter.containsKey('schoolId') and schoolId > 0">
+                and school_id =#{schoolId}
             </if>
         </where>
     </sql>
@@ -33,8 +36,8 @@
     </select>
 
     <insert id="insert" parameterType="com.ican.domain.Blog" useGeneratedKeys="true" keyProperty="id">
-        insert into blog (user_id,content,image,like_count,comment_count,hits,gmt_create,gmt_modified)
-        values (#{userId},#{content},#{image},#{likeCount},#{commentCount},#{hits},now(),now())
+        insert into blog (user_id,school_id,content,image,like_count,comment_count,hits,gmt_create,gmt_modified)
+        values (#{userId},#{schoolId},#{content},#{image},#{likeCount},#{commentCount},#{hits},now(),now())
     </insert>
 
     <update id="update" parameterType="com.ican.domain.Blog">
@@ -42,6 +45,9 @@
         <set>
             <if test="userId != 0">
                 user_id=#{userId},
+            </if>
+            <if test="schoolId != 0">
+                school_id=#{schoolId},
             </if>
             <if test="content != null">
                 content=#{content},

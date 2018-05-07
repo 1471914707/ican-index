@@ -31,7 +31,7 @@ public class StudentInterceptor extends HandlerInterceptorAdapter {
                         int id = Integer.valueOf(userId);
                         UserInfo student = Constant.ServiceFacade.getUserInfoService().select(id);
                         if (student == null || student.getRole() != UserInfoService.USER_STUDENT) {
-                            response.sendRedirect(request.getContextPath()+"/login?role=" + UserInfoService.USER_STUDENT);
+                            response.sendRedirect(request.getContextPath()+"/");
                             return false;
                         }
                         Student student1 = Constant.ServiceFacade.getStudentService().select(student.getId());

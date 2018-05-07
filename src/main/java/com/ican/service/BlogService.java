@@ -18,7 +18,7 @@ public interface BlogService {
 
     int save(Blog blog) throws icanServiceException;
 
-    List<Blog> list(String ids, int userId, String order, int page, int size) throws icanServiceException;
+    List<Blog> list(String ids, int userId, int schoolId, String order, int page, int size) throws icanServiceException;
 
-    int count(String ids, int userId) throws icanServiceException;
+    int count(String ids, int userId, int schoolId) throws icanServiceException;
 }

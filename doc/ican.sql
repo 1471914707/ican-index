@@ -448,6 +448,7 @@ DROP TABLE IF EXISTS `blog`;
 CREATE TABLE `blog` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户id',
+  `school_id` int(11) UNSIGNED NOT NULL COMMENT '学校id',
   `content` text NOT NULL COMMENT '内容',
   `image` varchar(1000) NOT NULL COMMENT '图片Json',
   `like_count` int(11) UNSIGNED NOT NULL COMMENT '点赞数量',
@@ -456,7 +457,8 @@ CREATE TABLE `blog` (
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',
   `gmt_modified`  DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`)
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_school_id` (`school_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文章博客';
 
 DROP TABLE IF EXISTS `message`;

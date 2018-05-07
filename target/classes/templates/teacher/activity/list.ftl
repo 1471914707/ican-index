@@ -213,8 +213,8 @@
                 project:function (id,collegeId) {
                     window.open('/teacher/project/list?activityId=' + id + '&collegeId=' + collegeId);
                 },
-                arrange:function (id) {
-                    window.open('/arrange/list?activityId=' + id + '&teacherId=' + teacherId);
+                arrange:function (id,collegeId) {
+                    window.open('/arrange/list?activityId=' + id + '&collegeId=' + collegeId);
                 },
                 fileArrange:function (id) {
                     window.open('/file/list?activityId=' + id);

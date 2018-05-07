@@ -85,7 +85,7 @@
                         <div class="panel panel-widget">
                             <template v-if="!loading">
                                 <template v-for="(item, index) in list">
-                                    {{item.name}}----<a style="cursor: pointer;color: #409EFF" @click="majorId=item.id;teacherDialog=true">{{item.teacherId==0?'选择':item.teacherId}}</a>
+                                    {{item.name}}----<a style="cursor: pointer;color: #409EFF;margin-right: 20px;" @click="majorId=item.id;teacherDialog=true">{{item.teacherId==0?'选择':item.teacherId}}</a>
                                 </template>
                             </template>
                             <template v-if="loading">

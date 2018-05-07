@@ -5,6 +5,7 @@ import com.ican.domain.Blog;
 public class BlogVO {
     private int id;
     private int userId;
+    private int schoolId;
     private String name;
     private String headshot;
     private String gmtCreate;
@@ -26,6 +27,15 @@ public class BlogVO {
         this.likeCount = blog.getLikeCount();
         this.hits = blog.getHits();
         this.image = blog.getImage();
+        this.commentCount = blog.getCommentCount();
+    }
+
+    public int getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(int schoolId) {
+        this.schoolId = schoolId;
     }
 
     public int getId() {

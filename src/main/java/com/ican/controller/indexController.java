@@ -31,6 +31,11 @@ public class indexController {
         return "/ican_index";
     }
 
+    @RequestMapping(value = {"/index_new"})
+    public String index_new() {
+        return "/ican_index_new";
+    }
+
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String success(@RequestParam("role") int role) {
         //目前只有六种角色

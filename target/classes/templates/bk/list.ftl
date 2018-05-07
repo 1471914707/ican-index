@@ -41,7 +41,17 @@
         .uploadActive{
             display: none;
         }
-
+        .icon-embed {
+            width: 20px;
+            height:20px;
+            cursor: pointer;
+        }
+        /*.blog-bottom{
+            cursor: pointer;
+        }*/
+        img{
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -79,12 +89,12 @@
         <div class="bk-body">
             <br>
             <el-tabs type="border-card">
-                <el-tab-pane label="发布情况">
+                <el-tab-pane label="账号发布">
                     <div v-for="(item, index) in list" style="padding: 20px 50px 10px 70px">
                         <el-row>
-                            <el-col :span="3"><img :src="item.headshot" class="face-img"></el-col>
+                            <el-col :span="3"><img :src="item.headshot" class="face-img" @click="openBk(item.userId)"></el-col>
                             <el-col :span="17">
-                                {{item.name}}<br>
+                                <span @click="openBk(item.userId)" style="cursor:pointer;">{{item.name}}</span><br>
                                 <div style="float: right;margin-top: 0px;cursor: pointer" @click="deleteBlog(item.id)"><i class="el-icon-close"></i></div>
 
                                 <#--<div style="display: inline-block; "> <img class="small-icon" src="http://cdn.ican.com/public/images/teacher.png">
@@ -125,12 +135,40 @@
                                     </el-row>
                                 </div>-->
                                 <br />
+                                <div>
+                                    <el-row class="blog-bottom">
+                                        <el-col :span="20">
+                                            <div style="width: 1px;height: 1px;"></div>
+                                        </el-col>
+                                        <el-col :span="4">
+                                            <el-row>
+                                                <el-col :span="24" style="cursor: pointer;">
+                                                    <embed src="http://cdn.ican.com/public/svg/comment.svg"
+                                                           type="image/svg+xml" class="icon-embed"/>
+                                                    <div style="display: inline-block;vertical-align: top;" @click="openMessageWindow2(item.userId)">
+                                                        私信</div>
+                                                </el-col>
+                                                <el-col :span="0">
+                                                    <#--<embed src="http://cdn.ican.com/public/svg/like.svg"
+                                                           type="image/svg+xml" class="icon-embed"/>
+                                                    <div style="display: inline-block;vertical-align: top;">{{item.likeCount}}</div>-->
+                                                </el-col>
+                                            </el-row>
+                                        </el-col>
+                                    </el-row>
+                                </div>
+                                <template v-if="item.commentFlag">
+                                    <div  v-if="item.loadingComment">
+
+                                    </div>
+                                    <div  v-if="!item.loadingComment">
+                                        <#include '/include/common/loading.ftl'>
+                                    </div>
+                                </template>
                                 <div style="background-color:#dddddd;height: 1px;"></div>
                             </el-col>
                         </el-row>
                     </div>
-
-
                     <div class="block-pagination">
                         <el-pagination
                                 @size-change="handleSizeChange"
@@ -143,9 +181,102 @@
                         </el-pagination>
                     </div>
                 </el-tab-pane>
-                <#--<el-tab-pane label="配置管理">配置管理</el-tab-pane>
-                <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-                <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>-->
+                <el-tab-pane label="全校发布">
+                    <div v-for="(item, index) in list2" style="padding: 20px 50px 10px 70px">
+                        <el-row>
+                            <el-col :span="3"><img :src="item.headshot" class="face-img" @click="openBk(item.userId)"></el-col>
+                            <el-col :span="17">
+                                <span @click="openBk(item.userId)" style="cursor:pointer;">{{item.name}}</span><br>
+                                <div style="float: right;margin-top: 0px;cursor: pointer" @click="deleteBlog(item.id)"><i class="el-icon-close"></i></div>
+
+                            <#--<div style="display: inline-block; "> <img class="small-icon" src="http://cdn.ican.com/public/images/teacher.png">
+                            <#if bk.role ?? && bk.role == 3>
+                                <img src="http://cdn.ican.com/public/images/school.png">
+                            </#if>
+                            <#if bk.role ?? && bk.role == 4>
+                                <img src="http://cdn.ican.com/public/images/college.png">
+                            </#if>
+                            <#if bk.role ?? && bk.role == 5>
+                                <img src="http://cdn.ican.com/public/images/teacher.png">
+                            </#if>
+                            <#if bk.role ?? && bk.role == 6>
+                                <img src="http://cdn.ican.com/public/images/student.png">
+                            </#if></div>-->
+                                <span style="color: #808080;font-size: 12px">{{getTime(item.gmtCreate)}}</span><br><br>
+                                {{item.content}}<br><br>
+                                <div v-for="(photo,i) in item.image" style="display: inline-block">
+                                    <img :src="photo.url" style="width:125px;height: 125px;cursor:pointer " @click="photoUrl=photo.url;photoVisible=true;">
+                                    <template v-if="i % 2 == 0">
+                                        <br/>
+                                    </template>
+                                </div><br>
+                            <#--<div style="text-align: center;color: #808080;">
+                                <el-row>
+                                    <el-col :span="6" style="border: solid 1px #ddd;font-size: 12px;line-height: 25px;">
+                                        <i class="el-icon-circle-close">删除</i>
+                                    </el-col>
+                                    <el-col :span="6" style="border: solid 1px #ddd;font-size: 12px;line-height: 25px;">
+                                        删除
+                                    </el-col>
+                                    <el-col :span="6" style="border: solid 1px #ddd;font-size: 12px;line-height: 25px;">
+                                        删除
+                                    </el-col>
+                                    <el-col :span="6" style="border: solid 1px #ddd;font-size: 12px;line-height: 25px;">
+                                        删除
+                                    </el-col>
+                                </el-row>
+                            </div>-->
+                                <br />
+                            <div>
+                                <el-row class="blog-bottom">
+                                    <el-col :span="20">
+                                        <div style="width: 1px;height: 1px;"></div>
+                                    </el-col>
+                                    <el-col :span="4">
+                                        <el-row>
+                                            <el-col :span="24">
+                                                <embed src="http://cdn.ican.com/public/svg/comment.svg"
+                                                       type="image/svg+xml" class="icon-embed"/>
+                                                <#--<div style="display: inline-block;vertical-align: top;" @click="item.commentFlag=true;openComment(index);">
+                                                    {{item.commentCount>1000?'1000+':item.commentCount}}</div>-->
+                                                <div style="display: inline-block;vertical-align: top;" @click="openMessageWindow2(item.userId)">
+                                                    私信</div>
+                                            </el-col>
+                                            <el-col :span="0">
+                                                <#--<embed src="http://cdn.ican.com/public/svg/like.svg"
+                                                       type="image/svg+xml" class="icon-embed"/>
+                                                <div style="display: inline-block;vertical-align: top;">{{item.likeCount}}</div>-->
+                                            </el-col>
+                                        </el-row>
+                                    </el-col>
+                                </el-row>
+                            </div>
+                                <template v-if="item.commentFlag">
+                                    <div  v-if="item.loadingComment">
+
+                                    </div>
+                                    <div  v-if="!item.loadingComment">
+                                    <#include '/include/common/loading.ftl'>
+                                    </div>
+                                </template>
+                                <div style="background-color:#dddddd;height: 1px;"></div>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <div class="block-pagination">
+                        <el-pagination
+                                @size-change="handleSizeChange2"
+                                @current-change="handleCurrentChange2"
+                                :current-page="page2"
+                                :page-sizes="[20, 30, 40, 50]"
+                                :page-size="size2"
+                                layout="total, sizes, prev, pager, next, jumper"
+                                :total="total2">
+                        </el-pagination>
+                    </div>
+                </el-tab-pane>
+                <#--<el-tab-pane label="角色管理">角色管理</el-tab-pane>
+                <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane-->
             </el-tabs>
 
         </div>
@@ -185,10 +316,15 @@
             el: "#app",
             data: function () {
                 return {
+                    user:{},
                     page:1,
                     size:20,
                     total:0,
                     list: [],
+                    page2:1,
+                    size2:20,
+                    total2:0,
+                    list2: [],
                     loading:false,
                     editFlag:false,
                     content:'',
@@ -196,11 +332,13 @@
                     photoUrl:'',
                     photoVisible:false,
                     addVisible:false,
-                    imageList:[]
+                    imageList:[],
+                    commentList:[]
                 }
             },
             mounted: function () {
                 this.loadBlogList();
+                this.loadBlogList2();
             },
             methods:{
                 loadBlogList:function (page, size) {
@@ -210,6 +348,7 @@
                     var size = size || this.size || 20;
                     Api.get('/bk/listJson',{
                         id:id,
+                        type:1,
                         page:page,
                         size:size
                     },function (result) {
@@ -219,6 +358,8 @@
                                 self.total = result.data.total;
                                 for (var i=0; i<self.list.length; i++) {
                                     self.list[i].image = JSON.parse(self.list[i].image);
+                                    self.list[i].commentFlag = false;
+                                    self.list[i].loadingComment = false;
                                 }
                                 self.loading = false;
                             }
@@ -228,6 +369,50 @@
                         }
                     });
                 },
+                loadBlogList2:function (page2, size2) {
+                    var self = this;
+                    self.loading = true;
+                    var page = page2 || this.page2 || 1;
+                    var size = size2 || this.size2 || 20;
+                    Api.get('/bk/listJson',{
+                        id:id,
+                        type:2,
+                        page:page,
+                        size:size
+                    },function (result) {
+                        if (result.code == 0) {
+                            if (result.data.list) {
+                                self.list2 = result.data.list;
+                                self.total2 = result.data.total;
+                                for (var i=0; i<self.list2.length; i++) {
+                                    self.list2[i].image = JSON.parse(self.list2[i].image);
+                                    self.list2[i].commentFlag = false;
+                                    self.list2[i].loadingComment = false;
+                                }
+                                self.loading = false;
+                            }
+                        }else {
+                            self.$message({showClose: true, message: result.msg, type: 'error'});
+                            self.loading = false;
+                        }
+                    });
+                },
+                /*openComment:function (index) {
+                  var self = this;
+                  if (self.list[index].id){
+                      if (self.list[i].loadingComment == true){
+                          self.list[i].loadingComment = false;
+                          return true;
+                      }
+                      Api.get("bk/commentListJson",{id:self.list[index].id},function (result) {
+                          if (result.code == 0) {
+                              self.user = result.data.user;
+                              self.list[index].commentList = result.data.list;
+                              self.list[index].commentTotal = result.data.total;
+                          }
+                      });
+                  }
+                },*/
                 addBlog:function () {
                     var self = this;
                     self.imageJson = JSON.stringify(self.imageList);
@@ -274,6 +459,9 @@
                         this.$message({type: 'info', message: '已取消删除'});
                     });
                 },
+                openBk:function (id) {
+                    window.open('/bk?id=' + id);
+                },
                 photoUploadSuccess:function (result, file, fileList) {
                     var self = this;
                     if (result.code == 0){
@@ -297,6 +485,10 @@
                     window.open ('/message?toId='+id, 'newwindow',
                             'height=600, width=400, top=150,left=500%, toolbar=no, menubar=no, scrollbars= no, resizable=no,location=true,status=no');
                 },
+                openMessageWindow2:function (id) {
+                    window.open ('/message?toId='+id, 'newwindow',
+                            'height=600, width=400, top=150,left=500%, toolbar=no, menubar=no, scrollbars= no, resizable=no,location=true,status=no');
+                },
                 getTime:function (time) {
                     return DateFun.getTimeFormatText(time);
                 },
@@ -313,6 +505,14 @@
                 handleCurrentChange:function (page) {
                     this.page = page;
                     this.loadBlogList(this.page, this.size);
+                },
+                handleSizeChange2:function (size) {
+                    this.size2 = size;
+                    this.loadBlogList2(this.page, this.size);
+                },
+                handleCurrentChange2:function (page) {
+                    this.page2 = page;
+                    this.loadBlogList2(this.page, this.size);
                 }
             }
         });

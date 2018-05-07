@@ -25,6 +25,9 @@
         i{
             cursor: pointer;
         }
+        .title-groups{
+            font-weight: bolder;
+        }
     </style>
 </head>
 <body class="cbp-spmenu-push">
@@ -36,7 +39,7 @@
         </div>
         <div id="page-wrapper" style="width:90%">
             <div class="main-page">
-                <div class="grids">
+                <div class="grids">5
 
                         <template v-if="!loading">
                             <div class="panel panel-widget">
@@ -47,13 +50,14 @@
                                         <el-button style="float: right; padding: 12px 10px" type="text" v-if="role==4" @click="deleteGroups(index)">删除</el-button>
                                         <el-button style="float: right; padding: 12px 10px" type="text" v-if="role==4" @click="index1=index;edit();">编辑</el-button>
                                         <div class="col-div">编号：{{item.id}}</div>
-                                        <div class="col-div">组名：{{item.name}}</div>
+                                        <div class="col-div">组名：<span class="title-groups">{{item.name}}</span></div>
                                         <div class="col-div">组长：{{item.userName}}</div>
                                         <div class="col-div">时间：{{item.ratingTime}}</div>
                                         <div class="col-div">地点：{{item.place}}</div>
                                     </el-col>
                                     <el-col :span="6" class="col-border">
-                                        <div class="col-div">小组成员：<el-button style="float: right; padding: 3px 0" type="text" v-if="role==4" @click="teacherDialog=true;groupsId=item.id">增加</el-button></div>
+                                        <div class="col-div">
+                                            <span class="title-groups">小组成员：</span><el-button style="float: right; padding: 3px 0" type="text" v-if="role==4" @click="groupsId=item.id;openTeacherDialog();">增加</el-button></div>
                                         <div class="col-div">
                                             <template v-for="teacher in list[index].teacherList">
                                                 <a @click="teacherRatingInfo(item.id, teacher.id)" v-if="role==4 || role==3">{{teacher.name}}</a>
@@ -64,7 +68,8 @@
                                         </div>
                                     </el-col>
                                     <el-col :span="13" class="col-border">
-                                        <div class="col-div">检查项目：<el-button style="float: right; padding: 3px 0" type="text" v-if="role==4" @click="projectDialog=true;groupsId=item.id">增加</el-button></div>
+                                        <div class="col-div">
+                                            <span class="title-groups">检查项目：</span><el-button style="float: right; padding: 3px 0" type="text" v-if="role==4" @click="projectDialog=true;groupsId=item.id">增加</el-button></div>
                                         <div class="col-div">
                                             <template v-for="project in list[index].projectList">
                                                 <a @click="projectRatingInfo(item.id, project.id)" v-if="role==4 || role==3">{{project.title}}</a>
@@ -115,16 +120,19 @@
                 title="选择教师"
                 :visible.sync="teacherDialog"
                 width="90%">
-            <template v-for="(item, index) in teacherList">
+            <template v-for="(item, index) in chooseTeacherList">
                 <el-radio v-model="selectedTeacherId" :label="item.id" style="line-height: 50px;">
                     <img :src="item.headshot" style="width: 45px;height: 45px;border-radius: 50%">
-                    {{item.name}}({{item.departmentName}})</el-radio>
+                    <#--{{item.name}}({{item.departmentName}})-->
+                    <span v-html="item.name"></span>
+                    </el-radio>
             </template>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="teacherDialog = false">取 消</el-button>
                 <el-button type="primary" @click="saveGroupsTeacher()">确 定</el-button>
            </span>
         </el-dialog>
+
         <el-dialog
                 title="选择项目"
                 :visible.sync="projectDialog"
@@ -284,6 +292,7 @@
                     editDialog:false,
                     groups:{id:0,name:'',userId:null,ratingTime:'',place:'',answerId:answerId},
                     index1:-1,
+                    chooseTeacherList:[]
                 }
             },
             mounted: function () {
@@ -307,6 +316,9 @@
                                         self.projectList[i].student = self.studentList[j];
                                     }
                                 }
+                            }
+                            for (var i=0; i<self.teacherList.length; i++) {
+                                self.teacherList[i].isChoose = 0;
                             }
                             self.loadGroupsList();
                         } else {
@@ -346,6 +358,7 @@
                                         for (var z=0; z<teacherIdList.length; z++) {
                                             for (var k=0; k<self.teacherList.length; k++) {
                                                 if (teacherIdList[z] == self.teacherList[k].id) {
+                                                    self.teacherList[k].isChoose = 1;
                                                     self.list[i].teacherList.push({id:teacherIdList[z],name:self.teacherList[k].name,departmentName:self.teacherList[k].departmentName});
                                                    break;
                                                 }
@@ -400,6 +413,7 @@
                          for (var k=0; k<self.teacherList.length; k++) {
                              if (self.selectedTeacherId == self.teacherList[k].id) {
                                  self.list[i].teacherList.push({id:self.selectedTeacherId,name:self.teacherList[k].name,departmentName:self.teacherList[k].departmentName});
+                                 self.teacherList[k].isChoose = 1;
                                  break;
                              }
                          }
@@ -410,13 +424,31 @@
                      }
                   });
                 },
+                openTeacherDialog:function () {
+                    this.chooseTeacherList = [];
+                    for (var i=0; i<this.teacherList.length; i++) {
+                        if (this.teacherList[i].isChoose != 1){
+                            var teacher = JSON.parse(JSON.stringify(this.teacherList[i]));
+                            teacher.name = "<span style=\"color: limegreen\">" + teacher.name + "(" + teacher.departmentName + ")</span>";
+                            this.chooseTeacherList.push(teacher);
+                        }
+                    }
+                    for (var i=0; i<this.teacherList.length; i++) {
+                        if (this.teacherList[i].isChoose && this.teacherList[i].isChoose == 1){
+                            var teacher = JSON.parse(JSON.stringify(this.teacherList[i]));
+                            teacher.name = "<span style=\"color: orangered\">" + teacher.name + "(" + teacher.departmentName + ")</span>";
+                            this.chooseTeacherList.push(teacher);
+                        }
+                    }
+                    this.teacherDialog = true;
+                },
                 saveGroupsProject:function () {
                     var self = this;
                     Api.post("/answerArrange/groups/addProject",{groupsId:self.groupsId,projectId:self.selectedProjectId},
                             function (result) {
                                 if (result.code == 0) {
                                     var i = 0;
-                                    for (; i<self.list[i].length; i++) {
+                                    for (; i<self.list.length; i++) {
                                         if (self.list[i].id == self.groupsId) {
                                             break;
                                         }

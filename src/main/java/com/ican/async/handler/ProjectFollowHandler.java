@@ -24,7 +24,7 @@ public class ProjectFollowHandler implements EventHandler {
             UserInfo student = Constant.ServiceFacade.getUserInfoService().select(model.getEntityOwnerId());
             Project project = Constant.ServiceFacade.getProjectService().select(model.getEntityId());
             String to = student.getEmail();
-            String content = student.getName() + "同学，你好！" + "教师" + teacher.getName() + "对你的" + project.getTitle() + "项目做出了审核建言，请及时登录网站查看。";
+            String content = student.getName() + "同学，你好！" + "教师" + teacher.getName() + "对你的" + project.getTitle() + "项目做出了审核建议，请及时登录网站查看。";
             MailSender mailSender = new MailSender();
             mailSender.send(to, content);
         } catch (Exception e) {

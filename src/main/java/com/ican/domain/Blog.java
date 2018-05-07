@@ -7,6 +7,7 @@ package com.ican.domain;
 public class Blog {
     private int id;
     private int userId;
+    private int schoolId;
     private String content;
     private String image;
     private int likeCount;
@@ -14,6 +15,18 @@ public class Blog {
     private int hits;
     private String gmtCreate;
     private String gmtModified;
+
+    public int getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(int schoolId) {
+        this.schoolId = schoolId;
+    }
+
+    public void setHits(int hits) {
+        this.hits = hits;
+    }
 
     public int getId() {
         return id;

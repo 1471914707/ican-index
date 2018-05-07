@@ -43,8 +43,7 @@ public class GroupsController {
         request.setAttribute("role", userInfo.getRole());
         return "/answerArrange/groups/list";
     }
-
-
+    
     @ApiOperation("获取评分分组列表")
     @RequestMapping(value = "/listJson", method = RequestMethod.GET)
     @ResponseBody
@@ -290,7 +289,15 @@ public class GroupsController {
             if (("").equals(groups.getProjectIds())) {
                 groups.setProjectIds(projectId + "");
             } else {
-                groups.setProjectIds("," + projectId);
+                String[] projectIds = groups.getProjectIds().split(",");
+                Set<String> projectSet = new HashSet();
+                projectSet.add(projectId + "");
+                for (String id : projectIds) {
+                    if (!("").equals(groups.getProjectIds())) {
+                        projectSet.add(id);
+                    }
+                }
+                groups.setProjectIds(String.join(",", projectSet));
             }
             Constant.ServiceFacade.getGroupsService().save(groups);
             BaseResultUtil.setSuccess(result, groups);
