@@ -44,7 +44,7 @@
                             <el-collapse-item title="个人设置" name="5">
                                 <div style="color: #409EFF;cursor: pointer">
                                     <div onclick="javascript:window.location.href='/school/edit'">个人资料</div>
-                                    <div onclick="javascript:window.location.href='/password'">密码修改</div>
+                                    <div onclick="javascript:window.location.href='/resetPassword'">密码修改</div>
                                     <div onclick="javascript:window.location.href='/logout'">退出</div>
                                 </div>
                             </el-collapse-item>
@@ -73,7 +73,7 @@
             <div class="main-page">
                 <div class="grids">
                     <div class="progressbar-heading grids-heading">
-                        <h2>活动列表<i class="el-icon-circle-plus" @click="edit(0)" style="cursor: pointer;"></i></h2>
+                        <h2>活动列表<#--<i class="el-icon-circle-plus" @click="edit(0)" style="cursor: pointer;"></i>--></h2>
                     </div>
                     <div class="panel panel-widget">
                         <template v-if="!loading">

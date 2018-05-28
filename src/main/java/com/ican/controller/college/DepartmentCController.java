@@ -124,6 +124,8 @@ public class DepartmentCController {
         try {
             if (major.getCollegeId() <= 0) {
                 major.setCollegeId(self.getId());
+                College college = Constant.ServiceFacade.getCollegeService().select(self.getId());
+                major.setSchoolId(college.getSchoolId());
             }
             Constant.ServiceFacade.getMajorService().save(major);
             BaseResultUtil.setSuccess(result, major);

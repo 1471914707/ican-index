@@ -94,6 +94,17 @@ public class DaoFacade {
     @Autowired
     private CountsDao countsDao;
 
+    @Autowired
+    private WordsDao wordsDao;
+
+    public WordsDao getWordsDao() {
+        return wordsDao;
+    }
+
+    public void setWordsDao(WordsDao wordsDao) {
+        this.wordsDao = wordsDao;
+    }
+
     public CountsDao getCountsDao() {
         return countsDao;
     }

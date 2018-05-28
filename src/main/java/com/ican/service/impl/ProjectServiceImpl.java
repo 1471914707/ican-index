@@ -59,6 +59,15 @@ public class ProjectServiceImpl implements ProjectService {
                 String date = simpleDateFormat.format(new Date());
                 project.setEndTime(date);
             }
+            if (StringUtils.isEmpty(project.getConditions())) {
+                project.setConditions("");
+            }
+            if (StringUtils.isEmpty(project.getDifficulty())) {
+                project.setDifficulty("");
+            }
+            if (StringUtils.isEmpty(project.getSize())) {
+                project.setSize("");
+            }
             insert(project);
         }
         return project.getId();

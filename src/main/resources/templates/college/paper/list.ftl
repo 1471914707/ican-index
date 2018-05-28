@@ -40,7 +40,7 @@
                             <el-collapse-item title="个人设置" name="7">
                                 <div style="color: #409EFF;cursor: pointer">
                                     <div onclick="javascript:window.location.href='/school/edit'">个人资料</div>
-                                    <div onclick="javascript:window.location.href='/password'">密码修改</div>
+                                    <div onclick="javascript:window.location.href='/resetPassword'">密码修改</div>
                                     <div onclick="javascript:window.location.href='/logout'">退出</div>
                                 </div>
                             </el-collapse-item>
@@ -89,7 +89,7 @@
                                 <el-col :span="4" style="margin-left: 20px;margin-top: 10px;"><el-switch v-model="paperFlag" @change="paperStudent()"></el-switch></el-col>
                             </el-row>
                         </div><br/>
-                        <h2 style="display: inline-block;text-align: center">${school.schoolName}-${college.collegeName}毕业设计（论文）选题汇总</h2>
+                        <h2 style="display: inline-block;text-align: center">${college.collegeName}毕业设计（论文）选题汇总</h2>
                         <h2 style="display: inline-block;text-align: center">（{{current}}届）</h2>
                     </div>
                     <el-row v-if="!loading">

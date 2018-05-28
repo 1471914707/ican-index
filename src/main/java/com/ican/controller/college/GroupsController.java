@@ -586,4 +586,77 @@ public class GroupsController {
             return result;
         }
     }
+
+    @ApiOperation("教师打开成绩情况看到的数据")
+    @ResponseBody
+    @RequestMapping(value = "/teacher/student/rating", method = RequestMethod.GET)
+    public BaseResult studentRating(@RequestParam(value = "activityId") int activityId,
+                                    @RequestParam(value = "studentId") int studentId,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || activityId <= 0 || studentId < 0) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            Activity activity = Constant.ServiceFacade.getActivityService().select(activityId);
+            if (activity == null) {
+                result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+                return result;
+            }
+            List<Project> projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, 0, 0, 0, 0, 0,
+                    0, studentId, null, 0, null, 1, 5);
+            List<Rating> ratingList = new ArrayList<>();
+            List<AnswerArrange> answerArrangeList = new ArrayList<>();
+            List<Groups> groupsList = new ArrayList<>();
+            int teacherId = 0;
+            if (projectList != null && projectList.size() > 0) {
+                Project project = projectList.get(0);
+                teacherId = project.getTeacherId();
+                ratingList = Constant.ServiceFacade.getRatingService().list(null, 0, 0, project.getId(), 0, "id desc", 1, 1000);
+                Set<String> answerArrangeSet = new HashSet<>();
+                for (Rating rating : ratingList) {
+                    answerArrangeSet.add(rating.getAnswerId() + "");
+                }
+                String answerArrangeIds = String.join(",", answerArrangeSet);
+                if (!StringUtils.isEmpty(answerArrangeIds)) {
+                    answerArrangeList = Constant.ServiceFacade.getAnswerArrangeService().list(answerArrangeIds, activityId, 0, null, 1, 100);
+                    List<Groups> groupsList2 = new ArrayList<>();
+                    boolean flag = false;
+                    for (AnswerArrange answerArrange : answerArrangeList) {
+                        groupsList2 = Constant.ServiceFacade.getGroupsService().list(null, answerArrange.getId(), 0, null, 1, 200);
+                        for (Groups groups : groupsList2) {
+                            //分析一下有没有现在这个项目
+                            String projectIds = groups.getProjectIds();
+                            String[] projectIdArray = projectIds.split(",");
+                            for (String id : projectIdArray) {
+                                if (id.equals(project.getId() + "")) {
+                                    groupsList.add(groups);
+                                    flag = true;
+                                    break;
+                                }
+                            }
+                            if (flag) {
+                                break;
+                            }
+                        }
+                        flag = false;
+                    }
+                }
+            }
+            Map data = new HashMap();
+            data.put("ratingList", ratingList);
+            data.put("answerList", answerArrangeList);
+            data.put("activity", activity);
+            data.put("teacherId", teacherId);
+            data.put("groupsList", groupsList);
+            data.put("projectId", projectList.get(0).getId());
+            BaseResultUtil.setSuccess(result, data);
+            return result;
+        } catch (Exception e) {
+            logger.error("教师打开成绩情况看到的数据异常", e);
+            return result;
+        }
+    }
 }

@@ -1,15 +1,15 @@
 package com.ican.controller;
 
-import com.ican.util.JedisAdapter;
-import com.ican.util.UrlUtil;
+import com.ican.config.Constant;
+import com.ican.domain.UserInfo;
+import com.ican.util.*;
 import com.ican.vo.SchoolActiveVO;
-import com.ican.util.BaseResult;
-import com.ican.util.BaseResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +28,7 @@ public class indexController {
 
     @RequestMapping(value = {"/", "/index"})
     public String index() {
-        return "/ican_index";
+        return "/ican_index_new";
     }
 
     @RequestMapping(value = {"/index_new"})
@@ -108,5 +108,36 @@ public class indexController {
     @RequestMapping("/register/student")
     public String student() {
         return "/student/register";
+    }
+
+    @RequestMapping(value = "/resetPassword",method = RequestMethod.GET)
+    public String resetPassword() {
+        return "/reset_password";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/reset_password",method = RequestMethod.POST)
+    public BaseResult resetPassword(@RequestParam("password") String password,
+                                    @RequestParam("newPassword") String new_password,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        BaseResult result = BaseResultUtil.initResult();
+        UserInfo self = Ums.getUser(request);
+        if (self == null || StringUtils.isEmpty(password) || StringUtils.isEmpty(new_password)) {
+            result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
+            return result;
+        }
+        try {
+            if (!self.getPassword().equals(IcanUtil.MD5(password + self.getSalt()))) {
+                result.setMsg("旧密码错误");
+                return result;
+            }
+            self.setPassword(IcanUtil.MD5(new_password + self.getSalt()));
+            Constant.ServiceFacade.getUserInfoService().save(self);
+            BaseResultUtil.setSuccess(result, null);
+            return result;
+        } catch (Exception e) {
+            logger.debug("修改密码异常", e);
+            return result;
+        }
     }
 }

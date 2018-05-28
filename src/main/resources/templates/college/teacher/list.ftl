@@ -45,7 +45,7 @@
                             <el-collapse-item title="个人设置" name="7">
                                 <div style="color: #409EFF;cursor: pointer">
                                     <div onclick="javascript:window.location.href='/school/edit'">个人资料</div>
-                                    <div onclick="javascript:window.location.href='/password'">密码修改</div>
+                                    <div onclick="javascript:window.location.href='/resetPassword'">密码修改</div>
                                     <div onclick="javascript:window.location.href='/logout'">退出</div>
                                 </div>
                             </el-collapse-item>

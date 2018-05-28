@@ -206,7 +206,7 @@
                                             groupsScoreTotal += self.ratingList[j].score;
                                         }
                                     }
-                                    info.groupsRating = groupsScoreTotal / groupsNumTotal;
+                                    info.groupsRating = (groupsScoreTotal / groupsNumTotal).toFixed(2);
                                     info.totalRating = info.teacherRating * teacherRatio + info.groupsRating * groupsRatio;
                                     self.answerList[i].rating = info;
                                 }

@@ -1,12 +1,20 @@
 package com.ican.domain;
 
+import org.apache.solr.client.solrj.beans.Field;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.solr.core.mapping.SolrDocument;
+
 /**
  * 用户信息
  * author : lin jiayu
  */
+@SolrDocument(solrCoreName = "mycore")
 public class UserInfo {
+    @Id
+    @Field
     private int id;
     private String headshot;
+    @Field
     private String name;
     private int sex;
     private String phone;

@@ -388,10 +388,10 @@
                 if (this.roleVal == 3){
                     window.location.href = "/register/schoolRegister";
                 }
-                if (this.roleVal == 4){
+                if (this.roleVal == 5){
                     window.location.href = "/register/teacherRegister";
                 }
-                if (this.roleVal == 5){
+                if (this.roleVal == 6){
                     window.location.href = "/register/studentRegister";
                 }
             },

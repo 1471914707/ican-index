@@ -39,7 +39,7 @@
         </div>
         <div id="page-wrapper" style="width:90%">
             <div class="main-page">
-                <div class="grids">5
+                <div class="grids">
 
                         <template v-if="!loading">
                             <div class="panel panel-widget">
@@ -258,6 +258,11 @@
         <#else>
         var role = 0;
         </#if>
+        <#if userId??>
+        var userId = ${userId}
+        <#else>
+        var userId = 0;
+        </#if>
 
         var app = new Vue({
             el: "#app",
@@ -266,6 +271,7 @@
                     page:1,
                     size:20,
                     total:0,
+                    userId:userId,
                     studentList:[],
                     majorList:[],
                     departmentList:[],

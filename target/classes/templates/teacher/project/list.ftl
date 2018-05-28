@@ -340,6 +340,9 @@
                     });
                     this.followDialog = true;
                 },
+                checkRating:function (projectId,studentId) {
+                   window.open('/answerArrange/teacher_student?activityId=' + activityId + '&studentId=' + studentId);
+                },
                 getDegreeName:function (degree,degreeName) {
                     switch (degree){
                         case 1:

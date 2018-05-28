@@ -104,6 +104,15 @@ public class RatingController {
         }
     }
 
+    public static void main(String[] args) {
+        String res = "";
+        HashSet set = new HashSet();
+        for (int i=1; i<=556; i++) {
+            set.add(i + "");
+        }
+        System.out.println(String.join(",", set));
+    }
+
 
   /*  @ApiOperation("获取评分列表")
     @RequestMapping(value = "/listJson", method = RequestMethod.GET)

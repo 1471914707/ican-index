@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>答辩分组情况</title>
+    <title>答辩成绩情况</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="毕业设计平台" />
@@ -28,6 +28,9 @@
             padding-bottom: 10px;
             padding-right: 10px;
         }
+        .col-div:nth-child(even){
+            background: #f4f7f9;
+        }
         body a {
             cursor: pointer;
             color: #409EFF;
@@ -45,8 +48,16 @@
             <div class="clearfix"> </div>
         </div>
         <div id="page-wrapper" style="width:90%">
+            <div>
+                <el-input v-model="content" placeholder="请输入内容" style="width:200px;"></el-input>
+                <el-button icon="el-icon-search" type="success" circle @click="search()"></el-button>
+                <br>
+            </div>
             <div class="main-page">
                 <div class="grids">
+                    <template v-if="loading">
+                    <#include '/include/common/loading.ftl'>
+                    </template>
                     <template v-if="!loading">
                         <div class="panel panel-widget">
                             <el-row>
@@ -107,9 +118,6 @@
                         </div>
                     </template>
                     </template>
-                    <template v-if="loading">
-                    <#include '/include/common/loading.ftl'>
-                    </template>
                 </div>
 
             </div>
@@ -166,7 +174,9 @@
                     ratingList:[],
                     projectList:[],
                     list:[],
-                    loading:false
+                    oldList:[],
+                    loading:false,
+                    content:''
                 }
             },
             mounted: function () {
@@ -175,6 +185,7 @@
             methods:{
                 loadRatingList:function () {
                     var self = this;
+                    self.loading = true;
                     Api.get("/college/rating/listJson",{activityId:activityId,answerId:answerId},function (result) {
                         if (result.code == 0) {
                             self.projectList = result.data.projectList;
@@ -198,7 +209,7 @@
                                info.teacherName = self.projectList[i].teacher.name;
                                for (var j=0; j<self.ratingList.length; j++) {
                                    if (self.ratingList[j].teacherId == self.projectList[i].project.teacherId && self.ratingList[j].projectId == self.projectList[i].id){
-                                       //项目的指导教师评分
+                                        //项目的指导教师评分
                                         info.teacherRating = self.ratingList[j].score;
                                         continue;
                                    }
@@ -207,17 +218,43 @@
                                        groupsScoreTotal += self.ratingList[j].score;
                                    }
                                }
-                               info.groupsRating = groupsScoreTotal / groupsNumTotal.toFixed(2);
-                               info.totalRating = info.teacherRating * teacherRatio + info.groupsRating * groupsRatio;
-                               info.totalRating = info.totalRating.toFixed(2);
+                               if (groupsNumTotal != 0) {
+                                   info.groupsRating = (groupsScoreTotal / groupsNumTotal).toFixed(2);
+                                   info.totalRating = info.teacherRating * teacherRatio + info.groupsRating * groupsRatio;
+                                   info.totalRating = info.totalRating.toFixed(2);
+                               } else {
+                                   info.groupsRating = 0;
+                                   info.totalRating = info.teacherRating * teacherRatio;
+                                   info.totalRating = info.totalRating.toFixed(2);
+                               }
                                self.list.push(info);
                             }
-
+                            self.oldList = JSON.parse(JSON.stringify(self.list));
+                            self.loading = false;
                         } else {
                             self.$message({showClose: true, message: '系统出错，请重新刷新', type: 'error'});
                             self.loading = false;
                         }
                     });
+                },
+                search:function () {
+                    if (this.content.trim() == '') {
+                        this.$message({showClose: true, message: '请输入搜索内容', type: 'success'});
+                        return true;
+                    }
+                    this.loading = true;
+                    var tempList = [];
+                    for (var i=0; i<this.oldList.length; i++) {
+                        if (this.oldList[i].studentName.indexOf(this.content) >= 0 ||
+                                this.oldList[i].teacherName.indexOf(this.content) >= 0 ||
+                                this.oldList[i].departmentName.indexOf(this.content) >= 0 ||
+                                this.oldList[i].majorName.indexOf(this.content) >= 0 ||
+                                this.oldList[i].clazzName.indexOf(this.content) >= 0){
+                            tempList.push(JSON.parse(JSON.stringify(this.oldList[i])));
+                        }
+                    }
+                    this.list = JSON.parse(JSON.stringify(tempList));
+                    this.loading = false;
                 }
             }
         });

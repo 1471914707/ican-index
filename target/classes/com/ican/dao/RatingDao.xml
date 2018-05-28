@@ -53,9 +53,6 @@
     <update id="update" parameterType="com.ican.domain.Rating">
         update rating
         <set>
-            <if test="activityId != 0">
-                activity_id=#{activityId},
-            </if>
             <if test="groupsId != 0">
                 groups_id=#{groupsId},
             </if>

@@ -29,17 +29,31 @@
     <div id="app">
         <div class="sticky-header header-section ">
             <h2 style="display: inline-block;line-height: 68px;margin-left: 3%;">毕业设计（论文）平台--教师工作台</h2>
+            <#--<div style="float: right;line-height: 68px;padding-right: 50px;width: 25%" >
+                管理员：${admin.name}
+                <el-dropdown style="margin-left: 20px;font-size: 16px;">
+                <span class="el-dropdown-link" style="color: black">
+                菜单<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item><a href="/admin/school/list">学校申请</a></el-dropdown-item>
+                        <el-dropdown-item><a href="/admin/schoolAppeal">学校申议</a></el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>-->
             <div class="header-right" style="float: right;margin-right: 50px;line-height: 68px;">
                 <el-row>
-                    <el-col :xs="0" :sm="4" :md="6" :lg="6" :xl="8">
+                    <el-col :xs="0" :sm="4" :md="6" :lg="2" :xl="10">
                         <div style="width: 1px;height: 1px;"></div>
                     </el-col>
-                    <el-col :xs="12" :sm="8" :md="8" :lg="6" :xl="6">
+                    <el-col :xs="12" :sm="6" :md="6" :lg="6" :xl="4">
                         <a href="/bk?id=${teacher.id?c}" target="_blank">
                             <img src="${teacher.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 10%"></a>
                     </el-col>
-                    <el-col :xs="0" :sm="8" :md="6" :lg="8" :xl="6">
-                        <a href="/teacher/edit" target="_blank">${teacher.name}</a> &nbsp;&nbsp; <a href="/message/my" target="_blank"> 私信</a>
+                    <el-col :xs="0" :sm="10" :md="8" :lg="16" :xl="10">
+                        <a href="/teacher/edit" target="_blank">${teacher.name}</a> &nbsp;&nbsp;
+                        <a href="/resetPassword" target="_blank">密码</a> &nbsp;&nbsp;
+                        <a href="/message/my" target="_blank"> 私信</a>&nbsp;&nbsp;
                         <a href="/logout">退出</a>
                     </el-col>
                 </el-row>
@@ -101,7 +115,6 @@
                                         <el-button type="text" size="small" @click="fileArrange(scope.row.id)">共享文档</el-button>
                                         <el-button type="text" size="small" @click="arrange(scope.row.id, scope.row.userId)">流程查看</el-button>
                                         <el-button type="text" size="small" @click="rating(scope.row.id)">评审答辩</el-button>
-                                        <el-button type="text" size="small" @click="project(scope.row.id)">统计情况</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>

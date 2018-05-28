@@ -501,7 +501,7 @@ CREATE TABLE `groups` (
   `answer_id` int(11) UNSIGNED NOT NULL COMMENT '哪次答辩安排',
   `user_id` int(11) UNSIGNED NOT NULL COMMENT '负责人id',
   `name` VARCHAR(50) NOT NULL COMMENT '组名',
-  `project_ids` VARCHAR(500) NOT NULL COMMENT '负责项目id组',
+  `project_ids` TEXT NOT NULL COMMENT '负责项目id组',
   `rating_time` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '具体安排时间',
   `place` VARCHAR(200) NOT NULL COMMENT '地点',
   `gmt_create` DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '增加时间',

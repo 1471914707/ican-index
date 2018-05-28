@@ -99,6 +99,9 @@ public class ServiceFacade {
     @Autowired
     private CountsService countsService;
 
+    @Autowired
+    private WordsService wordsService;
+
 
     @Autowired
     private ProjectWebService projectWebService;
@@ -111,6 +114,14 @@ public class ServiceFacade {
 
     @Autowired
     private TeacherWebService teacherWebService;
+
+    public WordsService getWordsService() {
+        return wordsService;
+    }
+
+    public void setWordsService(WordsService wordsService) {
+        this.wordsService = wordsService;
+    }
 
     public CountsService getCountsService() {
         return countsService;

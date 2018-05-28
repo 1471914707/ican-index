@@ -130,7 +130,7 @@ public class TaskSTController {
                 return result;
             }
             List<Project> projectList = Constant.ServiceFacade.getProjectService().list(null, activityId, 0, 0, 0, 0, 0,
-                    0, 0, null, 0, null, 1, 1);
+                    0, self.getId(), null, 0, null, 1, 1);
             List<Task> taskList = new ArrayList<>();
             int total = 0;
             if (projectList != null && projectList.size() > 0) {
@@ -200,7 +200,9 @@ public class TaskSTController {
                 result.setMsg(BaseResultUtil.MSG_PARAMETER_ERROR);
                 return result;
             }
-            //task.setExecutorId(self.getId());
+            if (self.getRole() == UserInfoService.USER_STUDENT){
+                task.setExecutorId(self.getId());
+            }
             task.setOwnerId(self.getId());
             Constant.ServiceFacade.getTaskService().save(task);
             Project project = projectList.get(0);

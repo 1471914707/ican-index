@@ -57,6 +57,12 @@
                                         :value="item.id">
                                 </el-option>
                             </el-select>
+                        <template v-if="loadingGrade">
+                            <div>
+                                <br>正在分析...
+                            <#include '/include/common/loading.ftl'>
+                            </div>
+                        </template>
                         <template>
                             <div id="container2" style="height: 450px;width: auto"></div>
                             <div id="container1"></div>
@@ -64,14 +70,7 @@
                     <#--</div>-->
                     </template>
                     </template>
-                    <template v-if="loadingGrade">
-                        <div style="z-index:1000">
-                        <br>正在分析...
-                        <#include '/include/common/loading.ftl'>
-                        </div>
-                    </template>
                 </div>
-
             </div>
         </div>
 
@@ -212,7 +211,7 @@
                                 }
                             }
                             if (gradeTotal > 0) {
-                                self.gradeAvg = gradeTotal / self.projectList.length.toFixed(2);
+                                self.gradeAvg = (gradeTotal / self.projectList.length).toFixed(2);
                             }
                             if (self.gradeList.length == num) {
                                 self.gradeMin = 0;
@@ -223,11 +222,6 @@
                                     {value:0,name:'90-100'}];
                             }
                             var echartsPie;
-                            /*var json = [
-                                {value:30,name:'高圆圆'},
-                                {value:26,name:'赵丽颖'},
-                                {value:24,name:'江莱'}
-                            ];*/
                             var option = {
                                 title : {
                                     text: '',
@@ -280,79 +274,6 @@
                             $(function(){
                                 echartsPie.setOption(option);
                             });
-                            /*var dom = document.getElementById("container1");
-                            var myChart = echarts.init(dom);
-                            var app = {};
-                            option = null;
-                            option = {
-                                backgroundColor: '#2c343c',
-
-                                title: {
-                                    text: 'Customized Pie',
-                                    left: 'center',
-                                    top: 20,
-                                    textStyle: {
-                                        color: '#ccc'
-                                    }
-                                },
-
-                                tooltip : {
-                                    trigger: 'item',
-                                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                                },
-
-                                visualMap: {
-                                    show: false,
-                                    min: 80,
-                                    max: 600,
-                                    inRange: {
-                                        colorLightness: [0, 1]
-                                    }
-                                },
-                                series : [
-                                    {
-                                        name:'访问来源',
-                                        type:'pie',
-                                        radius : '55%',
-                                        center: ['50%', '50%'],
-                                        data:self.gradePerList.sort(function (a, b) { return a.value - b.value; }),
-                                        roseType: 'radius',
-                                        label: {
-                                            normal: {
-                                                textStyle: {
-                                                    color: 'rgba(255, 255, 255, 0.3)'
-                                                }
-                                            }
-                                        },
-                                        labelLine: {
-                                            normal: {
-                                                lineStyle: {
-                                                    color: 'rgba(255, 255, 255, 0.3)'
-                                                },
-                                                smooth: 0.2,
-                                                length: 10,
-                                                length2: 20
-                                            }
-                                        },
-                                        itemStyle: {
-                                            normal: {
-                                                color: '#c23531',
-                                                shadowBlur: 200,
-                                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                            }
-                                        },
-
-                                        animationType: 'scale',
-                                        animationEasing: 'elasticOut',
-                                        animationDelay: function (idx) {
-                                            return Math.random() * 200;
-                                        }
-                                    }
-                                ]
-                            };;
-                            if (option && typeof option === "object") {
-                                myChart.setOption(option, true);
-                            }*/
                             var datas = [];
                             for (var i=0; i<self.gradePerList.length; i++) {
                                 datas.push(self.gradePerList[i].value);

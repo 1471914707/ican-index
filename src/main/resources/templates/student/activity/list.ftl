@@ -43,7 +43,9 @@
                             <img src="${student.headshot}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 10%;display: inline-block"></a>
                     </el-col>
                     <el-col :xs="20" :sm="9" :md="8" :lg="10" :xl="9">
-                        <a href="/student/edit" target="_blank">${student.name}</a> &nbsp;&nbsp; <a href="/message/my" target="_blank"> 消息</a> &nbsp;&nbsp; <a href="/logout">退出</a>
+                        <a href="/student/edit" target="_blank">${student.name}</a> &nbsp;&nbsp;
+                        <a href="/resetPassword" target="_blank">密码</a> &nbsp;&nbsp;
+                        <a href="/message/my" target="_blank"> 消息</a> &nbsp;&nbsp; <a href="/logout">退出</a>
                     </el-col>
                 </el-row>
             </div>
